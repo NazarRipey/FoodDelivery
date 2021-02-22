@@ -1,0 +1,9 @@
+.bi{
+    font-size: 1.7em;
+    color: white
+}
+
+.bi:hover
+{
+    color: #06C167;
+}

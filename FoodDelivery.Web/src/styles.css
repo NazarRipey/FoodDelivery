@@ -1,0 +1,10 @@
+.text-green
+{
+    color: #06C167
+}
+
+.active{
+    color: white;
+    background-color: #06C167;
+    border-radius: 5%;
+}

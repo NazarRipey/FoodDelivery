@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.DAL", "FoodDelivery.DAL\FoodDelivery.DAL.csproj", "{B0CFC159-9008-4CFB-82BC-FAFEA4E662DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0CFC159-9008-4CFB-82BC-FAFEA4E662DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CFC159-9008-4CFB-82BC-FAFEA4E662DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CFC159-9008-4CFB-82BC-FAFEA4E662DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CFC159-9008-4CFB-82BC-FAFEA4E662DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ABB873EA-5B04-4520-A08D-96D7607CCAF7}
+	EndGlobalSection
+EndGlobal
