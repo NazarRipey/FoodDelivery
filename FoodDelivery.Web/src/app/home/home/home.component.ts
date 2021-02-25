@@ -1,3 +1,6 @@
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Restaurant } from './../../models/restaurant';
+import { Dish } from './../../models/dish';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(config: NgbCarouselConfig) {  
+    config.interval = 4000;  
+    config.keyboard = true;  
+    config.pauseOnHover = true;  
+  } 
 
   ngOnInit(): void {
   }
-
 }

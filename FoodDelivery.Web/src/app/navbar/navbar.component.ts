@@ -1,5 +1,5 @@
 import { AppComponent } from './../app.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',

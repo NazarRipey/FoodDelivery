@@ -8,11 +8,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home/home.component';
-import { PopularComponent } from './home/home/popular-carausel/popular.component';
-import { FoodComponent } from './home/home/food/food.component';
-import { RestaurantsComponent } from './home/home/restaurants/restaurants.component';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';  
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TopRatedDishesComponent } from './home/home/top-rated-dishes/top-rated-dishes.component';
+import { TopRatedRestaurantsComponent } from './home/home/top-rated-restaurants/top-rated-restaurants.component';
+import { DishListComponent } from './dish-list/dish-list.component';  
 
 @NgModule({
   declarations: [
@@ -20,9 +20,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FooterComponent,
     NavbarComponent,
     HomeComponent,
-    PopularComponent,
-    FoodComponent,
-    RestaurantsComponent
+    TopRatedDishesComponent,
+    TopRatedRestaurantsComponent,
+    DishListComponent,
   ],
   imports: [
     BrowserModule,

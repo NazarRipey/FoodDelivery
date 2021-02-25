@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PopularComponent } from './popular.component';
+import { TopRatedDishesComponent } from './top-rated-dishes.component';
 
-describe('PopularComponent', () => {
-  let component: PopularComponent;
-  let fixture: ComponentFixture<PopularComponent>;
+describe('TopRatedDishesComponent', () => {
+  let component: TopRatedDishesComponent;
+  let fixture: ComponentFixture<TopRatedDishesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PopularComponent ]
+      declarations: [ TopRatedDishesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PopularComponent);
+    fixture = TestBed.createComponent(TopRatedDishesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
