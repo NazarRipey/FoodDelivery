@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row d-flex">
+        <button class="navbar-toggler btn btn-green" type="button" data-toggle="filter" 
+        (click)="toggleNavbar = !toggleNavbar" data-target="#filter" aria-controls="filter" aria-expanded="false"
+        aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="input-group search mx-auto">
+            <input type="search" [(ngModel)]="searchParameter" class="form-control"
+             placeholder="I'm looking for..."/>
+            <button type="button" class="btn btn-green" (click)="onSubmit()">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+
+        <div ngbDropdown>
+            <button class="btn btn-outline-primary" id="sortDropDown" class="btn btn-green"
+             ngbDropdownToggle>{{sortType}}</button>
+             <div ngbDropdownMenu aria-labelledby="sortDropDown">
+                <button ngbDropdownItem *ngFor="let sort of sorts" (click)="changeSort(sort)">{{sort}}</button>
+              </div>
+        </div>
+
+        <div ngbDropdown class="mx-2">
+            <button class="btn btn-outline-primary" id="itemsPerPageDropDown" class="btn border"
+             ngbDropdownToggle>{{pageSize}}</button>
+             <div ngbDropdownMenu aria-labelledby="itemsPerPageDropDown">
+                <a ngbDropdownItem *ngFor="let size of pageSizes"
+                    [queryParams]="{pageSize:size}" [routerLink]="[]">
+                    {{size}}</a>
+              </div>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper d-flex align-items-stretch mt-2">
+    <nav class="ml-2 px-1 pt-2" id="filter" [ngbCollapse]="toggleNavbar">
+        <h4>Filters</h4>
+        <app-filter></app-filter>
+        <app-filter></app-filter>
+    </nav>
+    <div class="p-md-3 w-100">
+        <app-dish-list [pageSize]="pageSize"></app-dish-list>
+    </div>    
+</div>

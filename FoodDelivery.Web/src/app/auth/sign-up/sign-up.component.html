@@ -1,0 +1,54 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Sign up
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="singUpForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-row form-group">
+                <label class="col">
+                    First name:
+                    <input type="text" class="form-control" formControlName="firstName">
+                </label>
+                <label class="col">
+                    Last name:
+                    <input type="text" class="form-control" formControlName="lastName">
+                </label>
+            </div>
+            <div class="form-group form-row">
+                <label class="col">
+                    Email:
+                    <input type="email" class="form-control" style="width: 100%;" formControlName="email">
+                </label>
+                <label class="col">
+                    Phone number:
+                    <input type="tel" class="form-control" formControlName="phoneNumber">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Birthday: 
+                    <input type="date" class="form-control"  formControlName="birthday">
+                </label>
+            </div>
+            <div class="form-group form-row">
+                <label class="col">
+                    Password:
+                    <input type="password" class="form-control" formControlName="password">
+                    </label>
+                <label class="col">
+                    Confirm password:
+                    <input type="password" class="form-control" formControlName="confirmPassword">
+                </label>
+            </div>
+        
+            <p>By clicking <u>Sign up</u> you agree to our <a href="1234">Privacy policy</a></p>
+            <div class="text-center">
+                <button type="submit" class="btn btn-green">Sign up</button>
+            </div>
+        </form>        
+    </div>
+</div>

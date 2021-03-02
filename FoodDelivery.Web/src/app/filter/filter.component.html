@@ -1,0 +1,19 @@
+<button (click)="expanded = !expanded" class="filter-btn">
+    <div class="d-flex">
+        <span class="mr-3">Category</span>
+        <i *ngIf="expanded" class="bi bi-caret-up-fill"></i>
+        <i *ngIf="!expanded" class="bi bi-caret-down-fill"></i>
+    </div>
+</button>
+
+<ul *ngIf="expanded" class="list-unstyled">
+    <li>
+        <label><input type="checkbox"/>Page1</label>
+    </li>
+    <li>
+        <label><input type="checkbox"/>Page2</label>
+    </li>
+    <li>
+        <label><input type="checkbox"/>Page3</label>
+    </li>
+</ul>

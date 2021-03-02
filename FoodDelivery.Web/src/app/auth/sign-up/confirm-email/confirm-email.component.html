@@ -1,0 +1,25 @@
+<div class="modal fade show" tabindex="-1" role="dialog"
+  style="display: block;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Confirm email
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>Confirmation code has been sent to <b>EMAIL@GMAIL.COM</b></p>
+                <label>
+                    Please enter the code:
+                    <input class="form-control" type="number">
+                </label>
+                <p class="small">If you don't confirm your email, you won't be able to order anything.</p>
+                <p class="small">You can do this later in settings</p>
+                <div class="text-right">
+                    <button class="btn btn-green mx-2" type="submit">Sign up</button>
+                    <button class="btn btn-yellow mx-2" (click)="modalRef.close()">Not now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

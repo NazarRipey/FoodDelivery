@@ -15,14 +15,18 @@ a:hover{
     color: #06C167;
 }
 
-.navbar{
-    background-color: white;
-}
-
 .logo:hover span{
     color: black;
 }
 
 .bi{
     font-size: 1.2em;
+}
+
+.nav-link{
+    cursor: pointer;
+}
+
+.navbar{
+    background-color: white;
 }

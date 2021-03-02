@@ -1,0 +1,13 @@
+<div class="card text-center">
+        <div class="card-body d-flex">
+            <ul class="col justify-content-between">
+                <li *ngFor="let item of pageOfItems" class="mb-2">
+                    <img src="{{item.imgSource}}" class="list-image" (click)="openAddToCart(item)">
+                </li>
+            </ul>
+        </div>
+    <div class="card-footer pb-0 pt-3">
+        <jw-pagination class="d-inline-block" [pageSize]="pageSize" [maxPages]="3" 
+         [items]="dishes"(changePage)="onChangePage($event)"></jw-pagination>
+    </div>
+</div>
