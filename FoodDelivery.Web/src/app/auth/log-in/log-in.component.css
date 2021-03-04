@@ -1,4 +1,3 @@
-.modal-dialog{
-    margin: 0 auto;
-    width: fit-content;
+.border-right{
+    border-right: lightgray thin solid;
 }

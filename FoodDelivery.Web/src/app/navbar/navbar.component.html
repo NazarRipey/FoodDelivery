@@ -4,25 +4,48 @@
     </a>
     <ul class="nav nav-pills mr-auto">
         <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/list/dishes']">Dishes</a>
+            <a class="nav-link" [routerLink]="['/dishes']">Dishes</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/list/restaurants']">Restaurants</a>
+            <a class="nav-link" [routerLink]="['/restaurants']">Restaurants</a>
         </li>
     </ul>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" 
-    (click)="toggleNavbar = !toggleNavbar" data-target="#account" aria-controls="account" aria-expanded="false"
-    aria-label="Toggle navigation">
-        <i class="bi bi-person"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="account" [ngbCollapse]="toggleNavbar">
+
+    <div *ngIf="false; else unauthorized">
         <ul class="nav nav-pills ml-auto" >
             <li class="nav-item">
-                <a class="nav-link" (click)="openSignUp()">Sign up</a>
+                <div ngbDropdown class="nav-link">
+                    <button class="btn btn-outline-primary" id="profile" class="btn btn-green"
+                        ngbDropdownToggle><i class="bi bi-person"></i></button>
+                    <div ngbDropdownMenu aria-labelledby="profile">
+                        <a ngbDropdownItem class="px-1">My profile</a>
+                        <a ngbDropdownItem class="px-1">Order History</a>
+                        <a ngbDropdownItem class="px-1">Setting</a>
+                        <a ngbDropdownItem class="px-1">Log out</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="openLogIn()">Log in</a>
+                <a class="nav-link"><i class="bi bi-cart4"></i></a>
             </li>
         </ul>
     </div>
+
+    <ng-template #unauthorized>        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+        (click)="toggleNavbar = !toggleNavbar" data-target="#account" aria-controls="account" aria-expanded="false"
+        aria-label="Toggle navigation">
+            <i class="bi bi-person"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="account" [ngbCollapse]="toggleNavbar">
+            <ul class="nav nav-pills ml-auto">
+                <li class="nav-item ml-auto">
+                    <a class="nav-link" (click)="openSignUp()">Sign up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="openLogIn()">Log in</a>
+                </li>
+            </ul>
+        </div>
+    </ng-template>
 </nav>

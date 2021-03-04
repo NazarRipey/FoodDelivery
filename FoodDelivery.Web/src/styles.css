@@ -2,16 +2,25 @@
     color: #06C167
 }
 
-.bg-green{
-    background-color: #06C167;
-}
-
 .text-red{
     color: #D64933;
 }
 
 .text-yellow{
     color: #FFC043;
+}
+
+.bg-green{
+    background-color: #06C167;
+}
+
+.bg-red{
+    background-color: #D64933;
+    color: white;
+}
+
+.bg-yellow{
+    background-color: #FFC043;
 }
 
 .active{
@@ -108,4 +117,25 @@ app-filter{
 
 .card-body {
     padding: 0.75rem;
+}
+
+img{
+    cursor: pointer;
+}
+
+.list-item{
+    padding: 0.3em;
+    border: thin lightgray solid;
+}
+
+.list-image{
+    width: 100%;
+}
+
+.ng-valid:not(form)  {
+    border-left: 5px solid #06C167; 
+  }
+  
+.ng-invalid:not(form)  {
+    border-left: 5px solid #D64933; 
 }

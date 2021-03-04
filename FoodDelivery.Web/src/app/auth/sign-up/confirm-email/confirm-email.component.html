@@ -8,17 +8,27 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <p>Confirmation code has been sent to <b>EMAIL@GMAIL.COM</b></p>
-                <label>
-                    Please enter the code:
-                    <input class="form-control" type="number">
-                </label>
-                <p class="small">If you don't confirm your email, you won't be able to order anything.</p>
-                <p class="small">You can do this later in settings</p>
                 <div class="text-right">
-                    <button class="btn btn-green mx-2" type="submit">Sign up</button>
-                    <button class="btn btn-yellow mx-2" (click)="modalRef.close()">Not now</button>
+                    <span><b>2/3</b></span>
                 </div>
+                <p>Confirmation code has been sent to <b>EMAIL@GMAIL.COM</b></p>
+                <form [formGroup]="confirmEmailForm" (ngSubmit)="onCodeSubmited()">
+                    <label>
+                        Please enter the code:
+                        <input class="form-control" type="number" formControlName="code">
+                        <div *ngIf="confirmEmailForm.get('code').errors && confirmEmailForm.get('code').touched"
+                            class="text-danger">
+                            <small class="d-block" *ngIf="confirmEmailForm.get('code').hasError('required')">
+                                Code name is required
+                            </small>
+                        </div>
+                    </label>
+                    <p class="small">If you cancel now, you won't be signed up.</p>
+                    <div class="text-right">
+                        <button class="btn btn-green mx-2" type="submit" [disabled]="confirmEmailForm.invalid">Next</button>
+                        <button class="btn btn-danger mx-2" type="button" (click)="modalRef.close()">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

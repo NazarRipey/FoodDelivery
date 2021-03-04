@@ -9,7 +9,7 @@
         <div class="w-100 text-center">
             <p class="lead"><b>{{dish.name}}</b> from <b>{{dish.restaurant.name}}</b></p>
             <p>{{dish.description}}</p>
-            <p class="text-left">price: <b>{{dish.price}}</b></p>
+            <p class="text-left">price: <b>{{dish.price}}₴</b></p>
             <p class="text-left">rating: <b>{{dish.rating}}/5</b></p>
             <div>
                 <button (click)="Decrement()" [disabled]="itemCount==1" class="btn btn-green">-</button>

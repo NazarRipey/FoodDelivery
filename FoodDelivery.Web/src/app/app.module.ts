@@ -20,18 +20,20 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { LogInComponent } from './auth/log-in/log-in.component';
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 import { ConfirmEmailComponent } from './auth/sign-up/confirm-email/confirm-email.component';
-import { ListComponent } from './list/list.component';
 import { RestaurantListComponent } from './list/restaurant-list/restaurant-list.component';
 import { Dish } from './models/dish';
-import { JwPaginationModule } from 'jw-angular-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
+import { PickRoleComponent } from './auth/sign-up/pick-role/pick-role.component';
+import { MessageComponent } from './auth/sign-up/message/message.component';
 
 /*hardcoded data*/
 export const restaurants : Restaurant[] = [
-  { name: "McDonald's", description: "Cheap and fast",
+  { id:1, name: "McDonald's", description: "Cheap and fast",
    imgSource: "assets/images/restaurants/mcdonalds.jpg", rating: 5},
-  { name: "Cozy", description: "Cozy and moderate",
+  { id:2, name: "Cozy", description: "Cozy and moderate",
    imgSource: "assets/images/restaurants/cafee.jpg", rating: 4.8},
-  { name: "Five stars", description: "Expensive and beautiful",
+  { id:3, name: "Five stars", description: "Expensive and beautiful",
    imgSource: "assets/images/restaurants/cool.jpg", rating: 4.7},
 ]
 
@@ -48,8 +50,10 @@ export const dishes : Dish[] = [
      imgSource: "assets/images/dishes/burger.jpg", description: "tasty", rating:4.9 },
   { name: "Muffin", price: 15, weight: 50, restaurant: restaurants[1],
      imgSource: "assets/images/dishes/muffin.JPG", description: "tasty", rating:4.9 },
-
+     
 ]
+
+export const sortTypes = ["price", "name", "rating"];
 /*//////////////*/
 
 @NgModule({
@@ -66,8 +70,10 @@ export const dishes : Dish[] = [
     LogInComponent,
     AddToCartComponent,
     ConfirmEmailComponent,
-    ListComponent,
     RestaurantListComponent,
+    RestaurantDetailComponent,
+    PickRoleComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +82,7 @@ export const dishes : Dish[] = [
     NgbCollapseModule,
     NgbModule,
     ReactiveFormsModule,
-    JwPaginationModule,
+    NgxPaginationModule,
   ],
   providers: [NgbActiveModal],
   bootstrap: [AppComponent]

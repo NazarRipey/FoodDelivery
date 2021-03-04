@@ -1,0 +1,40 @@
+<div class="modal fade show" tabindex="-1" role="dialog"
+  style="display: block;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Pick your role
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-right">
+                    <span><b>3/3</b></span>
+                </div>
+                <form [formGroup]="roleForm" (ngSubmit)="onRolePicked()">    
+                    <div class="form-group">
+                        <div>
+                            <input type="radio" name="role" id="customer" value="customer"
+                             formControlName="role">
+                            <label for="customer">
+                                Customer (I want to order food)
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <input type="radio" name="role" id="owner" value="owner"
+                             formControlName="role">
+                            <label for="owner">
+                                Restaurant owner (I want to post new dishes and order food)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-center">
+                        <button class="btn btn-green mx-2" type="submit">Sign up</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>

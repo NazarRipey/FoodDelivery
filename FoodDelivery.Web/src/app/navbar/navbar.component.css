@@ -30,3 +30,7 @@ a:hover{
 .navbar{
     background-color: white;
 }
+
+.dropdown-menu{
+    min-width: fit-content
+}
