@@ -3,10 +3,34 @@ a{
     font-size: 1.2em;
 }
 
+a:hover{
+    color: #06C167
+}
+
+.logo:hover{
+    transform: scale(1.1);
+}
+
+.logo:hover h3{
+    color: #06C167;
+}
+
+.logo:hover span{
+    color: black;
+}
+
 .bi{
     font-size: 1.2em;
 }
 
-a:hover{
-    color: #06C167
+.nav-link{
+    cursor: pointer;
+}
+
+.navbar{
+    background-color: white;
+}
+
+.dropdown-menu{
+    min-width: fit-content
 }
