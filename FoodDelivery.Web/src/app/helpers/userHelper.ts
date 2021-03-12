@@ -42,19 +42,19 @@ export class userHelper{
     public LogIn(logInModel: userLogInModel): Observable<HttpErrorResponse>{
         let result = this.authService.logIn(logInModel);
 
-        let errorResponse = new Subject<HttpErrorResponse>();
+        let response = new Subject<HttpErrorResponse>();
 
-        result.subscribe(() => {
+        result.subscribe( _ => {
             this.getProfile().subscribe();
-            errorResponse.next(null)
-            errorResponse.complete();
-        }, response => {
+            response.next(null)
+            response.complete();
+        }, error => {
             /*Error*/
-            errorResponse.next(response)
-            errorResponse.complete();
+            response.next(error)
+            response.complete();
         });     
         
-        return errorResponse;
+        return response;
     }
 
     public LogOut(){
