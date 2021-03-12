@@ -1,7 +1,9 @@
 export enum errorsEnum{
-    AlreadyExistsEmail,
+	AlreadyExistsEmail,
 	AlreadyExistsPhone,
 	WrongEmailPassword,
 	EmailNotConfirmed,
-    ModelInvalid
+	ModelInvalid,
+	WrongConfirmationCode,
+	CannotSignIn,
 }

@@ -53,12 +53,13 @@ export class LogInComponent implements OnInit {
       password: this.logInForm.get('password').value,
     }
 
-    this.userHelper.LogIn(user).subscribe(err => {
-      if(!err){
+    this.userHelper.LogIn(user)
+    .subscribe(response => {
+      if(!response){
         this.modalRef.close();
       }
       else{
-        this.logInForm.setErrors({"server": +err.error});
+        this.logInForm.setErrors({"server": +response.error});
       }
     });
     

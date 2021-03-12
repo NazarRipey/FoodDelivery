@@ -18,16 +18,15 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
             if(error.status == 0)
             {
               document.writeln("no server connection, please try later");
+              return EMPTY;
             }
             else if(error.status == 500){
               alert("server side error occured, please try again later");
-            }
-            else{
-              console.log(error);
+              return EMPTY;
             }
           }
 
-          return EMPTY;
+          return throwError(error);
         })
       )
   }
