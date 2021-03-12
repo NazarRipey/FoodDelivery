@@ -1,0 +1,28 @@
+<div class="modal-header d-block text-center bg-green text-white">
+    <button class="close" (click)="modalRef.close()">&times;</button>
+    <h4>Cart</h4>        
+</div>
+
+<div class="container my-4">
+    <div class="wrapper d-flex align-items-stretch">
+        <img src="{{dish.imgSource}}" class="cartImage mr-2">
+        <div class="w-100 text-center">
+            <p class="lead"><b>{{dish.name}}</b> from <b>{{dish.restaurant.name}}</b></p>
+            <p>{{dish.description}}</p>
+            <p class="text-left">price: <b>{{dish.price}}₴</b></p>
+            <p class="text-left">rating: <b>{{dish.rating}}/5</b></p>
+            <div>
+                <button (click)="Decrement()" [disabled]="itemCount==1" class="btn btn-green">-</button>
+                <span class="mx-2">{{itemCount}}</span>
+                <button (click)="Increment()" class="btn btn-green">+</button>
+            </div>
+        </div>    
+    </div>
+    <hr>
+
+    <p class="text-right"><b>Total without delivery: {{itemCount * dish.price}}₴</b></p>
+    <p class="text-right"><b>With delivery:{{itemCount * dish.price * 1.05}}₴</b></p>
+
+    <button class="btn btn-green text-center col-sm-8 d-block mx-auto">Add to cart</button>
+
+</div>
