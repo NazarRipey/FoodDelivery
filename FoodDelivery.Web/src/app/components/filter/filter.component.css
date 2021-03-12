@@ -1,0 +1,11 @@
+.filter-btn{
+    background-color: transparent;
+
+    border: none;
+    border-bottom: solid thin gray;
+}
+
+.filter-btn:hover{
+    cursor: pointer;
+    color: #06C167;
+}
