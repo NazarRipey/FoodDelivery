@@ -1,0 +1,12 @@
+a{
+    color: black;
+    font-size: 1.2em;
+}
+
+.bi{
+    font-size: 1.2em;
+}
+
+a:hover{
+    color: #06C167
+}
