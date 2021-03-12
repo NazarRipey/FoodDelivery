@@ -4,21 +4,5 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.1.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.12" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.13" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\FoodDelivery.BusinessLogic\FoodDelivery.BusinessLogic.csproj" />
-    <ProjectReference Include="..\FoodDelivery.DAL\FoodDelivery.DAL.csproj" />
-    <ProjectReference Include="..\FoodDelivery.Entities\FoodDelivery.Entities.csproj" />
-    <ProjectReference Include="..\FoodDelivery.Utilities\FoodDelivery.Utilities.csproj" />
-  </ItemGroup>
-
 
 </Project>
