@@ -13,8 +13,8 @@
 
     <div *ngIf="userHelper.profile$ | async; else unauthorized">
         <ul class="nav nav-pills ml-auto" >
-            <li>
-                {{userHelper.profile.firstName}}
+            <li class="nav-item" class="my-auto">
+                welcome, {{userHelper.profile.firstName}}
             </li>
             <li class="nav-item">
                 <div ngbDropdown class="nav-link">

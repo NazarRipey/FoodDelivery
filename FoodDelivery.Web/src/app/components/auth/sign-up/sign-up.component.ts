@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { errorsEnum } from '../../../errors/errorsEnum';
 import { throwError } from 'rxjs';
 import { userSignUpModel } from '../../../models/userSignUpModel';
@@ -49,7 +50,7 @@ export class SignUpComponent implements OnInit {
     roles: new FormControl('', Validators.required)
   }, {validators: confirmPasswordValidator("password", "confirmPassword")});
 
-  ErrorsEnum = errorsEnum;
+  errorsEnum = errorsEnum;
 
   constructor(public modalRef: NgbActiveModal,
     private modalService: NgbModal,
@@ -86,18 +87,8 @@ export class SignUpComponent implements OnInit {
       modal.componentInstance.message = msg;
       this.modalRef.close();
     },
-    error => {
-      if(error.status == 400){ 
-        //if(error.error == ErrorsEnum.AlreadyExistsEmail)
-
-        this.signUpForm.setErrors
-        console.log(this.signUpForm.errors);
-
-        alert("Error occured");
-      }
-      else{
-        throwError(error);
-      }
+    err => {
+      this.signUpForm.setErrors({"server": +err.error});
     })
   }
 }

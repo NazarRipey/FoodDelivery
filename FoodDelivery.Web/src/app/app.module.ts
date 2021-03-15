@@ -30,6 +30,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
 import { MessageComponent } from './components/auth/message/message.component';
 import { NoServerConnectionComponent } from './components/errors/no-server-connection/no-server-connection.component';
+import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -84,6 +85,7 @@ export const sortTypes = ["price", "name", "rating"];
     RestaurantDetailComponent,
     MessageComponent,
     NoServerConnectionComponent,
+    OwnerRequestListComponent,
   ],
   imports: [
     BrowserModule,

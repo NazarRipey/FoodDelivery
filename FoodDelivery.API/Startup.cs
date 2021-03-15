@@ -1,5 +1,6 @@
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.DAL.EF.Context;
+using FoodDelivery.DAL.EF.Helpers;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Utilities.Managers;
 using FoodDelivery.Utilities.Mappers;
@@ -56,7 +57,9 @@ namespace FoodDelivery.API
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+			UserManager<IdentityUser> userManager,
+			IUserProfileRepository userProfileRepository)
 		{
 			if (env.IsDevelopment())
 			{
@@ -78,6 +81,8 @@ namespace FoodDelivery.API
 
 			app.UseAuthentication();
 			app.UseAuthorization();
+
+			IdentityDataInitializer.AddAdminAsync(userManager, userProfileRepository);
 
 			app.UseEndpoints(endpoints =>
 			{

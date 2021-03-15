@@ -2,7 +2,7 @@
 {
 	public enum Errors
 	{
-		AlreadyExistsEmail,
+		AlreadyExistsEmail = 1,
 		AlreadyExistsPhone,
 		WrongEmailPassword,
 		EmailNotConfirmed,

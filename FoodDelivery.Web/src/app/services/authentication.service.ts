@@ -20,7 +20,7 @@ export class AuthenticationService {
 
   public signUp(userSignUpModel: userSignUpModel){
     const url = this.authUrl + "signup";
-    return this.http.post<userSignUpModel>(url, userSignUpModel);
+    return this.http.post<userSignUpModel>(url, userSignUpModel, { observe: "response" });
   }
 
   public confirmEmail(confirmEmailModel: confirmEmailModel){

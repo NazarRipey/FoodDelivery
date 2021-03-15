@@ -125,16 +125,26 @@
                 </div>
             </label>
 
-            <div *ngIf="signUpForm.errors && signUpForm.touched"
+            <div *ngIf="signUpForm.hasError('server') && signUpForm.touched"
             class="text-danger">
-                <small>{{ErrorsEnum.AlreadyExistsEmail}}</small>
-                <small class="d-block" *ngIf="signUpForm.hasError('{{ErrorsEnum.AlreadyExistsEmail}}')">
-                    User with such email already exists. Log in instead.
-                </small>
-                <small class="d-block" *ngIf="signUpForm.hasError('1')">
-                    User with such phoneNumber already exists. Log in instead.
-                </small>
-            </div> 
+                <div [ngSwitch]="signUpForm.errors['server']">
+                    <p *ngSwitchCase="errorsEnum.WrongEmailPassword">
+                        Wrong email or password
+                    </p>
+                    <p *ngSwitchCase="errorsEnum.AlreadyExistsEmail">
+                        User with such email already exists
+                    </p>
+                    <p *ngSwitchCase="errorsEnum.AlreadyExistsPhone">
+                        User with such phone number already exists
+                    </p>
+                    <p *ngSwitchCase="errorsEnum.ModelInvalid">
+                        Model is invalid
+                    </p>
+                    <p *ngSwitchDefault>
+                        {{logInForm.errors['server']}}
+                    </p>
+                </div>
+            </div>
 
             <hr>
 

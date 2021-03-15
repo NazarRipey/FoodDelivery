@@ -1,5 +1,5 @@
 export enum errorsEnum{
-	AlreadyExistsEmail,
+	AlreadyExistsEmail = 1,
 	AlreadyExistsPhone,
 	WrongEmailPassword,
 	EmailNotConfirmed,

@@ -20,6 +20,22 @@
                             </small>
                         </div>
                     </label>
+                    
+                    <div *ngIf="confirmEmailForm.hasError('server') && confirmEmailForm.touched"
+                    class="text-danger">
+                        <div [ngSwitch]="confirmEmailForm.errors['server']">
+                            <p *ngSwitchCase="errorsEnum.WrongConfirmationCode">
+                                Wrong confirmation code
+                            </p>
+                            <p *ngSwitchCase="errorsEnum.ModelInvalid">
+                                Model is invalid
+                            </p>
+                            <p *ngSwitchDefault>
+                                {{logInForm.errors['server']}}
+                            </p>
+                        </div>
+                    </div>
+
                     <div>
                         <button type="button" (click)="SendAgain()" class="btn btn-yellow">Send again</button>
                     </div>

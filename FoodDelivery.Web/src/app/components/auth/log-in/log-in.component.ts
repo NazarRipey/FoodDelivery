@@ -62,29 +62,5 @@ export class LogInComponent implements OnInit {
         this.logInForm.setErrors({"server": +response.error});
       }
     });
-    
-    /*try{
-      
-    }
-    catch(Error){
-      console.log("Inside catch");
-      console.log(Error);
-    }
-    console.log("Outside catch");
-
-    /*this.authService.logIn(user)
-      .subscribe(() => {
-        this.userHelper.getProfile().subscribe(() => {
-          this.modalRef.close();
-        },
-        error => {
-          console.log("Good on server, bad in get profile")
-          console.log(error);
-        })
-      },
-      error => {
-        console.log("Server returned bad");
-        console.log(error);
-      });*/
   }
 }

@@ -45,16 +45,21 @@
 
             <div *ngIf="logInForm.hasError('server') && logInForm.touched"
                 class="text-danger">
-                <p *ngIf="logInForm.errors['server']==errorsEnum.WrongEmailPassword">
-                    Wrong email or password
-                </p>
-                <div *ngIf="logInForm.errors['server']==errorsEnum.EmailNotConfirmed">
-                    <p>Email not confirmed!</p>
-                    <button class="btn btn-yellow" (click)="openConfirmEmail()">Confirm</button>
+                <div [ngSwitch]="logInForm.errors['server']">
+                    <p *ngSwitchCase="errorsEnum.WrongEmailPassword">
+                        Wrong email or password
+                    </p>
+                    <div *ngSwitchCase="errorsEnum.EmailNotConfirmed">
+                        <p>Email not confirmed!</p>
+                        <button class="btn btn-yellow" (click)="openConfirmEmail()">Confirm</button>
+                    </div>
+                    <p *ngSwitchCase="errorsEnum.errorsEnum.ModelInvalid">
+                        Model is invalid
+                    </p>
+                    <p *ngSwitchDefault>
+                        {{logInForm.errors['server']}}
+                    </p>
                 </div>
-                <p *ngIf="logInForm.errors['server']==errorsEnum.ModelInvalid">
-                    Model is invalid
-                </p>
             </div>
 
             <div class="text-center mt-2">

@@ -1,3 +1,4 @@
+import { errorsEnum } from './../../../errors/errorsEnum';
 import { sendConfirmationCodeModel } from './../../../models/sendConfirmationCodeModel';
 import { throwError } from 'rxjs';
 import { MessageComponent } from '../message/message.component';
@@ -20,6 +21,7 @@ export class ConfirmEmailComponent implements OnInit {
 
   email;
   message;
+  errorsEnum = errorsEnum;
 
   constructor(public modalRef: NgbActiveModal,
     private modalService: NgbModal, 
@@ -66,13 +68,12 @@ export class ConfirmEmailComponent implements OnInit {
       else{
         this.message = msg;
       }
-
       const modal = this.modalService.open(MessageComponent);
       modal.componentInstance.message = this.message;
       this.modalRef.close();
     },
-    error => {
-      throwError(error);
+    err => {
+      this.confirmEmailForm.setErrors({"server": +err.error});
     })    
   }
 }
