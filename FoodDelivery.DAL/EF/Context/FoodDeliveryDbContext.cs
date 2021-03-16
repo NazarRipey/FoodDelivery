@@ -8,6 +8,7 @@ namespace FoodDelivery.DAL.EF.Context
 	public class FoodDeliveryDbContext : IdentityDbContext, IFoodDeliveryDbContext
 	{
 		public DbSet<UserProfile> UserProfile { get; set; }
+		public DbSet<OwnerRequest> OwnerRequest { get; set; }
 
 		public FoodDeliveryDbContext(DbContextOptions<FoodDeliveryDbContext> options)
 			: base(options)

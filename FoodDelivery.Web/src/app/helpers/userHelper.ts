@@ -29,6 +29,13 @@ export class userHelper{
             result.subscribe(
                 p => {
                     this._profile.next(p);
+                    if(p)
+                    {
+                        if(p.roles.includes("admin"))
+                        {
+                            this.router.navigateByUrl("/admin");
+                        }
+                    }
                 },
             );
         }

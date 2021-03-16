@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Helpers;
@@ -6,6 +7,7 @@ using FoodDelivery.Utilities.Managers;
 using FoodDelivery.Utilities.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +29,8 @@ namespace FoodDelivery.API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<FoodDeliveryDbContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+				options.UseLazyLoadingProxies()
+				.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddAuthentication().AddCookie();
 			services.AddCors();
@@ -40,18 +43,45 @@ namespace FoodDelivery.API
 				opt.Password.RequireNonAlphanumeric = false;
 				opt.Password.RequiredLength = 8;
 			}).AddEntityFrameworkStores<FoodDeliveryDbContext>()
-				.AddDefaultTokenProviders();
+				.AddDefaultTokenProviders()
+				.AddRoles<IdentityRole>();
 
-			/*services.ConfigureApplicationCookie(c =>
+			//Is this okay?
+			services.ConfigureApplicationCookie(options =>
 			{
-				c.Cookie.Name = "Identity.Cookie";
+				options.Events.OnRedirectToLogin = context =>
+				{
+					if (context.Request.Path.Value.StartsWith("/api"))
+					{
+						context.Response.Clear();
+						context.Response.StatusCode = 401;
+						return Task.FromResult(0);
+					}
+					context.Response.Redirect(context.RedirectUri);
+					return Task.FromResult(0);
+				};
 
-			});*/
+				options.Events.OnRedirectToAccessDenied = context =>
+				{
+					if (context.Request.Path.Value.StartsWith("/api"))
+					{
+						context.Response.Clear();
+						context.Response.StatusCode = 403;
+						return Task.FromResult(0);
+					}
+					context.Response.Redirect(context.RedirectUri);
+					return Task.FromResult(0);
+				};
+			});
 
 			services.AddAutoMapper(typeof(MappingProfile));
+			services.AddScoped<IEmailManager, EmailManager>();
+
 			services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 			services.AddScoped<IUserProfileFacade, UserProfileFacade>();
-			services.AddScoped<IEmailManager, EmailManager>();
+
+			services.AddScoped<IOwnerRequestRepository, OwnerRequestRepository>();
+			services.AddScoped<IOwnerRequestFacade, OwnerRequestFacade>();
 
 			services.AddControllers();
 		}

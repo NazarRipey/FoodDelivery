@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using FoodDelivery.API.Models;
 using FoodDelivery.BusinessLogic.Facades;
@@ -20,16 +21,19 @@ namespace FoodDelivery.API.Controllers
 		private readonly IMapper _mapper;
 		private readonly IUserProfileFacade _userProfileFacade;
 		private readonly SignInManager<IdentityUser> _signInManager;
+		private readonly IOwnerRequestFacade _ownerRequestFacade;
 
 		public AuthenticationController(UserManager<IdentityUser> userManager,
 			IMapper mapper,
 			IUserProfileFacade userProfileFacade,
-			SignInManager<IdentityUser> signInManager)
+			SignInManager<IdentityUser> signInManager,
+			IOwnerRequestFacade ownerRequestFacade)
 		{
 			_userManager = userManager;
 			_mapper = mapper;
 			_userProfileFacade = userProfileFacade;
 			_signInManager = signInManager;
+			_ownerRequestFacade = ownerRequestFacade;
 		}
 
 		[HttpGet]
@@ -61,6 +65,7 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPost]
+		//[action]
 		[Route("signup")]
 		public async Task<IActionResult> SignUp([FromBody] SignUpModel signUpModel)
 		{
@@ -86,12 +91,24 @@ namespace FoodDelivery.API.Controllers
 
 			if (result.Succeeded)
 			{
-				await _userManager.AddToRolesAsync(user, signUpModel.Roles);
-
+				//Mapping here and not in repo because need to set AspNetUserId
 				UserProfile userProfile = _mapper.Map<UserProfile>(userProfileDTO);
 				userProfile.AspNetUserId = user.Id;
-
+				userProfile.Id = Guid.NewGuid();
 				_userProfileFacade.Create(userProfile);
+
+				foreach (string role in signUpModel.Roles)
+				{
+					if (role == "owner")
+					{
+						_ownerRequestFacade.Create(userProfile.Id);
+					}
+					else
+					{
+						await _userManager.AddToRoleAsync(user, role);
+					}
+				}
+
 
 				return Ok();
 			}

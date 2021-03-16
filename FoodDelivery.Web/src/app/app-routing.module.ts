@@ -1,3 +1,4 @@
+import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
 import { NoServerConnectionComponent } from './components/errors/no-server-connection/no-server-connection.component';
 import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
 import { RestaurantListComponent } from './components/list/restaurant-list/restaurant-list.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'dishes', component: DishListComponent },
   { path: 'restaurants', component: RestaurantListComponent },
   { path: 'restaurants/:id', component: RestaurantDetailComponent },
+  { path: 'admin', component: OwnerRequestListComponent },
   { path: "noconnection", component: NoServerConnectionComponent }
 ];
 

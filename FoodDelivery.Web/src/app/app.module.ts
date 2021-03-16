@@ -18,8 +18,6 @@ import { HomeComponent } from './components/home/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TopRatedDishesComponent } from './components/home/home/top-rated-dishes/top-rated-dishes.component';
 import { TopRatedRestaurantsComponent } from './components/home/home/top-rated-restaurants/top-rated-restaurants.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FilterComponent } from './components/filter/filter.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { LogInComponent } from './components/auth/log-in/log-in.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
@@ -31,6 +29,8 @@ import { RestaurantDetailComponent } from './components/restaurant-detail/restau
 import { MessageComponent } from './components/auth/message/message.component';
 import { NoServerConnectionComponent } from './components/errors/no-server-connection/no-server-connection.component';
 import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
+import { FilterComponent } from './components/list/filter/filter.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
