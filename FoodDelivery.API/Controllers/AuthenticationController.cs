@@ -214,12 +214,6 @@ namespace FoodDelivery.API.Controllers
 		[HttpPut("{id}")]
 		public void Put(int id, [FromBody] string value)
 		{
-		}
-
-		// DELETE api/<AuthenticationController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
 		}*/
 	}
 }
