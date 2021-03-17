@@ -1,3 +1,4 @@
+import { ToUrlPipe } from './pipes/tourl.pipe';
 import { StartupService } from './services/startup.service';
 import { userHelper } from './helpers/userHelper';
 import { GlobalHttpInterceptor } from './errors/globalInterceptor';
@@ -31,6 +32,8 @@ import { NoServerConnectionComponent } from './components/errors/no-server-conne
 import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
 import { FilterComponent } from './components/list/filter/filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
+import { AddRestaurantComponent } from './components/owner/add-restaurant/add-restaurant.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -41,11 +44,11 @@ export const serverUrl = 'https://localhost:44325/';
 
 export const restaurants : Restaurant[] = [
   { id:1, name: "McDonald's", description: "Cheap and fast",
-   imgSource: "assets/images/restaurants/mcdonalds.jpg", rating: 5},
+   imgSource: "assets/images/restaurants/mcdonalds.jpg", rating: 5, addresses: ["Lukasha, 5", "Myru, 1a"]},
   { id:2, name: "Cozy", description: "Cozy and moderate",
-   imgSource: "assets/images/restaurants/cafee.jpg", rating: 4.8},
+   imgSource: "assets/images/restaurants/cafee.jpg", rating: 4.8, addresses: ["Richna, 3"]},
   { id:3, name: "Five stars", description: "Expensive and beautiful",
-   imgSource: "assets/images/restaurants/cool.jpg", rating: 4.7},
+   imgSource: "assets/images/restaurants/cool.jpg", rating: 4.7, addresses: ["Bohuna, 19"]},
 ]
 
 export const dishes : Dish[] = [
@@ -86,6 +89,9 @@ export const sortTypes = ["price", "name", "rating"];
     MessageComponent,
     NoServerConnectionComponent,
     OwnerRequestListComponent,
+    ToUrlPipe,
+    ManageRestaurantsComponent,
+    AddRestaurantComponent,
   ],
   imports: [
     BrowserModule,

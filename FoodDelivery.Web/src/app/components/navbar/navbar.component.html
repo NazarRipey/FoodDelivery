@@ -11,28 +11,26 @@
         </li>
     </ul>
 
-    <div *ngIf="userHelper.profile$ | async; else unauthorized">
-        <ul class="nav nav-pills ml-auto" >
-            <li class="nav-item" class="my-auto">
-                welcome, {{userHelper.profile.firstName}}
-            </li>
-            <li class="nav-item">
-                <div ngbDropdown class="nav-link">
-                    <button class="btn btn-outline-primary" id="profile" class="btn btn-green"
-                        ngbDropdownToggle><i class="bi bi-person"></i></button>
-                    <div ngbDropdownMenu aria-labelledby="profile">
-                        <a ngbDropdownItem class="px-1">My profile</a>
-                        <a ngbDropdownItem class="px-1">Order History</a>
-                        <a ngbDropdownItem class="px-1">Setting</a>
-                        <a ngbDropdownItem class="px-1" (click)="LogOut()">Log out</a>
-                    </div>
+    <ul class="nav nav-pills ml-auto" *ngIf="userHelper.profile; else unauthorized">
+        <li *ngIf="userHelper.isOwner()" class="nav-item">
+            <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
+        </li>
+        <li class="nav-item">
+            <div ngbDropdown class="nav-link">
+                <button class="btn btn-outline-primary" id="profile" class="btn btn-green"
+                    ngbDropdownToggle><i class="bi bi-person"></i></button>
+                <div ngbDropdownMenu aria-labelledby="profile">
+                    <a ngbDropdownItem class="px-1">My profile</a>
+                    <a ngbDropdownItem class="px-1">Order History</a>
+                    <a ngbDropdownItem class="px-1">Setting</a>
+                    <a ngbDropdownItem class="px-1" (click)="LogOut()">Log out</a>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link"><i class="bi bi-cart4"></i></a>
-            </li>
-        </ul>
-    </div>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"><i class="bi bi-cart4"></i></a>
+        </li>
+    </ul>
 
     <ng-template #unauthorized>        
         <button class="navbar-toggler" type="button" data-toggle="collapse" 

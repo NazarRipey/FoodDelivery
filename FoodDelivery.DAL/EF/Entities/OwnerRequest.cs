@@ -12,7 +12,7 @@ namespace FoodDelivery.DAL.EF.Entities
 
 		public DateTime CreatedDate { get; set; }
 
-		public DateTime ClosedDate { get; set; }
+		public DateTime? ClosedDate { get; set; }
 
 		public int Status { get; set; }
 

@@ -52,7 +52,14 @@ namespace FoodDelivery.BusinessLogic.Facades
 		//Not id because need info about user
 		public void Approve(OwnerRequestDTO requestDTO)
 		{
-			OwnerRequest request = _mapper.Map<OwnerRequest>(requestDTO);
+			OwnerRequest request = _ownerRequestRepository.GetById(requestDTO.Id);
+
+			if (request == null)
+			{
+				throw new Exception("no such user");
+			}
+
+			request.Status = (int)RoleRequestStatus.Approved;
 			request.ClosedDate = DateTime.Now;
 
 			_ownerRequestRepository.Update(request);
@@ -72,7 +79,14 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public void Deny(OwnerRequestDTO requestDTO)
 		{
-			OwnerRequest request = _mapper.Map<OwnerRequest>(requestDTO);
+			OwnerRequest request = _ownerRequestRepository.GetById(requestDTO.Id);
+
+			if (request == null)
+			{
+				throw new Exception("no such user");
+			}
+
+			request.Status = (int)RoleRequestStatus.Denied;
 			request.ClosedDate = DateTime.Now;
 
 			_ownerRequestRepository.Update(request);

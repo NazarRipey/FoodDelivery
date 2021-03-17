@@ -19,7 +19,8 @@ namespace FoodDelivery.Utilities.Mappers
 					opt => opt.MapFrom(src => src.Email))
 				.ReverseMap();
 
-			CreateMap<OwnerRequestDTO, OwnerRequest>().ReverseMap();
+			CreateMap<OwnerRequestDTO, OwnerRequest>()
+				.ReverseMap();
 		}
 	}
 }

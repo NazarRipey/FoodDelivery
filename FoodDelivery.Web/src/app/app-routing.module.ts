@@ -1,3 +1,4 @@
+import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
 import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
 import { NoServerConnectionComponent } from './components/errors/no-server-connection/no-server-connection.component';
 import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
@@ -15,9 +16,10 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'dishes', component: DishListComponent },
   { path: 'restaurants', component: RestaurantListComponent },
-  { path: 'restaurants/:id', component: RestaurantDetailComponent },
+  { path: 'restaurants/:name', component: RestaurantDetailComponent },
   { path: 'admin', component: OwnerRequestListComponent },
-  { path: "noconnection", component: NoServerConnectionComponent }
+  { path: "noconnection", component: NoServerConnectionComponent },
+  { path: "manage", component: ManageRestaurantsComponent }
 ];
 
 @NgModule({

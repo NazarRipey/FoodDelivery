@@ -26,7 +26,7 @@ namespace FoodDelivery.Utilities.Managers
 						"You can add restaurants and dishes now";
 					break;
 				case RoleRequestStatus.Denied:
-					message = "Unfortunately, admin has DECLINED you owner status.";
+					message = "Unfortunately, admin has DENIED you owner status.";
 					break;
 			}
 

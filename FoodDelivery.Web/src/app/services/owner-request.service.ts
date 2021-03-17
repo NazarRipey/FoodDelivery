@@ -14,12 +14,22 @@ export class OwnerRequestService {
   
   constructor(private http:HttpClient) { }
 
-  getRequests(status: roleRequestStatus | null): Observable<ownerRequest[]> {
+  getRequests(status: string | null): Observable<ownerRequest[]> {
     let url = this.authUrl;
     if(status){
       url += `?status=${status}`
     }
     
-    return this.http.get<ownerRequest[]>(url);
+    return this.http.get<ownerRequest[]>(url, { withCredentials: true });
+  }
+
+  approve(ownerRequest: ownerRequest){
+    const url = this.authUrl + "/approve";
+    return this.http.post<ownerRequest>(url, ownerRequest, { withCredentials: true });
+  }
+
+  deny(ownerRequest: ownerRequest){
+    const url = this.authUrl + "/deny";
+    return this.http.post<ownerRequest>(url, ownerRequest, { withCredentials: true });
   }
 }

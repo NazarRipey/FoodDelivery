@@ -5,5 +5,5 @@ export class userProfile{
     phoneNumber: string;
     birthday: string;
     address: string|undefined|null;
-    roles: string[];
+    roles: string[]|null;
 }

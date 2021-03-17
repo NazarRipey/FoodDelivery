@@ -29,13 +29,6 @@ export class userHelper{
             result.subscribe(
                 p => {
                     this._profile.next(p);
-                    if(p)
-                    {
-                        if(p.roles.includes("admin"))
-                        {
-                            this.router.navigateByUrl("/admin");
-                        }
-                    }
                 },
             );
         }
@@ -46,13 +39,34 @@ export class userHelper{
         return this._profile ? true: false;
     }
 
+    public isOwner(): boolean{
+        if(this.isLoggedIn)
+        {
+            if(this.profile.roles.includes("owner"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public LogIn(logInModel: userLogInModel): Observable<HttpErrorResponse>{
         let result = this.authService.logIn(logInModel);
 
         let response = new Subject<HttpErrorResponse>();
 
         result.subscribe( _ => {
-            this.getProfile().subscribe();
+            this.getProfile().subscribe(
+                r => {
+                    if(this._profile)
+                    {
+                        if(this._profile.value.roles.includes("admin"))
+                        {
+                            this.router.navigateByUrl("/admin");
+                        }
+                    }
+                }
+            );
             response.next(null)
             response.complete();
         }, error => {

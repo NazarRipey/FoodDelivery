@@ -23,16 +23,18 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
-		public IEnumerable<OwnerRequestDTO> Get()
+		public IEnumerable<OwnerRequestDTO> Get(string status)
 		{
+			if (status != null)
+			{
+				if (Enum.TryParse(status, out RoleRequestStatus roleStatus))
+				{
+					return _ownerRequestFacade.GetByStatus(roleStatus);
+				}
+			}
 			return _ownerRequestFacade.Get();
 		}
 
-		[HttpGet]
-		public IEnumerable<OwnerRequestDTO> Get(RoleRequestStatus status)
-		{
-			return _ownerRequestFacade.GetByStatus(status);
-		}
 
 		// POST api/<RequestController>
 		[HttpPost]
@@ -55,7 +57,15 @@ namespace FoodDelivery.API.Controllers
 		[Route("deny")]
 		public IActionResult Deny([FromBody] OwnerRequestDTO requestDTO)
 		{
-			_ownerRequestFacade.Deny(requestDTO);
+			try
+			{
+				_ownerRequestFacade.Deny(requestDTO);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+
 			return Ok();
 		}
 

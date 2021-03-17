@@ -96,10 +96,6 @@ namespace FoodDelivery.API
 				app.UseDeveloperExceptionPage();
 			}
 
-			app.UseHttpsRedirection();
-
-			app.UseRouting();
-
 			app.UseCors(builder =>
 			{
 				builder
@@ -108,6 +104,10 @@ namespace FoodDelivery.API
 				.SetIsOriginAllowed(origin => true)
 				.AllowCredentials();
 			});
+
+			app.UseHttpsRedirection();
+
+			app.UseRouting();
 
 			app.UseAuthentication();
 			app.UseAuthorization();
