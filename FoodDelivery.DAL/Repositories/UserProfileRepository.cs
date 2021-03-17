@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +8,8 @@ namespace FoodDelivery.DAL.Repositories
 {
 	public class UserProfileRepository : BaseRepository, IUserProfileRepository
 	{
-		public UserProfileRepository(FoodDeliveryDbContext db)
-			: base(db)
+		public UserProfileRepository(FoodDeliveryDbContext db, IMapper mapper)
+			: base(db, mapper)
 		{ }
 
 		public UserProfile GetByEmail(string email)

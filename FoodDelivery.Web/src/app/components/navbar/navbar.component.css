@@ -34,3 +34,7 @@ a:hover{
 .dropdown-menu{
     min-width: fit-content
 }
+
+ul li{
+ margin: auto 0;
+}

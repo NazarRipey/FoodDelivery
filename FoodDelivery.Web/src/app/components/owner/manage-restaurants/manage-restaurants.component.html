@@ -1,0 +1,32 @@
+  <div class="container text-right">
+    <button class="btn btn-green">Add new</button>
+</div>
+
+<div class="text-center">
+    <h4>{{userHelper.profile.firstName}} {{userHelper.profile.lastName}}'s restaurants:</h4>
+</div>
+
+<div class="mx-5 my-2" *ngFor="let item of restaurants">
+    <div class="wrapper d-flex align-items-stretch">
+        <img src="{{item.imgSource}}" class="mr-2 w-75">
+        <div class="w-100">
+            <div class="text-right">
+                <button class="btn btn-teamblue"><i class="bi bi-pencil"></i></button>
+            </div>
+            <div class="text-center">
+                <p class="lead"><b>{{item.name}}</b></p>
+                <p>{{item.description}}</p>
+            </div>
+            <p>Addresses:</p>
+            <ul>
+                <li *ngFor="let address of item.addresses">
+                    {{address}}
+                </li>
+            </ul>
+            <div class="text-center">
+                <button class="btn btn-green">Manage menu</button>
+            </div>
+        </div>    
+    </div>
+    <hr>
+</div>

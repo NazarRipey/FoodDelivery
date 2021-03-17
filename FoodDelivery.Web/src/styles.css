@@ -82,6 +82,16 @@
     background-color: #FFC043;
 }
 
+.btn-red{
+    color: white;
+    background-color: #D64933;
+}
+
+.btn-teamblue{
+    color: white;
+    background-color: #477890;
+}
+
 .search{
     width: 70%;
 }

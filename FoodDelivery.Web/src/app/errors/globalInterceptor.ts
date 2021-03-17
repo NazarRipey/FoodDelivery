@@ -17,11 +17,12 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
           if (error instanceof HttpErrorResponse) {
             if(error.status == 0)
             {
-              document.writeln("no server connection, please try later");
+              document.writeln("No server connection, please try later.");
               return EMPTY;
             }
             else if(error.status == 500){
               alert("server side error occured, please try again later");
+              console.log(error);
               return EMPTY;
             }
           }

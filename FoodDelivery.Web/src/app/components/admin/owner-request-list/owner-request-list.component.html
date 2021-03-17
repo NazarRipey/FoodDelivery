@@ -1,1 +1,53 @@
-<p>owner-request-list works!</p>
+<div class="container">
+    <div class="row d-flex mb-3">
+        <div class="input-group search mx-auto">
+            <input type="search" class="form-control"
+             placeholder="John Doe" [(ngModel)]="searchParam"/>
+            <button type="button" class="btn btn-green" (click)="onSearch()">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+    
+        <div ngbDropdown>
+            <button class="btn btn-outline-primary" id="sortDropDown" class="btn btn-green" name="status" ngDefaultControl 
+             ngbDropdownToggle [(ngModel)]="selectedRoleRequestStatus">{{selectedRoleRequestStatus}}</button>
+            <div ngbDropdownMenu aria-labelledby="sortDropDown">
+                <a ngbDropdownItem [queryParams]="{status:null}" queryParamsHandling='merge' [routerLink]="[]">All</a>
+                <a ngbDropdownItem *ngFor="let status of statuses()"
+                    [queryParams]="{status:status}" queryParamsHandling='merge' [routerLink]="[]">
+                    {{status}}</a>
+            </div>
+        </div>  
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Created date</th>
+                <th scope="col">Closed date</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let request of requests">
+                <td>{{request.userProfile.firstName}}</td>
+                <td>{{request.userProfile.lastName}}</td>
+                <td>{{request.userProfile.email}}</td>
+                <td>{{request.userProfile.phoneNumber}}</td>
+                <td>{{request.createdDate}}</td>
+                <td>{{request.closedDate}}</td>
+                <td>{{roleRequestStatus[request.status]}}</td>
+                <div *ngIf="request.status==roleRequestStatus.Awaiting">
+                    <td><button title="Approve" (click)="Approve(request)" class="btn btn-green"><i class="bi bi-check"></i></button></td>
+                    <td><button title="Deny" (click)="Deny(request)" class="btn btn-red"><i class="bi bi-x"></i></button></td>
+                </div>
+              </tr>
+            </tbody>
+          </table>  
+    </div>
+</div>

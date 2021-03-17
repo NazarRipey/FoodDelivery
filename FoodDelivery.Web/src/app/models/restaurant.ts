@@ -4,4 +4,5 @@ export class Restaurant{
     public description: string;
     public rating: number;
     public imgSource: string;
+    public addresses: string[];
 }

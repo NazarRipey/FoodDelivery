@@ -78,7 +78,7 @@ export class SignUpComponent implements OnInit {
 
     let msg = "Signed up sucessfully.";
     if(user.roles.includes("owner")){
-      msg += ' Admin will contact you within 24 hours to verify your role. You will be emailed when he makes the decision';
+      msg += ' Admin will contact you within 24 hours to verify your role. You will be emailed when he makes the decision. ';
     }
 
     this.authService.signUp(user).subscribe(_ => {
