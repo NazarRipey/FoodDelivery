@@ -1,5 +1,5 @@
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Restaurant } from '../../../models/restaurant';
+import { Restaurant } from '../../../models/restaurant/restaurant';
 import { Dish } from '../../../models/dish';
 import { Component, OnInit } from '@angular/core';
 

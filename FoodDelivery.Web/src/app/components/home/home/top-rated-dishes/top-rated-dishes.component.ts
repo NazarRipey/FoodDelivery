@@ -1,7 +1,6 @@
 import { CartService } from '../../../../services/cart.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { dishes, restaurants } from '../../../../app.module';
-import { Restaurant } from '../../../../models/restaurant';
+import { Restaurant } from '../../../../models/restaurant/restaurant';
 import { Component, OnInit } from '@angular/core';
 import { Dish } from 'src/app/models/dish';
 
@@ -12,8 +11,8 @@ import { Dish } from 'src/app/models/dish';
 })
 export class TopRatedDishesComponent implements OnInit {
 
-  dishes: Dish[] = dishes;
-  restaurants: Restaurant[] = restaurants;
+  dishes: Dish[];
+  restaurants: Restaurant[];
 
   constructor(private cartService:CartService) { }
 

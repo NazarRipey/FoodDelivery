@@ -10,12 +10,12 @@ import { Injectable } from '@angular/core';
 })
 export class OwnerRequestService {
 
-  authUrl = serverUrl + "api/ownerrequest";
+  requestUrl = serverUrl + "api/ownerrequest";
   
   constructor(private http:HttpClient) { }
 
   getRequests(status: string | null): Observable<ownerRequest[]> {
-    let url = this.authUrl;
+    let url = this.requestUrl;
     if(status){
       url += `?status=${status}`
     }
@@ -24,12 +24,12 @@ export class OwnerRequestService {
   }
 
   approve(ownerRequest: ownerRequest){
-    const url = this.authUrl + "/approve";
+    const url = this.requestUrl + "/approve";
     return this.http.post<ownerRequest>(url, ownerRequest, { withCredentials: true });
   }
 
   deny(ownerRequest: ownerRequest){
-    const url = this.authUrl + "/deny";
+    const url = this.requestUrl + "/deny";
     return this.http.post<ownerRequest>(url, ownerRequest, { withCredentials: true });
   }
 }

@@ -1,6 +1,9 @@
+import { RestaurantService } from './../../../services/restaurant.service';
+import { imgSrc } from './../../../app.module';
+import { AddRestaurantComponent } from './../add-restaurant/add-restaurant.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { userHelper } from './../../../helpers/userHelper';
-import { restaurants } from './../../../app.module';
-import { Restaurant } from './../../../models/restaurant';
+import { Restaurant } from '../../../models/restaurant/restaurant';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,11 +13,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageRestaurantsComponent implements OnInit {
 
-  restaurants: Restaurant[] = restaurants;
+  imgSrc = imgSrc;
+  restaurants: Restaurant[];
 
-  constructor(public userHelper:userHelper) { }
+  constructor(public userHelper:userHelper, 
+    private modalService: NgbModal,
+    private restaurantService:RestaurantService) { }
 
   ngOnInit(): void {
+    this.restaurantService.getMyRestaurants().subscribe(r => this.restaurants = r);
   }
 
+  addRestaurant(){
+    this.modalService.open(AddRestaurantComponent);
+  }
 }

@@ -21,6 +21,15 @@ namespace FoodDelivery.Utilities.Mappers
 
 			CreateMap<OwnerRequestDTO, OwnerRequest>()
 				.ReverseMap();
+
+			CreateMap<RestaurantTypeDTO, RestaurantType>()
+				.ReverseMap();
+
+			CreateMap<RestaurantAddressDTO, RestaurantAddress>()
+				.ReverseMap();
+
+			CreateMap<RestaurantDTO, Restaurant>()
+				.ReverseMap();
 		}
 	}
 }

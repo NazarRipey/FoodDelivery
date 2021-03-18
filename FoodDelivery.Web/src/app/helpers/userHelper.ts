@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { LogInComponent } from './../components/auth/log-in/log-in.component';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { userLogInModel } from './../models/userLogInModel';
+import { userLogInModel } from '../models/auth/userLogInModel';
 import { throwError, Observable, BehaviorSubject, Subject } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { userProfile } from './../models/userProfile';

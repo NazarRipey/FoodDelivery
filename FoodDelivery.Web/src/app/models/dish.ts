@@ -1,4 +1,4 @@
-import { Restaurant } from './restaurant';
+import { Restaurant } from './restaurant/restaurant';
 
 export class Dish{
     public name: string;

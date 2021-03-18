@@ -1,3 +1,4 @@
+import { AddRestaurantComponent } from './components/owner/add-restaurant/add-restaurant.component';
 import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
 import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
 import { NoServerConnectionComponent } from './components/errors/no-server-connection/no-server-connection.component';

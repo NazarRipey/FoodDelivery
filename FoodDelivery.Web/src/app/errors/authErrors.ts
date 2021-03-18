@@ -1,4 +1,4 @@
-export enum errorsEnum{
+export enum authErrors{
 	AlreadyExistsEmail = 1,
 	AlreadyExistsPhone,
 	WrongEmailPassword,

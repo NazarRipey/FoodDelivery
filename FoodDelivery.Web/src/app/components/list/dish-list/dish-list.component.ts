@@ -1,5 +1,5 @@
 import { CartService } from '../../../services/cart.service';
-import { dishes, sortTypes } from '../../../app.module';
+import { sortTypes } from '../../../app.module';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Dish } from 'src/app/models/dish';
@@ -17,7 +17,7 @@ export class DishListComponent implements OnInit {
 
   filterName = "type";
 
-  dishes: Dish[] = dishes;
+  dishes: Dish[];
 
   sortTypes = sortTypes;
 

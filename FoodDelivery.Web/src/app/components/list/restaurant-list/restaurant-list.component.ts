@@ -1,8 +1,9 @@
+import { imgSrc } from './../../../app.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 import { paginationConfig } from '../../../models/paginationConfig';
-import { Restaurant } from '../../../models/restaurant';
-import { restaurants, sortTypes } from '../../../app.module';
+import { Restaurant } from '../../../models/restaurant/restaurant';
+import { sortTypes } from '../../../app.module';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -14,8 +15,9 @@ export class RestaurantListComponent implements OnInit {
   
   toggleNavbar = false;
   filterName = "type";
+  imgSrc = imgSrc;
 
-  restaurants: Restaurant[] = restaurants;
+  restaurants: Restaurant[];
   sortTypes = sortTypes;
 
   config: paginationConfig = new paginationConfig();

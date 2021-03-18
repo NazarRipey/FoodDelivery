@@ -1,7 +1,7 @@
 import { ConfirmEmailComponent } from './../confirm-email/confirm-email.component';
-import { errorsEnum } from './../../../errors/errorsEnum';
+import { authErrors } from '../../../errors/authErrors';
 import { userHelper } from '../../../helpers/userHelper';
-import { userLogInModel } from '../../../models/userLogInModel';
+import { userLogInModel } from '../../../models/auth/userLogInModel';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -31,7 +31,7 @@ export class LogInComponent implements OnInit {
     remember: new FormControl(),
   });
 
-  errorsEnum = errorsEnum;
+  errorsEnum = authErrors;
 
   ngOnInit(): void {
   }

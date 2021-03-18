@@ -1,6 +1,6 @@
 ﻿namespace FoodDelivery.Entities.Enums
 {
-	public enum Errors
+	public enum AuthErrors
 	{
 		AlreadyExistsEmail = 1,
 		AlreadyExistsPhone,

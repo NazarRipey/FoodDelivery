@@ -34,11 +34,11 @@
         <div class="card text-center">
             <div class="card-body d-flex">
                 <ul class="col justify-content-between">
-                    <li *ngFor="let item of restaurants | paginate: config" class="mb-2 list-item">
+                    <li *ngFor="let rs of restaurants | paginate: config" class="mb-2 list-item">
                         <a [routerLink]="['/restaurants', item.name | tourl]">
-                            <img src="{{item.imgSource}}" class="list-image">
+                            <img src="{{imgSrc}}" class="list-image">
                             <div>
-                                <span>{{item.name}}</span>
+                                <span>{{rs.name}}</span>
                             </div>
                         </a>
                     </li>

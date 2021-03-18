@@ -4,7 +4,7 @@ import { userHelper } from './helpers/userHelper';
 import { GlobalHttpInterceptor } from './errors/globalInterceptor';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DishListComponent } from './components/list/dish-list/dish-list.component';
-import { Restaurant } from './models/restaurant';
+import { Restaurant } from './models/restaurant/restaurant';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -42,6 +42,9 @@ export function startupServiceFactory(startupService: StartupService): Function 
 /*hardcoded data*/
 export const serverUrl = 'https://localhost:44325/';
 
+export const imgSrc = 'assets/images/default.jpg'
+
+/*
 export const restaurants : Restaurant[] = [
   { id:1, name: "McDonald's", description: "Cheap and fast",
    imgSource: "assets/images/restaurants/mcdonalds.jpg", rating: 5, addresses: ["Lukasha, 5", "Myru, 1a"]},
@@ -49,9 +52,9 @@ export const restaurants : Restaurant[] = [
    imgSource: "assets/images/restaurants/cafee.jpg", rating: 4.8, addresses: ["Richna, 3"]},
   { id:3, name: "Five stars", description: "Expensive and beautiful",
    imgSource: "assets/images/restaurants/cool.jpg", rating: 4.7, addresses: ["Bohuna, 19"]},
-]
+]*/
 
-export const dishes : Dish[] = [
+/*export const dishes : Dish[] = [
   { name: "Burger", price: 30, weight: 100, restaurant: restaurants[0],
      imgSource: "assets/images/dishes/burger.jpg", description: "tasty", rating:4.9 },
   { name: "Muffin", price: 15, weight: 50, restaurant: restaurants[1],
@@ -65,7 +68,7 @@ export const dishes : Dish[] = [
   { name: "Muffin", price: 15, weight: 50, restaurant: restaurants[1],
      imgSource: "assets/images/dishes/muffin.JPG", description: "tasty", rating:4.9 },
      
-]
+]*/
 
 export const sortTypes = ["price", "name", "rating"];
 /*//////////////*/
