@@ -32,7 +32,7 @@
                                 && addRestaurantForm.get('description').touched" class="text-danger">
                                 <small class="d-block" 
                                     *ngIf="addRestaurantForm.get('description').hasError('required')">
-                                    Description name is required
+                                    Description is required
                                 </small>
                             </div>
                         </label>
@@ -64,7 +64,8 @@
                                     <h4>Address №{{i + 1}}</h4>
                                 </div>
                                 <div class="col-6 text-right">
-                                    <button type="button" class="btn btn-danger btn-sm" [disabled]="i==0" (click)="removeAddress(i)">Remove</button>
+                                    <button type="button" class="btn btn-danger btn-sm" [disabled]="addresses.length==1"
+                                     (click)="removeAddress(i)">Remove</button>
                                 </div>
                             </div>
                             <div class="row">

@@ -3,6 +3,7 @@
 	public enum RestaurantErrors
 	{
 		ModelInvalid = 1,
-		AlreadyExistsName,
+
+		AlreadyExistsName = 2,
 	}
 }

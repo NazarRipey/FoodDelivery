@@ -1,1 +1,22 @@
-<p>restaurant-detail works!</p>
+<div *ngIf="restaurant">
+    <div class="text-center">
+        <h1>{{restaurant.name}}</h1>
+    </div>
+    
+    <div class="wrapper d-flex mx-5 my-2 align-items-stretch">
+        <img src="{{imgSrc}}" class="mr-2 w-75">
+        <div class="w-100">
+            <h5 class="text-right">{{restaurant.rating}}/5</h5>
+            <p class="container mt-3">{{restaurant.description}}</p>
+            <p>Addresses:</p>
+            <ul>
+                <li *ngFor="let address of restaurant.addresses" class="my-2">
+                    {{address.city}}, {{address.address}}
+                </li>
+            </ul>
+            <div class="text-center">
+                <h3>Menu</h3>
+            </div>
+        </div>    
+    </div>
+</div>

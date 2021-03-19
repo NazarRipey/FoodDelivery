@@ -47,7 +47,7 @@ namespace FoodDelivery.API.Controllers
 			}
 			catch (Exception e)
 			{
-				return BadRequest(e.Message);
+				return StatusCode(500);
 			}
 
 			return Ok();
@@ -63,24 +63,10 @@ namespace FoodDelivery.API.Controllers
 			}
 			catch (Exception e)
 			{
-				return BadRequest(e.Message);
+				return StatusCode(500);
 			}
 
 			return Ok();
 		}
-
-		/*
-		// PUT api/<RequestController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<RequestController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}
-		*/
 	}
 }

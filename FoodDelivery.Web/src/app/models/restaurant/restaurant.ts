@@ -3,6 +3,7 @@ import { RestaurantType } from './restaurantType';
 import { restaurantAddress } from './restaurantAddress';
 
 export class Restaurant{
+    public id?: Guid;
     public ownerId: Guid;
     public name: string;
     public description: string;

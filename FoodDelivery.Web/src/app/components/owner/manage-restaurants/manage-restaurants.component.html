@@ -8,21 +8,27 @@
         <img src="{{imgSrc}}" class="mr-2 w-75">
         <div class="w-100">
             <div class="text-right">
-                <button class="btn btn-teamblue"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-teamblue" (click)="updateRestaurant(rs)"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-red ml-5" (click)="removeRestaurant(rs.id)"><i class="bi bi-x"></i></button>
             </div>
             <div class="text-center">
                 <p class="lead"><b>{{rs.name}}</b></p>
-                <p>{{rs.description}}</p>
             </div>
-            <p>Addresses:</p>
-            <ul>
-                <li *ngFor="let address of rs.addresses">
-                    {{address.city}}, {{address.address}}
-                </li>
-            </ul>
+            <p class="container">{{rs.description}}</p>
             <div class="text-center">
                 <button class="btn btn-green">Manage menu</button>
             </div>
+            <p>Addresses:</p>
+            <button class="ml-3 btn btn-t-green" (click)="addAddress(rs)"><i class="bi bi-plus"></i></button>
+            <ul>
+                <li *ngFor="let address of rs.addresses" class="my-2">
+                    {{address.city}}, {{address.address}}
+                    <button class="btn btn-t-red btn-sm ml-5" [disabled]="rs.addresses.length==1"
+                        (click)="removeAddress(address)">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </li>
+            </ul>
         </div>    
     </div>
     <hr>

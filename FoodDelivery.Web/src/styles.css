@@ -78,11 +78,33 @@
     background-color: #06C167;
 }
 
+.btn-t-green{
+    color:#06C167;
+    background-color: transparent;
+    border: thin solid #06C167;
+}
+
+.btn-t-green:hover{
+    color: white;
+    background-color: #06C167;
+}
+
 .btn-yellow{
     background-color: #FFC043;
 }
 
 .btn-red{
+    color: white;
+    background-color: #D64933;
+}
+
+.btn-t-red{
+    color:#D64933;
+    background-color: transparent;
+    border: thin solid #D64933;
+}
+
+.btn-t-red:hover{
     color: white;
     background-color: #D64933;
 }
@@ -111,7 +133,6 @@ input[type=number]::-webkit-outer-spin-button {
 app-filter{
     display: block;
 }
-
 
 .card-body ul {
     display: flex;

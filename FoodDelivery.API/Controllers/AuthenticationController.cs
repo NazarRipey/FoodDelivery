@@ -198,23 +198,5 @@ namespace FoodDelivery.API.Controllers
 			await _signInManager.SignOutAsync();
 			return Ok();
 		}
-
-		/*[HttpGet("{id}")]
-		public string Get(int id)
-		{
-			return "value";
-		}
-
-		// POST api/<AuthenticationController>
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
-		}
-
-		// PUT api/<AuthenticationController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}*/
 	}
 }

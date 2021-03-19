@@ -5,6 +5,7 @@ namespace FoodDelivery.Entities.DTO
 {
 	public class RestaurantDTO
 	{
+		public Guid Id { get; set; }
 		public Guid OwnerId { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }

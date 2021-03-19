@@ -1,4 +1,5 @@
 export enum restaurantErrors{
 	ModelInvalid = 1, 
-	AlreadyExistsName,
+
+	AlreadyExistsName = 2,
 }

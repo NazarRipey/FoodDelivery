@@ -1,3 +1,6 @@
+import { RoleGuard } from './guards/role.guard';
+import { NoAccessComponent } from './components/errors/no-access/no-access.component';
+import { AuthGuard } from './guards/auth.guard';
 import { AddRestaurantComponent } from './components/owner/add-restaurant/add-restaurant.component';
 import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
 import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
@@ -18,9 +21,12 @@ const routes: Routes = [
   { path: 'dishes', component: DishListComponent },
   { path: 'restaurants', component: RestaurantListComponent },
   { path: 'restaurants/:name', component: RestaurantDetailComponent },
-  { path: 'admin', component: OwnerRequestListComponent },
+  { path: 'requests', component: OwnerRequestListComponent,
+   canActivate: [RoleGuard], data: {roles: ['admin'] }  },
   { path: "noconnection", component: NoServerConnectionComponent },
-  { path: "manage", component: ManageRestaurantsComponent }
+  { path: "manage", component: ManageRestaurantsComponent, 
+    canActivate: [RoleGuard], data: {roles: ['owner'] } },
+  { path: "noaccess", component: NoAccessComponent },
 ];
 
 @NgModule({

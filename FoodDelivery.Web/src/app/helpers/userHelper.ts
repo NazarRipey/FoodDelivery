@@ -36,17 +36,14 @@ export class userHelper{
     }
 
     public isLoggedIn(): boolean{
-        return this._profile ? true: false;
+        return this.profile ? true: false;
     }
 
-    public isOwner(): boolean{
-        if(this.isLoggedIn)
-        {
-            if(this.profile.roles.includes("owner"))
-            {
-                return true;
-            }
+    public isInRole(roles: string[]): boolean{
+        if(this.isLoggedIn()){
+            return this.profile.roles.some(r => roles.includes(r));
         }
+
         return false;
     }
 
@@ -62,7 +59,7 @@ export class userHelper{
                     {
                         if(this._profile.value.roles.includes("admin"))
                         {
-                            this.router.navigateByUrl("/admin");
+                            this.router.navigateByUrl("/requests");
                         }
                     }
                 }

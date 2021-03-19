@@ -12,7 +12,10 @@
     </ul>
 
     <ul class="nav nav-pills ml-auto" *ngIf="userHelper.profile; else unauthorized">
-        <li *ngIf="userHelper.isOwner()" class="nav-item">
+        <li *ngIf="userHelper.isInRole(['admin'])" class="nav-item">
+            <a class="nav-link" [routerLink]="['/requests']">Requests</a>
+        </li>
+        <li *ngIf="userHelper.isInRole(['owner'])" class="nav-item">
             <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
         </li>
         <li class="nav-item">

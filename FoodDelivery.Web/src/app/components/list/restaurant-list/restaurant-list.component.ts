@@ -1,3 +1,4 @@
+import { RestaurantService } from './../../../services/restaurant.service';
 import { imgSrc } from './../../../app.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
@@ -22,8 +23,11 @@ export class RestaurantListComponent implements OnInit {
 
   config: paginationConfig = new paginationConfig();
 
-  constructor(private cartService:CartService, private route: ActivatedRoute,
-    private router:Router) { }
+  constructor(private cartService:CartService, 
+    private route: ActivatedRoute,
+    private router:Router,
+    private restaurantService:RestaurantService) 
+    { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -36,6 +40,8 @@ export class RestaurantListComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
+
+    this.restaurantService.getAll().subscribe(r => this.restaurants = r);
   }
 
   pageChanged(event){

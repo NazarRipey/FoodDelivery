@@ -1,4 +1,3 @@
-import { ToUrlPipe } from './pipes/tourl.pipe';
 import { StartupService } from './services/startup.service';
 import { userHelper } from './helpers/userHelper';
 import { GlobalHttpInterceptor } from './errors/globalInterceptor';
@@ -24,7 +23,6 @@ import { LogInComponent } from './components/auth/log-in/log-in.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 import { ConfirmEmailComponent } from './components/auth/confirm-email/confirm-email.component';
 import { RestaurantListComponent } from './components/list/restaurant-list/restaurant-list.component';
-import { Dish } from './models/dish';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
 import { MessageComponent } from './components/auth/message/message.component';
@@ -34,6 +32,9 @@ import { FilterComponent } from './components/list/filter/filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
 import { AddRestaurantComponent } from './components/owner/add-restaurant/add-restaurant.component';
+import { UpdateRestaurantComponent } from './components/owner/update-restaurant/update-restaurant.component';
+import { AddAddressComponent } from './components/owner/add-address/add-address.component';
+import { NoAccessComponent } from './components/errors/no-access/no-access.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -92,9 +93,11 @@ export const sortTypes = ["price", "name", "rating"];
     MessageComponent,
     NoServerConnectionComponent,
     OwnerRequestListComponent,
-    ToUrlPipe,
     ManageRestaurantsComponent,
     AddRestaurantComponent,
+    UpdateRestaurantComponent,
+    AddAddressComponent,
+    NoAccessComponent,
   ],
   imports: [
     BrowserModule,
