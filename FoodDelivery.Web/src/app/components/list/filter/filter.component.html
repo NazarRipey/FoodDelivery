@@ -7,16 +7,11 @@
 </button>
 
 <ul *ngIf="expanded" class="list-unstyled">
-    <li>
-        <label><input type="checkbox" [checked]="values.includes(this.p1)"
-            (change)="onCheckBoxChange($event)" value="{{p1}}"/>Page1</label>
-    </li>
-    <li>
-        <label><input type="checkbox" [checked]="values.includes(this.p2)"
-            (change)="onCheckBoxChange($event)" value="{{p2}}"/>Page2</label>
-    </li>
-    <li>
-        <label><input type="checkbox" [checked]="values.includes(this.p3)"
-            (change)="onCheckBoxChange($event)" value="{{p3}}"/>Page3</label>
+    <li *ngFor="let option of options">
+       <label>
+            <input type="checkbox" [checked]="checkedOptions.includes(option)"
+                (change)="onCheckBoxChange($event)" value="{{option}}" id="{{option}}"/>
+            {{option}}
+        </label>
     </li>
 </ul>

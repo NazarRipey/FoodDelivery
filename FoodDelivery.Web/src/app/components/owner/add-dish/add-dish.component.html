@@ -1,0 +1,117 @@
+<div class="modal fade show" tabindex="-1" role="dialog"
+  style="display: block;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Add new dish
+                </h4>
+                <button class="close" (click)="modalRef.close()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="addDishForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label class="w-100">
+                            Name
+                            <input type="text" class="form-control" formControlName="name">
+                            <div *ngIf="addDishForm.get('name').errors 
+                                    && addDishForm.get('name').touched" class="text-danger">
+                                <small class="d-block" 
+                                    *ngIf="addDishForm.get('name').hasError('required')">
+                                    Name is required
+                                </small>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="w-100">
+                            Description
+                            <textarea class="form-control" formControlName="description">
+                            </textarea>
+                           <div *ngIf="addDishForm.get('description').errors 
+                                    && addDishForm.get('description').touched" class="text-danger">
+                                <small class="d-block" 
+                                    *ngIf="addDishForm.get('description').hasError('required')">
+                                    Description is required
+                                </small>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="form-group form-row">
+                        <label class="col">
+                            Price
+                            <input type="number" class="form-control" step=".01" formControlName="price">
+                            <div *ngIf="addDishForm.get('price').errors 
+                                    && addDishForm.get('price').touched" class="text-danger">
+                                <small class="d-block" 
+                                    *ngIf="addDishForm.get('price').hasError('required')">
+                                    Price is required
+                                </small>
+                                <small class="d-block" 
+                                    *ngIf="addDishForm.get('price').hasError('min')">
+                                    Min price is 0.1₴
+                                </small>
+                            </div>
+                        </label>
+                        <label class="col">
+                            Weight (in gramms)
+                            <input type="number" class="form-control" step=".01" formControlName="weight">
+                            <div *ngIf="addDishForm.get('weight').errors 
+                                    && addDishForm.get('weight').touched" class="text-danger">
+                                <small class="d-block" 
+                                    *ngIf="addDishForm.get('weight').hasError('required')">
+                                    Weight is required
+                                </small>
+                                <small class="d-block" 
+                                    *ngIf="addDishForm.get('weight').hasError('min')">
+                                    Min weight is 10 g.
+                                </small>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="w-50">
+                            Category
+                            <select class="form-control" formControlName="category">
+                                <option *ngFor="let category of categories" [ngValue]="category">
+                                    {{category.name}}
+                                </option>
+                            </select>
+                            <div *ngIf="addDishForm.get('category').errors && 
+                                addDishForm.get('category').touched"
+                            class="text-danger">
+                                <small class="d-block" 
+                                    *ngIf="addDishForm.get('category').hasError('required')">
+                                    Dish category is required
+                                </small>
+                            </div>
+                        </label>
+                    </div>
+                    <div *ngIf="addDishForm.hasError('server') && addDishForm.touched"
+                    class="text-danger">
+                        <div [ngSwitch]="addDishForm.errors['server']">
+                            <p *ngSwitchCase="dishErrors.ModelInvalid">
+                                Model is invalid
+                            </p>
+                            <p *ngSwitchCase="dishErrors.AlreadyExistsWithinRestaurant">
+                                Dish with such name already exists within the restaurant.
+                            </p>
+                            <p *ngSwitchDefault>
+                                {{addRestaurantForm.errors['server']}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn bg-green mx-2" type="submit" [disabled]="addDishForm.invalid">
+                            Add
+                        </button>
+                        <button class="btn btn-danger mx-2" type="button" (click)="modalRef.close()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>        
+            </div>
+        </div>
+    </div>
+</div>

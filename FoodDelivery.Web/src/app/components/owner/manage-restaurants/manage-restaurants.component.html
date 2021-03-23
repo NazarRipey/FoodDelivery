@@ -1,35 +1,90 @@
 <div class="text-center">
-    <button class="btn btn-green my-3" (click)="addRestaurant()">Add new restaurant</button>
-    <h4>{{userHelper.profile.firstName}} {{userHelper.profile.lastName}}'s restaurants:</h4>
+    <button class="btn bg-green my-3" (click)="addRestaurant()">Add new restaurant</button>
+    <h3>{{userHelper.profile.firstName}} {{userHelper.profile.lastName}}'s restaurants:</h3>
 </div>
 
-<div class="mx-5 my-2" *ngFor="let rs of restaurants">
-    <div class="wrapper d-flex align-items-stretch">
-        <img src="{{imgSrc}}" class="mr-2 w-75">
+<div class="mx-5 my-3" *ngFor="let rs of restaurants| paginate: config">
+    <div class="detail-wrapper">
+        <img src="{{imgSrc}}" class="restaurant-image">
         <div class="w-100">
             <div class="text-right">
-                <button class="btn btn-teamblue" (click)="updateRestaurant(rs)"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-red ml-5" (click)="removeRestaurant(rs.id)"><i class="bi bi-x"></i></button>
+                <button class="btn bg-blue" (click)="updateRestaurant(rs)"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-danger ml-5" (click)="removeRestaurant(rs.id)"><i class="bi bi-x"></i></button>
             </div>
             <div class="text-center">
-                <p class="lead"><b>{{rs.name}}</b></p>
+                <h4>{{rs.name}}</h4>
             </div>
             <p class="container">{{rs.description}}</p>
-            <div class="text-center">
-                <button class="btn btn-green">Manage menu</button>
-            </div>
-            <p>Addresses:</p>
-            <button class="ml-3 btn btn-t-green" (click)="addAddress(rs)"><i class="bi bi-plus"></i></button>
-            <ul>
-                <li *ngFor="let address of rs.addresses" class="my-2">
-                    {{address.city}}, {{address.address}}
-                    <button class="btn btn-t-red btn-sm ml-5" [disabled]="rs.addresses.length==1"
-                        (click)="removeAddress(address)">
-                        <i class="bi bi-x"></i>
+            <div>
+                <div class="text-center">
+                    <p class="lead">Addresses</p>
+                    <button class="btn bg-green" (click)="addAddress(rs)">
+                        <i class="bi bi-plus"></i>
                     </button>
-                </li>
-            </ul>
+                </div>
+                <ul>
+                    <li *ngFor="let address of rs.addresses" class="my-2">
+                        {{address.city}}, {{address.address}}
+                        <button class="btn btn-danger btn-sm ml-5" [disabled]="rs.addresses.length==1"
+                            (click)="removeAddress(address)">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
         </div>    
+    </div>
+    <div>
+        <div class="text-center">
+            <p class="lead">Menu</p>
+            <button class="btn bg-green" (click)="addDish(rs.id)">
+                <i class="bi bi-plus"></i>
+            </button>
+            <div class="card text-center my-1">
+                <div class="card-body d-flex manage-list">
+                    <ul class="col justify-content-between">
+                        <li *ngFor="let dish of rs.dishes" class="mb-2 list-item">
+                            <div class="text-right my-1">
+                                <button class="btn bg-blue btn-sm" (click)="updateDish(dish)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-danger ml-2 btn-sm" (click)="removeDish(dish.id)"
+                                    [disabled]="rs.dishes.length==1">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                            <img src="{{imgSrc}}" class="list-image">
+                            <div class="text-right">
+                                {{dish.rating}}/5
+                            </div>
+                            <div class="text-center">
+                                <h5>{{dish.name}}</h5>
+                            </div>
+                            <div>
+                                <small>{{dish.description}}</small>
+                            </div>
+                            <div class="d-flex">
+                                <span>category:</span>
+                                <span class="ml-auto">{{dish.category.name}}</span>
+                            </div>
+                            <div class="d-flex">
+                                <span>price:</span>
+                                <span class="ml-auto">{{dish.price}}</span>
+                            </div>
+                            <div class="d-flex">
+                                <span>weight:</span>
+                                <span class="ml-auto">{{dish.weight}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-footer pb-0 pt-3">
+                <pagination-controls 
+                    (pageChange)="pageChanged($event)">
+                </pagination-controls>
+            </div>
+        </div>
     </div>
     <hr>
 </div>

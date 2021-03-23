@@ -29,6 +29,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _restaurantRepository.GetAll();
 		}
 
+		public ICollection<string> GetAllNames()
+		{
+			return _restaurantRepository.GetAllNames();
+		}
+
 		public RestaurantDTO GetByName(string name)
 		{
 			return _restaurantRepository.GetByName(name);
@@ -37,6 +42,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public ICollection<RestaurantDTO> GetMyRestaurants(Guid ownerId)
 		{
 			return _restaurantRepository.GetMyRestaurants(ownerId);
+		}
+
+		public string GetNameById(Guid id)
+		{
+			return _restaurantRepository.GetNameById(id);
 		}
 
 		public ICollection<RestaurantDTO> GetTop(int count)

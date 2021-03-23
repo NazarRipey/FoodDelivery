@@ -16,6 +16,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class LogInComponent implements OnInit {
 
+  redirectUrl;
+
   constructor(public modalRef: NgbActiveModal,
     private modalService: NgbModal,
     private authService: AuthenticationService,

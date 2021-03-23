@@ -15,16 +15,15 @@ export class FilterComponent implements OnInit {
   @Input()
   name;
 
-  urlTree;
-  values: string[];
+  @Input()
+  options: string[];
 
-  p1 = "p1";
-  p2 = "p2";
-  p3 = "p3";
+  checkedOptions: string[];
+  urlTree;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.values = params[this.name] ? JSON.parse(params[this.name]) : [];
+      this.checkedOptions = params[this.name] ? params[this.name].split(',') : [];
     });   
      
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
@@ -34,14 +33,14 @@ export class FilterComponent implements OnInit {
 
   onCheckBoxChange(e){
     if(e.target.checked) {
-      this.values.push(e.target.value);
+      this.checkedOptions.push(e.target.value);
     }    
     else {
-      this.values = this.values.filter(item => item !== e.target.value);
+      this.checkedOptions = this.checkedOptions.filter(item => item !== e.target.value);
     }
 
-    if(this.values.length > 0){
-      this.router.navigate([], {queryParams: {[this.name]: JSON.stringify(this.values)}, queryParamsHandling: 'merge'});
+    if(this.checkedOptions.length > 0){
+      this.router.navigate([], {queryParams: {[this.name]: this.checkedOptions.join(',')}, queryParamsHandling: 'merge'});
     }
     else{
       this.router.navigate([], {queryParams: {[this.name]: null}, queryParamsHandling: 'merge'});

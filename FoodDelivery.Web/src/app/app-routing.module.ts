@@ -4,7 +4,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { AddRestaurantComponent } from './components/owner/add-restaurant/add-restaurant.component';
 import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
 import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
-import { NoServerConnectionComponent } from './components/errors/no-server-connection/no-server-connection.component';
 import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
 import { RestaurantListComponent } from './components/list/restaurant-list/restaurant-list.component';
 import { DishListComponent } from './components/list/dish-list/dish-list.component';
@@ -22,10 +21,9 @@ const routes: Routes = [
   { path: 'restaurants', component: RestaurantListComponent },
   { path: 'restaurants/:name', component: RestaurantDetailComponent },
   { path: 'requests', component: OwnerRequestListComponent,
-   canActivate: [RoleGuard], data: {roles: ['admin'] }  },
-  { path: "noconnection", component: NoServerConnectionComponent },
+   canActivate: [AuthGuard, RoleGuard], data: {roles: ['admin'] }  },
   { path: "manage", component: ManageRestaurantsComponent, 
-    canActivate: [RoleGuard], data: {roles: ['owner'] } },
+    canActivate: [AuthGuard, RoleGuard], data: {roles: ['owner'] } },
   { path: "noaccess", component: NoAccessComponent },
 ];
 

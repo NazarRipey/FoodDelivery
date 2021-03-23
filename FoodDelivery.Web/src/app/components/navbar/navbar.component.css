@@ -1,6 +1,10 @@
 a{
-    color: black;
+    color: white;
     font-size: 1.2em;
+}
+
+button{
+    color: white;
 }
 
 a:hover{
@@ -16,7 +20,7 @@ a:hover{
 }
 
 .logo:hover span{
-    color: black;
+    color: white;
 }
 
 .bi{
@@ -25,10 +29,6 @@ a:hover{
 
 .nav-link{
     cursor: pointer;
-}
-
-.navbar{
-    background-color: white;
 }
 
 .dropdown-menu{

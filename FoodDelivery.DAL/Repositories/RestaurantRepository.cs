@@ -39,15 +39,28 @@ namespace FoodDelivery.DAL.Repositories
 		{
 			ICollection<RestaurantDTO> restaurantDTOs =
 				_mapper.Map<ICollection<RestaurantDTO>>(_db.Restaurant
-					.Include(r => r.Addresses)
 					.Include(r => r.Type));
 
 			return restaurantDTOs;
 		}
 
+		public ICollection<string> GetAllNames()
+		{
+			ICollection<string> names = _db.Restaurant.Select(r => r.Name).ToList();
+
+			return names;
+		}
+
 		public RestaurantDTO GetByName(string name)
 		{
-			Restaurant restaurant = _db.Restaurant.Where(r => r.Name == name).SingleOrDefault();
+			Restaurant restaurant = _db.Restaurant.
+				Where(r => r.Name == name)
+				.Include(r => r.Addresses)
+				.Include(r => r.Type)
+				.Include(r => r.Dishes)
+					.ThenInclude(d => d.Restaurant)
+				.SingleOrDefault();
+
 			RestaurantDTO restaurantDTO = _mapper.Map<RestaurantDTO>(restaurant);
 
 			return restaurantDTO;
@@ -55,8 +68,11 @@ namespace FoodDelivery.DAL.Repositories
 
 		public ICollection<RestaurantDTO> GetMyRestaurants(Guid ownerId)
 		{
-			//lazy loading підтягує navigation properties
-			List<Restaurant> myRestaurants = _db.Restaurant.Where(r => r.OwnerId == ownerId).ToList();
+			List<Restaurant> myRestaurants = _db.Restaurant.Where(r => r.OwnerId == ownerId)
+				.Include(r => r.Type)
+				.Include(r => r.Addresses)
+				.Include(r => r.Dishes)
+				.ToList();
 
 			ICollection<RestaurantDTO> restaurantDTOs =
 				_mapper.Map<ICollection<RestaurantDTO>>(myRestaurants);
@@ -64,10 +80,23 @@ namespace FoodDelivery.DAL.Repositories
 			return restaurantDTOs;
 		}
 
+		public string GetNameById(Guid id)
+		{
+			string name = _db.Restaurant.Find(id).Name;
+
+			return name;
+		}
+
 		public ICollection<RestaurantDTO> GetTop(int count)
 		{
-			var topRestaurants = _db.Restaurant.OrderBy(r => r.Rating).Take(count).ToList();
-			ICollection<RestaurantDTO> topRestaurantsDTOs = _mapper.Map<ICollection<RestaurantDTO>>(topRestaurants);
+			List<Restaurant> topRestaurants = _db.Restaurant
+				.OrderBy(r => r.Rating)
+				.Take(count)
+				.Include(r => r.Type)
+				.ToList();
+
+			ICollection<RestaurantDTO> topRestaurantsDTOs = _mapper
+				.Map<ICollection<RestaurantDTO>>(topRestaurants);
 
 			return topRestaurantsDTOs;
 		}

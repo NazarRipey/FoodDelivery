@@ -3,10 +3,10 @@ import { imgSrc } from './../../../app.module';
 import { restaurantErrors } from './../../../errors/restaurantErrors';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { RestaurantType } from '../../../models/restaurant/restaurantType';
+import { restaurantType } from '../../../models/restaurant/restaurantType';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Restaurant } from 'src/app/models/restaurant/restaurant';
+import { restaurant } from 'src/app/models/restaurant/restaurant';
 
 @Component({
   selector: 'app-add-restaurant',
@@ -14,7 +14,7 @@ import { Restaurant } from 'src/app/models/restaurant/restaurant';
   styleUrls: ['./add-restaurant.component.css']
 })
 export class AddRestaurantComponent implements OnInit {
-  types: RestaurantType[];
+  types: restaurantType[];
 
   public addresses: FormArray;
   restaurantErrors = restaurantErrors
@@ -68,7 +68,7 @@ export class AddRestaurantComponent implements OnInit {
   }
 
   onSubmit(){
-    const restaurant :Restaurant = {
+    const restaurant :restaurant = {
       ownerId: this.userHelper.profile.id,
       name: this.addRestaurantForm.get('name').value,
       description: this.addRestaurantForm.get('description').value,

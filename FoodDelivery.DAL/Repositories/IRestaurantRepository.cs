@@ -16,5 +16,7 @@ namespace FoodDelivery.DAL.Repositories
 		void AddAddress(RestaurantAddressDTO restaurantAddressDTO);
 		void RemoveAddress(Guid restaurantAddressId);
 		void RemoveRestaurant(Guid restaurantId);
+		string GetNameById(Guid id);
+		ICollection<string> GetAllNames();
 	}
 }

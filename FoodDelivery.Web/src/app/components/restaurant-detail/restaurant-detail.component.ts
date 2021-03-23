@@ -2,7 +2,7 @@ import { imgSrc } from './../../app.module';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestaurantService } from './../../services/restaurant.service';
 import { Component, OnInit } from '@angular/core';
-import { Restaurant } from 'src/app/models/restaurant/restaurant';
+import { restaurant } from 'src/app/models/restaurant/restaurant';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -12,7 +12,9 @@ import { Restaurant } from 'src/app/models/restaurant/restaurant';
 export class RestaurantDetailComponent implements OnInit {
 
   imgSrc = imgSrc;
-  restaurant: Restaurant;
+  restaurant: restaurant;
+  sortType: string;
+  searchParam: string;
 
   constructor(private restaurantService:RestaurantService,
     private route: ActivatedRoute) { }
@@ -20,5 +22,9 @@ export class RestaurantDetailComponent implements OnInit {
   ngOnInit(): void {
     const name = this.route.snapshot.paramMap.get('name');
     this.restaurantService.getByName(name).subscribe(r => this.restaurant = r);
+  }
+
+  onSearch(param: string){
+
   }
 }

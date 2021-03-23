@@ -12,5 +12,6 @@ namespace FoodDelivery.Entities.DTO
 		public double? Rating { get; set; }
 		public RestaurantTypeDTO Type { get; set; }
 		public List<RestaurantAddressDTO> Addresses { get; set; }
+		public List<DishDTO> Dishes { get; set; }
 	}
 }

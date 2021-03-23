@@ -35,11 +35,6 @@ export class AuthenticationService {
       );
   } 
 
-  public logOut(){
-    const url = this.authUrl + "logout";
-    return this.http.post(url, null, { withCredentials: true });
-  }
-
   public getUserProfile(): Observable<userProfile>{
     const url = this.authUrl + "user";
     return this.http.get<userProfile>(url, { withCredentials: true });
@@ -48,5 +43,10 @@ export class AuthenticationService {
   public sendCode(sendCodeModel: sendConfirmationCodeModel){
     const url = this.authUrl + "sendcode";
     return this.http.post(url, sendCodeModel);
+  }
+
+  public logOut(){
+    const url = this.authUrl + "logout";
+    return this.http.post(url, null, { withCredentials: true });
   }
 }

@@ -22,7 +22,7 @@ namespace FoodDelivery.DAL.EF.Entities
 		public int TypeId { get; set; }
 
 		public virtual RestaurantType Type { get; set; }
-
 		public virtual List<RestaurantAddress> Addresses { get; set; }
+		public virtual List<Dish> Dishes { get; set; }
 	}
 }

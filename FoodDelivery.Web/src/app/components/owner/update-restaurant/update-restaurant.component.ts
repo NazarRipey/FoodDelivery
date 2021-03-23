@@ -1,5 +1,5 @@
+import { restaurant } from 'src/app/models/restaurant/restaurant';
 import { userHelper } from './../../../helpers/userHelper';
-import { Restaurant } from './../../../models/restaurant/restaurant';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
@@ -15,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 export class UpdateRestaurantComponent implements OnInit {
   public addresses: FormArray;
   restaurantErrors = restaurantErrors;
-  restaurant: Restaurant;
+  restaurant: restaurant;
 
   updateRestaurantForm = new FormGroup({
     description: new FormControl('', [
@@ -33,13 +33,12 @@ export class UpdateRestaurantComponent implements OnInit {
   }
 
   onSubmit(){
-    const restaurant :Restaurant = {
+    const restaurant :restaurant = {
       id: this.restaurant.id,
       ownerId: this.userHelper.profile.id,
       name: this.restaurant.name,
       description: this.updateRestaurantForm.get('description').value,
       type: this.restaurant.type,
-      addresses: this.restaurant.addresses
     }
 
     this.restaurantService.updateRestaurant(restaurant).subscribe(

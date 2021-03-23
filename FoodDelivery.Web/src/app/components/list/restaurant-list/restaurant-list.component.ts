@@ -1,9 +1,9 @@
+import { restaurant } from 'src/app/models/restaurant/restaurant';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { imgSrc } from './../../../app.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 import { paginationConfig } from '../../../models/paginationConfig';
-import { Restaurant } from '../../../models/restaurant/restaurant';
 import { sortTypes } from '../../../app.module';
 import { Component, OnInit } from '@angular/core';
 
@@ -18,8 +18,10 @@ export class RestaurantListComponent implements OnInit {
   filterName = "type";
   imgSrc = imgSrc;
 
-  restaurants: Restaurant[];
+  restaurants: restaurant[];
   sortTypes = sortTypes;
+
+  restaurantTypes: string[];
 
   config: paginationConfig = new paginationConfig();
 
@@ -30,6 +32,8 @@ export class RestaurantListComponent implements OnInit {
     { }
 
   ngOnInit(): void {
+    this.restaurantService.getTypes().subscribe(t => this.restaurantTypes = t.map(t => t.name));
+
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
       this.config.itemsPerPage = 18;

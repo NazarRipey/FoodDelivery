@@ -48,6 +48,22 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
+		[Route("names")]
+		[AllowAnonymous]
+		public ICollection<string> GetNames()
+		{
+			return _restaurantFacade.GetAllNames();
+		}
+
+		[HttpGet]
+		[Route("getname/{id:Guid}")]
+		[AllowAnonymous]
+		public string GetName(Guid id)
+		{
+			return _restaurantFacade.GetNameById(id);
+		}
+
+		[HttpGet]
 		[Route("types")]
 		[AllowAnonymous]
 		public ICollection<RestaurantTypeDTO> GetTypes()

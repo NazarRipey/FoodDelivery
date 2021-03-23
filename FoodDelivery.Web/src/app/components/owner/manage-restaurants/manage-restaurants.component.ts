@@ -1,7 +1,13 @@
+import { DishService } from './../../../services/dish.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { paginationConfig } from './../../../models/paginationConfig';
+import { dish } from 'src/app/models/dish/dish';
+import { UpdateDishComponent } from './../update-dish/update-dish.component';
+import { AddDishComponent } from './../add-dish/add-dish.component';
 import { Guid } from 'guid-typescript';
 import { AddAddressComponent } from './../add-address/add-address.component';
 import { restaurantAddress } from './../../../models/restaurant/restaurantAddress';
-import { Restaurant } from 'src/app/models/restaurant/restaurant';
+import { restaurant } from 'src/app/models/restaurant/restaurant';
 import { UpdateRestaurantComponent } from './../update-restaurant/update-restaurant.component';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { imgSrc } from './../../../app.module';
@@ -18,23 +24,41 @@ import { Component, OnInit } from '@angular/core';
 export class ManageRestaurantsComponent implements OnInit {
 
   imgSrc = imgSrc;
-  restaurants: Restaurant[];
+  restaurants: restaurant[];
+  config: paginationConfig = new paginationConfig();
 
   constructor(public userHelper:userHelper, 
     private modalService: NgbModal,
-    private restaurantService:RestaurantService) { }
+    private restaurantService:RestaurantService,
+    private route: ActivatedRoute,
+    private router:Router, 
+    private dishSerivce: DishService) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.config.currentPage = params.page ? +params.page : 1;
+      this.config.itemsPerPage = 1;
+    });   
+
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
     this.restaurantService.getMyRestaurants().subscribe(r => this.restaurants = r);
   }
 
   addRestaurant(){
+    console.log(this.restaurants[0].dishes[0]);
     this.modalService.open(AddRestaurantComponent);
   }
 
-  addAddress(rs: Restaurant){
+  addAddress(rs: restaurant){
     const modal = this.modalService.open(AddAddressComponent);
     modal.componentInstance.restaurantId = rs.id; 
+  }
+
+  addDish(restaurantId: Guid){
+    const modal = this.modalService.open(AddDishComponent);
+    modal.componentInstance.restaurantId = restaurantId; 
   }
 
   removeAddress(address: restaurantAddress){
@@ -47,14 +71,31 @@ export class ManageRestaurantsComponent implements OnInit {
 
   removeRestaurant(restaurantId: Guid){
     this.restaurantService.removeRestaurant(restaurantId).subscribe(_ => {
-      location.reload();
+      this.router.navigate(['/manage'], { queryParams: { page: '1' } });
     }, error => {
       console.log(error);
     });
   }
 
-  updateRestaurant(restaurant: Restaurant){
+  updateRestaurant(restaurant: restaurant){
     const modal = this.modalService.open(UpdateRestaurantComponent);
     modal.componentInstance.restaurant = restaurant;  
+  }
+
+  updateDish(dish: dish){
+    const modal = this.modalService.open(UpdateDishComponent);
+    modal.componentInstance.dish = dish;  
+  }
+
+  removeDish(dishId: Guid){
+    this.dishSerivce.removeDish(dishId).subscribe(_ => {
+      location.reload();      
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  pageChanged(event){
+    this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
   }
 }

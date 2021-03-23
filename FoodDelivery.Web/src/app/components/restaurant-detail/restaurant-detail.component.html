@@ -3,20 +3,50 @@
         <h1>{{restaurant.name}}</h1>
     </div>
     
-    <div class="wrapper d-flex mx-5 my-2 align-items-stretch">
-        <img src="{{imgSrc}}" class="mr-2 w-75">
+    <div class="detail-wrapper mx-5 my-2">
+        <img src="{{imgSrc}}" class="restaurant-image">
         <div class="w-100">
             <h5 class="text-right">{{restaurant.rating}}/5</h5>
             <p class="container mt-3">{{restaurant.description}}</p>
+            <div class="text-center">
+                <h3>Menu</h3>
+            </div>
+            <div>
+                <div class="row d-flex">            
+                    <div class="input-group search mx-auto">
+                        <input type="search" #search class="form-control"
+                         placeholder="I'm looking for..." value="{{searchParam}}"/>
+                        <button type="button" class="btn btn-green" (click)="onSearch(search.value)">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                    <div ngbDropdown>
+                        <button class="btn btn-outline-primary" id="sortDropDown" class="btn btn-green"
+                         ngbDropdownToggle>{{sortType}}</button>
+                         <div ngbDropdownMenu aria-labelledby="sortDropDown">
+                            <a ngbDropdownItem *ngFor="let type of sortTypes"  
+                                [queryParams]="{sortType:type}" queryParamsHandling='merge' [routerLink]="[]">{{type}}</a>
+                          </div>
+                    </div>
+                </div>
+                <div class="p-md-3">
+                    <div class="card text-center">
+                        <div class="card-body d-flex">
+                            <ul class="col justify-content-between">
+                                <li *ngFor="let item of dishes" class="mb-2 list-item">
+                                    <app-dish-list-item [dish]="item"></app-dish-list-item>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <p>Addresses:</p>
             <ul>
                 <li *ngFor="let address of restaurant.addresses" class="my-2">
                     {{address.city}}, {{address.address}}
                 </li>
             </ul>
-            <div class="text-center">
-                <h3>Menu</h3>
-            </div>
         </div>    
     </div>
 </div>

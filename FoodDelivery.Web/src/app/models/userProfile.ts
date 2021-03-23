@@ -7,6 +7,6 @@ export class userProfile{
     email: string;
     phoneNumber: string;
     birthday: string;
-    address: string|undefined|null;
-    roles: string[]|null;
+    address?: string;
+    roles?: string[];
 }

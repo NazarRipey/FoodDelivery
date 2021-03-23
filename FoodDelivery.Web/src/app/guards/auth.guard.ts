@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
       }
       else{
         this.modalService.open(LogInComponent);   
+        return false;
       }
   }
 }

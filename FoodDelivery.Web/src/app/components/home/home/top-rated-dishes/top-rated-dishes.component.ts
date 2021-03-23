@@ -1,8 +1,10 @@
-import { CartService } from '../../../../services/cart.service';
+import { CartService } from './../../../../services/cart.service';
+import { imgSrc } from './../../../../app.module';
+import { DishService } from './../../../../services/dish.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Restaurant } from '../../../../models/restaurant/restaurant';
+import { restaurant } from '../../../../models/restaurant/restaurant';
 import { Component, OnInit } from '@angular/core';
-import { Dish } from 'src/app/models/dish';
+import { dish } from 'src/app/models/dish/dish';
 
 @Component({
   selector: 'app-top-rated-dishes',
@@ -11,15 +13,18 @@ import { Dish } from 'src/app/models/dish';
 })
 export class TopRatedDishesComponent implements OnInit {
 
-  dishes: Dish[];
-  restaurants: Restaurant[];
+  dishes: dish[];
+  restaurants: restaurant[];
+  imgSrc = imgSrc;
 
-  constructor(private cartService:CartService) { }
+  constructor(private cartService:CartService,
+    private dishService:DishService,) { }
 
   ngOnInit(): void {
+    this.dishService.getTop().subscribe(d => this.dishes = d);
   }
 
-  openAddToCart(dish){
+  openAddToCart(dish: dish){
     this.cartService.openAddToCart(dish);
   }
 }

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NoServerConnectionComponent } from './no-server-connection.component';
+import { UpdateDishComponent } from './update-dish.component';
 
-describe('NoServerConnectionComponent', () => {
-  let component: NoServerConnectionComponent;
-  let fixture: ComponentFixture<NoServerConnectionComponent>;
+describe('UpdateDishComponent', () => {
+  let component: UpdateDishComponent;
+  let fixture: ComponentFixture<UpdateDishComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NoServerConnectionComponent ]
+      declarations: [ UpdateDishComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NoServerConnectionComponent);
+    fixture = TestBed.createComponent(UpdateDishComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

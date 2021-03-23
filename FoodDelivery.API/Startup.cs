@@ -4,7 +4,6 @@ using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Helpers;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Utilities.Managers;
-using FoodDelivery.Utilities.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace FoodDelivery.API
 {
@@ -29,8 +29,7 @@ namespace FoodDelivery.API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<FoodDeliveryDbContext>(options =>
-				options.UseLazyLoadingProxies()
-				.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddAuthentication().AddCookie();
 			services.AddCors();
@@ -74,7 +73,13 @@ namespace FoodDelivery.API
 				};
 			});
 
-			services.AddAutoMapper(typeof(MappingProfile));
+			//services.AddAutoMapper(typeof(MappingProfile));
+			services.AddAutoMapper(opt =>
+			{
+				opt.AddProfile<Utilities.Mappers.MappingProfile>();
+				opt.AddProfile<API.Mappers.MappingProfile>();
+			});
+
 			services.AddScoped<IEmailManager, EmailManager>();
 
 			services.AddScoped<IUserProfileRepository, UserProfileRepository>();
@@ -86,7 +91,13 @@ namespace FoodDelivery.API
 			services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 			services.AddScoped<IRestaurantFacade, RestaurantFacade>();
 
-			services.AddControllers();
+			services.AddScoped<IDishRepository, DishRepository>();
+			services.AddScoped<IDishFacade, DishFacade>();
+
+			services.AddControllers().AddNewtonsoftJson(options =>
+			{
+				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,7 +126,10 @@ namespace FoodDelivery.API
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			IdentityDataInitializer.AddAdminAsync(userManager, userProfileRepository);
+			if (Configuration.GetValue<bool>("Populate"))
+			{
+				IdentityDataInitializer.AddAdminAsync(userManager, userProfileRepository);
+			}
 
 			app.UseEndpoints(endpoints =>
 			{
