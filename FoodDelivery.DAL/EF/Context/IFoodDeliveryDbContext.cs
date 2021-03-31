@@ -13,5 +13,7 @@ namespace FoodDelivery.DAL.EF.Context
 		public DbSet<RestaurantType> RestaurantType { get; set; }
 		public DbSet<Dish> Dish { get; set; }
 		public DbSet<DishCategory> DishCategory { get; set; }
+		public DbSet<Cart> Cart { get; set; }
+		public DbSet<CartItem> CartItem { get; set; }
 	}
 }

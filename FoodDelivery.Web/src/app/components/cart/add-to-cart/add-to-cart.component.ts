@@ -1,9 +1,11 @@
-import { DishService } from './../../services/dish.service';
-import { dishCartObject } from '../../models/dish/dishCartObject';
-import { LogInComponent } from './../auth/log-in/log-in.component';
-import { userHelper } from './../../helpers/userHelper';
+import { cartItemModel } from './../../../models/cart/cartItemModel';
+import { CartService } from './../../../services/cart.service';
+import { DishService } from '../../../services/dish.service';
+import { dishCartObject } from '../../../models/dish/dishCartObject';
+import { LogInComponent } from '../../auth/log-in/log-in.component';
+import { userHelper } from '../../../helpers/userHelper';
 import { Guid } from 'guid-typescript';
-import { imgSrc } from './../../app.module';
+import { imgSrc } from '../../../app.module';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -34,7 +36,8 @@ export class AddToCartComponent implements OnInit {
     private userHelper:userHelper,
     private modalService: NgbModal,
     private dishService:DishService,
-    private router: Router) { }
+    private router: Router,
+    private cartService: CartService) { }
 
   ngOnInit(): void {
     this.itemCount = 1;
@@ -56,12 +59,20 @@ export class AddToCartComponent implements OnInit {
       this.modalService.open(LogInComponent, {centered: true});
     }
     else{
-      this.addedQuantity = quantity;
-      this.added = true;
+      const cartItemModel: cartItemModel = {
+        dishId: dishId, quantity: quantity
+      }
 
-      setTimeout(() => {
-        this.added = false;
-      }, 1500);
+      this.cartService.post(cartItemModel).subscribe(_ => {
+        this.addedQuantity = quantity;
+        this.added = true;
+  
+        setTimeout(() => {
+          this.added = false;
+        }, 1500);
+      }, error => {
+        alert("sth went wrong")
+      })
     }
   }
 
