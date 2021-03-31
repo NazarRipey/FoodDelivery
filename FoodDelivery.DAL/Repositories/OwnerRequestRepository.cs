@@ -5,6 +5,8 @@ using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDelivery.DAL.Repositories
@@ -15,41 +17,82 @@ namespace FoodDelivery.DAL.Repositories
 			: base(db, mapper)
 		{ }
 
-		public ICollection<OwnerRequestDTO> Get()
+		public OwnerRequestResponseDTO Retrieve(OwnerRequestFilterParams filterParam)
 		{
-			ICollection<OwnerRequestDTO> requestDTOs =
-				_mapper.Map<ICollection<OwnerRequestDTO>>(_db.OwnerRequest.Include(r => r.UserProfile));
+			int totalItemsCount;
 
-			return requestDTOs;
+			IQueryable<OwnerRequest> ownerRequests = _db.OwnerRequest;
+
+			if (filterParam.Search != null)
+			{
+				ownerRequests = ownerRequests
+					.Where(o => (o.UserProfile.FirstName + o.UserProfile.LastName).Contains(filterParam.Search) ||
+						o.UserProfile.Email.Contains(filterParam.Search));
+			}
+			if (filterParam.Status != null)
+			{
+				ownerRequests = ownerRequests.Where(o => o.Status == (int)filterParam.Status);
+			}
+
+			totalItemsCount = ownerRequests.Count();
+
+			ICollection<OwnerRequest> requestsToReturn = ownerRequests
+				.Skip(filterParam.ItemsPerPage * (filterParam.CurrentPage - 1))
+				.Take(filterParam.ItemsPerPage)
+				.ToList();
+
+			ICollection<OwnerRequestDTO> requestDTOs = _mapper.Map<ICollection<OwnerRequestDTO>>(requestsToReturn);
+
+			OwnerRequestResponseDTO ownerRequestResponseDTO = new OwnerRequestResponseDTO()
+			{
+				OwnerRequests = requestDTOs,
+				TotalRequestsCount = totalItemsCount
+			};
+
+			return ownerRequestResponseDTO;
 		}
 
-		public ICollection<OwnerRequestDTO> GetByStatus(int status)
+		public void Create(Guid userId)
 		{
-			IEnumerable<OwnerRequest> requests = _db.OwnerRequest
-				.Where(r => r.Status == status)
-				.Include(r => r.UserProfile);
-			ICollection<OwnerRequestDTO> requestDTOs = _mapper.Map<ICollection<OwnerRequestDTO>>(requests);
-
-			return requestDTOs;
-		}
-
-		public void Create(OwnerRequestDTO requestDTO)
-		{
-			OwnerRequest request = _mapper.Map<OwnerRequest>(requestDTO);
+			OwnerRequest request = new OwnerRequest()
+			{
+				UserProfileId = userId,
+				CreatedDate = DateTime.Now,
+				Status = (int)OwnerRequestStatus.Awaiting
+			};
 			_db.OwnerRequest.Add(request);
+
 			SaveChanges();
 		}
 
-		public void Update(OwnerRequest request)
+		public void Update(OwnerRequest request, OwnerRequestStatus ownerRequestStatus)
 		{
+			request.Status = (int)ownerRequestStatus;
+			request.ClosedDate = DateTime.Now;
+
 			_db.Entry(request).State = EntityState.Modified;
+
 			SaveChanges();
 		}
 
 		public OwnerRequest GetById(Guid id)
 		{
-			OwnerRequest ownerRequest = _db.OwnerRequest.Where(or => or.Id == id).SingleOrDefault();
-			return ownerRequest;
+			OwnerRequest request = _db.OwnerRequest.Find(id);
+
+			return request;
+		}
+
+		public OwnerRequestStatus? GetStatus(Guid id)
+		{
+			int? statusId = _db.OwnerRequest.Where(r => r.UserProfileId == id).SingleOrDefault()?.Status;
+
+			if (statusId == null)
+			{
+				return null;
+			}
+
+			OwnerRequestStatus? status = (OwnerRequestStatus)statusId;
+			return status;
 		}
 	}
 }

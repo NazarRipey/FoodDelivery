@@ -1,0 +1,11 @@
+.price-width{
+    width: 55%;
+}
+
+a:hover{
+    color: #06C167
+}
+
+a{
+    font-size: 1.2em;
+}

@@ -52,6 +52,7 @@ namespace FoodDelivery.API.Controllers
 			//Not with mapper because of roles
 			UserLoggedInModel userLoggedInModel = new UserLoggedInModel
 			{
+				Id = userProfile.Id,
 				FirstName = userProfile.FirstName,
 				LastName = userProfile.LastName,
 				Birthday = userProfile.Birthday.ToString(),
@@ -71,17 +72,17 @@ namespace FoodDelivery.API.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest(Errors.ModelInvalid);
+				return BadRequest(AuthErrors.ModelInvalid);
 			}
 
 			if ((await _userManager.FindByEmailAsync(signUpModel.Email)) != null)
 			{
-				return BadRequest(Errors.AlreadyExistsEmail);
+				return BadRequest(AuthErrors.AlreadyExistsEmail);
 			}
 
 			if (_userProfileFacade.GetByPhone(signUpModel.PhoneNumber) != null)
 			{
-				return BadRequest(Errors.AlreadyExistsPhone);
+				return BadRequest(AuthErrors.AlreadyExistsPhone);
 			}
 
 			UserProfileDTO userProfileDTO = _mapper.Map<UserProfileDTO>(signUpModel);
@@ -131,7 +132,7 @@ namespace FoodDelivery.API.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest(Errors.ModelInvalid);
+				return BadRequest(AuthErrors.ModelInvalid);
 			}
 
 			UserProfile userProfile = _userProfileFacade.GetByEmail(confirmEmailModel.Email);
@@ -151,7 +152,7 @@ namespace FoodDelivery.API.Controllers
 				return BadRequest(result.Errors);
 			}
 
-			return BadRequest(Errors.WrongConfirmationCode);
+			return BadRequest(AuthErrors.WrongConfirmationCode);
 		}
 
 		[HttpPost]
@@ -160,23 +161,23 @@ namespace FoodDelivery.API.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest(Errors.ModelInvalid);
+				return BadRequest(AuthErrors.ModelInvalid);
 			}
 
 			IdentityUser user = await _userManager.FindByEmailAsync(logInModel.Email);
 			if (user == null)
 			{
-				return BadRequest(Errors.WrongEmailPassword);
+				return BadRequest(AuthErrors.WrongEmailPassword);
 			}
 
 			if (!await _userManager.CheckPasswordAsync(user, logInModel.Password))
 			{
-				return BadRequest(Errors.WrongEmailPassword);
+				return BadRequest(AuthErrors.WrongEmailPassword);
 			}
 
 			if (!await _userManager.IsEmailConfirmedAsync(user))
 			{
-				return BadRequest(Errors.EmailNotConfirmed);
+				return BadRequest(AuthErrors.EmailNotConfirmed);
 			}
 
 			var result = await _signInManager.PasswordSignInAsync
@@ -187,7 +188,7 @@ namespace FoodDelivery.API.Controllers
 				return Ok();
 			}
 
-			return BadRequest(Errors.CannotSignIn);
+			return BadRequest(AuthErrors.CannotSignIn);
 		}
 
 		[HttpPost]
@@ -197,29 +198,5 @@ namespace FoodDelivery.API.Controllers
 			await _signInManager.SignOutAsync();
 			return Ok();
 		}
-
-		/*[HttpGet("{id}")]
-		public string Get(int id)
-		{
-			return "value";
-		}
-
-		// POST api/<AuthenticationController>
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
-		}
-
-		// PUT api/<AuthenticationController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<AuthenticationController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}*/
 	}
 }

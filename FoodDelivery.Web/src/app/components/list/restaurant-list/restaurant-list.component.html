@@ -1,44 +1,49 @@
 <div class="container">
     <div class="row d-flex">
-        <button class="navbar-toggler btn btn-green" type="button" data-toggle="filter" 
-        (click)="toggleNavbar = !toggleNavbar" data-target="#filter" aria-controls="filter" aria-expanded="false"
+        <button class="navbar-toggler btn bg-popstar" type="button" data-toggle="filter" 
+        (click)="toggleFilter = !toggleFilter" data-target="#filter" aria-controls="filter" aria-expanded="false"
         aria-label="Toggle navigation">
-            <i class="bi bi-list"></i>
+            <i class="bi bi-filter"></i>
         </button>
 
         <div class="input-group search mx-auto">
-            <input type="search" #search class="form-control"
-             placeholder="I'm looking for..." value="{{config.search}}"/>
-            <button type="button" class="btn btn-green" (click)="onSearch(search.value)">
+            <input type="search" #search class="form-control" (keyup.enter)="onSearch(search.value)"
+             placeholder="I'm looking for..." value="{{restaurantFilterParams.search}}"/>
+            <button type="button" class="btn bg-popstar" (click)="onSearch(search.value)">
                 <i class="bi bi-search"></i>
             </button>
         </div>
 
         <div ngbDropdown>
-            <button class="btn btn-outline-primary" id="sortDropDown" class="btn btn-green"
-             ngbDropdownToggle>{{config.sortType}}</button>
-             <div ngbDropdownMenu aria-labelledby="sortDropDown">
-                <a ngbDropdownItem *ngFor="let type of sortTypes"  
-                    [queryParams]="{sortType:type}" queryParamsHandling='merge' [routerLink]="[]">{{type}}</a>
-              </div>
+            <button class="btn btn-outline-primary" id="sortDropDown" class="btn bg-popstar"
+             ngbDropdownToggle>{{selectedsortType}}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="sortDropDown">
+                <a ngbDropdownItem *ngFor="let sortType of sortTypes()" 
+                    [queryParams]="{sortType:sortType}" queryParamsHandling='merge' [routerLink]="[]">
+                    {{sortType}}
+                </a>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="wrapper d-flex align-items-stretch mt-2">
-    <nav class="ml-2 px-1 pt-2" id="filter" [ngbCollapse]="toggleNavbar">
+    <nav class="ml-2 px-1 pt-2" id="filter" [ngbCollapse]="toggleFilter">
         <h4>Filters</h4>
-        <app-filter [name]="filterName"></app-filter>
+        <app-filter name="Type" [options]="restaurantTypeNames"></app-filter>
     </nav>
     <div class="p-md-3 w-100">
         <div class="card text-center">
             <div class="card-body d-flex">
-                <ul class="col justify-content-between">
-                    <li *ngFor="let item of restaurants | paginate: config" class="mb-2 list-item">
-                        <a [routerLink]="['/restaurants', item.name | tourl]">
-                            <img src="{{item.imgSource}}" class="list-image">
+                <ul class="col justify-content-around">
+                    <li *ngFor="let rs of restaurantResponse.restaurants | paginate: config" 
+                            class="mb-2 list-item">
+                            {{restaurantResponse.restaurants.count}}
+                        <a [routerLink]="['/restaurants', rs.name]">
+                            <img src="{{imgSrc}}" class="list-image">
                             <div>
-                                <span>{{item.name}}</span>
+                                <span>{{rs.name}}</span>
                             </div>
                         </a>
                     </li>

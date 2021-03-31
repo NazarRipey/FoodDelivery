@@ -1,0 +1,51 @@
+<div *ngIf="dish">
+    <div class="text-center">
+        <h1>{{dish.name}}</h1>
+    </div>
+    
+    <div class="detail-wrapper mx-5 my-2">
+        <img src="{{imgSrc}}" class="restaurant-image">
+        <div class="w-100">
+            <h5 class="text-right">{{dish.rating}}/5</h5>
+
+            <div class="my-1 text-center">
+                <p>
+                    from <a [routerLink]="['/restaurants', dish.restaurantName]">
+                        {{dish.restaurantName}}</a>
+                </p>
+            </div>
+
+            <p>{{dish.description}}</p>
+            <p class="text-left">price: <b>{{dish.price}}₴</b></p>
+            <p class="text-left">rating: <b>{{dish.rating}}/5</b></p>
+            <p class="text-left">weight: <b>{{dish.weight}}</b></p>
+        </div>   
+    </div>
+
+    <hr>
+
+    <div class="text-center my-3">
+        <div>
+            <button (click)="Decrement()" class="btn btn-sm bg-green">-</button>
+            <span class="mx-2">{{itemCount}}</span>
+            <button (click)="Increment()" class="btn btn-sm bg-green">+</button>    
+        </div>
+
+        <div class="ml-5 price-width text-right">
+            <p><b>Total without delivery: {{itemCount * dish.price}}₴</b></p>
+            <p><b>With delivery:{{itemCount * dish.price * 1.05}}₴</b></p>
+        </div>
+
+        <div class="my-2">
+            <button (click)="AddToCart(dish.id, itemCount)" class="btn bg-green">Add to cart</button>
+        </div>
+
+        <div *ngIf="added==true" [@fade]>
+            <b>
+                <p>Added <span class="text-green">{{addedQuantity}}</span> 
+                    "<span class="text-green">{{dish.name}}</span>" to cart
+                </p>
+            </b>
+        </div>
+    </div>
+</div>

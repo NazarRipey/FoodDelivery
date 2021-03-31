@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.DAL.Repositories
 {
 	public interface IOwnerRequestRepository
 	{
-		ICollection<OwnerRequestDTO> Get();
-		ICollection<OwnerRequestDTO> GetByStatus(int status);
+		OwnerRequestResponseDTO Retrieve(OwnerRequestFilterParams filterParam);
+		void Create(Guid userId);
+		void Update(OwnerRequest request, OwnerRequestStatus ownerRequestStatus);
 		OwnerRequest GetById(Guid id);
-		void Create(OwnerRequestDTO requestDTO);
-		void Update(OwnerRequest request);
+		OwnerRequestStatus? GetStatus(Guid id);
 	}
 }

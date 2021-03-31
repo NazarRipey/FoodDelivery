@@ -1,7 +1,10 @@
-import { roleRequestStatus } from './../models/enums/roleRequestStatus';
-import { ownerRequest } from './../models/ownerRequest';
+import { ownerRequestStatus } from './../models/enums/statuses/ownerRequestStatus';
+import { Guid } from 'guid-typescript';
+import { ownerRequestFilterParams } from '../models/filters/ownerRequestFilterParams';
+import { ownerRequestResponse } from './../models/ownerRequest/ownerRequestResponse';
+import { ownerRequestObject } from '../models/ownerRequest/ownerRequestObject';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { serverUrl } from './../app.module';
 import { Injectable } from '@angular/core';
 
@@ -10,26 +13,27 @@ import { Injectable } from '@angular/core';
 })
 export class OwnerRequestService {
 
-  authUrl = serverUrl + "api/ownerrequest";
+  requestUrl = serverUrl + "api/ownerrequest/";
   
   constructor(private http:HttpClient) { }
 
-  getRequests(status: string | null): Observable<ownerRequest[]> {
-    let url = this.authUrl;
-    if(status){
-      url += `?status=${status}`
-    }
-    
-    return this.http.get<ownerRequest[]>(url, { withCredentials: true });
+  getStatus(id: Guid): Observable<ownerRequestStatus>{
+    const url = this.requestUrl + `status?id=${id}`;
+    return this.http.get<ownerRequestStatus>(url);
   }
 
-  approve(ownerRequest: ownerRequest){
-    const url = this.authUrl + "/approve";
-    return this.http.post<ownerRequest>(url, ownerRequest, { withCredentials: true });
+  retrieve(filterParams: ownerRequestFilterParams): Observable<ownerRequestResponse> {
+    const url = this.requestUrl + "retrieve";
+    return this.http.post<ownerRequestResponse>(url, filterParams, { withCredentials: true });
   }
 
-  deny(ownerRequest: ownerRequest){
-    const url = this.authUrl + "/deny";
-    return this.http.post<ownerRequest>(url, ownerRequest, { withCredentials: true });
+  approve(id: Guid){
+    const url = this.requestUrl + "approve";
+    return this.http.post<ownerRequestObject>(url, JSON.stringify(id), { withCredentials: true, headers: {'Content-Type': 'application/json' }});
+  }
+
+  decline(id: Guid){
+    const url = this.requestUrl + "decline";
+    return this.http.post<ownerRequestObject>(url, JSON.stringify(id), { withCredentials: true, headers: {'Content-Type': 'application/json' } });
   }
 }

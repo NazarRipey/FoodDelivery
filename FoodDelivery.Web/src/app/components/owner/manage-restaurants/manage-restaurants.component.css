@@ -1,0 +1,15 @@
+.manage-list ul li{
+    flex: 0 0 24%;
+}
+
+@media only screen and (max-width: 900px) {
+    .manage-list ul li {
+        flex: 0 0 32%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .manage-list ul li {
+        flex: 0 0 49%;
+    }
+}

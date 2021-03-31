@@ -2,8 +2,8 @@
     color: #06C167
 }
 
-.text-red{
-    color: #D64933;
+.text-popstar{
+    color: #B75D69;
 }
 
 .text-yellow{
@@ -12,30 +12,70 @@
 
 .bg-green{
     background-color: #06C167;
+    color: white;
 }
 
-.bg-red{
-    background-color: #D64933;
+.bg-popstar{
+    background-color: #B75D69;
     color: white;
 }
 
 .bg-yellow{
     background-color: #FFC043;
+    color: white;
 }
 
-.active{
+.bg-blue{
+    background-color: #74A4BC;
     color: white;
-    background-color: #06C167;
-    border-radius: 5%;
+}
+
+.search{
+    width: 70%;
 }
 
 .banner {
-    width: 80%;
+    width: 85%;
+}
+
+.banner-img{
+    width: 100%;
+    max-height: 600px;
+}
+
+img{
+    cursor: pointer;
+}
+
+.form-control.ng-touched.ng-valid {
+    border-left: 5px solid #06C167; 
+}
+  
+.form-control.ng-touched.ng-invalid {
+    border-left: 5px solid #D64933; 
+}
+
+.detail-wrapper{
+    display: flex;
+    align-items: stretch;
+}
+
+.restaurant-image{
+    width: 75%;
+    max-height: 400px;
+    margin-right: 1em;
 }
 
 @media only screen and (max-width: 900px) {
     div .card-body ul li {
         flex: 0 0 49%;
+    }
+    .detail-wrapper{
+        display: block;
+    }
+    .restaurant-image{
+        width: 100%;
+        height: 20em;
     }
 }
 
@@ -63,39 +103,6 @@
     padding: 0.2em;
 }
 
-.banner-dish-img{
-    width: 100%;
-    max-height: 600px;
-}
-
-.banner-restaurant-img{
-    width: 100%;
-    max-height: 500px;
-}
-
-.btn-green{
-    color: white;
-    background-color: #06C167;
-}
-
-.btn-yellow{
-    background-color: #FFC043;
-}
-
-.btn-red{
-    color: white;
-    background-color: #D64933;
-}
-
-.btn-teamblue{
-    color: white;
-    background-color: #477890;
-}
-
-.search{
-    width: 70%;
-}
-
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none;
@@ -111,7 +118,6 @@ input[type=number]::-webkit-outer-spin-button {
 app-filter{
     display: block;
 }
-
 
 .card-body ul {
     display: flex;
@@ -129,9 +135,6 @@ app-filter{
     padding: 0.75rem;
 }
 
-img{
-    cursor: pointer;
-}
 
 .list-item{
     padding: 0.3em;
@@ -142,10 +145,48 @@ img{
     width: 100%;
 }
 
-.ng-valid:not(form)  {
-    border-left: 5px solid #06C167; 
-  }
-  
-.ng-invalid:not(form)  {
-    border-left: 5px solid #D64933; 
+.ngx-pagination .current{
+    background: #B75D69 !important;
+}
+
+/*slider*/
+.custom-slider .ngx-slider .ngx-slider-bar {
+    background: #343A40;
+    height: 3px;
+}
+.custom-slider .ngx-slider .ngx-slider-selection {
+    background: #B75D69;
+}
+
+.custom-slider .ngx-slider .ngx-slider-pointer {
+    width: 12px;
+    height: 16px;
+    top: -7px;
+    background-color: #B75D69;
+}
+
+.custom-slider .ngx-slider .ngx-slider-pointer:after {
+    display: none;
+}
+
+.custom-slider .ngx-slider .ngx-slider-bubble {
+    bottom: 15px;
+}
+
+.custom-slider .ngx-slider .ngx-slider-limit {
+    font-weight: bold;
+    color: orange;
+}
+
+.custom-slider .ngx-slider .ngx-slider-tick {
+    width: 1px;
+    height: 16px;
+    margin-left: 5px;
+    border-radius: 0;
+    background: black;
+    top: -1px;
+}
+
+.custom-slider .ngx-slider .ngx-slider-tick.ngx-slider-selected {
+    background: rgb(0, 120, 155);
 }

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FoodDelivery.Entities.Enums;
+using FoodDelivery.Entities.Enums.Status;
 using MailKit.Net.Smtp;
 using MimeKit;
 
@@ -14,19 +14,38 @@ namespace FoodDelivery.Utilities.Managers
 			await SendMessage(email, subject, message);
 		}
 
-		public async Task SendRoleRequestStatusChangedAsync(string email, RoleRequestStatus roleRequestStatus)
+		public async Task SendOwnerRequestStatusChangedAsync(string email, OwnerRequestStatus ownerRequestStatus)
 		{
-			string subject = "Request status changed";
+			string subject = "Owner request status changed";
 			string message = "";
 
-			switch (roleRequestStatus)
+			switch (ownerRequestStatus)
 			{
-				case RoleRequestStatus.Approved:
-					message = "Congratulations, admin has APPROVED you owner status. " +
-						"You can add restaurants and dishes now";
+				case OwnerRequestStatus.Approved:
+					message = "Congratulations, your owner request status has been approved";
 					break;
-				case RoleRequestStatus.Denied:
-					message = "Unfortunately, admin has DENIED you owner status.";
+				case OwnerRequestStatus.Declined:
+					message = "Your owner request status has been declined, contact our administrator at admin@mailinator.com for details.";
+					break;
+			}
+
+			await SendMessage(email, subject, message);
+		}
+
+		public async Task SendRestaurantRequestStatusChangedAsync(string email,
+			string restaurantName, RestaurantRequestStatus restaurantRequestStatus)
+		{
+			string subject = "RestaurantRequest request status changed";
+			string message = "";
+
+			switch (restaurantRequestStatus)
+			{
+				case RestaurantRequestStatus.Approved:
+					message = $"Congratulations, restaurant request status for {restaurantName} has been approved.";
+					break;
+				case RestaurantRequestStatus.Declined:
+					message = $"Restaurant request status for {restaurantName} has been declined," +
+						$" contact our administrator at admin@mailinator.com for details.";
 					break;
 			}
 

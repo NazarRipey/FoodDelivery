@@ -1,5 +1,4 @@
 ﻿using System;
-using FoodDelivery.Entities.Enums;
 
 namespace FoodDelivery.Entities.DTO
 {
@@ -12,8 +11,8 @@ namespace FoodDelivery.Entities.DTO
 
 		public DateTime? ClosedDate { get; set; }
 
-		public RoleRequestStatus Status { get; set; }
+		public int Status { get; set; }
 
-		public virtual UserProfileDTO UserProfile { get; set; }
+		public virtual UserShortProfileDTO UserProfile { get; set; }
 	}
 }

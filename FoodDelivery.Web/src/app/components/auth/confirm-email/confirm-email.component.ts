@@ -1,8 +1,8 @@
-import { errorsEnum } from './../../../errors/errorsEnum';
-import { sendConfirmationCodeModel } from './../../../models/sendConfirmationCodeModel';
+import { authErrors } from '../../../models/enums/errors/authErrors';
+import { sendConfirmationCodeModel } from '../../../models/auth/sendConfirmationCodeModel';
 import { throwError } from 'rxjs';
-import { MessageComponent } from '../message/message.component';
-import { confirmEmailModel } from '../../../models/confirmEmailModel';
+import { MessageComponent } from '../../message/message.component';
+import { confirmEmailModel } from '../../../models/auth/confirmEmailModel';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,7 @@ export class ConfirmEmailComponent implements OnInit {
 
   email;
   message;
-  errorsEnum = errorsEnum;
+  errorsEnum = authErrors;
 
   constructor(public modalRef: NgbActiveModal,
     private modalService: NgbModal, 

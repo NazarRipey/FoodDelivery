@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { errorsEnum } from '../../../errors/errorsEnum';
+import { authErrors } from '../../../models/enums/errors/authErrors';
 import { throwError } from 'rxjs';
-import { userSignUpModel } from '../../../models/userSignUpModel';
+import { userSignUpModel } from '../../../models/auth/userSignUpModel';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { ConfirmEmailComponent } from '../confirm-email/confirm-email.component';
 import { LogInComponent } from '../log-in/log-in.component';
@@ -50,7 +50,7 @@ export class SignUpComponent implements OnInit {
     roles: new FormControl('', Validators.required)
   }, {validators: confirmPasswordValidator("password", "confirmPassword")});
 
-  errorsEnum = errorsEnum;
+  errorsEnum = authErrors;
 
   constructor(public modalRef: NgbActiveModal,
     private modalService: NgbModal,

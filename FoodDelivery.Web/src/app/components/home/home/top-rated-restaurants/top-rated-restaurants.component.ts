@@ -1,7 +1,8 @@
-import { restaurants } from '../../../../app.module';
-import { Restaurant } from '../../../../models/restaurant';
+import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
+import { imgSrc } from './../../../../app.module';
+import { RestaurantService } from './../../../../services/restaurant.service';
 import { Component, OnInit } from '@angular/core';
-import { Dish } from 'src/app/models/dish';
+import { dishListObject } from 'src/app/models/dish/dishListObject';
 
 @Component({
   selector: 'app-top-rated-restaurants',
@@ -9,11 +10,12 @@ import { Dish } from 'src/app/models/dish';
   styleUrls: ['./top-rated-restaurants.component.css']
 })
 export class TopRatedRestaurantsComponent implements OnInit {
-  constructor() { }
+  constructor(private restaurantService:RestaurantService) { }
 
-  restaurants: Restaurant[] = restaurants;
+  restaurants: restaurantDetailObject[];
+  imgSrc = imgSrc;
 
   ngOnInit(): void {
+    this.restaurantService.getTop().subscribe(r => this.restaurants = r);
   }
-
 }

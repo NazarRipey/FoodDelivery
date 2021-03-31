@@ -1,20 +1,27 @@
-<div class="modal-header d-block text-center bg-green text-white">
+<div class="modal-header d-block text-center bg-dark text-white">
     <button class="close" (click)="modalRef.close()">&times;</button>
-    <h4>Cart</h4>        
+    <h5>Add to cart</h5>        
 </div>
 
-<div class="container my-4">
-    <div class="wrapper d-flex align-items-stretch">
-        <img src="{{dish.imgSource}}" class="cartImage mr-2">
+<div class="container mt-2 mb-3">
+    <div class="my-2 text-right">
+        <button class="btn bg-popstar" (click)="ShowDetails()">Detail</button>
+    </div>
+    <div class="cart-wrapper">
+        <img src="{{imgSrc}}" class="cart-image mr-2">
         <div class="w-100 text-center">
-            <p class="lead"><b>{{dish.name}}</b> from <b>{{dish.restaurant.name}}</b></p>
+            <h2>{{dish.name}}</h2>
+            <div class="my-1">
+                <small>from</small> {{dish.restaurantName}}
+            </div>
             <p>{{dish.description}}</p>
             <p class="text-left">price: <b>{{dish.price}}₴</b></p>
             <p class="text-left">rating: <b>{{dish.rating}}/5</b></p>
+            <p class="text-left">weight: <b>{{dish.weight}}</b></p>
             <div>
-                <button (click)="Decrement()" [disabled]="itemCount==1" class="btn btn-green">-</button>
+                <button (click)="Decrement()" [disabled]="itemCount==1" class="btn bg-green">-</button>
                 <span class="mx-2">{{itemCount}}</span>
-                <button (click)="Increment()" class="btn btn-green">+</button>
+                <button (click)="Increment()" class="btn bg-green">+</button>
             </div>
         </div>    
     </div>
@@ -23,6 +30,15 @@
     <p class="text-right"><b>Total without delivery: {{itemCount * dish.price}}₴</b></p>
     <p class="text-right"><b>With delivery:{{itemCount * dish.price * 1.05}}₴</b></p>
 
-    <button class="btn btn-green text-center col-sm-8 d-block mx-auto">Add to cart</button>
+    <button (click)="AddToCart(dish.id, itemCount)" class="btn bg-green text-center col-sm-8 d-block mx-auto">
+        Add to cart
+    </button>
 
+    <div class="text-center my-3" *ngIf="added==true" [@fade]>
+        <b>
+            <p>Added <span class="text-green">{{addedQuantity}}</span> 
+                "<span class="text-green">{{dish.name}}</span>" to cart
+            </p>
+        </b>
+    </div>
 </div>

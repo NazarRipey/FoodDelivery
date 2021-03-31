@@ -1,14 +1,16 @@
 <div class='container-fluid mb-5'>   
-    <h4 class="text-red text-center"><b><i>Top rated restaurants</i></b></h4>
+    <h3 class="text-center"><i>Top rated restaurants</i></h3>
     <div class='banner mx-auto'>  
         <ngb-carousel>  
             <ng-template ngbSlide *ngFor="let restaurant of restaurants">  
-                <img src="{{restaurant.imgSource}}" alt= {{restaurant.name}} class="banner-restaurant-img">  
-                <div class="carousel-caption">  
-                    <h1>{{restaurant.name}}</h1>
-                    <h5>{{restaurant.description}}</h5>
-                    <h5 class="text-right">{{restaurant.rating}}/5</h5>
-                </div>  
+                <a [routerLink]="['/restaurants', restaurant.name]">
+                    <img src="{{imgSrc}}" alt={{restaurant.name}} class="banner-img">  
+                    <div class="carousel-caption">  
+                        <h1>{{restaurant.name}}</h1>
+                        <h5>{{restaurant.description}}</h5>
+                        <h5 class="text-right">{{restaurant.rating}}/5</h5>
+                    </div>  
+                </a>
             </ng-template> 
         </ngb-carousel>  
     </div>  
