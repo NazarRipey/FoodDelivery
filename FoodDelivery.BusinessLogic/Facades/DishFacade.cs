@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO;
-using FoodDelivery.Entities.Params;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.BusinessLogic.Facades
 {
 	public class DishFacade : IDishFacade
 	{
 		private readonly IDishRepository _dishRepository;
+		private readonly IDishCategoryRepository _dishCategoryRepository;
 
-		public DishFacade(IDishRepository dishRepository)
+		public DishFacade(IDishRepository dishRepository, IDishCategoryRepository dishCategoryRepository)
 		{
 			_dishRepository = dishRepository;
+			_dishCategoryRepository = dishCategoryRepository;
 		}
 
 		public void Create(DishDTO dishDTO)
@@ -20,22 +23,22 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_dishRepository.Create(dishDTO);
 		}
 
-		public ICollection<DishDTO> GetAll(DishParams dishFilter = null)
+		public DishListResponseDTO Retrieve(DishFilterParams filterParams)
 		{
-			return _dishRepository.GetAll(dishFilter);
+			return _dishRepository.Retrieve(filterParams);
 		}
 
-		public DishDTO GetByNameWithinRestaurant(string name, Guid restaurantId)
+		public DishListDTO GetByNameWithinRestaurant(string name, Guid restaurantId)
 		{
 			return _dishRepository.GetByNameWithinRestaurant(name, restaurantId);
 		}
 
 		public ICollection<DishCategoryDTO> GetCategories()
 		{
-			return _dishRepository.GetCategories();
+			return _dishCategoryRepository.GetCategories();
 		}
 
-		public ICollection<DishDTO> GetTop(int count)
+		public ICollection<DishListDTO> GetTop(int count)
 		{
 			return _dishRepository.GetTop(count);
 		}
@@ -48,6 +51,26 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public void Update(DishDTO dishDTO)
 		{
 			_dishRepository.Update(dishDTO);
+		}
+
+		public DishCartDTO GetCartDTOById(Guid id)
+		{
+			return _dishRepository.GetCartDTOById(id);
+		}
+
+		public void Deactivate(Guid id)
+		{
+			_dishRepository.UpdateStatus(id, (int)DishStatus.Inactive);
+		}
+
+		public void Activate(Guid id)
+		{
+			_dishRepository.UpdateStatus(id, (int)DishStatus.Active);
+		}
+
+		public DishDetailDTO GetDetailDTOById(Guid id)
+		{
+			return _dishRepository.GetDetailDTOById(id);
 		}
 	}
 }

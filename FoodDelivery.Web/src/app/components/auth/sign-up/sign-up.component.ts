@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { authErrors } from '../../../errors/authErrors';
+import { authErrors } from '../../../models/enums/errors/authErrors';
 import { throwError } from 'rxjs';
 import { userSignUpModel } from '../../../models/auth/userSignUpModel';
 import { AuthenticationService } from '../../../services/authentication.service';

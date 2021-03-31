@@ -1,8 +1,9 @@
+import { dishObject } from '../../../models/dish/dishObject';
 import { DishService } from './../../../services/dish.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { dish } from 'src/app/models/dish/dish';
-import { dishErrors } from './../../../errors/dishErrors';
+import { dishListObject } from 'src/app/models/dish/dishListObject';
+import { dishErrors } from '../../../models/enums/errors/dishErrors';
 import { dishCategory } from './../../../models/dish/dishCategory';
 import { Guid } from 'guid-typescript';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpdateDishComponent implements OnInit {
   categories: dishCategory[];
-  dish: dish;
+  dish: dishObject;
   dishErrors = dishErrors;
 
   updateDishForm = new FormGroup({
@@ -47,7 +48,7 @@ export class UpdateDishComponent implements OnInit {
   }
 
   onSubmit(){
-    const dish :dish = {
+    const dish :dishObject = {
       id: this.dish.id,
       name: this.updateDishForm.get('name').value,
       description: this.updateDishForm.get('description').value,
@@ -60,7 +61,7 @@ export class UpdateDishComponent implements OnInit {
     this.dishService.updateRestaurant(dish).subscribe(
       _ => {
         this.modalRef.close();
-        location.reload();
+        document.location.reload();
       },
       err => {
         this.updateDishForm.setErrors({"server": +err.error});

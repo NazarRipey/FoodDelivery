@@ -3,7 +3,7 @@
     <div class='banner mx-auto'>  
         <ngb-carousel>  
             <ng-template ngbSlide *ngFor="let dish of dishes">  
-                <img src="{{imgSrc}}" alt={{dish.name}} (click)="openAddToCart(dish)" class="banner-img">  
+                <img src="{{imgSrc}}" alt={{dish.name}} (click)="openAddToCart(dish.id)" class="banner-img">  
                 <div class="carousel-caption">  
                     <h1>{{dish.name}}</h1>
                     <h5>{{dish.price}}₴</h5>

@@ -144,3 +144,49 @@ app-filter{
 .list-image{
     width: 100%;
 }
+
+.ngx-pagination .current{
+    background: #B75D69 !important;
+}
+
+/*slider*/
+.custom-slider .ngx-slider .ngx-slider-bar {
+    background: #343A40;
+    height: 3px;
+}
+.custom-slider .ngx-slider .ngx-slider-selection {
+    background: #B75D69;
+}
+
+.custom-slider .ngx-slider .ngx-slider-pointer {
+    width: 12px;
+    height: 16px;
+    top: -7px;
+    background-color: #B75D69;
+}
+
+.custom-slider .ngx-slider .ngx-slider-pointer:after {
+    display: none;
+}
+
+.custom-slider .ngx-slider .ngx-slider-bubble {
+    bottom: 15px;
+}
+
+.custom-slider .ngx-slider .ngx-slider-limit {
+    font-weight: bold;
+    color: orange;
+}
+
+.custom-slider .ngx-slider .ngx-slider-tick {
+    width: 1px;
+    height: 16px;
+    margin-left: 5px;
+    border-radius: 0;
+    background: black;
+    top: -1px;
+}
+
+.custom-slider .ngx-slider .ngx-slider-tick.ngx-slider-selected {
+    background: rgb(0, 120, 155);
+}

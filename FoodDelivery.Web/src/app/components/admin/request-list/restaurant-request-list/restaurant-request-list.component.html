@@ -1,0 +1,94 @@
+<div class="row d-flex mb-3 mt-2">
+  <div class="input-group search mx-auto">
+      <input type="search" #search class="form-control" (keyup.enter)="onSearch(search.value)"
+       placeholder="John Doe" value="{{requestFilterParams.search}}"/>
+      <button type="button" class="btn bg-popstar" (click)="onSearch(search.value)">
+          <i class="bi bi-search"></i>
+      </button>
+  </div>
+
+  <div ngbDropdown>
+      <button class="btn btn-outline-primary" id="sortDropDown" class="btn bg-popstar"
+      ngDefaultControl 
+       ngbDropdownToggle>{{selectedStatus}}</button>
+      <div ngbDropdownMenu aria-labelledby="sortDropDown">
+          <a ngbDropdownItem [queryParams]="{status:null}" queryParamsHandling='merge' [routerLink]="[]">All</a>
+          <a ngbDropdownItem *ngFor="let status of statuses | enumKeys"
+              [queryParams]="{status:status}" queryParamsHandling='merge' [routerLink]="[]">
+              {{status}}</a>
+      </div>
+  </div>  
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th (click)="nameSort=!nameSort" scope="col" [queryParams]="{sort:sortTypes.Name, asc:nameSort}"
+           queryParamsHandling='merge' [routerLink]="[]">
+            Name 
+          </th>
+          <th (click)="typeSort=!typeSort" scope="col" [queryParams]="{sort:sortTypes.Type, asc:typeSort}"
+            queryParamsHandling='merge' [routerLink]="[]">
+            Type 
+          </th>
+          <th (click)="ownerNameSort=!ownerNameSort" scope="col" 
+            [queryParams]="{sort:sortTypes.OwnerName, asc:ownerNameSort}" queryParamsHandling='merge' 
+            [routerLink]="[]">
+            Owner name
+          </th>
+          <th (click)="emailSort=!emailSort" scope="col" [queryParams]="{sort:sortTypes.Email, asc:emailSort}"
+            queryParamsHandling='merge' [routerLink]="[]">
+            Email
+          </th>
+          <th (click)="phoneSort=!phoneSort" scope="col" [queryParams]="{sort:sortTypes.PhoneNumber, asc:phoneSort}"
+            queryParamsHandling='merge' [routerLink]="[]">
+            Phone number
+          </th>
+          <th (click)="createdDateSort=!createdDateSort" scope="col" 
+            [queryParams]="{sort:sortTypes.CreatedDate, asc:createdDateSort}"
+            queryParamsHandling='merge' [routerLink]="[]">
+            Created date
+          </th>
+          <th (click)="closedDateSort=!closedDateSort" scope="col" 
+            [queryParams]="{sort:sortTypes.ClosedDate, asc:closedDateSort}"
+            queryParamsHandling='merge' [routerLink]="[]">
+            Closed date
+          </th>
+          <th (click)="statusSort=!statusSort" scope="col" [queryParams]="{sort:sortTypes.Status, asc:statusSort}"
+            queryParamsHandling='merge' [routerLink]="[]">
+            Status
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of requestResponse.restaurantRequests| paginate: config">
+          <td>{{request.name}}</td>
+          <td>{{request.type.name}}</td>
+          <td>{{request.userProfile.fullName}}</td>
+          <td>{{request.userProfile.email}}</td>
+          <td>{{request.userProfile.phoneNumber}}</td>
+          <td>{{request.createdDate}}</td>
+          <td>{{request.closedDate}}</td>
+          <td>{{statuses[request.status]}}</td>
+          <td>
+            <button title="Approve" (click)="Approve(request.id)" class="btn btn-sm bg-green"
+              [disabled]="statuses[request.status]==statuses[statuses.Approved]">
+              <i class="bi bi-check"></i>
+            </button>
+          </td>
+          <td>
+            <button title="Decline" (click)="Decline(request.id)" class="btn btn-sm btn-danger"
+              [disabled]="statuses[request.status]==statuses[statuses.Declined]">
+              <i class="bi bi-x"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>  
+</div>
+<div class="text-center pb-0 pt-3">
+  <pagination-controls 
+      (pageChange)="pageChanged($event)">
+  </pagination-controls>
+</div>

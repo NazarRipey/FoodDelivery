@@ -1,12 +1,14 @@
+import { MessageComponent } from './../../message/message.component';
+
 import { userHelper } from './../../../helpers/userHelper';
 import { imgSrc } from './../../../app.module';
-import { restaurantErrors } from './../../../errors/restaurantErrors';
+import { restaurantErrors } from '../../../models/enums/errors/restaurantErrors';
 import { RestaurantService } from './../../../services/restaurant.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { restaurantType } from '../../../models/restaurant/restaurantType';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { restaurant } from 'src/app/models/restaurant/restaurant';
+import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
 
 @Component({
   selector: 'app-add-restaurant',
@@ -35,7 +37,8 @@ export class AddRestaurantComponent implements OnInit {
   constructor(public modalRef: NgbActiveModal,
     private fb: FormBuilder,
     private restaurantService: RestaurantService,
-    private userHelper: userHelper){
+    private userHelper: userHelper,
+    private modalService:NgbModal){
   }
 
   ngOnInit(): void {
@@ -68,7 +71,7 @@ export class AddRestaurantComponent implements OnInit {
   }
 
   onSubmit(){
-    const restaurant :restaurant = {
+    const restaurant :restaurantDetailObject = {
       ownerId: this.userHelper.profile.id,
       name: this.addRestaurantForm.get('name').value,
       description: this.addRestaurantForm.get('description').value,
@@ -80,6 +83,10 @@ export class AddRestaurantComponent implements OnInit {
       _ => {
         this.modalRef.close();
         location.reload();
+
+        let msg = "Restaurant request has been successfully added. You will be able to add dishes once the request is approved";        
+        const modal = this.modalService.open(MessageComponent);
+        modal.componentInstance.message = msg;
       },
       err => {
         this.addRestaurantForm.setErrors({"server": +err.error});

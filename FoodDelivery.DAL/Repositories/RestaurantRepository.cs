@@ -5,6 +5,9 @@ using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.Enums.Sorts;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDelivery.DAL.Repositories
@@ -15,119 +18,147 @@ namespace FoodDelivery.DAL.Repositories
 			: base(db, mapper)
 		{ }
 
-		public void AddAddress(RestaurantAddressDTO restaurantAddressDTO)
-		{
-			RestaurantAddress restaurantAddress = _mapper.Map<RestaurantAddress>(restaurantAddressDTO);
-			_db.RestaurantAddress.Add(restaurantAddress);
-
-			_db.SaveChanges();
-		}
-
-		public void Create(RestaurantDTO restaurantDTO)
+		public void Create(RestaurantDetailDTO restaurantDTO)
 		{
 			Restaurant restaurant = _mapper.Map<Restaurant>(restaurantDTO);
 
-			//Занулення navigation property для того щоб вони повторно не вставлялись????
+			restaurant.Status = (int)RestaurantStatus.AwaitingApproval;
+			//занулення щоб не додавалось в бд, в мапері не працює
 			restaurant.Type = null;
-
 			_db.Restaurant.Add(restaurant);
 
-			_db.SaveChanges();
+			SaveChanges();
 		}
 
-		public ICollection<RestaurantDTO> GetAll()
+		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
 		{
-			ICollection<RestaurantDTO> restaurantDTOs =
-				_mapper.Map<ICollection<RestaurantDTO>>(_db.Restaurant
-					.Include(r => r.Type));
+			int totalItemsCount;
+			IQueryable<Restaurant> restaurants = _db.Restaurant.Where(r => r.Status == (int)RestaurantStatus.Active);
 
-			return restaurantDTOs;
+			if (filterParams.Search != null)
+			{
+				restaurants = restaurants
+					.Where(r => r.Name.Contains(filterParams.Search) || r.Description.Contains(filterParams.Search));
+			}
+			if (filterParams.Types.Count > 0)
+			{
+				restaurants = restaurants.Where(r => filterParams.Types.Contains(r.Type.Name));
+
+			}
+
+			totalItemsCount = restaurants.Count();
+
+			switch (filterParams.RestaurantSortType)
+			{
+				case RestaurantSortType.Name:
+					restaurants = restaurants.OrderBy(r => r.Name);
+					break;
+				case RestaurantSortType.Rating:
+				default:
+					restaurants = restaurants.OrderBy(r => r.Rating);
+					break;
+			}
+
+			ICollection<Restaurant> restaurantsToReturn = restaurants
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<RestaurantListDTO> restaurantDTOs =
+				_mapper.Map<ICollection<RestaurantListDTO>>(restaurantsToReturn);
+
+			RestaurantListResponseDTO restaurantListResponseDTO = new RestaurantListResponseDTO()
+			{
+				Restaurants = restaurantDTOs,
+				TotalRestaurantsCount = totalItemsCount
+			};
+
+			return restaurantListResponseDTO;
 		}
 
 		public ICollection<string> GetAllNames()
 		{
-			ICollection<string> names = _db.Restaurant.Select(r => r.Name).ToList();
+			ICollection<string> names = _db.Restaurant
+				.Where(r => r.Status == (int)RestaurantStatus.Active)
+				.Select(r => r.Name)
+				.ToList();
 
 			return names;
 		}
 
-		public RestaurantDTO GetByName(string name)
+		public RestaurantDetailDTO GetByName(string name)
 		{
 			Restaurant restaurant = _db.Restaurant.
 				Where(r => r.Name == name)
 				.Include(r => r.Addresses)
 				.Include(r => r.Type)
 				.Include(r => r.Dishes)
-					.ThenInclude(d => d.Restaurant)
 				.SingleOrDefault();
 
-			RestaurantDTO restaurantDTO = _mapper.Map<RestaurantDTO>(restaurant);
+			RestaurantDetailDTO restaurantDTO = _mapper.Map<RestaurantDetailDTO>(restaurant);
 
 			return restaurantDTO;
 		}
 
-		public ICollection<RestaurantDTO> GetMyRestaurants(Guid ownerId)
+		public RestaurantDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
 		{
-			List<Restaurant> myRestaurants = _db.Restaurant.Where(r => r.OwnerId == ownerId)
-				.Include(r => r.Type)
-				.Include(r => r.Addresses)
-				.Include(r => r.Dishes)
+			int totalItemsCount;
+
+			IQueryable<Restaurant> restaurants = _db.Restaurant.Where(r => r.OwnerId == ownerId);
+
+			totalItemsCount = restaurants.Count();
+
+			ICollection<Restaurant> restaurantsToReturn = restaurants
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
 				.ToList();
 
-			ICollection<RestaurantDTO> restaurantDTOs =
-				_mapper.Map<ICollection<RestaurantDTO>>(myRestaurants);
+			ICollection<RestaurantDetailDTO> restaurantDetailDTOs =
+				_mapper.Map<ICollection<RestaurantDetailDTO>>(restaurantsToReturn);
 
-			return restaurantDTOs;
+			RestaurantDetailResponseDTO restaurantDetailResponseDTO = new RestaurantDetailResponseDTO()
+			{
+				TotalRestaurantsCount = totalItemsCount,
+				Restaurants = restaurantDetailDTOs
+			};
+
+			return restaurantDetailResponseDTO;
 		}
 
-		public string GetNameById(Guid id)
-		{
-			string name = _db.Restaurant.Find(id).Name;
-
-			return name;
-		}
-
-		public ICollection<RestaurantDTO> GetTop(int count)
+		public ICollection<RestaurantListDTO> GetTop(int count)
 		{
 			List<Restaurant> topRestaurants = _db.Restaurant
 				.OrderBy(r => r.Rating)
 				.Take(count)
-				.Include(r => r.Type)
 				.ToList();
 
-			ICollection<RestaurantDTO> topRestaurantsDTOs = _mapper
-				.Map<ICollection<RestaurantDTO>>(topRestaurants);
+			ICollection<RestaurantListDTO> topRestaurantsDTOs = _mapper
+				.Map<ICollection<RestaurantListDTO>>(topRestaurants);
 
 			return topRestaurantsDTOs;
 		}
 
-		public ICollection<RestaurantTypeDTO> GetTypes()
-		{
-			ICollection<RestaurantTypeDTO> restaurantTypeDTOs =
-				_mapper.Map<ICollection<RestaurantTypeDTO>>(_db.RestaurantType);
-
-			return restaurantTypeDTOs;
-		}
-
-		public void RemoveAddress(Guid restaurantAddressId)
-		{
-			RestaurantAddress restaurantAddress = _db.RestaurantAddress.Find(restaurantAddressId);
-			_db.RestaurantAddress.Remove(restaurantAddress);
-
-			_db.SaveChanges();
-		}
-
-		public void RemoveRestaurant(Guid restaurantId)
+		public void Remove(Guid restaurantId)
 		{
 			Restaurant restaurant = _db.Restaurant.Find(restaurantId);
 			_db.Restaurant.Remove(restaurant);
 
-			_db.SaveChanges();
+			SaveChanges();
 		}
 
-		public void Update(RestaurantDTO restaurantDTO)
+		public void Update(RestaurantDetailDTO restaurantDTO)
 		{
 			Restaurant restaurant = _mapper.Map<Restaurant>(restaurantDTO);
+			_db.Entry(restaurant).State = EntityState.Modified;
+
+			SaveChanges();
+		}
+
+		public void UpdateStatus(Guid id, int statusId)
+		{
+			Restaurant restaurant = _db.Restaurant.Find(id);
+			restaurant.Status = statusId;
+
 			_db.Entry(restaurant).State = EntityState.Modified;
 
 			SaveChanges();

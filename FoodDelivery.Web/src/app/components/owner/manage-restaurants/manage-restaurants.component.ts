@@ -1,13 +1,19 @@
+import { dishStatus } from './../../../models/enums/statuses/dishStatus';
+import { restaurantStatus } from './../../../models/enums/statuses/restaurantStatus';
+import { myRestaurantFilterParams } from './../../../models/filters/myRestaurantFilterParams';
+import { restaurantDetailResponse } from './../../../models/restaurant/restaurantDetailResponse';
+import { ownerRequestStatus } from './../../../models/enums/statuses/ownerRequestStatus';
+import { dishObject } from '../../../models/dish/dishObject';
 import { DishService } from './../../../services/dish.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { paginationConfig } from './../../../models/paginationConfig';
-import { dish } from 'src/app/models/dish/dish';
+import { dishListObject } from 'src/app/models/dish/dishListObject';
 import { UpdateDishComponent } from './../update-dish/update-dish.component';
 import { AddDishComponent } from './../add-dish/add-dish.component';
 import { Guid } from 'guid-typescript';
 import { AddAddressComponent } from './../add-address/add-address.component';
 import { restaurantAddress } from './../../../models/restaurant/restaurantAddress';
-import { restaurant } from 'src/app/models/restaurant/restaurant';
+import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
 import { UpdateRestaurantComponent } from './../update-restaurant/update-restaurant.component';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { imgSrc } from './../../../app.module';
@@ -22,10 +28,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./manage-restaurants.component.css']
 })
 export class ManageRestaurantsComponent implements OnInit {
-
   imgSrc = imgSrc;
-  restaurants: restaurant[];
+
   config: paginationConfig = new paginationConfig();
+  restaurantResponse: restaurantDetailResponse = new restaurantDetailResponse();
+  myRestaurantFilterParams : myRestaurantFilterParams = new myRestaurantFilterParams();
+
+  ownerRequestStatus = ownerRequestStatus;
+  restaurantStatus = restaurantStatus;
+  dishStatus = dishStatus;
 
   constructor(public userHelper:userHelper, 
     private modalService: NgbModal,
@@ -40,20 +51,26 @@ export class ManageRestaurantsComponent implements OnInit {
       this.config.itemsPerPage = 1;
     });   
 
+    this.myRestaurantFilterParams.currentPage = this.config.currentPage;
+    this.myRestaurantFilterParams.itemsPerPage = this.config.itemsPerPage;
+
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
-    this.restaurantService.getMyRestaurants().subscribe(r => this.restaurants = r);
+
+    this.restaurantService.retrieveMyRestaurants(this.myRestaurantFilterParams).subscribe(r => {
+      this.restaurantResponse = r;
+      this.config.totalItems = r.totalRestaurantsCount;
+    });
   }
 
   addRestaurant(){
-    console.log(this.restaurants[0].dishes[0]);
     this.modalService.open(AddRestaurantComponent);
   }
 
-  addAddress(rs: restaurant){
+  addAddress(restaurantId: Guid){
     const modal = this.modalService.open(AddAddressComponent);
-    modal.componentInstance.restaurantId = rs.id; 
+    modal.componentInstance.restaurantId = restaurantId; 
   }
 
   addDish(restaurantId: Guid){
@@ -77,12 +94,12 @@ export class ManageRestaurantsComponent implements OnInit {
     });
   }
 
-  updateRestaurant(restaurant: restaurant){
+  updateRestaurant(restaurant: restaurantDetailObject){
     const modal = this.modalService.open(UpdateRestaurantComponent);
     modal.componentInstance.restaurant = restaurant;  
   }
 
-  updateDish(dish: dish){
+  updateDish(dish: dishObject){
     const modal = this.modalService.open(UpdateDishComponent);
     modal.componentInstance.dish = dish;  
   }
@@ -97,5 +114,29 @@ export class ManageRestaurantsComponent implements OnInit {
 
   pageChanged(event){
     this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
+  }
+
+  Activate(id: Guid){
+    this.restaurantService.activate(id).subscribe( _ => {
+      location.reload();
+    });
+  }
+
+  Stop(id: Guid){
+    this.restaurantService.stop(id).subscribe( _ => {
+      location.reload();
+    });    
+  }
+
+  ActivateDish(id: Guid){
+    this.dishSerivce.activate(id).subscribe( _ => {
+      location.reload();
+    });
+  }
+
+  StopDish(id: Guid){
+    this.dishSerivce.stop(id).subscribe( _ => {
+      location.reload();
+    });    
   }
 }

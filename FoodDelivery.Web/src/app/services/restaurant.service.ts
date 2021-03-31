@@ -1,4 +1,8 @@
-import { restaurant } from 'src/app/models/restaurant/restaurant';
+import { restaurantDetailResponse } from './../models/restaurant/restaurantDetailResponse';
+import { myRestaurantFilterParams } from './../models/filters/myRestaurantFilterParams';
+import { restaurantListResponse } from './../models/restaurant/restaurantListResponse';
+import { restaurantFilterParams } from './../models/filters/restaurantFilterParams';
+import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
 import { Guid } from 'guid-typescript';
 import { restaurantAddress } from './../models/restaurant/restaurantAddress';
 import { Observable } from 'rxjs';
@@ -21,9 +25,9 @@ export class RestaurantService {
     return this.http.get<restaurantType[]>(url);
   }
 
-  public getAll(): Observable<restaurant[]>{
-    const url = this.restaurantUrl;
-    return this.http.get<restaurant[]>(url);
+  public retrieve(restaurantFilterParams:restaurantFilterParams): Observable<restaurantListResponse>{
+    const url = this.restaurantUrl + "retrieve";
+    return this.http.post<restaurantListResponse>(url, restaurantFilterParams);
   }
 
   public getAllNames(): Observable<string[]>{
@@ -31,48 +35,53 @@ export class RestaurantService {
     return this.http.get<string[]>(url);
   }
 
-  public getByName(name: string): Observable<restaurant>{
+  public getByName(name: string): Observable<restaurantDetailObject>{
     const url = this.restaurantUrl + name;
-    return this.http.get<restaurant>(url);
+    return this.http.get<restaurantDetailObject>(url);
   }
 
-  public getTop(): Observable<restaurant[]>{
+  public getTop(): Observable<restaurantDetailObject[]>{
     const url = this.restaurantUrl + "top";
-    return this.http.get<restaurant[]>(url);
+    return this.http.get<restaurantDetailObject[]>(url);
   }
 
-  public getNameById(id: Guid){
-    const url = this.restaurantUrl + `getname/${id}`;
-    return this.http.get(url, {responseType: 'text'});
-  }
-
-  public getMyRestaurants(): Observable<restaurant[]>{
+  public retrieveMyRestaurants(filterParams: myRestaurantFilterParams): Observable<restaurantDetailResponse>{
     const url = this.restaurantUrl + "myrestaurants";
-    return this.http.get<restaurant[]>(url, { withCredentials: true });
+    return this.http.post<restaurantDetailResponse>(url, filterParams, { withCredentials: true });
   }
 
-  public addRestaurant(restaurant: restaurant){
+  public addRestaurant(restaurant: restaurantDetailObject){
     const url = this.restaurantUrl + "add";
-    return this.http.post<restaurant>(url, restaurant, { withCredentials: true });
+    return this.http.post<restaurantDetailObject>(url, restaurant, { withCredentials: true });
   }
 
   public addAddress(restaurantAddress: restaurantAddress){
     const url = this.restaurantUrl + "address";
-    return this.http.post<restaurant>(url, restaurantAddress, { withCredentials: true });
+    return this.http.post<restaurantDetailObject>(url, restaurantAddress, { withCredentials: true });
   }
 
-  public updateRestaurant(restaurant:restaurant){
+  public updateRestaurant(restaurant:restaurantDetailObject){
     const url = this.restaurantUrl;
-    return this.http.put<restaurant>(url, restaurant, { withCredentials: true });
+    return this.http.put<restaurantDetailObject>(url, restaurant, { withCredentials: true });
   }
 
   public removeAddress(restaurantAddressId: Guid){
     const url = this.restaurantUrl + `address/${restaurantAddressId}`;
-    return this.http.delete<restaurant>(url, { withCredentials: true });
+    return this.http.delete<restaurantDetailObject>(url, { withCredentials: true });
   }
 
   public removeRestaurant(restaurantId: Guid){
     const url = this.restaurantUrl + `${restaurantId}`;
-    return this.http.delete<restaurant>(url, { withCredentials: true });
+    return this.http.delete<restaurantDetailObject>(url, { withCredentials: true });
+  }
+
+  public stop(id: Guid){
+    const url = this.restaurantUrl + "deactivate";
+    return this.http.post(url, JSON.stringify(id), { withCredentials: true, headers: {'Content-Type': 'application/json' } });
+  }
+
+  public activate(id: Guid){
+    const url = this.restaurantUrl + "activate";
+    return this.http.post(url, JSON.stringify(id), { withCredentials: true, headers: {'Content-Type': 'application/json' } });
   }
 }

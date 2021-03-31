@@ -14,8 +14,11 @@ namespace FoodDelivery.DAL.EF.Entities
 		public double Weight { get; set; }
 		public double? Rating { get; set; }
 
+		public int Status { get; set; }
+
 		[ForeignKey("Category")]
 		public int CategoryId { get; set; }
+
 
 		[ForeignKey("Restaurant")]
 		public Guid RestaurantId { get; set; }

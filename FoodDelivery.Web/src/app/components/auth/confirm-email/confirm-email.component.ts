@@ -1,7 +1,7 @@
-import { authErrors } from '../../../errors/authErrors';
+import { authErrors } from '../../../models/enums/errors/authErrors';
 import { sendConfirmationCodeModel } from '../../../models/auth/sendConfirmationCodeModel';
 import { throwError } from 'rxjs';
-import { MessageComponent } from '../message/message.component';
+import { MessageComponent } from '../../message/message.component';
 import { confirmEmailModel } from '../../../models/auth/confirmEmailModel';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';

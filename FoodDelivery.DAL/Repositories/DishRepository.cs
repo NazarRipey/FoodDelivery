@@ -5,7 +5,9 @@ using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
-using FoodDelivery.Entities.Params;
+using FoodDelivery.Entities.Enums.Sorts;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDelivery.DAL.Repositories
@@ -19,73 +21,134 @@ namespace FoodDelivery.DAL.Repositories
 		public void Create(DishDTO dishDTO)
 		{
 			Dish dish = _mapper.Map<Dish>(dishDTO);
+			dish.Status = (int)DishStatus.Active;
 
-
-			//Занулення navigation property
-			//?????
+			//занулення щоб не додавалось в бд, в мапері не працює
 			dish.Category = null;
-			dish.Restaurant = null;
-
-
 			_db.Dish.Add(dish);
 
-			_db.SaveChanges();
+			SaveChanges();
 		}
 
-		public ICollection<DishDTO> GetAll(DishParams dishParam = null)
+		public DishCartDTO GetCartDTOById(Guid id)
 		{
-			IQueryable<Dish> dishes = _db.Dish;
+			Dish dish = _db.Dish.Find(id);
+			DishCartDTO dishCartDTO = _mapper.Map<DishCartDTO>(dish);
 
-			if (dishParam != null)
+			return dishCartDTO;
+		}
+
+		public DishDetailDTO GetDetailDTOById(Guid id)
+		{
+			Dish dish = _db.Dish.Find(id);
+			DishDetailDTO dishDetailDTO = _mapper.Map<DishDetailDTO>(dish);
+
+			return dishDetailDTO;
+		}
+
+		public DishListResponseDTO Retrieve(DishFilterParams filterParams)
+		{
+			int totalItemsCount;
+			decimal? maxPrice = null, minPrice = null;
+
+			IQueryable<Dish> dishes = _db.Dish.Where(d => d.Status == (int)DishStatus.Active
+				&& d.Restaurant.Status == (int)RestaurantStatus.Active);
+
+			if (dishes.Count() != 0)
 			{
-				if (dishParam.Search != null)
-				{
-					dishes = dishes
-						.Where(d => d.Name.Contains(dishParam.Search) || d.Description.Contains(dishParam.Search));
-				}
-
-				if (dishParam.Categories.Count > 0)
-				{
-					dishes = dishes.Where(d => dishParam.Categories.Contains(d.Category.Name));
-				}
-				if (dishParam.Restaurants.Count > 0)
-				{
-					dishes = dishes.Where(d => dishParam.Restaurants.Contains(d.Restaurant.Name));
-				}
+				minPrice = dishes.Min(dishes => dishes.Price);
+				maxPrice = dishes.Max(dishes => dishes.Price);
 			}
 
-			ICollection<DishDTO> dishDTOs = _mapper.Map<ICollection<DishDTO>>(dishes);
+			if (filterParams.Search != null)
+			{
+				dishes = dishes
+					.Where(d => d.Name.Contains(filterParams.Search) || d.Description.Contains(filterParams.Search));
+			}
+			if (filterParams.Categories.Count > 0)
+			{
+				dishes = dishes.Where(d => filterParams.Categories.Contains(d.Category.Name));
+			}
+			if (filterParams.Restaurants.Count > 0)
+			{
+				dishes = dishes.Where(d => filterParams.Restaurants.Contains(d.Restaurant.Name));
+			}
+			if (filterParams.MinPrice != null)
+			{
+				dishes = dishes.Where(d => d.Price >= filterParams.MinPrice);
+			}
+			if (filterParams.MaxPrice != null)
+			{
+				dishes = dishes.Where(d => d.Price <= filterParams.MaxPrice);
+			}
 
-			return dishDTOs;
+			switch (filterParams.DishSortType)
+			{
+				case DishSortType.CheapFirst:
+					dishes = dishes.OrderBy(d => d.Price);
+					break;
+				case DishSortType.ExpensiveFirst:
+					dishes = dishes.OrderByDescending(d => d.Price);
+					break;
+				case DishSortType.Name:
+					dishes = dishes.OrderBy(d => d.Name);
+					break;
+				case DishSortType.Weight:
+					dishes = dishes.OrderByDescending(d => d.Weight);
+					break;
+				case DishSortType.Rating:
+				default:
+					dishes = dishes.OrderBy(d => d.Rating);
+					break;
+			}
+
+			totalItemsCount = dishes.Count();
+
+			ICollection<Dish> dishesToReturn = dishes
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<DishListDTO> dishDTOs = _mapper.Map<ICollection<DishListDTO>>(dishesToReturn);
+
+			DishListResponseDTO dishListResponseDTO = new DishListResponseDTO()
+			{
+				Dishes = dishDTOs,
+				TotalDishesCount = totalItemsCount,
+				MinPrice = minPrice,
+				MaxPrice = maxPrice
+			};
+
+			return dishListResponseDTO;
 		}
 
-		public DishDTO GetByNameWithinRestaurant(string name, Guid restaurantId)
+		public DishListDTO GetByNameWithinRestaurant(string name, Guid restaurantId)
 		{
 			Dish dish = _db.Dish.Where(d => d.RestaurantId == restaurantId && d.Name == name).SingleOrDefault();
-			DishDTO dishDTO = _mapper.Map<DishDTO>(dish);
+			DishListDTO dishDTO = _mapper.Map<DishListDTO>(dish);
 
 			return dishDTO;
 		}
 
-		public ICollection<DishCategoryDTO> GetCategories()
-		{
-			ICollection<DishCategoryDTO> dishCategoryDTOs =
-				_mapper.Map<ICollection<DishCategoryDTO>>(_db.DishCategory);
-
-			return dishCategoryDTOs;
-		}
-
-		public ICollection<DishDTO> GetTop(int count)
+		public ICollection<DishListDTO> GetTop(int count)
 		{
 			List<Dish> topDishes = _db.Dish
 				.OrderBy(d => d.Rating)
 				.Take(count)
 				.ToList();
 
-			ICollection<DishDTO> topDishDTOs = _mapper
-				.Map<ICollection<DishDTO>>(topDishes);
+			ICollection<DishListDTO> topDishDTOs = _mapper
+				.Map<ICollection<DishListDTO>>(topDishes);
 
 			return topDishDTOs;
+		}
+
+		public void Update(DishDTO dishDTO)
+		{
+			Dish dish = _mapper.Map<Dish>(dishDTO);
+			_db.Entry(dish).State = EntityState.Modified;
+
+			SaveChanges();
 		}
 
 		public void Remove(Guid id)
@@ -93,12 +156,14 @@ namespace FoodDelivery.DAL.Repositories
 			Dish dish = _db.Dish.Find(id);
 			_db.Dish.Remove(dish);
 
-			_db.SaveChanges();
+			SaveChanges();
 		}
 
-		public void Update(DishDTO dishDTO)
+		public void UpdateStatus(Guid id, int status)
 		{
-			Dish dish = _mapper.Map<Dish>(dishDTO);
+			Dish dish = _db.Dish.Find(id);
+			dish.Status = status;
+
 			_db.Entry(dish).State = EntityState.Modified;
 
 			SaveChanges();

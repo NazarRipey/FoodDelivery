@@ -25,12 +25,14 @@ namespace FoodDelivery.DAL.Repositories
 		public void Create(UserProfile userProfile)
 		{
 			_db.UserProfile.Add(userProfile);
-			_db.SaveChanges();
+
+			SaveChanges();
 		}
 
 		public void Update(UserProfile userProfile)
 		{
 			_db.Entry(userProfile).State = EntityState.Modified;
+
 			SaveChanges();
 		}
 	}

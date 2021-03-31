@@ -1,3 +1,20 @@
-.cartImage{
-    max-width: 250px;
+.cart-image{
+    max-width: 50%;
+}
+
+.cart-wrapper{
+    display: flex;
+    align-items: stretch;
+}
+
+@media only screen and (max-width: 450px) {
+    .cart-wrapper{
+        display: block;
+    }
+    .cart-image{
+        max-width: 100%;
+    }
+    p{
+        margin-bottom: 0.3rem;
+    }
 }

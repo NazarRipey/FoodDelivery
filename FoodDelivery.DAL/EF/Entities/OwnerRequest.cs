@@ -10,11 +10,11 @@ namespace FoodDelivery.DAL.EF.Entities
 
 		public Guid UserProfileId { get; set; }
 
+		public int Status { get; set; }
+
 		public DateTime CreatedDate { get; set; }
 
 		public DateTime? ClosedDate { get; set; }
-
-		public int Status { get; set; }
 
 		public virtual UserProfile UserProfile { get; set; }
 	}

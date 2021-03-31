@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO;
-using FoodDelivery.Entities.Enums;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 using FoodDelivery.Utilities.Managers;
 using Microsoft.AspNetCore.Identity;
 
@@ -14,62 +13,44 @@ namespace FoodDelivery.BusinessLogic.Facades
 	{
 		private readonly IOwnerRequestRepository _ownerRequestRepository;
 		private readonly UserManager<IdentityUser> _userManager;
-		private readonly IMapper _mapper;
 		private readonly IEmailManager _emailManager;
 
 		public OwnerRequestFacade(IOwnerRequestRepository ownerRequestRepository,
 			UserManager<IdentityUser> userManager,
-			IMapper mapper,
 			IEmailManager emailManager)
 		{
 			_ownerRequestRepository = ownerRequestRepository;
 			_userManager = userManager;
-			_mapper = mapper;
 			_emailManager = emailManager;
 		}
 
-		public ICollection<OwnerRequestDTO> Get()
+		public OwnerRequestResponseDTO Retrieve(OwnerRequestFilterParams filterParam)
 		{
-			return _ownerRequestRepository.Get();
-		}
-		public ICollection<OwnerRequestDTO> GetByStatus(RoleRequestStatus requestStatus)
-		{
-			return _ownerRequestRepository.GetByStatus((int)requestStatus);
+			return _ownerRequestRepository.Retrieve(filterParam);
 		}
 
 		public void Create(Guid userProfileId)
 		{
-			OwnerRequestDTO requestDTO = new OwnerRequestDTO()
-			{
-				UserProfileId = userProfileId,
-				Status = (int)RoleRequestStatus.Awaiting,
-				CreatedDate = DateTime.Now
-			};
-
-			_ownerRequestRepository.Create(requestDTO);
+			_ownerRequestRepository.Create(userProfileId);
 		}
 
-		//Not id because need info about user
-		public void Approve(OwnerRequestDTO requestDTO)
+		public void Approve(Guid id)
 		{
-			OwnerRequest request = _ownerRequestRepository.GetById(requestDTO.Id);
+			OwnerRequest request = _ownerRequestRepository.GetById(id);
 
 			if (request == null)
 			{
-				throw new Exception("no such user");
+				throw new Exception("no such request");
 			}
 
-			request.Status = (int)RoleRequestStatus.Approved;
-			request.ClosedDate = DateTime.Now;
-
-			_ownerRequestRepository.Update(request);
+			_ownerRequestRepository.Update(request, OwnerRequestStatus.Approved);
 
 			IdentityUser user = _userManager.FindByIdAsync(request.UserProfile.AspNetUserId).Result;
 			var result = _userManager.AddToRoleAsync(user, "owner").Result;
 
 			if (result.Succeeded)
 			{
-				_emailManager.SendRoleRequestStatusChangedAsync(request.UserProfile.Email, RoleRequestStatus.Approved);
+				_emailManager.SendOwnerRequestStatusChangedAsync(request.UserProfile.Email, OwnerRequestStatus.Approved);
 			}
 			else
 			{
@@ -77,21 +58,33 @@ namespace FoodDelivery.BusinessLogic.Facades
 			}
 		}
 
-		public void Deny(OwnerRequestDTO requestDTO)
+		public void Decline(Guid id)
 		{
-			OwnerRequest request = _ownerRequestRepository.GetById(requestDTO.Id);
+			OwnerRequest request = _ownerRequestRepository.GetById(id);
 
 			if (request == null)
 			{
 				throw new Exception("no such user");
 			}
 
-			request.Status = (int)RoleRequestStatus.Denied;
-			request.ClosedDate = DateTime.Now;
+			_ownerRequestRepository.Update(request, OwnerRequestStatus.Declined);
 
-			_ownerRequestRepository.Update(request);
+			IdentityUser user = _userManager.FindByIdAsync(request.UserProfile.AspNetUserId).Result;
+			var result = _userManager.RemoveFromRoleAsync(user, "owner").Result;
 
-			_emailManager.SendRoleRequestStatusChangedAsync(request.UserProfile.Email, RoleRequestStatus.Denied);
+			if (result.Succeeded)
+			{
+				_emailManager.SendOwnerRequestStatusChangedAsync(request.UserProfile.Email, OwnerRequestStatus.Declined);
+			}
+			else
+			{
+				throw new Exception(result.Errors.ToString());
+			}
+		}
+
+		public OwnerRequestStatus? GetStatus(Guid id)
+		{
+			return _ownerRequestRepository.GetStatus(id);
 		}
 	}
 }

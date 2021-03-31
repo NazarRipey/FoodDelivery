@@ -1,11 +1,12 @@
-import { restaurant } from 'src/app/models/restaurant/restaurant';
+import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
 import { userHelper } from './../../../helpers/userHelper';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { restaurantErrors } from './../../../errors/restaurantErrors';
+import { restaurantErrors } from '../../../models/enums/errors/restaurantErrors';
 import { FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-restaurant',
@@ -15,7 +16,7 @@ import { Component, OnInit } from '@angular/core';
 export class UpdateRestaurantComponent implements OnInit {
   public addresses: FormArray;
   restaurantErrors = restaurantErrors;
-  restaurant: restaurant;
+  restaurant: restaurantDetailObject;
 
   updateRestaurantForm = new FormGroup({
     description: new FormControl('', [
@@ -26,14 +27,15 @@ export class UpdateRestaurantComponent implements OnInit {
   constructor(public modalRef: NgbActiveModal,
     private fb: FormBuilder,
     private restaurantService: RestaurantService,
-    private userHelper: userHelper) { }
+    private userHelper: userHelper,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.updateRestaurantForm.patchValue({description: this.restaurant.description});
   }
 
   onSubmit(){
-    const restaurant :restaurant = {
+    const restaurant :restaurantDetailObject = {
       id: this.restaurant.id,
       ownerId: this.userHelper.profile.id,
       name: this.restaurant.name,
@@ -44,7 +46,7 @@ export class UpdateRestaurantComponent implements OnInit {
     this.restaurantService.updateRestaurant(restaurant).subscribe(
       _ => {
         this.modalRef.close();
-        location.reload();
+        document.location.reload(true);
       },
       err => {
         this.updateRestaurantForm.setErrors({"server": +err.error});

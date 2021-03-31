@@ -1,6 +1,7 @@
-import { restaurant } from 'src/app/models/restaurant/restaurant';
-import { dish } from 'src/app/models/dish/dish';
-import { dishErrors } from './../../../errors/dishErrors';
+import { dishObject } from '../../../models/dish/dishObject';
+import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
+import { dishListObject } from 'src/app/models/dish/dishListObject';
+import { dishErrors } from '../../../models/enums/errors/dishErrors';
 import { DishService } from './../../../services/dish.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { dishCategory } from './../../../models/dish/dishCategory';
@@ -46,7 +47,7 @@ export class AddDishComponent implements OnInit {
   }
 
   onSubmit(){
-    const dish :dish = {
+    const dish :dishObject = {
       name: this.addDishForm.get('name').value,
       description: this.addDishForm.get('description').value,
       price: this.addDishForm.get('price').value,

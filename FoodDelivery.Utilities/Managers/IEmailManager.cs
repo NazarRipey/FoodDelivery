@@ -1,11 +1,14 @@
 ﻿using System.Threading.Tasks;
-using FoodDelivery.Entities.Enums;
+using FoodDelivery.Entities.Enums.Status;
 
 namespace FoodDelivery.Utilities.Managers
 {
 	public interface IEmailManager
 	{
 		Task SendConfirmationCodeAsync(string email, int code);
-		Task SendRoleRequestStatusChangedAsync(string email, RoleRequestStatus roleRequestStatus);
+		Task SendOwnerRequestStatusChangedAsync(string email, OwnerRequestStatus ownerRequestStatus);
+		Task SendRestaurantRequestStatusChangedAsync(string email,
+			string restaurantName,
+			RestaurantRequestStatus restaurantRequestStatus);
 	}
 }

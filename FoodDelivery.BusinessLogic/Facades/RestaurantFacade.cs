@@ -2,31 +2,39 @@
 using System.Collections.Generic;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.BusinessLogic.Facades
 {
 	public class RestaurantFacade : IRestaurantFacade
 	{
 		private readonly IRestaurantRepository _restaurantRepository;
+		private readonly IRestaurantAddressRepository _restaurantAddressRepository;
+		private readonly IRestaurantTypeRepository _restaurantTypeRepository;
 
-		public RestaurantFacade(IRestaurantRepository restaurantRepository)
+		public RestaurantFacade(IRestaurantRepository restaurantRepository,
+			IRestaurantAddressRepository restaurantAddressRepository,
+			IRestaurantTypeRepository restaurantTypeRepository)
 		{
 			_restaurantRepository = restaurantRepository;
+			_restaurantAddressRepository = restaurantAddressRepository;
+			_restaurantTypeRepository = restaurantTypeRepository;
 		}
 
 		public void AddAddress(RestaurantAddressDTO restaurantAddressDTO)
 		{
-			_restaurantRepository.AddAddress(restaurantAddressDTO);
+			_restaurantAddressRepository.Add(restaurantAddressDTO);
 		}
 
-		public void Create(RestaurantDTO restaurantDTO)
+		public void Create(RestaurantDetailDTO restaurantDTO)
 		{
 			_restaurantRepository.Create(restaurantDTO);
 		}
 
-		public ICollection<RestaurantDTO> GetAll()
+		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
 		{
-			return _restaurantRepository.GetAll();
+			return _restaurantRepository.Retrieve(filterParams);
 		}
 
 		public ICollection<string> GetAllNames()
@@ -34,44 +42,49 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _restaurantRepository.GetAllNames();
 		}
 
-		public RestaurantDTO GetByName(string name)
+		public RestaurantDetailDTO GetByName(string name)
 		{
 			return _restaurantRepository.GetByName(name);
 		}
 
-		public ICollection<RestaurantDTO> GetMyRestaurants(Guid ownerId)
+		public RestaurantDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
 		{
-			return _restaurantRepository.GetMyRestaurants(ownerId);
+			return _restaurantRepository.RetrieveMyRestaurants(filterParams, ownerId);
 		}
 
-		public string GetNameById(Guid id)
-		{
-			return _restaurantRepository.GetNameById(id);
-		}
-
-		public ICollection<RestaurantDTO> GetTop(int count)
+		public ICollection<RestaurantListDTO> GetTop(int count)
 		{
 			return _restaurantRepository.GetTop(count);
 		}
 
 		public ICollection<RestaurantTypeDTO> GetTypes()
 		{
-			return _restaurantRepository.GetTypes();
+			return _restaurantTypeRepository.GetTypes();
 		}
 
 		public void RemoveAddress(Guid restaurantAddressId)
 		{
-			_restaurantRepository.RemoveAddress(restaurantAddressId);
+			_restaurantAddressRepository.Remove(restaurantAddressId);
 		}
 
 		public void RemoveRestaurant(Guid restaurantId)
 		{
-			_restaurantRepository.RemoveRestaurant(restaurantId);
+			_restaurantRepository.Remove(restaurantId);
 		}
 
-		public void Update(RestaurantDTO restaurantDTO)
+		public void Update(RestaurantDetailDTO restaurantDTO)
 		{
 			_restaurantRepository.Update(restaurantDTO);
+		}
+
+		public void Activate(Guid restaurantId)
+		{
+			_restaurantRepository.UpdateStatus(restaurantId, (int)RestaurantStatus.Active);
+		}
+
+		public void Deactivate(Guid restaurantId)
+		{
+			_restaurantRepository.UpdateStatus(restaurantId, (int)RestaurantStatus.Inactive);
 		}
 	}
 }

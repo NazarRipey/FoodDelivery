@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.Enums;
+using FoodDelivery.Entities.FilterParams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,24 +18,37 @@ namespace FoodDelivery.API.Controllers
 	{
 		private readonly IRestaurantFacade _restaurantFacade;
 		private readonly IUserProfileFacade _userProfileFacade;
+		private readonly IRestaurantRequestFacade _restaurantRequestFacade;
 
 		public RestaurantController(IRestaurantFacade restaurantFacade,
-			IUserProfileFacade userProfileFacade)
+			IUserProfileFacade userProfileFacade,
+			IRestaurantRequestFacade restaurantRequestFacade)
 		{
 			_restaurantFacade = restaurantFacade;
 			_userProfileFacade = userProfileFacade;
+			_restaurantRequestFacade = restaurantRequestFacade;
 		}
 
-		[HttpGet]
+		[HttpPost]
 		[AllowAnonymous]
-		public ICollection<RestaurantDTO> Get()
+		[Route("retrieve")]
+		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
 		{
-			return _restaurantFacade.GetAll();
+			return _restaurantFacade.Retrieve(filterParams);
+		}
+
+		[HttpPost]
+		[Route("myrestaurants")]
+		public RestaurantDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams)
+		{
+			Guid ownerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+
+			return _restaurantFacade.RetrieveMyRestaurants(filterParams, ownerId);
 		}
 
 		[HttpGet("{name}")]
 		[AllowAnonymous]
-		public RestaurantDTO GetByName(string name)
+		public RestaurantDetailDTO GetByName(string name)
 		{
 			return _restaurantFacade.GetByName(name);
 		}
@@ -42,7 +56,7 @@ namespace FoodDelivery.API.Controllers
 		[HttpGet]
 		[Route("top")]
 		[AllowAnonymous]
-		public ICollection<RestaurantDTO> GetTop(int count = 3)
+		public ICollection<RestaurantListDTO> GetTop(int count = 3)
 		{
 			return _restaurantFacade.GetTop(count);
 		}
@@ -56,14 +70,6 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
-		[Route("getname/{id:Guid}")]
-		[AllowAnonymous]
-		public string GetName(Guid id)
-		{
-			return _restaurantFacade.GetNameById(id);
-		}
-
-		[HttpGet]
 		[Route("types")]
 		[AllowAnonymous]
 		public ICollection<RestaurantTypeDTO> GetTypes()
@@ -71,21 +77,9 @@ namespace FoodDelivery.API.Controllers
 			return _restaurantFacade.GetTypes();
 		}
 
-		[HttpGet]
-		[Route("myrestaurants")]
-		public ICollection<RestaurantDTO> GetMyRestaurants()
-		{
-			///????????????????????????????
-			///
-			Guid ownerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
-
-			return _restaurantFacade.GetMyRestaurants(ownerId);
-		}
-
 		[HttpPost]
 		[Route("add")]
-
-		public IActionResult Post([FromBody] RestaurantDTO restaurantDTO)
+		public IActionResult Post([FromBody] RestaurantDetailDTO restaurantDTO)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -98,7 +92,10 @@ namespace FoodDelivery.API.Controllers
 
 			try
 			{
+				restaurantDTO.Id = Guid.NewGuid();
+
 				_restaurantFacade.Create(restaurantDTO);
+				_restaurantRequestFacade.Create(restaurantDTO.OwnerId, restaurantDTO.Id);
 			}
 			catch (Exception e)
 			{
@@ -108,6 +105,37 @@ namespace FoodDelivery.API.Controllers
 			return Ok();
 		}
 
+		[HttpPost]
+		[Route("deactivate")]
+		public IActionResult Deactivate([FromBody] Guid id)
+		{
+			try
+			{
+				_restaurantFacade.Deactivate(id);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+
+		[HttpPost]
+		[Route("activate")]
+		public IActionResult Activate([FromBody] Guid id)
+		{
+			try
+			{
+				_restaurantFacade.Activate(id);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
 
 		[HttpPost]
 		[Route("address")]
@@ -126,7 +154,7 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPut]
-		public IActionResult Put([FromBody] RestaurantDTO restaurantDTO)
+		public IActionResult Put([FromBody] RestaurantDetailDTO restaurantDTO)
 		{
 			try
 			{

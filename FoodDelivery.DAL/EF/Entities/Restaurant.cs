@@ -10,6 +10,7 @@ namespace FoodDelivery.DAL.EF.Entities
 		[Key]
 		public Guid Id { get; set; }
 
+		[ForeignKey("Owner")]
 		public Guid OwnerId { get; set; }
 
 		public string Name { get; set; }
@@ -17,10 +18,12 @@ namespace FoodDelivery.DAL.EF.Entities
 		public string Description { get; set; }
 
 		public double? Rating { get; set; }
+		public int Status { get; set; }
 
 		[ForeignKey("Type")]
 		public int TypeId { get; set; }
 
+		public virtual UserProfile Owner { get; set; }
 		public virtual RestaurantType Type { get; set; }
 		public virtual List<RestaurantAddress> Addresses { get; set; }
 		public virtual List<Dish> Dishes { get; set; }

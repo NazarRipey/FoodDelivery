@@ -1,10 +1,10 @@
+import { RestaurantRequestListComponent } from './components/admin/request-list/restaurant-request-list/restaurant-request-list.component';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { AddDishComponent } from './components/owner/add-dish/add-dish.component';
 import { StartupService } from './services/startup.service';
-import { userHelper } from './helpers/userHelper';
 import { GlobalHttpInterceptor } from './errors/globalInterceptor';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DishListComponent } from './components/list/dish-list/dish-list.component';
-import { restaurant } from './models/restaurant/restaurant';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -26,8 +26,8 @@ import { ConfirmEmailComponent } from './components/auth/confirm-email/confirm-e
 import { RestaurantListComponent } from './components/list/restaurant-list/restaurant-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
-import { MessageComponent } from './components/auth/message/message.component';
-import { OwnerRequestListComponent } from './components/admin/owner-request-list/owner-request-list.component';
+import { MessageComponent } from './components/message/message.component';
+import { OwnerRequestListComponent } from './components/admin/request-list/owner-request-list/owner-request-list.component';
 import { FilterComponent } from './components/list/filter/filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
@@ -37,6 +37,12 @@ import { AddAddressComponent } from './components/owner/add-address/add-address.
 import { NoAccessComponent } from './components/errors/no-access/no-access.component';
 import { UpdateDishComponent } from './components/owner/update-dish/update-dish.component';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RequestListComponent } from './components/admin/request-list/request-list.component';
+import { EnumKeysPipe } from './pipes/enum-keys.pipe';
+import { Router, Scroll } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
+import { DishDetailComponent } from './components/dish-detail/dish-detail.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -76,6 +82,10 @@ export const sortTypes = ["price", "name", "rating"];
     AddDishComponent,
     UpdateDishComponent,
     NotFoundComponent,
+    RequestListComponent,
+    RestaurantRequestListComponent,
+    EnumKeysPipe,
+    DishDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,7 +95,9 @@ export const sortTypes = ["price", "name", "rating"];
     NgbModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    NgxSliderModule,
   ],
   providers: [
     NgbActiveModal,

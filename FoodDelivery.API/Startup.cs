@@ -29,7 +29,9 @@ namespace FoodDelivery.API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<FoodDeliveryDbContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+				options
+				.UseLazyLoadingProxies()
+				.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddAuthentication().AddCookie();
 			services.AddCors();
@@ -89,10 +91,19 @@ namespace FoodDelivery.API
 			services.AddScoped<IOwnerRequestFacade, OwnerRequestFacade>();
 
 			services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+			services.AddScoped<IRestaurantAddressRepository, RestaurantAddressRepository>();
+			services.AddScoped<IRestaurantTypeRepository, RestaurantTypeRepository>();
 			services.AddScoped<IRestaurantFacade, RestaurantFacade>();
 
+			services.AddScoped<IRestaurantRequestRepository, RestaurantRequestRepository>();
+			services.AddScoped<IRestaurantRequestFacade, RestaurantRequestFacade>();
+
 			services.AddScoped<IDishRepository, DishRepository>();
+			services.AddScoped<IDishCategoryRepository, DishCategoryRepository>();
 			services.AddScoped<IDishFacade, DishFacade>();
+
+			services.AddScoped<IRestaurantRequestRepository, RestaurantRequestRepository>();
+			services.AddScoped<IRestaurantRequestFacade, RestaurantRequestFacade>();
 
 			services.AddControllers().AddNewtonsoftJson(options =>
 			{

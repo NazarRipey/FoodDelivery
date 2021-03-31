@@ -7,7 +7,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { confirmEmailModel } from '../models/auth/confirmEmailModel';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { userProfile } from '../models/userProfile';
+import { userProfile } from '../models/userProfile/userProfile';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 import { ConfirmEmailComponent } from './../confirm-email/confirm-email.component';
-import { authErrors } from '../../../errors/authErrors';
+import { authErrors } from '../../../models/enums/errors/authErrors';
 import { userHelper } from '../../../helpers/userHelper';
 import { userLogInModel } from '../../../models/auth/userLogInModel';
 import { SignUpComponent } from '../sign-up/sign-up.component';

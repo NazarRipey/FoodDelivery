@@ -40,10 +40,12 @@ export class FilterComponent implements OnInit {
     }
 
     if(this.checkedOptions.length > 0){
-      this.router.navigate([], {queryParams: {[this.name]: this.checkedOptions.join(',')}, queryParamsHandling: 'merge'});
+      this.router.navigate([], {queryParams: {[this.name]: this.checkedOptions.join(',')}, 
+        queryParamsHandling: 'merge'});
     }
     else{
-      this.router.navigate([], {queryParams: {[this.name]: null}, queryParamsHandling: 'merge'});
+      this.router.navigate([], {queryParams: {[this.name]: null},
+        queryParamsHandling: 'merge'});
     }
   }
 }

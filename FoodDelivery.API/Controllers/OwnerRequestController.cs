@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.Entities.DTO;
-using FoodDelivery.Entities.Enums;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,27 +23,27 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
-		public IEnumerable<OwnerRequestDTO> Get(string status)
+		[AllowAnonymous]
+		[Route("status")]
+		public OwnerRequestStatus? GetStatus(Guid id)
 		{
-			if (status != null)
-			{
-				if (Enum.TryParse(status, out RoleRequestStatus roleStatus))
-				{
-					return _ownerRequestFacade.GetByStatus(roleStatus);
-				}
-			}
-			return _ownerRequestFacade.Get();
+			return _ownerRequestFacade.GetStatus(id);
 		}
 
+		[HttpPost]
+		[Route("retrieve")]
+		public OwnerRequestResponseDTO Retrieve(OwnerRequestFilterParams filterParam)
+		{
+			return _ownerRequestFacade.Retrieve(filterParam);
+		}
 
-		// POST api/<RequestController>
 		[HttpPost]
 		[Route("approve")]
-		public IActionResult Approve([FromBody] OwnerRequestDTO requestDTO)
+		public IActionResult Approve([FromBody] Guid id)
 		{
 			try
 			{
-				_ownerRequestFacade.Approve(requestDTO);
+				_ownerRequestFacade.Approve(id);
 			}
 			catch (Exception e)
 			{
@@ -54,12 +54,12 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPost]
-		[Route("deny")]
-		public IActionResult Deny([FromBody] OwnerRequestDTO requestDTO)
+		[Route("decline")]
+		public IActionResult Decline([FromBody] Guid id)
 		{
 			try
 			{
-				_ownerRequestFacade.Deny(requestDTO);
+				_ownerRequestFacade.Decline(id);
 			}
 			catch (Exception e)
 			{

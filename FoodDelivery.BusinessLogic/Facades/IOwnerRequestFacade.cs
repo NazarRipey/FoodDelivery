@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using FoodDelivery.Entities.DTO;
-using FoodDelivery.Entities.Enums;
+using FoodDelivery.Entities.Enums.Status;
+using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.BusinessLogic.Facades
 {
 	public interface IOwnerRequestFacade
 	{
-		ICollection<OwnerRequestDTO> Get();
-		ICollection<OwnerRequestDTO> GetByStatus(RoleRequestStatus requestStatus);
+		OwnerRequestResponseDTO Retrieve(OwnerRequestFilterParams filterParam);
 		void Create(Guid userProfileId);
-		void Approve(OwnerRequestDTO requestDTO);
-		void Deny(OwnerRequestDTO requestDTO);
+		void Approve(Guid id);
+		void Decline(Guid id);
+		OwnerRequestStatus? GetStatus(Guid id);
 	}
 }
