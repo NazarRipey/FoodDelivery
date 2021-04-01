@@ -1,3 +1,4 @@
+import { dishUpdateObject } from './../../../models/dish/dishUpdateObject';
 import { dishObject } from '../../../models/dish/dishObject';
 import { DishService } from './../../../services/dish.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -48,20 +49,18 @@ export class UpdateDishComponent implements OnInit {
   }
 
   onSubmit(){
-    const dish :dishObject = {
+    const dish :dishUpdateObject = {
       id: this.dish.id,
       name: this.updateDishForm.get('name').value,
       description: this.updateDishForm.get('description').value,
       price: this.updateDishForm.get('price').value,
       weight: this.updateDishForm.get('weight').value,
-      restaurantId: this.dish.restaurantId,
-      category: this.dish.category
     }
 
-    this.dishService.updateRestaurant(dish).subscribe(
+    this.dishService.updateDish(dish).subscribe(
       _ => {
         this.modalRef.close();
-        document.location.reload();
+        location.reload();
       },
       err => {
         this.updateDishForm.setErrors({"server": +err.error});

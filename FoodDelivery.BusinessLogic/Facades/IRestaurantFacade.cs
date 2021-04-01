@@ -13,7 +13,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 		RestaurantDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId);
 		RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams);
 		ICollection<RestaurantListDTO> GetTop(int count);
-		void Update(RestaurantDetailDTO restaurantDTO);
+		void Update(RestaurantUpdateDTO restaurantUpdateDTO);
 		void AddAddress(RestaurantAddressDTO restaurantAddressDTO);
 		void RemoveAddress(Guid restaurantAddressId);
 		void RemoveRestaurant(Guid restaurantId);

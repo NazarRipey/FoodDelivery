@@ -21,7 +21,7 @@ import { TopRatedDishesComponent } from './components/home/home/top-rated-dishes
 import { TopRatedRestaurantsComponent } from './components/home/home/top-rated-restaurants/top-rated-restaurants.component';
 import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
 import { LogInComponent } from './components/auth/log-in/log-in.component';
-import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
+import { AddToCartComponent } from './components/cart/add-to-cart/add-to-cart.component';
 import { ConfirmEmailComponent } from './components/auth/confirm-email/confirm-email.component';
 import { RestaurantListComponent } from './components/list/restaurant-list/restaurant-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -43,18 +43,13 @@ import { EnumKeysPipe } from './pipes/enum-keys.pipe';
 import { Router, Scroll } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { DishDetailComponent } from './components/dish-detail/dish-detail.component';
+import { CartDetailComponent } from './components/cart/cart-detail/cart-detail.component';
+import { DishListItemComponent } from './components/list-items/dish-list-item/dish-list-item.component';
+import { RestaurantListItemComponent } from './components/list-items/restaurant-list-item/restaurant-list-item.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
 }
-
-/*hardcoded data*/
-export const serverUrl = 'https://localhost:44325/';
-
-export const imgSrc = 'assets/images/default.jpg'
-
-export const sortTypes = ["price", "name", "rating"];
-/*//////////////*/
 
 @NgModule({
   declarations: [
@@ -86,6 +81,9 @@ export const sortTypes = ["price", "name", "rating"];
     RestaurantRequestListComponent,
     EnumKeysPipe,
     DishDetailComponent,
+    CartDetailComponent,
+    DishListItemComponent,
+    RestaurantListItemComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 		ICollection<DishCategoryDTO> GetCategories();
 		DishListDTO GetByNameWithinRestaurant(string name, Guid restaurantId);
 		void Create(DishDTO dishDTO);
-		void Update(DishDTO dishDTO);
+		void Update(DishUpdateDTO dishUpdateDTO);
 		void Remove(Guid id);
 		DishListResponseDTO Retrieve(DishFilterParams filterParams);
 		ICollection<DishListDTO> GetTop(int count);

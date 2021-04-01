@@ -1,0 +1,29 @@
+ALTER TABLE Dish DROP CONSTRAINT FK_Dish_Restaurant
+GO
+
+ALTER TABLE Dish ADD CONSTRAINT FK_Dish_Restaurant
+FOREIGN KEY(RestaurantId)
+REFERENCES [dbo].[Restaurant] ([Id])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
+ALTER TABLE RestaurantRequest DROP CONSTRAINT FK_RestaurantRequest_Restaurant
+GO
+
+ALTER TABLE RestaurantRequest ADD CONSTRAINT FK_RestaurantRequest_Restaurant
+FOREIGN KEY(RestaurantId)
+REFERENCES [dbo].[Restaurant] ([Id])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
+ALTER TABLE CartItem DROP CONSTRAINT FK_CartItem_Cart
+GO
+
+ALTER TABLE CartItem ADD CONSTRAINT FK_CartItem_Cart
+FOREIGN KEY(CartId)
+REFERENCES [dbo].[Cart] ([Id])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO

@@ -12,7 +12,7 @@ namespace FoodDelivery.DAL.Repositories
 		RestaurantDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId);
 		RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams);
 		ICollection<RestaurantListDTO> GetTop(int count);
-		void Update(RestaurantDetailDTO restaurantDTO);
+		void Update(RestaurantUpdateDTO restaurantUpdateDTO);
 		void UpdateStatus(Guid id, int status);
 		void Remove(Guid restaurantId);
 		ICollection<string> GetAllNames();

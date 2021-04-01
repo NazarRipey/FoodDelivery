@@ -6,7 +6,7 @@ import { dishDetailObject } from './../../models/dish/dishDetailObject';
 import { Guid } from 'guid-typescript';
 import { DishService } from './../../services/dish.service';
 import { ActivatedRoute } from '@angular/router';
-import { imgSrc } from './../../app.module';
+import { imgSrc } from './../../globals';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

@@ -1,8 +1,8 @@
+import { modalHelper } from './../../../../helpers/modalHelper';
+import { cartHelper } from './../../../../helpers/cartHelper';
 import { Guid } from 'guid-typescript';
-import { CartService } from './../../../../services/cart.service';
-import { imgSrc } from './../../../../app.module';
+import { imgSrc } from './../../../../globals'
 import { DishService } from './../../../../services/dish.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { restaurantDetailObject } from '../../../../models/restaurant/restaurantDetailObject';
 import { Component, OnInit } from '@angular/core';
 import { dishListObject } from 'src/app/models/dish/dishListObject';
@@ -18,7 +18,7 @@ export class TopRatedDishesComponent implements OnInit {
   restaurants: restaurantDetailObject[];
   imgSrc = imgSrc;
 
-  constructor(private cartService:CartService,
+  constructor(private modalHelper: modalHelper,
     private dishService:DishService,) { }
 
   ngOnInit(): void {
@@ -26,6 +26,6 @@ export class TopRatedDishesComponent implements OnInit {
   }
 
   openAddToCart(dishId: Guid){
-    this.cartService.openAddToCart(dishId);
+    this.modalHelper.openAddToCart(dishId);
   }
 }

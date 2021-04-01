@@ -1,3 +1,5 @@
+import { restaurantUpdateObject } from './../models/restaurant/restaurantUpdateObject';
+import { serverUrl } from './../globals';
 import { restaurantDetailResponse } from './../models/restaurant/restaurantDetailResponse';
 import { myRestaurantFilterParams } from './../models/filters/myRestaurantFilterParams';
 import { restaurantListResponse } from './../models/restaurant/restaurantListResponse';
@@ -7,7 +9,6 @@ import { Guid } from 'guid-typescript';
 import { restaurantAddress } from './../models/restaurant/restaurantAddress';
 import { Observable } from 'rxjs';
 import { restaurantType } from './../models/restaurant/restaurantType';
-import { serverUrl } from './../app.module';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -60,9 +61,9 @@ export class RestaurantService {
     return this.http.post<restaurantDetailObject>(url, restaurantAddress, { withCredentials: true });
   }
 
-  public updateRestaurant(restaurant:restaurantDetailObject){
+  public updateRestaurant(restaurant:restaurantUpdateObject){
     const url = this.restaurantUrl;
-    return this.http.put<restaurantDetailObject>(url, restaurant, { withCredentials: true });
+    return this.http.put(url, restaurant, { withCredentials: true });
   }
 
   public removeAddress(restaurantAddressId: Guid){

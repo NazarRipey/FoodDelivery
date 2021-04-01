@@ -1,9 +1,9 @@
 <div class="modal-header d-block text-center bg-dark text-white">
-    <button class="close" (click)="modalRef.close()">&times;</button>
+    <button class="close" (click)="modalRef.close();">&times;</button>
     <h5>Add to cart</h5>        
 </div>
 
-<div class="container mt-2 mb-3">
+<div class="container mt-2 mb-3" *ngIf="dish">
     <div class="my-2 text-right">
         <button class="btn bg-popstar" (click)="ShowDetails()">Detail</button>
     </div>

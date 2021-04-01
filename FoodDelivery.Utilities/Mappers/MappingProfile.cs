@@ -72,6 +72,9 @@ namespace FoodDelivery.Utilities.Mappers
 				.ForMember(d => d.Type,
 				opt => opt.MapFrom(r => r.Restaurant.Type))
 				.ReverseMap();
+
+			CreateMap<CartItem, CartItemDTO>()
+				.ReverseMap();
 		}
 	}
 }

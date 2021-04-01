@@ -1,3 +1,4 @@
+import { CartService } from './../services/cart.service';
 import { ownerRequestStatus } from './../models/enums/statuses/ownerRequestStatus';
 import { Guid } from 'guid-typescript';
 import { OwnerRequestService } from './../services/owner-request.service';
@@ -17,7 +18,8 @@ import { userProfile } from '../models/userProfile/userProfile';
 export class userHelper{
     constructor(private authService: AuthenticationService, 
         private router:Router,
-        private ownerRequestService:OwnerRequestService)
+        private ownerRequestService:OwnerRequestService,
+        private cartService:CartService)
     {}
 
     private _profile = new BehaviorSubject<userProfile>(null);

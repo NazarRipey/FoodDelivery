@@ -48,9 +48,9 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_dishRepository.Remove(id);
 		}
 
-		public void Update(DishDTO dishDTO)
+		public void Update(DishUpdateDTO dishUpdateDTO)
 		{
-			_dishRepository.Update(dishDTO);
+			_dishRepository.Update(dishUpdateDTO);
 		}
 
 		public DishCartDTO GetCartDTOById(Guid id)

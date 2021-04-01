@@ -1,3 +1,4 @@
+import { cartHelper } from './../../helpers/cartHelper';
 import { ownerRequestStatus } from './../../models/enums/statuses/ownerRequestStatus';
 import { userHelper } from '../../helpers/userHelper';
 import { LogInComponent } from '../auth/log-in/log-in.component';
@@ -15,7 +16,9 @@ export class NavbarComponent implements OnInit {
   toggleNavbar = true;
   ownerRequestStatus: ownerRequestStatus;
 
-  constructor(private modalService: NgbModal, public userHelper:userHelper) { }
+  constructor(private modalService: NgbModal,
+    public userHelper:userHelper,
+    public cartHelper:cartHelper) { }
 
   ngOnInit(): void {
   }

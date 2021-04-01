@@ -16,7 +16,7 @@ import { restaurantAddress } from './../../../models/restaurant/restaurantAddres
 import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
 import { UpdateRestaurantComponent } from './../update-restaurant/update-restaurant.component';
 import { RestaurantService } from './../../../services/restaurant.service';
-import { imgSrc } from './../../../app.module';
+import { imgSrc } from './../../../globals';
 import { AddRestaurantComponent } from './../add-restaurant/add-restaurant.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { userHelper } from './../../../helpers/userHelper';

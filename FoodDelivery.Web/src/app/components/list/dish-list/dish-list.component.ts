@@ -6,7 +6,6 @@ import { dishFilterParams } from '../../../models/filters/dishFilterParams';
 import { NouisliderModule } from 'ng2-nouislider';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { DishService } from './../../../services/dish.service';
-import { imgSrc, sortTypes } from './../../../app.module';
 import { CartService } from '../../../services/cart.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -31,14 +30,9 @@ export class DishListComponent implements OnInit {
   dishCategories: string[];
 
   dishSortTypes = dishSortType;
-  sortTypes() : Array<string> {
-    var keys: string[] = Object.keys(this.dishSortTypes);
-    return keys.slice(keys.length / 2);
-  }
   selectedsortType: string;
 
   toggleFilters = false;
-  imgSrc = imgSrc;
 
   constructor(private cartService:CartService,
     private route: ActivatedRoute,
@@ -97,10 +91,6 @@ export class DishListComponent implements OnInit {
 
   onSearch(searchPhrase){
     this.router.navigate([], {queryParams: {search: searchPhrase}, queryParamsHandling: 'merge'});
-  }
-
-  openAddToCart(dishId: Guid){
-    this.cartService.openAddToCart(dishId);
   }
 
   changePriceRange(){

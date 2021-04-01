@@ -1,3 +1,4 @@
+import { CartDetailComponent } from './components/cart/cart-detail/cart-detail.component';
 import { OwnerGuard } from './guards/owner.guard';
 import { RestaurantRequestListComponent } from './components/admin/request-list/restaurant-request-list/restaurant-request-list.component';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
@@ -38,12 +39,18 @@ const routes: Routes = [
   },
   { path: "manage", component: ManageRestaurantsComponent, 
     canActivate: [AuthGuard, OwnerGuard] },
+  { path: "cart", component: CartDetailComponent, canActivate: [AuthGuard] },
   { path: "noaccess", component: NoAccessComponent },
   { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    scrollPositionRestoration: "enabled",
+    scrollOffset: [0, 0],
+    // Enable scrolling to anchors
+    anchorScrolling: "enabled",
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

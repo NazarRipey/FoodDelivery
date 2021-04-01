@@ -95,6 +95,10 @@ namespace FoodDelivery.DAL.Repositories
 				.Include(r => r.Dishes)
 				.SingleOrDefault();
 
+
+			//FILTERING INCLUDE ?
+			restaurant.Dishes = restaurant.Dishes.Where(d => d.Status == (int)DishStatus.Active).ToList();
+
 			RestaurantDetailDTO restaurantDTO = _mapper.Map<RestaurantDetailDTO>(restaurant);
 
 			return restaurantDTO;
@@ -146,9 +150,12 @@ namespace FoodDelivery.DAL.Repositories
 			SaveChanges();
 		}
 
-		public void Update(RestaurantDetailDTO restaurantDTO)
+		public void Update(RestaurantUpdateDTO restaurantUpdateDTO)
 		{
-			Restaurant restaurant = _mapper.Map<Restaurant>(restaurantDTO);
+			Restaurant restaurant = _db.Restaurant.Find(restaurantUpdateDTO.Id);
+
+			restaurant.Description = restaurantUpdateDTO.Description;
+
 			_db.Entry(restaurant).State = EntityState.Modified;
 
 			SaveChanges();

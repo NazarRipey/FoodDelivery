@@ -2,7 +2,7 @@ import { Guid } from 'guid-typescript';
 import { Observable } from 'rxjs';
 import { restaurantRequestFilterParams } from './../models/filters/restaurantRequestFilterParams';
 import { HttpClient } from '@angular/common/http';
-import { serverUrl } from './../app.module';
+import { serverUrl } from './../globals';
 import { Injectable } from '@angular/core';
 import { restaurantRequestResponse } from '../models/restaurantRequest/restaurantRequestResponse';
 

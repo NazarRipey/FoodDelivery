@@ -1,5 +1,5 @@
 import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
-import { imgSrc } from './../../../../app.module';
+import { imgSrc } from './../../../../globals'
 import { RestaurantService } from './../../../../services/restaurant.service';
 import { Component, OnInit } from '@angular/core';
 import { dishListObject } from 'src/app/models/dish/dishListObject';
