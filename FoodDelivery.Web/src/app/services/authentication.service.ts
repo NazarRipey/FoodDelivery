@@ -1,6 +1,6 @@
 import { sendConfirmationCodeModel } from '../models/auth/sendConfirmationCodeModel';
 import { userLogInModel } from '../models/auth/userLogInModel';
-import { serverUrl } from './../app.module';
+import { serverUrl } from './../globals';
 import { userSignUpModel } from '../models/auth/userSignUpModel';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';

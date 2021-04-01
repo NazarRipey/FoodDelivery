@@ -17,8 +17,13 @@ div .card-body ul li {
     flex: 0 0 49.5%;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 800px) {
     div .card-body ul li {
         flex: 0 0 100%;
     }
+}
+
+.bi-cart-x{
+    font-size: 20em;
+    line-height: 1;
 }

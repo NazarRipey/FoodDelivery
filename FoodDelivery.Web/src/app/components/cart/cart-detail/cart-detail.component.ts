@@ -1,5 +1,6 @@
+import { Guid } from 'guid-typescript';
 import { cartItem } from './../../../models/cart/cartItem';
-import { imgSrc } from './../../../app.module';
+import { imgSrc } from './../../../globals'
 import { cartResponse } from './../../../models/cart/cartResponse';
 import { CartService } from './../../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
@@ -29,6 +30,20 @@ export class CartDetailComponent implements OnInit {
   }
 
   UpdateQuantity(item: cartItem){
-    console.log(item);
+    this.cartService.updateItem(item.id, item.quantity).subscribe(_ => {
+      location.reload();
+    })
+  }
+
+  RemoveItem(id: Guid){
+    this.cartService.deleteItem(id).subscribe(_ => {
+      location.reload();
+    });    
+  }
+
+  RemoveCart(){
+    this.cartService.deleteCart(this.cartResponse.id).subscribe(_ => {
+      location.reload();
+    })
   }
 }

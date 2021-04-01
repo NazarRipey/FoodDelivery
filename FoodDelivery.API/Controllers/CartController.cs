@@ -32,6 +32,15 @@ namespace FoodDelivery.API.Controllers
 			return _cartFacade.Get(userId);
 		}
 
+		[HttpGet]
+		[Route("total")]
+		public int GetTotalItems()
+		{
+			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+
+			return _cartFacade.GetTotalItems(userId);
+		}
+
 		[HttpPost]
 		public IActionResult Post([FromBody] CartItemModel cartItem)
 		{
@@ -55,24 +64,50 @@ namespace FoodDelivery.API.Controllers
 			return Ok();
 		}
 
-		// GET api/<CartController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
-		{
-			return "value";
-		}
-
-		// PUT api/<CartController>/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public IActionResult Put(Guid id, [FromBody] int quantity)
 		{
+			try
+			{
+				_cartFacade.UpdateItem(id, quantity);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
 		}
 
-		// DELETE api/<CartController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
+		[HttpDelete]
+		[Route("item/{id}")]
+		public IActionResult DeleteItem(Guid id)
 		{
+			try
+			{
+				_cartFacade.RemoveItem(id);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+
+		[HttpDelete("{id}")]
+		public IActionResult DeleteCart(Guid id)
+		{
+			try
+			{
+				_cartFacade.RemoveCart(id);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
 		}
 	}
-
 }

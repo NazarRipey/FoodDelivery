@@ -1,10 +1,7 @@
-import { restaurantType } from './../../../models/restaurant/restaurantType';
-import { restaurantListObject } from '../../../models/restaurant/restaurantListObject';
 import { restaurantSortType } from '../../../models/enums/sorts/restaurantSortType';
 import { restaurantFilterParams } from './../../../models/filters/restaurantFilterParams';
 import { restaurantListResponse } from './../../../models/restaurant/restaurantListResponse';
 import { RestaurantService } from './../../../services/restaurant.service';
-import { imgSrc, sortTypes } from './../../../app.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 import { paginationConfig } from '../../../models/paginationConfig';
@@ -22,16 +19,11 @@ export class RestaurantListComponent implements OnInit {
 
   restaurantTypeNames: string[];
 
-  restaurantSortType = restaurantSortType;
-  sortTypes() :  Array<string> {
-    var keys: string[] = Object.keys(this.restaurantSortType);
-    return keys.slice(keys.length / 2);
-  }
+  restaurantSortTypes = restaurantSortType;
   selectedsortType: string;
     
   toggleFilter = false;
-  imgSrc = imgSrc;
-
+  
   constructor(private cartService:CartService, 
     private route: ActivatedRoute,
     private router:Router,
@@ -53,7 +45,7 @@ export class RestaurantListComponent implements OnInit {
 
     this.restaurantFilterParams.itemsPerPage = this.config.itemsPerPage;
     this.restaurantFilterParams.currentPage = this.config.currentPage;
-    this.restaurantFilterParams.restaurantSortType = this.restaurantSortType[`${this.selectedsortType}`];
+    this.restaurantFilterParams.restaurantSortType = this.restaurantSortTypes[`${this.selectedsortType}`];
 
     this.restaurantService.retrieve(this.restaurantFilterParams).subscribe(r => {
       this.restaurantResponse = r;

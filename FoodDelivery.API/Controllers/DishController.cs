@@ -121,11 +121,11 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPut]
-		public IActionResult Put([FromBody] DishDTO dishDTO)
+		public IActionResult Put([FromBody] DishUpdateDTO dishUpdateDTO)
 		{
 			try
 			{
-				_dishFacade.Update(dishDTO);
+				_dishFacade.Update(dishUpdateDTO);
 			}
 			catch (Exception e)
 			{

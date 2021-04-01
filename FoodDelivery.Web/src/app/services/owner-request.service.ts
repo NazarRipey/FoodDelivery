@@ -5,7 +5,7 @@ import { ownerRequestResponse } from './../models/ownerRequest/ownerRequestRespo
 import { ownerRequestObject } from '../models/ownerRequest/ownerRequestObject';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { serverUrl } from './../app.module';
+import { serverUrl } from './../globals';
 import { Injectable } from '@angular/core';
 
 @Injectable({

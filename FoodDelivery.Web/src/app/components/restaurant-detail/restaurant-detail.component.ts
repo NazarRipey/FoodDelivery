@@ -1,4 +1,4 @@
-import { imgSrc } from './../../app.module';
+import { imgSrc } from './../../globals'
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestaurantService } from './../../services/restaurant.service';
 import { Component, OnInit } from '@angular/core';

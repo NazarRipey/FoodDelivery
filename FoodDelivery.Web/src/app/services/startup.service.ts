@@ -1,3 +1,4 @@
+import { cartHelper } from './../helpers/cartHelper';
 import { of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { userHelper } from './../helpers/userHelper';
@@ -9,13 +10,13 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class StartupService {
 
-  constructor(private userHelper:userHelper) { }
+  constructor(private userHelper:userHelper, private cartHelper: cartHelper) { }
 
   load(): Promise<any> {
     return forkJoin([
       this.userHelper.getProfile().pipe(mergeMap(x => {
         if(x){
-          return this.userHelper.getOwnerRequest(x.id)
+          return forkJoin([this.userHelper.getOwnerRequest(x.id), this.cartHelper.getTotal()])
         }
         else{
           return of(x);

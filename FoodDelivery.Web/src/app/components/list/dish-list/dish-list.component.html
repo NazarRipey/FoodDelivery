@@ -20,7 +20,7 @@
             {{selectedsortType}}
             </button>
             <div ngbDropdownMenu aria-labelledby="sortDropDown">
-                <a ngbDropdownItem *ngFor="let sortType of sortTypes()" 
+                <a ngbDropdownItem *ngFor="let sortType of dishSortTypes | enumKeys" 
                     [queryParams]="{sortType:sortType}" queryParamsHandling='merge' [routerLink]="[]">
                     {{sortType}}
                 </a>
@@ -46,13 +46,7 @@
             <div class="card-body d-flex">
                 <ul class="col justify-content-around">
                     <li *ngFor="let dish of dishResponse.dishes | paginate: config" class="mb-2 list-item">
-                        <img src="{{imgSrc}}" (click)="openAddToCart(dish.id)" class="list-image">
-                        <div>
-                            <span>{{dish.name}}</span>
-                        </div>
-                        <div>
-                            <span>{{dish.price}}₴</span>
-                        </div>
+                        <app-dish-list-item [dish]="dish"></app-dish-list-item>
                     </li>
                 </ul>
             </div>

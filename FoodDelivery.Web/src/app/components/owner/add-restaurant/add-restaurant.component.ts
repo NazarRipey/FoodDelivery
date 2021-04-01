@@ -1,7 +1,6 @@
 import { MessageComponent } from './../../message/message.component';
 
 import { userHelper } from './../../../helpers/userHelper';
-import { imgSrc } from './../../../app.module';
 import { restaurantErrors } from '../../../models/enums/errors/restaurantErrors';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';

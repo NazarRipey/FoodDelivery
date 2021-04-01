@@ -9,5 +9,7 @@ namespace FoodDelivery.DAL.Repositories
 		Cart GetByUserProfileId(Guid userProfileId);
 		void Add(Guid userProfileId);
 		CartResponseDTO Get(Guid userId);
+		void Remove(Guid id);
+		int GetTotalItems(Guid userId);
 	}
 }

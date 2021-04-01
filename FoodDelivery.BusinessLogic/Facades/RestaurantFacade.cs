@@ -72,9 +72,9 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_restaurantRepository.Remove(restaurantId);
 		}
 
-		public void Update(RestaurantDetailDTO restaurantDTO)
+		public void Update(RestaurantUpdateDTO restaurantUpdateDTO)
 		{
-			_restaurantRepository.Update(restaurantDTO);
+			_restaurantRepository.Update(restaurantUpdateDTO);
 		}
 
 		public void Activate(Guid restaurantId)

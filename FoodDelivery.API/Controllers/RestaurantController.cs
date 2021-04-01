@@ -154,11 +154,11 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPut]
-		public IActionResult Put([FromBody] RestaurantDetailDTO restaurantDTO)
+		public IActionResult Put([FromBody] RestaurantUpdateDTO restaurantUpdateDTO)
 		{
 			try
 			{
-				_restaurantFacade.Update(restaurantDTO);
+				_restaurantFacade.Update(restaurantUpdateDTO);
 			}
 			catch (Exception e)
 			{

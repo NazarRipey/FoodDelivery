@@ -44,18 +44,12 @@ import { Router, Scroll } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { DishDetailComponent } from './components/dish-detail/dish-detail.component';
 import { CartDetailComponent } from './components/cart/cart-detail/cart-detail.component';
+import { DishListItemComponent } from './components/list-items/dish-list-item/dish-list-item.component';
+import { RestaurantListItemComponent } from './components/list-items/restaurant-list-item/restaurant-list-item.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
 }
-
-/*hardcoded data*/
-export const serverUrl = 'https://localhost:44325/';
-
-export const imgSrc = 'assets/images/default.jpg'
-
-export const sortTypes = ["price", "name", "rating"];
-/*//////////////*/
 
 @NgModule({
   declarations: [
@@ -88,6 +82,8 @@ export const sortTypes = ["price", "name", "rating"];
     EnumKeysPipe,
     DishDetailComponent,
     CartDetailComponent,
+    DishListItemComponent,
+    RestaurantListItemComponent,
   ],
   imports: [
     BrowserModule,

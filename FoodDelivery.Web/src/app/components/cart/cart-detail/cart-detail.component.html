@@ -1,6 +1,7 @@
 <div *ngIf="!cartResponse">
     <div class="text-center">
         <h2>Cart is empty</h2>
+        <i class="bi bi-cart-x d-block"></i>
     </div>
 </div>
 
@@ -10,14 +11,14 @@
     </div>
     <div class="card cart-container mb-3">
         <div class="text-right mr-1 mt-1">
-            <button class="btn btn-danger">Clear</button>
+            <button class="btn btn-danger" (click)="RemoveCart()" >Clear</button>
         </div>
         <div class="card-body d-flex">
             <ul class="col justify-content-around">
                 <li *ngFor="let item of cartResponse.cartItems" class="mb-2 list-item">
                     <div class="text-center d-flex">
                         <h4 class="ml-auto">{{item.dish.name}}</h4>
-                        <button class="ml-auto btn btn-danger">
+                        <button (click)="RemoveItem(item.id)" class="ml-auto btn btn-danger">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </div>

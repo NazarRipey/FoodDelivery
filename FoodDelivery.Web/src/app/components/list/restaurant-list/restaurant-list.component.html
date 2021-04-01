@@ -19,7 +19,7 @@
              ngbDropdownToggle>{{selectedsortType}}
             </button>
             <div ngbDropdownMenu aria-labelledby="sortDropDown">
-                <a ngbDropdownItem *ngFor="let sortType of sortTypes()" 
+                <a ngbDropdownItem *ngFor="let sortType of restaurantSortTypes| enumKeys" 
                     [queryParams]="{sortType:sortType}" queryParamsHandling='merge' [routerLink]="[]">
                     {{sortType}}
                 </a>
@@ -39,13 +39,7 @@
                 <ul class="col justify-content-around">
                     <li *ngFor="let rs of restaurantResponse.restaurants | paginate: config" 
                             class="mb-2 list-item">
-                            {{restaurantResponse.restaurants.count}}
-                        <a [routerLink]="['/restaurants', rs.name]">
-                            <img src="{{imgSrc}}" class="list-image">
-                            <div>
-                                <span>{{rs.name}}</span>
-                            </div>
-                        </a>
+                            <app-restaurant-list-item [restaurant]="rs"></app-restaurant-list-item>
                     </li>
                 </ul>
             </div>

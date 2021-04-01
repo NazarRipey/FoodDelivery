@@ -1,3 +1,4 @@
+import { restaurantUpdateObject } from './../../../models/restaurant/restaurantUpdateObject';
 import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
 import { userHelper } from './../../../helpers/userHelper';
 import { RestaurantService } from './../../../services/restaurant.service';
@@ -35,18 +36,15 @@ export class UpdateRestaurantComponent implements OnInit {
   }
 
   onSubmit(){
-    const restaurant :restaurantDetailObject = {
+    const restaurant :restaurantUpdateObject = {
       id: this.restaurant.id,
-      ownerId: this.userHelper.profile.id,
-      name: this.restaurant.name,
       description: this.updateRestaurantForm.get('description').value,
-      type: this.restaurant.type,
     }
 
     this.restaurantService.updateRestaurant(restaurant).subscribe(
       _ => {
         this.modalRef.close();
-        document.location.reload(true);
+        location.reload();
       },
       err => {
         this.updateRestaurantForm.setErrors({"server": +err.error});

@@ -40,5 +40,23 @@ namespace FoodDelivery.DAL.Repositories
 
 			SaveChanges();
 		}
+
+		public void Remove(Guid id)
+		{
+			CartItem cartItem = _db.CartItem.Find(id);
+			_db.Remove(cartItem);
+
+			SaveChanges();
+		}
+
+		public void Update(Guid id, int quantity)
+		{
+			CartItem item = _db.CartItem.Find(id);
+			item.Quantity = quantity;
+
+			_db.Entry(item).State = EntityState.Modified;
+
+			SaveChanges();
+		}
 	}
 }

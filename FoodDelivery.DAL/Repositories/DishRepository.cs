@@ -143,9 +143,15 @@ namespace FoodDelivery.DAL.Repositories
 			return topDishDTOs;
 		}
 
-		public void Update(DishDTO dishDTO)
+		public void Update(DishUpdateDTO dishUpdateDTO)
 		{
-			Dish dish = _mapper.Map<Dish>(dishDTO);
+			Dish dish = _db.Dish.Find(dishUpdateDTO.Id);
+
+			dish.Name = dishUpdateDTO.Name;
+			dish.Description = dishUpdateDTO.Description;
+			dish.Weight = dishUpdateDTO.Weight;
+			dish.Price = dishUpdateDTO.Price;
+
 			_db.Entry(dish).State = EntityState.Modified;
 
 			SaveChanges();

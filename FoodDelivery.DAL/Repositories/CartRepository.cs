@@ -30,12 +30,13 @@ namespace FoodDelivery.DAL.Repositories
 		{
 			Cart cart = _db.Cart.Where(c => c.UserProfileId == userId).SingleOrDefault();
 
-			ICollection<CartItemDTO> cartItemDTOs = _mapper.Map<ICollection<CartItemDTO>>(cart.CartItems);
+			ICollection<CartItemDTO> cartItemDTOs = _mapper.Map<ICollection<CartItemDTO>>(cart?.CartItems);
 
 			if (cartItemDTOs.Count() > 0)
 			{
 				CartResponseDTO cartResponse = new CartResponseDTO()
 				{
+					Id = cart.Id,
 					CartItems = cartItemDTOs,
 					TotalPrice = (double)cartItemDTOs.Select(c => c.Dish.Price * c.Quantity).Sum()
 				};
@@ -51,6 +52,29 @@ namespace FoodDelivery.DAL.Repositories
 			Cart cart = _db.Cart.Where(c => c.UserProfileId == userProfileId).SingleOrDefault();
 
 			return cart;
+		}
+
+		public int GetTotalItems(Guid userId)
+		{
+			int total = 0;
+			Cart cart = _db.Cart.Where(c => c.UserProfileId == userId).SingleOrDefault();
+
+			if (cart != null)
+			{
+				total = cart.CartItems.Count();
+			}
+
+			return total;
+		}
+
+		public void Remove(Guid id)
+		{
+			Cart cart = _db.Cart.Find(id);
+
+			_db.CartItem.RemoveRange(cart.CartItems);
+			_db.Cart.Remove(cart);
+
+			_db.SaveChanges();
 		}
 	}
 }

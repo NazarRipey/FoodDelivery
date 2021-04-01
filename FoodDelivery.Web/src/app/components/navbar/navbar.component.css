@@ -38,3 +38,20 @@ a:hover{
 ul li{
  margin: auto 0;
 }
+
+.badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 10px;
+}
+
+#lblCartCount {
+    font-size: 12px;
+    background: #FFC043;
+    color: #fff;
+    padding: 2px 4px;
+    vertical-align: top;
+    margin-left: -8px; 
+}
