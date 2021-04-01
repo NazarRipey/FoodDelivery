@@ -46,6 +46,9 @@ import { DishDetailComponent } from './components/dish-detail/dish-detail.compon
 import { CartDetailComponent } from './components/cart/cart-detail/cart-detail.component';
 import { DishListItemComponent } from './components/list-items/dish-list-item/dish-list-item.component';
 import { RestaurantListItemComponent } from './components/list-items/restaurant-list-item/restaurant-list-item.component';
+import { ConfirmOrderComponent } from './components/order/confirm-order/confirm-order.component';
+import { OrderDetailComponent } from './components/order/order-detail/order-detail.component';
+import { OrderListComponent } from './components/order/order-list/order-list.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -84,6 +87,9 @@ export function startupServiceFactory(startupService: StartupService): Function 
     CartDetailComponent,
     DishListItemComponent,
     RestaurantListItemComponent,
+    ConfirmOrderComponent,
+    OrderDetailComponent,
+    OrderListComponent,
   ],
   imports: [
     BrowserModule,

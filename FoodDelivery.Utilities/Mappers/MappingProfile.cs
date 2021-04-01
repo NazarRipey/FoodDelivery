@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Order;
+using FoodDelivery.Entities.Enums;
 using FoodDelivery.Entities.Enums.Status;
 using Microsoft.AspNetCore.Identity;
 
@@ -75,6 +77,21 @@ namespace FoodDelivery.Utilities.Mappers
 
 			CreateMap<CartItem, CartItemDTO>()
 				.ReverseMap();
+
+			CreateMap<OrderItem, OrderItemDTO>()
+				.ReverseMap();
+
+
+			CreateMap<Order, OrderDTO>()
+			.ForMember(d => d.PaymentType, opt =>
+			{
+				opt.MapFrom(o => (PaymentType)o.PaymentType);
+			})
+			.ForMember(d => d.Status, opt =>
+			{
+				opt.MapFrom(o => (OrderStatus)o.Status);
+			})
+			.ReverseMap();
 		}
 	}
 }

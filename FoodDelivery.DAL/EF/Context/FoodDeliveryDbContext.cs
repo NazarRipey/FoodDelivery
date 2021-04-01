@@ -17,6 +17,8 @@ namespace FoodDelivery.DAL.EF.Context
 		public DbSet<Dish> Dish { get; set; }
 		public DbSet<Cart> Cart { get; set; }
 		public DbSet<CartItem> CartItem { get; set; }
+		public DbSet<Order> Order { get; set; }
+		public DbSet<OrderItem> OrderItem { get; set; }
 
 		public FoodDeliveryDbContext(DbContextOptions<FoodDeliveryDbContext> options)
 			: base(options)

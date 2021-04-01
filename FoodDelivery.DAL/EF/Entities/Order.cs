@@ -1,0 +1,23 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FoodDelivery.DAL.EF.Entities
+{
+	public class Order
+	{
+		[Key]
+		public Guid Id { get; set; }
+		public int OrderNumber { get; set; }
+		[ForeignKey("UserProfile")]
+		public Guid UserProfileId { get; set; }
+		public DateTime CreatedDate { get; set; }
+		public DateTime? ClosedDate { get; set; }
+		public int PaymentType { get; set; }
+		public string Address { get; set; }
+		public int Status { get; set; }
+		public int TotalSum { get; set; }
+		public string Comment { get; set; }
+		public virtual UserProfile UserProfile { get; set; }
+	}
+}
