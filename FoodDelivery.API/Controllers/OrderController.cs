@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using FoodDelivery.BusinessLogic.Facades;
+using FoodDelivery.Entities.DTO.Order;
+using FoodDelivery.Entities.FilterParams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +15,49 @@ namespace FoodDelivery.API.Controllers
 	[Authorize]
 	public class OrderController : ControllerBase
 	{
+		private readonly IOrderFacade _orderFacade;
+		private readonly IUserProfileFacade _userProfileFacade;
+
+		public OrderController(IOrderFacade orderFacade, IUserProfileFacade userProfileFacade)
+		{
+			_orderFacade = orderFacade;
+			_userProfileFacade = userProfileFacade;
+		}
+
+		[HttpGet]
+		[Route("active")]
+		public ICollection<OrderShortDTO> GetActive()
+		{
+			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+
+			return _orderFacade.GetActive(userId);
+		}
+
+		[HttpPost]
+		[Route("all")]
+		public OrderResponseDTO RetrieveAll(OrderFilterParams orderFilterParams)
+		{
+			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+
+			return _orderFacade.RetrieveAll(orderFilterParams, userId);
+		}
+
+		[HttpPost]
+		[Route("add")]
+		public IActionResult Post([FromBody] AddOrderDTO addOrderDTO)
+		{
+			try
+			{
+				_orderFacade.AddOrder(addOrderDTO);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+		/*
 		// GET: api/<OrderController>
 		[HttpGet]
 		public IEnumerable<string> Get()
@@ -25,11 +72,6 @@ namespace FoodDelivery.API.Controllers
 			return "value";
 		}
 
-		// POST api/<OrderController>
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
-		}
 
 		// PUT api/<OrderController>/5
 		[HttpPut("{id}")]
@@ -41,6 +83,6 @@ namespace FoodDelivery.API.Controllers
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{
-		}
+		}*/
 	}
 }

@@ -10,18 +10,11 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class StartupService {
 
-  constructor(private userHelper:userHelper, private cartHelper: cartHelper) { }
+  constructor(private userHelper:userHelper) { }
 
   load(): Promise<any> {
     return forkJoin([
-      this.userHelper.getProfile().pipe(mergeMap(x => {
-        if(x){
-          return forkJoin([this.userHelper.getOwnerRequest(x.id), this.cartHelper.getTotal()])
-        }
-        else{
-          return of(x);
-        }
-      }))
+      this.userHelper.getProfile()
     ]).toPromise();
   }
 }

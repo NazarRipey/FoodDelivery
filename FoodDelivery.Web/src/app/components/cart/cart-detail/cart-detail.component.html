@@ -50,7 +50,7 @@
 
         <div class="text-center mb-3">
             <h4>Total: {{cartResponse.totalPrice}}₴</h4>
-            <button class="btn bg-green btn-lg">Proceed to checkout</button>
+            <button (click)="OpenConfirmOrder()" class="btn bg-green btn-lg">Proceed to checkout</button>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,8 +17,10 @@ namespace FoodDelivery.DAL.EF.Entities
 		public int PaymentType { get; set; }
 		public string Address { get; set; }
 		public int Status { get; set; }
-		public int TotalSum { get; set; }
+		public decimal TotalSum { get; set; }
 		public string Comment { get; set; }
 		public virtual UserProfile UserProfile { get; set; }
+
+		public virtual List<OrderItem> OrderItems { get; set; }
 	}
 }

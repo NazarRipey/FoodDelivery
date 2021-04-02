@@ -92,6 +92,13 @@ namespace FoodDelivery.Utilities.Mappers
 				opt.MapFrom(o => (OrderStatus)o.Status);
 			})
 			.ReverseMap();
+
+			CreateMap<Order, OrderShortDTO>()
+			.ForMember(d => d.Status, opt =>
+			{
+				opt.MapFrom(o => (OrderStatus)o.Status);
+			})
+			.ReverseMap();
 		}
 	}
 }

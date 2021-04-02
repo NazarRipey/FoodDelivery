@@ -7,8 +7,8 @@ export class ownerRequestObject
 {
     id: Guid;
     userProfileId: Guid;
-    createdDate: string;
-    closedDate: string
+    createdDate: Date;
+    closedDate: Date
     status: ownerRequestStatus;
 
     userProfile: userShortProfile;

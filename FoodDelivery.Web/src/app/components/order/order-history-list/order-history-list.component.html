@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="input-group search mx-auto">
+        <input type="search" #search class="form-control" (search)="onSearch(search.value)"
+            placeholder="I'm looking for..." value="{{orderFilterParams.search}}"/>
+        <button type="submit" class="btn bg-popstar" (click)="onSearch(search.value)">
+            <i class="bi bi-search"></i>
+        </button>
+    </div>
+</div>
+
+<div class="wrapper d-flex align-items-stretch mt-2">
+    <div class="p-md-3 w-100">
+        <div class="card text-center">
+            <div class="card-body">
+                <ul class="col justify-content-around">
+                    <li *ngFor="let order of orderResponse.orders | paginate: config" class="mb-2 list-item">
+                        <div class="text-center">
+                            <p><b>
+                                <a  [routerLink]="['/orders', order.id]">
+                                    Order number: {{order.orderNumber}}
+                                </a>
+                            </b></p>
+                        </div>
+                        <div class="text-left">
+                            <p>Status: {{statuses[order.status]}}</p>
+                        </div>
+                        <div class="text-center">
+                            <p><b>Dishes</b></p>
+                        </div>
+                        <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col"><b>Subtotal</b></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of order.orderItems">
+                                <td>{{item.dish.name}}</td>
+                                <td>{{item.dish.price}}</td>
+                                <td>{{item.quantity}}</td>
+                                <td><b>{{item.quantity * item.dish.price}}</b></td>
+                              </tr>
+                            </tbody>
+                          </table>  
+
+                        <hr>
+                        <div class="text-center">
+                            <p><b>Total {{order.totalSum}}</b></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer pb-0 pt-3">
+                <pagination-controls 
+                    (pageChange)="pageChanged($event)">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>    
+</div>
+
+

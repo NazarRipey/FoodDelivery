@@ -1,7 +1,7 @@
 export class userSignUpModel{
     firstName: string;
     lastName: string;
-    birthday: string;
+    birthday: Date;
     email: string;
     phoneNumber: string;
     password: string;

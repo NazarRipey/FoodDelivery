@@ -7,7 +7,7 @@ export class restaurantRequestObject{
     public name: string;
     public userProfile: userShortProfile;
     public status: number;
-    public createdDate: string;
-    public closedDate: string
+    public createdDate: Date;
+    public closedDate: Date
     public type: restaurantType;
 }

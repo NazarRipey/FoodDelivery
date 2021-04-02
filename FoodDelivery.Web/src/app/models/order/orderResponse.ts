@@ -1,6 +1,6 @@
-import { order } from "./order";
+import { orderShort } from './orderShort';
 
 export class orderResponse{
-    public orders: order[];
+    public orders: orderShort[];
     public totalOrdersCount: number;
 }

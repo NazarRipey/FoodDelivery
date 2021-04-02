@@ -6,4 +6,5 @@ export class dishListObject{
     public id?: Guid;
     public name: string;
     public price: number;
+    public rating?: number;
 }

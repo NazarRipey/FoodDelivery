@@ -1,14 +1,13 @@
-import { CartService } from './../services/cart.service';
+import { cartHelper } from './cartHelper';
 import { ownerRequestStatus } from './../models/enums/statuses/ownerRequestStatus';
 import { Guid } from 'guid-typescript';
 import { OwnerRequestService } from './../services/owner-request.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { LogInComponent } from './../components/auth/log-in/log-in.component';
-import { mergeMap, tap } from 'rxjs/operators';
+import { concatMap, mergeMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { userLogInModel } from '../models/auth/userLogInModel';
-import { throwError, Observable, BehaviorSubject, Subject, forkJoin } from 'rxjs';
+import { throwError, Observable, BehaviorSubject, Subject, forkJoin, concat, merge, of } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { userProfile } from '../models/userProfile/userProfile';
 
@@ -19,7 +18,7 @@ export class userHelper{
     constructor(private authService: AuthenticationService, 
         private router:Router,
         private ownerRequestService:OwnerRequestService,
-        private cartService:CartService)
+        private cartHelper: cartHelper)
     {}
 
     private _profile = new BehaviorSubject<userProfile>(null);
@@ -44,14 +43,21 @@ export class userHelper{
         return result;
     }
 
-    public getProfile(): Observable<userProfile>{
-        var result = this.authService.getUserProfile();
+    public getProfile(): Observable<any>{
+        var result = this.authService.getUserProfile().pipe(
+            concatMap(p => {
+                this._profile.next(p);
+                if(p){
+                    return forkJoin([this.getOwnerRequest(p.id), this.cartHelper.getTotal()]).toPromise();
+                }
+                else{
+                    return of(p);
+                }
+            })
+        );
+
         if(!this._profile.getValue()){
-            result.subscribe(
-                p => {
-                    this._profile.next(p);     
-                },
-            );
+            result.subscribe();
         }
 
         return result;
@@ -79,7 +85,6 @@ export class userHelper{
                 r => {
                     if(this._profile)
                     {
-                        this.getOwnerRequest(this.profile.id).subscribe();
                         if(this._profile.value.roles.includes("admin"))
                         {
                             this.router.navigateByUrl("/requests");
@@ -103,6 +108,7 @@ export class userHelper{
         this.authService.logOut().subscribe(_ => {
             this._profile.next(null)
             this._ownerRequestStatus.next(null);
+            this.cartHelper.total = null;
             this.router.navigateByUrl("");
         });       
     }   

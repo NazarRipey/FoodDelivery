@@ -1,0 +1,46 @@
+<div class="text-center">
+    <h2><a [routerLink]="['/orders/history']">Order History</a></h2>
+</div>
+
+<div>
+    <ul class="col justify-content-around">
+        <li *ngFor="let order of orders" class="mb-2 list-item">
+            <div class="text-center">
+                <p><b>
+                    <a  [routerLink]="['/orders', order.id]">
+                        Order number: {{order.orderNumber}}
+                    </a>
+                </b></p>
+            </div>
+            <div class="text-left">
+                <p>Status: {{statuses[order.status]}}</p>
+            </div>
+            <div class="text-center">
+                <p><b>Dishes</b></p>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col"><b>Subtotal</b></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of order.orderItems">
+                    <td>{{item.dish.name}}</td>
+                    <td>{{item.dish.price}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td><b>{{item.quantity * item.dish.price}}</b></td>
+                  </tr>
+                </tbody>
+              </table>  
+
+            <hr>
+            <div class="text-center">
+                <p><b>Total {{order.totalSum}}</b></p>
+            </div>
+        </li>
+    </ul>
+</div>

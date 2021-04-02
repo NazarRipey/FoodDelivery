@@ -1,3 +1,5 @@
+import { ConfirmOrderComponent } from './../../order/confirm-order/confirm-order.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Guid } from 'guid-typescript';
 import { cartItem } from './../../../models/cart/cartItem';
 import { imgSrc } from './../../../globals'
@@ -15,7 +17,7 @@ export class CartDetailComponent implements OnInit {
   cartResponse: cartResponse = new cartResponse();
   imgSrc = imgSrc;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.cartService.get().subscribe(c => this.cartResponse = c);
@@ -27,6 +29,11 @@ export class CartDetailComponent implements OnInit {
 
   Decrement(item: cartItem){
     item.quantity--;
+  }
+
+  OpenConfirmOrder(){
+    const modal = this.modalService.open(ConfirmOrderComponent);
+    modal.componentInstance.cartId = this.cartResponse.id;
   }
 
   UpdateQuantity(item: cartItem){

@@ -1,0 +1,9 @@
+div .card-body ul li {
+    flex: 0 0 49.5%;
+}
+
+@media only screen and (max-width: 800px) {
+    div .card-body ul li {
+        flex: 0 0 100%;
+    }
+}
