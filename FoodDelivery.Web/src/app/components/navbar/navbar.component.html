@@ -18,6 +18,9 @@
         <li *ngIf="userHelper.ownerRequestStatus" class="nav-item">
             <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
         </li>
+        <li *ngIf="userHelper.isInRole(['orderManager'])" class="nav-item">
+            <a class="nav-link" [routerLink]="['/requests']">Manage orders</a>
+        </li>
         <li class="nav-item">
             <div ngbDropdown class="nav-link">
                 <button class="btn btn-outline-primary" id="profile" class="btn bg-green"
