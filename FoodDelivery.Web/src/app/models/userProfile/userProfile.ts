@@ -1,12 +1,12 @@
 import { Guid } from 'guid-typescript';
 
-export class userProfile{
+export class UserProfile{
     id: Guid;
     firstName: string;
     lastName: string;
     email: string;
     phoneNumber: string;
-    birthday: string;
+    birthday: Date;
     address?: string;
     roles?: string[];
 }

@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Order;
+using FoodDelivery.Entities.DTO.Restaurant;
+using FoodDelivery.Entities.Enums;
 using FoodDelivery.Entities.Enums.Status;
 using Microsoft.AspNetCore.Identity;
 
@@ -25,6 +28,7 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<OwnerRequestDTO, OwnerRequest>()
 				.ReverseMap();
 
+			CreateMap<Dish, DishUpdateDTO>();
 
 			CreateMap<DishCategoryDTO, DishCategory>()
 				.ReverseMap();
@@ -32,11 +36,7 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<DishListDTO, Dish>()
 				.ReverseMap();
 
-			CreateMap<Dish, DishDTO>()
-				.ForMember(d => d.Status, opt =>
-				{
-					opt.MapFrom(ds => (DishStatus)ds.Status);
-				})
+			CreateMap<Dish, DishAddDTO>()
 				.ReverseMap();
 
 			CreateMap<Dish, DishCartDTO>()
@@ -45,8 +45,14 @@ namespace FoodDelivery.Utilities.Mappers
 				.ReverseMap();
 
 			CreateMap<Dish, DishDetailDTO>()
-				.ForMember(d => d.RestaurantName,
-					opt => opt.MapFrom(src => src.Restaurant.Name))
+				.ForMember(d => d.Status, opt =>
+				{
+					opt.MapFrom(ds => (DishStatus)ds.Status);
+				})
+				.ForMember(d => d.RestaurantName, opt =>
+				{
+					opt.MapFrom(src => src.Restaurant.Name);
+				})
 				.ReverseMap();
 
 			CreateMap<RestaurantTypeDTO, RestaurantType>()
@@ -55,8 +61,13 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<RestaurantAddressDTO, RestaurantAddress>()
 				.ReverseMap();
 
+			CreateMap<RestaurantAddDTO, Restaurant>()
+				.ReverseMap();
 
 			CreateMap<Restaurant, RestaurantDetailDTO>()
+				.ReverseMap();
+
+			CreateMap<Restaurant, RestaurantOwnerDetailDTO>()
 				.ForMember(d => d.Status, opt =>
 				{
 					opt.MapFrom(r => (RestaurantStatus)r.Status);
@@ -66,6 +77,8 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<RestaurantListDTO, Restaurant>()
 				.ReverseMap();
 
+			CreateMap<Restaurant, RestaurantUpdateDTO>();
+
 			CreateMap<RestaurantRequest, RestaurantRequestDTO>()
 				.ForMember(d => d.Name,
 				opt => opt.MapFrom(r => r.Restaurant.Name))
@@ -73,8 +86,33 @@ namespace FoodDelivery.Utilities.Mappers
 				opt => opt.MapFrom(r => r.Restaurant.Type))
 				.ReverseMap();
 
+
 			CreateMap<CartItem, CartItemDTO>()
 				.ReverseMap();
+
+			CreateMap<OrderItem, OrderItemDTO>()
+				.ReverseMap();
+
+
+			CreateMap<Order, OrderDetailDTO>()
+			.ForMember(d => d.PaymentType, opt =>
+			{
+				opt.MapFrom(o => (PaymentType)o.PaymentType);
+			})
+			.ForMember(d => d.Status, opt =>
+			{
+				opt.MapFrom(o => (OrderStatus)o.Status);
+			})
+			.ReverseMap();
+
+			CreateMap<Order, UpdateOrderDTO>();
+
+			CreateMap<Order, OrderShortDTO>()
+			.ForMember(d => d.Status, opt =>
+			{
+				opt.MapFrom(o => (OrderStatus)o.Status);
+			})
+			.ReverseMap();
 		}
 	}
 }

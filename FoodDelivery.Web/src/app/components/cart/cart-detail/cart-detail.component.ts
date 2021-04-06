@@ -1,7 +1,9 @@
+import { ConfirmOrderComponent } from './../../order/confirm-order/confirm-order.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Guid } from 'guid-typescript';
-import { cartItem } from './../../../models/cart/cartItem';
+import { CartItem } from '../../../models/cart/CartItem';
 import { imgSrc } from './../../../globals'
-import { cartResponse } from './../../../models/cart/cartResponse';
+import { CartResponse } from '../../../models/cart/CartResponse';
 import { CartService } from './../../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -12,24 +14,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartDetailComponent implements OnInit {
 
-  cartResponse: cartResponse = new cartResponse();
+  cartResponse: CartResponse = new CartResponse();
   imgSrc = imgSrc;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.cartService.get().subscribe(c => this.cartResponse = c);
   }
 
-  Increment(item: cartItem){
+  Increment(item: CartItem){
     item.quantity++;
   }
 
-  Decrement(item: cartItem){
+  Decrement(item: CartItem){
     item.quantity--;
   }
 
-  UpdateQuantity(item: cartItem){
+  OpenConfirmOrder(){
+    const modal = this.modalService.open(ConfirmOrderComponent);
+    modal.componentInstance.cartId = this.cartResponse.id;
+  }
+
+  UpdateQuantity(item: CartItem){
     this.cartService.updateItem(item.id, item.quantity).subscribe(_ => {
       location.reload();
     })
@@ -42,7 +49,7 @@ export class CartDetailComponent implements OnInit {
   }
 
   RemoveCart(){
-    this.cartService.deleteCart(this.cartResponse.id).subscribe(_ => {
+    this.cartService.deleteCart().subscribe(_ => {
       location.reload();
     })
   }

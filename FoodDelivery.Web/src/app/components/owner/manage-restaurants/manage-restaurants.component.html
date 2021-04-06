@@ -18,8 +18,12 @@
                 <img src="{{imgSrc}}" class="restaurant-image">
                 <div class="w-100">
                     <div class="text-right">
-                        <button class="btn bg-blue" (click)="updateRestaurant(rs)"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-danger ml-5" (click)="removeRestaurant(rs.id)"><i class="bi bi-x"></i></button>
+                        <button class="btn bg-blue" (click)="updateRestaurant(rs.id, rs.name)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger ml-5" (click)="removeRestaurant(rs.id)">
+                            <i class="bi bi-x"></i>
+                        </button>
                     </div>
                     <div class="text-center">
                         <h4>{{rs.name}}</h4>
@@ -28,11 +32,11 @@
                         <h4 class="ml-auto">Status <b>{{restaurantStatus[rs.status]}}</b></h4>
                         <button class="btn bg-green btn-sm mx-2" (click)="Activate(rs.id)"  
                             [disabled]="rs.status==restaurantStatus.Active">
-                            <i class="bi bi-play"></i>
+                            <i class="bi bi-play-fill"></i>
                         </button>
                         <button class="btn btn-danger btn-sm mx-2" (click)="Stop(rs.id)"
                         [disabled]="rs.status==restaurantStatus.Inactive">
-                            <i class="bi bi-stop"></i>
+                            <i class="bi bi-stop-fill"></i>
                         </button>
                     </div>
                     <p class="container">{{rs.description}}</p>
@@ -78,7 +82,7 @@
                                         </div>
     
                                         <div>
-                                            <button class="btn bg-blue btn-sm" (click)="updateDish(dish)">
+                                            <button class="btn bg-blue btn-sm" (click)="updateDish(dish.id)">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
                                             <button class="btn btn-danger ml-2 btn-sm" (click)="removeDish(dish.id)">

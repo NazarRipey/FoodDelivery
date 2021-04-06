@@ -1,10 +1,8 @@
-import { dishObject } from '../../../models/dish/dishObject';
-import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
-import { dishListObject } from 'src/app/models/dish/dishListObject';
-import { dishErrors } from '../../../models/enums/errors/dishErrors';
+import { DishAddModel } from '../../../models/dish/DishAddModel';
+import { DishErrors } from '../../../models/enums/errors/DishErrors';
 import { DishService } from './../../../services/dish.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { dishCategory } from './../../../models/dish/dishCategory';
+import { DishCategory } from '../../../models/dish/DishCategory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Guid } from 'guid-typescript';
 import { Component, OnInit } from '@angular/core';
@@ -16,8 +14,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddDishComponent implements OnInit {
   restaurantId: Guid;
-  categories: dishCategory[];
-  dishErrors = dishErrors;
+  categories: DishCategory[];
+  dishErrors = DishErrors;
 
   addDishForm = new FormGroup({
     name: new FormControl('', [
@@ -47,7 +45,7 @@ export class AddDishComponent implements OnInit {
   }
 
   onSubmit(){
-    const dish :dishObject = {
+    const dish :DishAddModel = {
       name: this.addDishForm.get('name').value,
       description: this.addDishForm.get('description').value,
       price: this.addDishForm.get('price').value,

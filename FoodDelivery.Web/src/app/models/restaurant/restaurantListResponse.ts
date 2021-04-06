@@ -1,5 +1,6 @@
-import { restaurantListObject } from './restaurantListObject';
-export class restaurantListResponse{
-    public restaurants: restaurantListObject[];
+import { RestaurantList } from './RestaurantList';
+
+export class RestaurantListResponse{
+    public restaurants: RestaurantList[];
     public totalRestaurantsCount: number;
 }

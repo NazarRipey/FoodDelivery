@@ -1,4 +1,4 @@
-import { userHelper } from './../helpers/userHelper';
+import { UserHelper } from '../helpers/UserHelper';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class OwnerGuard implements CanActivate {
   constructor(private router: Router,
-    private userHelper: userHelper){
+    private userHelper: UserHelper){
   }
 
   canActivate(

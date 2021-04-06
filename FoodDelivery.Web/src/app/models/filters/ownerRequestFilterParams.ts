@@ -1,5 +1,5 @@
-import { baseFilterParams } from './baseFilterParams';
+import { BaseFilterParams } from './BaseFilterParams';
 
-export class ownerRequestFilterParams extends baseFilterParams{
+export class OwnerRequestFilterParams extends BaseFilterParams{
     public status : number;
 }

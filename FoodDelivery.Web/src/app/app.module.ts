@@ -2,7 +2,7 @@ import { RestaurantRequestListComponent } from './components/admin/request-list/
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { AddDishComponent } from './components/owner/add-dish/add-dish.component';
 import { StartupService } from './services/startup.service';
-import { GlobalHttpInterceptor } from './errors/globalInterceptor';
+import { GlobalHttpInterceptor } from './errors/GlobalInterceptor';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DishListComponent } from './components/list/dish-list/dish-list.component';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
@@ -46,6 +46,13 @@ import { DishDetailComponent } from './components/dish-detail/dish-detail.compon
 import { CartDetailComponent } from './components/cart/cart-detail/cart-detail.component';
 import { DishListItemComponent } from './components/list-items/dish-list-item/dish-list-item.component';
 import { RestaurantListItemComponent } from './components/list-items/restaurant-list-item/restaurant-list-item.component';
+import { ConfirmOrderComponent } from './components/order/confirm-order/confirm-order.component';
+import { OrderDetailComponent } from './components/order/order-detail/order-detail.component';
+import { OrderHistoryListComponent } from './components/order/order-history-list/order-history-list.component';
+import { OrderActiveListComponent } from './components/order/order-active-list/order-active-list.component';
+import { MinutesSecondsPipe } from './pipes/minutes-seconds.pipe';
+import { UpdateOrderComponent } from './components/order/update-order/update-order.component';
+import { OrderListItemComponent } from './components/order/order-list-item/order-list-item.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -84,6 +91,13 @@ export function startupServiceFactory(startupService: StartupService): Function 
     CartDetailComponent,
     DishListItemComponent,
     RestaurantListItemComponent,
+    ConfirmOrderComponent,
+    OrderDetailComponent,
+    OrderHistoryListComponent,
+    OrderActiveListComponent,
+    MinutesSecondsPipe,
+    UpdateOrderComponent,
+    OrderListItemComponent,
   ],
   imports: [
     BrowserModule,

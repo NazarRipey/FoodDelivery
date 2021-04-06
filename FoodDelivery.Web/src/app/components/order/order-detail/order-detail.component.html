@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="text-center">
+      <p><b>
+        Order number: {{order.orderNumber}}
+      </b></p>
+  </div>
+  <div class="d-flex justify-content-between">
+      <div>
+          <p>Status: {{statuses[order.status]}}</p>
+          <p>Created date: {{order.createdDate | date:'short'}}</p>
+          <p>Closed date: {{order.closedDate | date:'short'}}</p>
+          <p>Payment type: {{paymentTypes[order.paymentType]}}</p>
+          <p>Address: {{order.address}}</p>
+          <p>Comment: {{order.comment}}</p>
+      </div>
+
+      <div class="mr-1">
+        <button *ngIf="order.status==statuses.AwaitingManagerVerification
+          ||order.status==statuses.Cooking" class="btn bg-blue mx-2" (click)="updateOrder(order.id)">
+          Update
+        </button>
+        <button *ngIf="order.status==statuses.AwaitingManagerVerification" class="btn btn-danger mx-2">
+          Cancel
+        </button>
+      </div>
+  </div>
+  <div class="text-center">
+      <p><b>Items</b></p>
+  </div>
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of order.orderItems">
+          <td>{{item.dish.name}}</td>
+          <td>{{item.dish.price}}</td>
+          <td>{{item.quantity}}</td>
+          <td><b>{{item.quantity * item.dish.price}}</b></td>
+        </tr>
+      </tbody>
+    </table>  
+
+  <hr>
+  <div class="text-center">
+      <p><b>Total {{order.totalSum}}</b></p>
+  </div>
+</div>

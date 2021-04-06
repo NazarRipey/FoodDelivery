@@ -18,7 +18,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_dishCategoryRepository = dishCategoryRepository;
 		}
 
-		public void Create(DishDTO dishDTO)
+		public void Create(DishAddDTO dishDTO)
 		{
 			_dishRepository.Create(dishDTO);
 		}
@@ -71,6 +71,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public DishDetailDTO GetDetailDTOById(Guid id)
 		{
 			return _dishRepository.GetDetailDTOById(id);
+		}
+
+		public DishUpdateDTO GetUpdateDTOById(Guid id)
+		{
+			return _dishRepository.GetUpdateDTOById(id);
 		}
 	}
 }

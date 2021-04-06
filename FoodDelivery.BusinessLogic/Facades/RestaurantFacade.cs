@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Restaurant;
 using FoodDelivery.Entities.Enums.Status;
 using FoodDelivery.Entities.FilterParams;
 
@@ -27,9 +28,9 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_restaurantAddressRepository.Add(restaurantAddressDTO);
 		}
 
-		public void Create(RestaurantDetailDTO restaurantDTO)
+		public void Create(RestaurantAddDTO restaurantAddDTO)
 		{
-			_restaurantRepository.Create(restaurantDTO);
+			_restaurantRepository.Create(restaurantAddDTO);
 		}
 
 		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
@@ -47,7 +48,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _restaurantRepository.GetByName(name);
 		}
 
-		public RestaurantDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
+		public RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
 		{
 			return _restaurantRepository.RetrieveMyRestaurants(filterParams, ownerId);
 		}
@@ -85,6 +86,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public void Deactivate(Guid restaurantId)
 		{
 			_restaurantRepository.UpdateStatus(restaurantId, (int)RestaurantStatus.Inactive);
+		}
+
+		public RestaurantUpdateDTO GetUpdateDTOById(Guid id)
+		{
+			return _restaurantRepository.GetUpdateDTOById(id);
 		}
 	}
 }

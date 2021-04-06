@@ -2,10 +2,7 @@
     width: 55%;
 }
 
-a:hover{
-    color: #06C167
-}
-
 a{
+    color: #06C167;
     font-size: 1.2em;
 }

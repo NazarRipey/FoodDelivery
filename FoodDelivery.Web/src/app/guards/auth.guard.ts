@@ -1,6 +1,6 @@
 import { LogInComponent } from './../components/auth/log-in/log-in.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { userHelper } from './../helpers/userHelper';
+import { UserHelper } from '../helpers/UserHelper';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private userHelper: userHelper, private modalService: NgbModal){
+  constructor(private userHelper: UserHelper, private modalService: NgbModal){
   }
 
   canActivate(

@@ -1,8 +1,9 @@
-import { modalHelper } from './../../../helpers/modalHelper';
-import { cartHelper } from '../../../helpers/cartHelper';
+import { DishList } from './../../../models/dish/DishList';
+import { ModalHelper } from '../../../helpers/ModalHelper';
+import { CartHelper } from '../../../helpers/CartHelper';
 import { AddToCartComponent } from '../../cart/add-to-cart/add-to-cart.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { dishObject } from '../../../models/dish/dishObject';
+import { DishAddModel } from '../../../models/dish/DishAddModel';
 import { imgSrc } from './../../../globals'
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -16,9 +17,9 @@ export class DishListItemComponent implements OnInit {
   imgSrc = imgSrc;
 
   @Input()
-  dish: dishObject;
+  dish: DishList;
 
-  constructor(private modalHelper: modalHelper) { }
+  constructor(private modalHelper: ModalHelper) { }
 
   ngOnInit(): void {
   }

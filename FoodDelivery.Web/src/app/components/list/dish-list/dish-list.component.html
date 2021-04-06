@@ -7,7 +7,7 @@
         </button>
 
         <div class="input-group search mx-auto">
-            <input type="search" #search class="form-control" (keyup.enter)="onSearch(search.value)"
+            <input type="search" #search class="form-control" (search)="onSearch(search.value)"
              placeholder="I'm looking for..." value="{{dishFilterParams.search}}"/>
             <button type="submit" class="btn bg-popstar" (click)="onSearch(search.value)">
                 <i class="bi bi-search"></i>

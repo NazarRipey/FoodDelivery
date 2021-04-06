@@ -1,18 +1,18 @@
 import { Guid } from 'guid-typescript';
-import { dishSortType } from '../../../models/enums/sorts/dishSortType';
-import { sliderOptions } from './../../../models/sliderOptions';
-import { dishListResponse } from './../../../models/dish/dishListResponse';
-import { dishFilterParams } from '../../../models/filters/dishFilterParams';
+import { DishSortType } from '../../../models/enums/sorts/DishSortType';
+import { SliderOptions } from '../../../models/SliderOptions';
+import { DishListResponse } from '../../../models/dish/DishListResponse';
+import { DishFilterParams } from '../../../models/filters/DishFilterParams';
 import { NouisliderModule } from 'ng2-nouislider';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { DishService } from './../../../services/dish.service';
 import { CartService } from '../../../services/cart.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { dishListObject } from 'src/app/models/dish/dishListObject';
+import { DishList } from 'src/app/models/dish/DishList';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { paginationConfig } from 'src/app/models/paginationConfig';
+import { PaginationConfig } from 'src/app/models/PaginationConfig';
 import { Options } from '@angular-slider/ngx-slider';
 
 @Component({
@@ -21,15 +21,15 @@ import { Options } from '@angular-slider/ngx-slider';
   styleUrls: ['./dish-list.component.css']
 })
 export class DishListComponent implements OnInit {
-  sliderOptions: sliderOptions = new sliderOptions();
-  dishResponse: dishListResponse = new dishListResponse();
-  dishFilterParams: dishFilterParams = new dishFilterParams();
-  config: paginationConfig = new paginationConfig();
+  sliderOptions: SliderOptions = new SliderOptions();
+  dishResponse: DishListResponse = new DishListResponse();
+  dishFilterParams: DishFilterParams = new DishFilterParams();
+  config: PaginationConfig = new PaginationConfig();
   
   restaurantNames: string[];
   dishCategories: string[];
 
-  dishSortTypes = dishSortType;
+  dishSortTypes = DishSortType;
   selectedsortType: string;
 
   toggleFilters = false;

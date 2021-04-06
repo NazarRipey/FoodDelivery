@@ -1,4 +1,4 @@
-export enum restaurantRequestSortType{
+export enum RestaurantRequestSortType{
     Name = 0,
 
     Type = 1,

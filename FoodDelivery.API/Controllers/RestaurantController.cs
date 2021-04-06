@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Restaurant;
 using FoodDelivery.Entities.Enums;
 using FoodDelivery.Entities.FilterParams;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +40,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("myrestaurants")]
-		public RestaurantDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams)
+		public RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams)
 		{
 			Guid ownerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
 
@@ -51,6 +52,13 @@ namespace FoodDelivery.API.Controllers
 		public RestaurantDetailDTO GetByName(string name)
 		{
 			return _restaurantFacade.GetByName(name);
+		}
+
+		[HttpGet]
+		[Route("updaterestaurant/{id:Guid}")]
+		public RestaurantUpdateDTO GetUpdateDTOById(Guid id)
+		{
+			return _restaurantFacade.GetUpdateDTOById(id);
 		}
 
 		[HttpGet]
@@ -79,23 +87,23 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("add")]
-		public IActionResult Post([FromBody] RestaurantDetailDTO restaurantDTO)
+		public IActionResult Post([FromBody] RestaurantAddDTO restaurantAddDTO)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(RestaurantErrors.ModelInvalid);
 			}
-			if (_restaurantFacade.GetByName(restaurantDTO.Name) != null)
+			if (_restaurantFacade.GetByName(restaurantAddDTO.Name) != null)
 			{
 				return BadRequest(RestaurantErrors.AlreadyExistsName);
 			}
 
 			try
 			{
-				restaurantDTO.Id = Guid.NewGuid();
+				restaurantAddDTO.Id = Guid.NewGuid();
 
-				_restaurantFacade.Create(restaurantDTO);
-				_restaurantRequestFacade.Create(restaurantDTO.OwnerId, restaurantDTO.Id);
+				_restaurantFacade.Create(restaurantAddDTO);
+				_restaurantRequestFacade.Create(restaurantAddDTO.OwnerId, restaurantAddDTO.Id);
 			}
 			catch (Exception e)
 			{

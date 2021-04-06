@@ -1,10 +1,10 @@
-import { cartHelper } from './../../../helpers/cartHelper';
-import { cartItemModel } from './../../../models/cart/cartItemModel';
+import { CartHelper } from '../../../helpers/CartHelper';
+import { CartItemModel } from '../../../models/cart/CartItemModel';
 import { CartService } from './../../../services/cart.service';
 import { DishService } from '../../../services/dish.service';
-import { dishCartObject } from '../../../models/dish/dishCartObject';
+import { DishCart } from '../../../models/dish/DishCart';
 import { LogInComponent } from '../../auth/log-in/log-in.component';
-import { userHelper } from '../../../helpers/userHelper';
+import { UserHelper } from '../../../helpers/UserHelper';
 import { Guid } from 'guid-typescript';
 import { imgSrc } from '../../../globals';
 import { Component, Input, OnInit } from '@angular/core';
@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
 export class AddToCartComponent implements OnInit {
   dishId: Guid;
 
-  dish: dishCartObject;
+  dish: DishCart;
   imgSrc = imgSrc;
   itemCount;
 
@@ -34,12 +34,12 @@ export class AddToCartComponent implements OnInit {
   addedQuantity: number;
 
   constructor(public modalRef: NgbActiveModal,
-    private userHelper:userHelper,
+    private userHelper:UserHelper,
     private modalService: NgbModal,
     private dishService:DishService,
     private router: Router,
     private cartService: CartService,
-    private cartHelper: cartHelper) { }
+    private cartHelper: CartHelper) { }
 
   ngOnInit(): void {
     this.itemCount = 1;
@@ -61,7 +61,7 @@ export class AddToCartComponent implements OnInit {
       this.modalService.open(LogInComponent, {centered: true});
     }
     else{
-      const cartItemModel: cartItemModel = {
+      const cartItemModel: CartItemModel = {
         dishId: dishId, quantity: quantity
       }
 

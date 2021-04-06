@@ -1,0 +1,42 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Update order № {{orderNumber}}
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="updateOrderForm" (ngSubmit)="onSubmit()">
+            <div class="form-row form-group">
+                <label class="w-100">
+                    Address
+                    <input type="text" class="form-control" formControlName="address">
+                    <div *ngIf="updateOrderForm.get('address').errors && updateOrderForm.get('address').touched"
+                        class="text-danger">
+                        <small class="d-block" *ngIf="updateOrderForm.get('address').hasError('required')">
+                            Address is required
+                        </small>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="w-100">
+                    Comment (optional)
+                    <textarea class="form-control" formControlName="comment">
+                    </textarea>
+                </label>
+            </div>
+
+            <div *ngIf="updateOrderForm.hasError('server') && updateOrderForm.touched" class="text-danger">
+                <div [ngSwitch]="updateOrderForm.errors['server']">
+                    <p *ngSwitchDefault>
+                        {{updateOrderForm.errors['server']}}
+                    </p>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn bg-green" [disabled]="updateOrderForm.invalid">Confirm</button>   
+            </div>
+        </form>        
+    </div>
+</div>

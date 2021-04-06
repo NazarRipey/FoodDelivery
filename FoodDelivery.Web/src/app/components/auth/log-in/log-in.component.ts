@@ -1,7 +1,7 @@
 import { ConfirmEmailComponent } from './../confirm-email/confirm-email.component';
-import { authErrors } from '../../../models/enums/errors/authErrors';
-import { userHelper } from '../../../helpers/userHelper';
-import { userLogInModel } from '../../../models/auth/userLogInModel';
+import { AuthErrors } from '../../../models/enums/errors/AuthErrors';
+import { UserHelper } from '../../../helpers/UserHelper';
+import { UserLogInModel } from '../../../models/auth/UserLogInModel';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -22,7 +22,7 @@ export class LogInComponent implements OnInit {
     private modalService: NgbModal,
     private authService: AuthenticationService,
     private router: Router,
-    public userHelper: userHelper) { }
+    public userHelper: UserHelper) { }
 
   logInForm = new FormGroup({
     email: new FormControl('', [
@@ -33,7 +33,7 @@ export class LogInComponent implements OnInit {
     remember: new FormControl(),
   });
 
-  errorsEnum = authErrors;
+  errorsEnum = AuthErrors;
 
   ngOnInit(): void {
   }
@@ -50,7 +50,7 @@ export class LogInComponent implements OnInit {
   }
 
   onSubmit(){    
-    const user: userLogInModel = {
+    const user: UserLogInModel = {
       email: this.logInForm.get('email').value,
       password: this.logInForm.get('password').value,
     }

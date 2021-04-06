@@ -1,10 +1,10 @@
-import { restaurantSortType } from '../../../models/enums/sorts/restaurantSortType';
-import { restaurantFilterParams } from './../../../models/filters/restaurantFilterParams';
-import { restaurantListResponse } from './../../../models/restaurant/restaurantListResponse';
+import { RestaurantSortType } from '../../../models/enums/sorts/RestaurantSortType';
+import { RestaurantFilterParams } from '../../../models/filters/RestaurantFilterParams';
+import { RestaurantListResponse } from '../../../models/restaurant/RestaurantListResponse';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
-import { paginationConfig } from '../../../models/paginationConfig';
+import { PaginationConfig } from '../../../models/PaginationConfig';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -13,13 +13,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./restaurant-list.component.css']
 })
 export class RestaurantListComponent implements OnInit {
-  config: paginationConfig = new paginationConfig();
-  restaurantResponse :restaurantListResponse = new restaurantListResponse();
-  restaurantFilterParams : restaurantFilterParams = new restaurantFilterParams();
+  config: PaginationConfig = new PaginationConfig();
+  restaurantResponse :RestaurantListResponse = new RestaurantListResponse();
+  restaurantFilterParams : RestaurantFilterParams = new RestaurantFilterParams();
 
   restaurantTypeNames: string[];
 
-  restaurantSortTypes = restaurantSortType;
+  restaurantSortTypes = RestaurantSortType;
   selectedsortType: string;
     
   toggleFilter = false;

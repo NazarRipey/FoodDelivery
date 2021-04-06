@@ -1,10 +1,10 @@
-import { dishSortType } from '../enums/sorts/dishSortType';
-import { baseFilterParams } from './baseFilterParams';
+import { DishSortType } from '../enums/sorts/DishSortType';
+import { BaseFilterParams } from './BaseFilterParams';
 
-export class dishFilterParams extends baseFilterParams{
+export class DishFilterParams extends BaseFilterParams{
     public restaurants? : string[];
     public categories? : string[];
-    public dishSortType: dishSortType;
+    public dishSortType: DishSortType;
     public minPrice: number;
     public maxPrice: number;
 }

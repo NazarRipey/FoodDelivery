@@ -1,6 +1,6 @@
-import { baseFilterParams } from './baseFilterParams';
+import { BaseFilterParams } from './BaseFilterParams';
 
-export class restaurantRequestFilterParams extends baseFilterParams{
+export class RestaurantRequestFilterParams extends BaseFilterParams{
     public status: number;
     public sort: number;
     public asc: boolean;

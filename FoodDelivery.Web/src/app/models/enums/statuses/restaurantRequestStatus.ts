@@ -1,4 +1,4 @@
-export enum restaurantRequestStatus{
+export enum RestaurantRequestStatus{
     Awaiting = 1,
 
     Approved = 2,

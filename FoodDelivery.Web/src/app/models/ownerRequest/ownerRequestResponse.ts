@@ -1,6 +1,6 @@
-import { ownerRequestObject } from "./ownerRequestObject";
+import { OwnerRequest } from "./OwnerRequest";
 
-export class ownerRequestResponse{
-    public ownerRequests: ownerRequestObject[];
+export class OwnerRequestResponse{
+    public ownerRequests: OwnerRequest[];
     public totalRequestsCount: number;
 }

@@ -95,12 +95,13 @@ namespace FoodDelivery.API.Controllers
 			return Ok();
 		}
 
-		[HttpDelete("{id}")]
-		public IActionResult DeleteCart(Guid id)
+		[HttpDelete]
+		public IActionResult DeleteCart()
 		{
+			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
 			try
 			{
-				_cartFacade.RemoveCart(id);
+				_cartFacade.RemoveCart(userId);
 			}
 			catch (Exception e)
 			{

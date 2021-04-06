@@ -1,13 +1,12 @@
-import { restaurantRequestSortType } from './../../../../models/enums/sorts/restaurantRequestSortType';
+import { RestaurantRequestSortType } from '../../../../models/enums/sorts/RestaurantRequestSortType';
 import { Guid } from 'guid-typescript';
-import { restaurantRequestStatus } from './../../../../models/enums/statuses/restaurantRequestStatus';
+import { RestaurantRequestStatus } from '../../../../models/enums/statuses/RestaurantRequestStatus';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantRequestService } from './../../../../services/restaurant-request.service';
-import { restaurantRequestFilterParams } from './../../../../models/filters/restaurantRequestFilterParams';
-import { paginationConfig } from './../../../../models/paginationConfig';
+import { RestaurantRequestFilterParams } from '../../../../models/filters/RestaurantRequestFilterParams';
+import { PaginationConfig } from '../../../../models/PaginationConfig';
 import { Component, OnInit } from '@angular/core';
-import { restaurantRequestResponse } from 'src/app/models/restaurantRequest/restaurantRequestResponse';
-import { restaurantRequestObject } from 'src/app/models/restaurantRequest/restaurantRequestObject';
+import { RestaurantRequestResponse } from 'src/app/models/restaurantRequest/RestaurantRequestResponse';
 
 @Component({
   selector: 'app-restaurant-request-list',
@@ -15,9 +14,9 @@ import { restaurantRequestObject } from 'src/app/models/restaurantRequest/restau
   styleUrls: ['./restaurant-request-list.component.css']
 })
 export class RestaurantRequestListComponent implements OnInit {
-  config: paginationConfig = new paginationConfig();
-  requestResponse :restaurantRequestResponse = new restaurantRequestResponse();
-  requestFilterParams : restaurantRequestFilterParams = new restaurantRequestFilterParams();
+  config: PaginationConfig = new PaginationConfig();
+  requestResponse :RestaurantRequestResponse = new RestaurantRequestResponse();
+  requestFilterParams : RestaurantRequestFilterParams = new RestaurantRequestFilterParams();
 
   selectedStatus: string;
 
@@ -30,8 +29,8 @@ export class RestaurantRequestListComponent implements OnInit {
   closedDateSort: boolean = false;
   statusSort: boolean = false;
 
-  statuses = restaurantRequestStatus;
-  sortTypes = restaurantRequestSortType;
+  statuses = RestaurantRequestStatus;
+  sortTypes = RestaurantRequestSortType;
   
   constructor(private requestService:RestaurantRequestService,
     private route: ActivatedRoute,
@@ -51,8 +50,6 @@ export class RestaurantRequestListComponent implements OnInit {
     this.requestFilterParams.itemsPerPage = this.config.itemsPerPage;
     this.requestFilterParams.currentPage = this.config.currentPage;
     this.requestFilterParams.status = this.statuses[`${this.selectedStatus}`];
-
-    console.log(this.requestFilterParams);
 
     this.requestService.retrieve(this.requestFilterParams).subscribe(
       r => {

@@ -1,3 +1,6 @@
+import { OrderActiveListComponent } from './components/order/order-active-list/order-active-list.component';
+import { OrderDetailComponent } from './components/order/order-detail/order-detail.component';
+import { OrderHistoryListComponent } from './components/order/order-history-list/order-history-list.component';
 import { CartDetailComponent } from './components/cart/cart-detail/cart-detail.component';
 import { OwnerGuard } from './guards/owner.guard';
 import { RestaurantRequestListComponent } from './components/admin/request-list/restaurant-request-list/restaurant-request-list.component';
@@ -40,6 +43,9 @@ const routes: Routes = [
   { path: "manage", component: ManageRestaurantsComponent, 
     canActivate: [AuthGuard, OwnerGuard] },
   { path: "cart", component: CartDetailComponent, canActivate: [AuthGuard] },
+  { path: "orders", component: OrderActiveListComponent,  canActivate: [AuthGuard] }, 
+  { path: "orders/history", component: OrderHistoryListComponent, canActivate: [AuthGuard] },
+  { path: "orders/:id", component: OrderDetailComponent, canActivate: [AuthGuard] },
   { path: "noaccess", component: NoAccessComponent },
   { path: '**', component: NotFoundComponent }
 ];
@@ -48,7 +54,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, {
     scrollPositionRestoration: "enabled",
     scrollOffset: [0, 0],
-    // Enable scrolling to anchors
     anchorScrolling: "enabled",
   })],
   exports: [RouterModule]

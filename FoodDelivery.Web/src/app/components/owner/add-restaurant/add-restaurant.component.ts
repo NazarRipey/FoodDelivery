@@ -1,13 +1,13 @@
+import { RestaurantAddModel } from './../../../models/restaurant/RestaurantAddModel';
 import { MessageComponent } from './../../message/message.component';
 
-import { userHelper } from './../../../helpers/userHelper';
-import { restaurantErrors } from '../../../models/enums/errors/restaurantErrors';
+import { UserHelper } from '../../../helpers/UserHelper';
+import { RestaurantErrors } from '../../../models/enums/errors/RestaurantErrors';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { restaurantType } from '../../../models/restaurant/restaurantType';
+import { RestaurantType } from '../../../models/restaurant/RestaurantType';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
 
 @Component({
   selector: 'app-add-restaurant',
@@ -15,10 +15,10 @@ import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDeta
   styleUrls: ['./add-restaurant.component.css']
 })
 export class AddRestaurantComponent implements OnInit {
-  types: restaurantType[];
+  types: RestaurantType[];
 
   public addresses: FormArray;
-  restaurantErrors = restaurantErrors
+  restaurantErrors = RestaurantErrors
 
   addRestaurantForm = new FormGroup({
     name: new FormControl('', [
@@ -36,7 +36,7 @@ export class AddRestaurantComponent implements OnInit {
   constructor(public modalRef: NgbActiveModal,
     private fb: FormBuilder,
     private restaurantService: RestaurantService,
-    private userHelper: userHelper,
+    private userHelper: UserHelper,
     private modalService:NgbModal){
   }
 
@@ -70,7 +70,7 @@ export class AddRestaurantComponent implements OnInit {
   }
 
   onSubmit(){
-    const restaurant :restaurantDetailObject = {
+    const restaurant :RestaurantAddModel = {
       ownerId: this.userHelper.profile.id,
       name: this.addRestaurantForm.get('name').value,
       description: this.addRestaurantForm.get('description').value,

@@ -1,0 +1,20 @@
+<div class="text-center mb-2">
+    <h2><a [routerLink]="['/orders/history']">Order History</a></h2>
+</div>
+
+<div class="container card-body" *ngIf="orders">
+    <div *ngIf="orders.length == 0">
+        <div class="text-center">
+            <h4>No active orders</h4>
+            <i class="bi bi-bag-x d-block"></i>
+        </div>
+    </div>
+    <div *ngIf="orders.length > 0">
+        <h4 class="text-center">Active orders</h4>
+        <ul class="d-block">
+            <li *ngFor="let order of orders" class="mb-3 list-item">
+                <app-order-list-item [order]="order"></app-order-list-item>
+            </li>
+        </ul>
+    </div>
+</div>

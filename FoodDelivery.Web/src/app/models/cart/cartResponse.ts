@@ -1,8 +1,8 @@
 import { Guid } from 'guid-typescript';
-import { cartItem } from './cartItem';
+import { CartItem } from './CartItem';
 
-export class cartResponse{
+export class CartResponse{
     id: Guid;
-    cartItems: cartItem[];
+    cartItems: CartItem[];
     totalPrice: number;
 }

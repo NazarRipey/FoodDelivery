@@ -1,4 +1,4 @@
-export enum dishSortType{
+export enum DishSortType{
     Rating = 0,
 
 	Name = 1,

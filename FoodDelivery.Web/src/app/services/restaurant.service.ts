@@ -1,14 +1,16 @@
-import { restaurantUpdateObject } from './../models/restaurant/restaurantUpdateObject';
+import { RestaurantList } from './../models/restaurant/RestaurantList';
+import { RestaurantAddModel } from './../models/restaurant/RestaurantAddModel';
+import { RestaurantUpdateModel } from '../models/restaurant/RestaurantUpdateModel';
 import { serverUrl } from './../globals';
-import { restaurantDetailResponse } from './../models/restaurant/restaurantDetailResponse';
-import { myRestaurantFilterParams } from './../models/filters/myRestaurantFilterParams';
-import { restaurantListResponse } from './../models/restaurant/restaurantListResponse';
-import { restaurantFilterParams } from './../models/filters/restaurantFilterParams';
-import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
+import { RestaurantOwnerDetailResponse } from '../models/restaurant/RestaurantOwnerDetailResponse';
+import { MyRestaurantFilterParams } from '../models/filters/MyRestaurantFilterParams';
+import { RestaurantListResponse } from '../models/restaurant/RestaurantListResponse';
+import { RestaurantFilterParams } from '../models/filters/RestaurantFilterParams';
+import { RestaurantDetail } from 'src/app/models/restaurant/RestaurantDetail';
 import { Guid } from 'guid-typescript';
-import { restaurantAddress } from './../models/restaurant/restaurantAddress';
+import { RestaurantAddress } from '../models/restaurant/RestaurantAddress';
 import { Observable } from 'rxjs';
-import { restaurantType } from './../models/restaurant/restaurantType';
+import { RestaurantType } from '../models/restaurant/RestaurantType';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -21,14 +23,14 @@ export class RestaurantService {
 
   constructor(private http: HttpClient) { }
 
-  public getTypes(): Observable<restaurantType[]>{
+  public getTypes(): Observable<RestaurantType[]>{
     const url = this.restaurantUrl + "types";
-    return this.http.get<restaurantType[]>(url);
+    return this.http.get<RestaurantType[]>(url);
   }
 
-  public retrieve(restaurantFilterParams:restaurantFilterParams): Observable<restaurantListResponse>{
+  public retrieve(restaurantFilterParams:RestaurantFilterParams): Observable<RestaurantListResponse>{
     const url = this.restaurantUrl + "retrieve";
-    return this.http.post<restaurantListResponse>(url, restaurantFilterParams);
+    return this.http.post<RestaurantListResponse>(url, restaurantFilterParams);
   }
 
   public getAllNames(): Observable<string[]>{
@@ -36,44 +38,49 @@ export class RestaurantService {
     return this.http.get<string[]>(url);
   }
 
-  public getByName(name: string): Observable<restaurantDetailObject>{
+  public getByName(name: string): Observable<RestaurantDetail>{
     const url = this.restaurantUrl + name;
-    return this.http.get<restaurantDetailObject>(url);
+    return this.http.get<RestaurantDetail>(url);
   }
 
-  public getTop(): Observable<restaurantDetailObject[]>{
+  public getTop(): Observable<RestaurantList[]>{
     const url = this.restaurantUrl + "top";
-    return this.http.get<restaurantDetailObject[]>(url);
+    return this.http.get<RestaurantList[]>(url);
   }
 
-  public retrieveMyRestaurants(filterParams: myRestaurantFilterParams): Observable<restaurantDetailResponse>{
+  public getUpdateRestaurantById(id: string): Observable<RestaurantUpdateModel>{
+    const url = this.restaurantUrl + `updaterestaurant/${id}`;
+    return this.http.get<RestaurantUpdateModel>(url, { withCredentials: true });
+  }
+
+  public retrieveMyRestaurants(filterParams: MyRestaurantFilterParams): Observable<RestaurantOwnerDetailResponse>{
     const url = this.restaurantUrl + "myrestaurants";
-    return this.http.post<restaurantDetailResponse>(url, filterParams, { withCredentials: true });
+    return this.http.post<RestaurantOwnerDetailResponse>(url, filterParams, { withCredentials: true });
   }
 
-  public addRestaurant(restaurant: restaurantDetailObject){
+  public addRestaurant(restaurant: RestaurantAddModel){
     const url = this.restaurantUrl + "add";
-    return this.http.post<restaurantDetailObject>(url, restaurant, { withCredentials: true });
+    return this.http.post(url, restaurant, { withCredentials: true });
   }
 
-  public addAddress(restaurantAddress: restaurantAddress){
+  public addAddress(restaurantAddress: RestaurantAddress){
     const url = this.restaurantUrl + "address";
-    return this.http.post<restaurantDetailObject>(url, restaurantAddress, { withCredentials: true });
+    return this.http.post(url, restaurantAddress, { withCredentials: true });
   }
 
-  public updateRestaurant(restaurant:restaurantUpdateObject){
+  public updateRestaurant(restaurant:RestaurantUpdateModel){
     const url = this.restaurantUrl;
     return this.http.put(url, restaurant, { withCredentials: true });
   }
 
   public removeAddress(restaurantAddressId: Guid){
     const url = this.restaurantUrl + `address/${restaurantAddressId}`;
-    return this.http.delete<restaurantDetailObject>(url, { withCredentials: true });
+    return this.http.delete(url, { withCredentials: true });
   }
 
   public removeRestaurant(restaurantId: Guid){
     const url = this.restaurantUrl + `${restaurantId}`;
-    return this.http.delete<restaurantDetailObject>(url, { withCredentials: true });
+    return this.http.delete(url, { withCredentials: true });
   }
 
   public stop(id: Guid){

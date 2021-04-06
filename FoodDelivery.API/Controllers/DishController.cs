@@ -48,6 +48,13 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
+		[Route("updatedish/{id:Guid}")]
+		public DishUpdateDTO GetUpdateDTOById(Guid id)
+		{
+			return _dishFacade.GetUpdateDTOById(id);
+		}
+
+		[HttpGet]
 		[Route("top")]
 		[AllowAnonymous]
 		public ICollection<DishListDTO> GetTop(int count = 3)
@@ -65,7 +72,7 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Post([FromBody] DishDTO dishDTO)
+		public IActionResult Post([FromBody] DishAddDTO dishDTO)
 		{
 			if (!ModelState.IsValid)
 			{

@@ -9,7 +9,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 		CartResponseDTO Get(Guid userId);
 		void UpdateItem(Guid id, int quantity);
 		void RemoveItem(Guid id);
-		void RemoveCart(Guid id);
+		void RemoveCart(Guid userId);
 		int GetTotalItems(Guid userId);
 	}
 }

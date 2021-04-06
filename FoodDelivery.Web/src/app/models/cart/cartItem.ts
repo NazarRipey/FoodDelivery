@@ -1,8 +1,8 @@
-import { dishCartObject } from './../dish/dishCartObject';
+import { DishCart } from '../dish/DishCart';
 import { Guid } from 'guid-typescript';
 
-export class cartItem{
+export class CartItem{
     public id: Guid;
     public quantity: number;
-    public dish: dishCartObject;
+    public dish: DishCart;
 }
