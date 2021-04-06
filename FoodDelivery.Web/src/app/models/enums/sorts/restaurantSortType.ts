@@ -1,4 +1,4 @@
-export enum restaurantSortType{
+export enum RestaurantSortType{
     Rating = 0,
 
     Name = 1

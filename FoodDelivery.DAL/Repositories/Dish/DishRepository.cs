@@ -18,7 +18,7 @@ namespace FoodDelivery.DAL.Repositories
 			: base(db, mapper)
 		{ }
 
-		public void Create(DishDTO dishDTO)
+		public void Create(DishAddDTO dishDTO)
 		{
 			Dish dish = _mapper.Map<Dish>(dishDTO);
 			dish.Status = (int)DishStatus.Active;
@@ -44,6 +44,14 @@ namespace FoodDelivery.DAL.Repositories
 			DishDetailDTO dishDetailDTO = _mapper.Map<DishDetailDTO>(dish);
 
 			return dishDetailDTO;
+		}
+
+		public DishUpdateDTO GetUpdateDTOById(Guid id)
+		{
+			Dish dish = _db.Dish.Find(id);
+			DishUpdateDTO dishUpdateDTO = _mapper.Map<DishUpdateDTO>(dish);
+
+			return dishUpdateDTO;
 		}
 
 		public DishListResponseDTO Retrieve(DishFilterParams filterParams)

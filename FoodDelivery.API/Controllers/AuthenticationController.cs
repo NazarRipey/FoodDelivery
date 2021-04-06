@@ -66,7 +66,6 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPost]
-		//[action]
 		[Route("signup")]
 		public async Task<IActionResult> SignUp([FromBody] SignUpModel signUpModel)
 		{
@@ -118,10 +117,9 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("sendcode")]
-		public async Task<IActionResult> SendEmailConfirmationCode([FromBody] SendCodeModel sendCode)
+		public async Task<IActionResult> SendEmailConfirmationCode([FromBody] string email)
 		{
-			//Should it be async here?
-			await _userProfileFacade.SendEmailConfirmationCodeAsync(sendCode.Email);
+			await _userProfileFacade.SendEmailConfirmationCodeAsync(email);
 
 			return Ok();
 		}

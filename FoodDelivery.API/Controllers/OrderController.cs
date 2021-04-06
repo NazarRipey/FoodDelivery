@@ -24,6 +24,12 @@ namespace FoodDelivery.API.Controllers
 			_userProfileFacade = userProfileFacade;
 		}
 
+		[HttpGet("{id}")]
+		public OrderDetailDTO GetOrderDetailDTOById(Guid id)
+		{
+			return _orderFacade.GetOrderDetailDTOById(id);
+		}
+
 		[HttpGet]
 		[Route("active")]
 		public ICollection<OrderShortDTO> GetActive()
@@ -31,6 +37,13 @@ namespace FoodDelivery.API.Controllers
 			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
 
 			return _orderFacade.GetActive(userId);
+		}
+
+		[HttpGet]
+		[Route("updateorder/{id}")]
+		public UpdateOrderDTO GetUpdateDTOById(Guid id)
+		{
+			return _orderFacade.GetUpdateDTOById(id);
 		}
 
 		[HttpPost]
@@ -48,7 +61,8 @@ namespace FoodDelivery.API.Controllers
 		{
 			try
 			{
-				_orderFacade.AddOrder(addOrderDTO);
+				Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+				_orderFacade.AddOrder(addOrderDTO, userId);
 			}
 			catch (Exception e)
 			{
@@ -57,32 +71,36 @@ namespace FoodDelivery.API.Controllers
 
 			return Ok();
 		}
-		/*
-		// GET: api/<OrderController>
-		[HttpGet]
-		public IEnumerable<string> Get()
+
+		[HttpPost]
+		[Route("cancel")]
+		public IActionResult Cancel([FromBody] Guid id)
 		{
-			return new string[] { "value1", "value2" };
+			try
+			{
+				_orderFacade.Cancel(id);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
 		}
 
-		// GET api/<OrderController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		[HttpPut]
+		public IActionResult Update(UpdateOrderDTO updateOrderDTO)
 		{
-			return "value";
+			try
+			{
+				_orderFacade.Update(updateOrderDTO);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
 		}
-
-
-		// PUT api/<OrderController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<OrderController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}*/
 	}
 }

@@ -1,25 +1,22 @@
-import { dishStatus } from './../../../models/enums/statuses/dishStatus';
-import { restaurantStatus } from './../../../models/enums/statuses/restaurantStatus';
-import { myRestaurantFilterParams } from './../../../models/filters/myRestaurantFilterParams';
-import { restaurantDetailResponse } from './../../../models/restaurant/restaurantDetailResponse';
-import { ownerRequestStatus } from './../../../models/enums/statuses/ownerRequestStatus';
-import { dishObject } from '../../../models/dish/dishObject';
+import { DishStatus } from '../../../models/enums/statuses/DishStatus';
+import { RestaurantStatus } from '../../../models/enums/statuses/RestaurantStatus';
+import { MyRestaurantFilterParams } from '../../../models/filters/MyRestaurantFilterParams';
+import { RestaurantOwnerDetailResponse } from '../../../models/restaurant/RestaurantOwnerDetailResponse';
+import { OwnerRequestStatus } from '../../../models/enums/statuses/OwnerRequestStatus';
 import { DishService } from './../../../services/dish.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { paginationConfig } from './../../../models/paginationConfig';
-import { dishListObject } from 'src/app/models/dish/dishListObject';
+import { PaginationConfig } from '../../../models/PaginationConfig';
 import { UpdateDishComponent } from './../update-dish/update-dish.component';
 import { AddDishComponent } from './../add-dish/add-dish.component';
 import { Guid } from 'guid-typescript';
 import { AddAddressComponent } from './../add-address/add-address.component';
-import { restaurantAddress } from './../../../models/restaurant/restaurantAddress';
-import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
+import { RestaurantAddress } from '../../../models/restaurant/RestaurantAddress';
 import { UpdateRestaurantComponent } from './../update-restaurant/update-restaurant.component';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { imgSrc } from './../../../globals';
 import { AddRestaurantComponent } from './../add-restaurant/add-restaurant.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { userHelper } from './../../../helpers/userHelper';
+import { UserHelper } from '../../../helpers/UserHelper';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -30,15 +27,16 @@ import { Component, OnInit } from '@angular/core';
 export class ManageRestaurantsComponent implements OnInit {
   imgSrc = imgSrc;
 
-  config: paginationConfig = new paginationConfig();
-  restaurantResponse: restaurantDetailResponse = new restaurantDetailResponse();
-  myRestaurantFilterParams : myRestaurantFilterParams = new myRestaurantFilterParams();
+  config: PaginationConfig = new PaginationConfig();
+  restaurantResponse: RestaurantOwnerDetailResponse = new RestaurantOwnerDetailResponse();
+  myRestaurantFilterParams : MyRestaurantFilterParams = new MyRestaurantFilterParams();
 
-  ownerRequestStatus = ownerRequestStatus;
-  restaurantStatus = restaurantStatus;
-  dishStatus = dishStatus;
+  ownerRequestStatus = OwnerRequestStatus;
+  restaurantStatus = 
+  RestaurantStatus;
+  dishStatus = DishStatus;
 
-  constructor(public userHelper:userHelper, 
+  constructor(public userHelper:UserHelper, 
     private modalService: NgbModal,
     private restaurantService:RestaurantService,
     private route: ActivatedRoute,
@@ -78,7 +76,7 @@ export class ManageRestaurantsComponent implements OnInit {
     modal.componentInstance.restaurantId = restaurantId; 
   }
 
-  removeAddress(address: restaurantAddress){
+  removeAddress(address: RestaurantAddress){
     this.restaurantService.removeAddress(address.id).subscribe(_ => {
       location.reload();
     }, error => {
@@ -94,14 +92,18 @@ export class ManageRestaurantsComponent implements OnInit {
     });
   }
 
-  updateRestaurant(restaurant: restaurantDetailObject){
+  updateRestaurant(id: Guid, name: string){
     const modal = this.modalService.open(UpdateRestaurantComponent);
-    modal.componentInstance.restaurant = restaurant;  
+    modal.componentInstance.restaurantId = id;  
+    modal.componentInstance.restaurantName = name;  
   }
 
-  updateDish(dish: dishObject){
+  updateDish(id: Guid)
+  {
+    console.log(this.restaurantResponse.restaurants[0].dishes[0]);
     const modal = this.modalService.open(UpdateDishComponent);
-    modal.componentInstance.dish = dish;  
+    console.log(id);
+    modal.componentInstance.dishId = id;  
   }
 
   removeDish(dishId: Guid){

@@ -67,9 +67,9 @@ namespace FoodDelivery.DAL.Repositories
 			return total;
 		}
 
-		public void Remove(Guid id)
+		public void Remove(Guid userId)
 		{
-			Cart cart = _db.Cart.Find(id);
+			Cart cart = _db.Cart.Where(c => c.UserProfileId == userId).SingleOrDefault();
 
 			_db.CartItem.RemoveRange(cart.CartItems);
 			_db.Cart.Remove(cart);

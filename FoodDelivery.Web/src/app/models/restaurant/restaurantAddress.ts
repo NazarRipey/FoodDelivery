@@ -1,6 +1,6 @@
 import { Guid } from 'guid-typescript';
 
-export class restaurantAddress{
+export class RestaurantAddress{
     id?: Guid;
     restaurantId: Guid;
     city: string;

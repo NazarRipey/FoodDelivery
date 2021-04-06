@@ -1,12 +1,14 @@
-import { orderItem } from './orderItem';
-import { orderStatus } from './../enums/statuses/orderStatus';
+import { OrderItem } from './OrderItem';
+import { OrderStatus } from '../enums/statuses/OrderStatus';
 import { Guid } from 'guid-typescript';
 
-export class orderShort{
+export class OrderShort{
     public id: Guid;
     public orderNumber: number;
-    public status: orderStatus;
+    public status: OrderStatus;
+    public createdDate: Date;
+    public closedDate?: Date;
     public totalSum: number;
 
-    public orderItems: orderItem[];
+    public orderItems: OrderItem[];
 }

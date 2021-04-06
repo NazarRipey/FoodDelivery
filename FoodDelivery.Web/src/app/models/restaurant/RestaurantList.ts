@@ -1,6 +1,6 @@
 import { Guid } from 'guid-typescript';
 
-export class restaurantListObject{
+export class RestaurantList{
     public id?: Guid;
     public name: string;
     public rating?: number;

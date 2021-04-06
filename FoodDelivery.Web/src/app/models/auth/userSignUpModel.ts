@@ -1,4 +1,4 @@
-export class userSignUpModel{
+export class UserSignUpModel{
     firstName: string;
     lastName: string;
     birthday: Date;

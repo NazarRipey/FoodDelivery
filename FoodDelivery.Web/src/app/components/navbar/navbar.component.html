@@ -19,14 +19,12 @@
             <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/orders']">Orders</a>
-        </li>
-        <li class="nav-item">
             <div ngbDropdown class="nav-link">
                 <button class="btn btn-outline-primary" id="profile" class="btn bg-green"
                     ngbDropdownToggle><i class="bi bi-person"></i></button>
                 <div ngbDropdownMenu aria-labelledby="profile" class="bg-dark">
                     <a ngbDropdownItem class="px-1">My profile</a>
+                    <a ngbDropdownItem class="px-1" [routerLink]="['/orders']">Orders</a>
                     <a ngbDropdownItem class="px-1">Setting</a>
                     <a ngbDropdownItem class="px-1" (click)="LogOut()">Log out</a>
                 </div>
@@ -39,6 +37,9 @@
                     {{cartHelper.total}}
                 </span>
             </a>
+        </li>
+        <li class="nav-item" *ngIf="cartService.interval">
+            <small class="text-white">cart expires in {{cartService.timeLeft| minutesSeconds}}</small>
         </li>
     </ul>
 

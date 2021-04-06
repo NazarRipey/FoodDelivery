@@ -1,4 +1,4 @@
-export enum orderStatus{
+export enum OrderStatus{
     AwaitingManagerVerification = 1,
 
     Cooking = 2,

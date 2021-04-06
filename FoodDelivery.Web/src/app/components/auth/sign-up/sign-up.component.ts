@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { authErrors } from '../../../models/enums/errors/authErrors';
+import { AuthErrors } from '../../../models/enums/errors/AuthErrors';
 import { throwError } from 'rxjs';
-import { userSignUpModel } from '../../../models/auth/userSignUpModel';
+import { UserSignUpModel } from '../../../models/auth/UserSignUpModel';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { ConfirmEmailComponent } from '../confirm-email/confirm-email.component';
 import { LogInComponent } from '../log-in/log-in.component';
@@ -9,7 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Component, ContentChild, ElementRef, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ageValidator, confirmPasswordValidator } from 'src/app/helpers/validators';
+import { ageValidator, confirmPasswordValidator } from 'src/app/helpers/Validators';
 
 @Component({
   selector: 'app-sign-up',
@@ -50,7 +50,7 @@ export class SignUpComponent implements OnInit {
     roles: new FormControl('', Validators.required)
   }, {validators: confirmPasswordValidator("password", "confirmPassword")});
 
-  errorsEnum = authErrors;
+  errorsEnum = AuthErrors;
 
   constructor(public modalRef: NgbActiveModal,
     private modalService: NgbModal,
@@ -66,7 +66,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit(){
-    const user: userSignUpModel = {
+    const user: UserSignUpModel = {
       firstName: this.signUpForm.get('firstName').value,
       lastName: this.signUpForm.get('lastName').value,
       email: this.signUpForm.get('email').value,

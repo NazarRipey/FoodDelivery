@@ -1,11 +1,10 @@
-import { dishUpdateObject } from './../../../models/dish/dishUpdateObject';
-import { dishObject } from '../../../models/dish/dishObject';
+import { DishUpdateModel } from '../../../models/dish/DishUpdateModel';
+import { DishAddModel } from '../../../models/dish/DishAddModel';
 import { DishService } from './../../../services/dish.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { dishListObject } from 'src/app/models/dish/dishListObject';
-import { dishErrors } from '../../../models/enums/errors/dishErrors';
-import { dishCategory } from './../../../models/dish/dishCategory';
+import { DishErrors } from '../../../models/enums/errors/DishErrors';
+import { DishCategory } from '../../../models/dish/DishCategory';
 import { Guid } from 'guid-typescript';
 import { Component, OnInit } from '@angular/core';
 
@@ -15,9 +14,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./update-dish.component.css']
 })
 export class UpdateDishComponent implements OnInit {
-  categories: dishCategory[];
-  dish: dishObject;
-  dishErrors = dishErrors;
+  categories: DishCategory[];
+  dishErrors = DishErrors;
+
+  dishId: Guid;
+  dishName: string;
 
   updateDishForm = new FormGroup({
     name: new FormControl('', [
@@ -40,17 +41,20 @@ export class UpdateDishComponent implements OnInit {
     private dishService:DishService) { }
 
   ngOnInit(): void {
-    this.updateDishForm.patchValue({
-      name: this.dish.name,
-      description: this.dish.description,
-      price: this.dish.price,
-      weight: this.dish.weight
-    });
+    this.dishService.getUpdateDishById(this.dishId.toString()).subscribe(d => {
+      this.dishName = d.name;
+      this.updateDishForm.patchValue({
+        name: this.dishName,
+        description: d.description,
+        price: d.price,
+        weight: d.weight
+      });
+    })
   }
 
   onSubmit(){
-    const dish :dishUpdateObject = {
-      id: this.dish.id,
+    const dish :DishUpdateModel = {
+      id: this.dishId,
       name: this.updateDishForm.get('name').value,
       description: this.updateDishForm.get('description').value,
       price: this.updateDishForm.get('price').value,

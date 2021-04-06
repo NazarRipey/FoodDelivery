@@ -7,3 +7,12 @@ div .card-body ul li {
         flex: 0 0 100%;
     }
 }
+
+.b a{
+    color: #06C167;
+}
+
+.bi-clipboard-x{
+    font-size: 20em;
+    line-height: 1;
+}

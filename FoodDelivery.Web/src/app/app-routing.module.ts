@@ -44,8 +44,8 @@ const routes: Routes = [
     canActivate: [AuthGuard, OwnerGuard] },
   { path: "cart", component: CartDetailComponent, canActivate: [AuthGuard] },
   { path: "orders", component: OrderActiveListComponent,  canActivate: [AuthGuard] }, 
-  { path: "orders/{id}", component: OrderDetailComponent },
-  { path: "orders/history", component: OrderHistoryListComponent },
+  { path: "orders/history", component: OrderHistoryListComponent, canActivate: [AuthGuard] },
+  { path: "orders/:id", component: OrderDetailComponent, canActivate: [AuthGuard] },
   { path: "noaccess", component: NoAccessComponent },
   { path: '**', component: NotFoundComponent }
 ];
@@ -54,7 +54,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, {
     scrollPositionRestoration: "enabled",
     scrollOffset: [0, 0],
-    // Enable scrolling to anchors
     anchorScrolling: "enabled",
   })],
   exports: [RouterModule]

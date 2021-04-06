@@ -1,5 +1,5 @@
-import { restaurantRequestObject } from './restaurantRequestObject';
-export class restaurantRequestResponse{
-    public restaurantRequests: restaurantRequestObject[];
+import { RestaurantRequest } from './RestaurantRequest';
+export class RestaurantRequestResponse{
+    public restaurantRequests: RestaurantRequest[];
     public totalRequestsCount: number;
 }

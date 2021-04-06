@@ -5,7 +5,7 @@ using FoodDelivery.Entities.Enums.Status;
 
 namespace FoodDelivery.Entities.DTO.Order
 {
-	public class OrderDTO
+	public class OrderDetailDTO
 	{
 		public Guid Id { get; set; }
 		public int OrderNumber { get; set; }

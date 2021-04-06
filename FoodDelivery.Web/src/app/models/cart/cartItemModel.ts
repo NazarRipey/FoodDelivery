@@ -1,6 +1,6 @@
 import { Guid } from 'guid-typescript';
 
-export class cartItemModel{
+export class CartItemModel{
     dishId: Guid;
     quantity: number;
 }

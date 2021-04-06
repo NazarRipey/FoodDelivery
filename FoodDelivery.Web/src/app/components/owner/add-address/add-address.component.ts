@@ -1,5 +1,5 @@
 import { Guid } from 'guid-typescript';
-import { restaurantAddress } from './../../../models/restaurant/restaurantAddress';
+import { RestaurantAddress } from '../../../models/restaurant/RestaurantAddress';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -30,7 +30,7 @@ export class AddAddressComponent implements OnInit {
   }
 
   onSubmit(){
-    const restaurantAddress :restaurantAddress = {
+    const restaurantAddress :RestaurantAddress = {
       restaurantId: this.restaurantId,
       city: this.addAddressForm.get('city').value,
       address: this.addAddressForm.get('address').value,

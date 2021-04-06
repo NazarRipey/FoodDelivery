@@ -1,7 +1,7 @@
-import { cartHelper } from './../helpers/cartHelper';
+import { CartHelper } from '../helpers/CartHelper';
 import { of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { userHelper } from './../helpers/userHelper';
+import { UserHelper } from '../helpers/UserHelper';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class StartupService {
 
-  constructor(private userHelper:userHelper) { }
+  constructor(private userHelper:UserHelper) { }
 
   load(): Promise<any> {
     return forkJoin([

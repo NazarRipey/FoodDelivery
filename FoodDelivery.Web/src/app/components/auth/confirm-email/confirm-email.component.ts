@@ -1,8 +1,6 @@
-import { authErrors } from '../../../models/enums/errors/authErrors';
-import { sendConfirmationCodeModel } from '../../../models/auth/sendConfirmationCodeModel';
-import { throwError } from 'rxjs';
+import { AuthErrors } from '../../../models/enums/errors/AuthErrors';
 import { MessageComponent } from '../../message/message.component';
-import { confirmEmailModel } from '../../../models/auth/confirmEmailModel';
+import { ConfirmEmailModel } from '../../../models/auth/ConfirmEmailModel';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +19,7 @@ export class ConfirmEmailComponent implements OnInit {
 
   email;
   message;
-  errorsEnum = authErrors;
+  errorsEnum = AuthErrors;
 
   constructor(public modalRef: NgbActiveModal,
     private modalService: NgbModal, 
@@ -34,16 +32,13 @@ export class ConfirmEmailComponent implements OnInit {
     if(this.message){
       const modal = this.modalService.open(MessageComponent);
       modal.componentInstance.message = this.message;
+      modal.componentInstance.showLogIn = true;
     }
     this.modalRef.close();
   }
 
   SendAgain(){
-    let sendCodeModel: sendConfirmationCodeModel = {
-      email: this.email
-    };
-
-    this.authService.sendCode(sendCodeModel).subscribe(
+    this.authService.sendCode(this.email).subscribe(
       _ => {
         alert("Sent new code to " + this.email);
       },
@@ -55,7 +50,7 @@ export class ConfirmEmailComponent implements OnInit {
   }
 
   onCodeSubmited(){
-    const emailConfirm: confirmEmailModel = {
+    const emailConfirm: ConfirmEmailModel = {
       email: this.email,
       code: this.confirmEmailForm.get('code').value,
     }

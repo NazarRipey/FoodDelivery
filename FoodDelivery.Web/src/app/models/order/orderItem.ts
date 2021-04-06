@@ -1,6 +1,6 @@
-import { dishCartObject } from './../dish/dishCartObject';
+import { DishCart } from '../dish/DishCart';
 
-export class orderItem{
+export class OrderItem{
     public quantity: number;
-    public dish: dishCartObject;
+    public dish: DishCart;
 }

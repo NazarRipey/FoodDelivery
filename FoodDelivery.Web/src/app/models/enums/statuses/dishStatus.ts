@@ -1,4 +1,4 @@
-export enum dishStatus{
+export enum DishStatus{
     Active = 1,
 
     Inactive = 2,

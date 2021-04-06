@@ -1,5 +1,5 @@
-import { baseFilterParams } from './baseFilterParams';
+import { BaseFilterParams } from './BaseFilterParams';
 
-export class myRestaurantFilterParams extends baseFilterParams{
+export class MyRestaurantFilterParams extends BaseFilterParams{
 
 }

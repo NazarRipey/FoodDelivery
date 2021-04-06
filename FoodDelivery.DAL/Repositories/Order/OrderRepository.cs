@@ -7,6 +7,7 @@ using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO.Order;
 using FoodDelivery.Entities.Enums.Status;
 using FoodDelivery.Entities.FilterParams;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDelivery.DAL.Repositories
 {
@@ -62,13 +63,30 @@ namespace FoodDelivery.DAL.Repositories
 		public ICollection<OrderShortDTO> GetActive(Guid userId)
 		{
 			IQueryable<Order> orders = _db.Order.Where(o => o.UserProfileId == userId
-				&& (o.Status != (int)OrderStatus.Cancelled || o.Status != (int)OrderStatus.Delivered));
+				&& (o.Status != (int)OrderStatus.Cancelled && o.Status != (int)OrderStatus.Delivered))
+				.OrderByDescending(o => o.CreatedDate);
 
 			ICollection<Order> ordersToReturn = orders.ToList();
 
 			ICollection<OrderShortDTO> orderDTOs = _mapper.Map<ICollection<OrderShortDTO>>(ordersToReturn);
 
 			return orderDTOs;
+		}
+
+		public OrderDetailDTO GetDetailDTOById(Guid id)
+		{
+			Order order = _db.Order.Find(id);
+			OrderDetailDTO orderDetailDTO = _mapper.Map<OrderDetailDTO>(order);
+
+			return orderDetailDTO;
+		}
+
+		public UpdateOrderDTO GetUpdateDTOById(Guid id)
+		{
+			Order order = _db.Order.Find(id);
+			UpdateOrderDTO updateOrderDTO = _mapper.Map<UpdateOrderDTO>(order);
+
+			return updateOrderDTO;
 		}
 
 		public OrderResponseDTO RetrieveAll(OrderFilterParams orderFilterParams, Guid userId)
@@ -81,6 +99,10 @@ namespace FoodDelivery.DAL.Repositories
 			if (orderFilterParams.Search != null)
 			{
 				orders = orders.Where(o => o.OrderNumber.ToString().Contains(orderFilterParams.Search));
+			}
+			if (orderFilterParams.Status != null)
+			{
+				orders = orders.Where(r => r.Status == (int)orderFilterParams.Status);
 			}
 
 			totalItemsCount = orders.Count();
@@ -99,6 +121,29 @@ namespace FoodDelivery.DAL.Repositories
 			};
 
 			return orderResponseDTO;
+		}
+
+		public void Update(UpdateOrderDTO updateOrderDTO)
+		{
+			Order order = _db.Order.Find(updateOrderDTO.Id);
+
+			order.Comment = updateOrderDTO.Comment;
+			order.Address = updateOrderDTO.Address;
+
+			_db.Entry(order).State = EntityState.Modified;
+
+			SaveChanges();
+		}
+
+		public void UpdateStatus(Guid id, int status)
+		{
+			Order order = _db.Order.Find(id);
+
+			order.Status = status;
+
+			_db.Entry(order).State = EntityState.Modified;
+
+			SaveChanges();
 		}
 	}
 }

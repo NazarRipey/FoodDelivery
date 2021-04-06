@@ -1,6 +1,7 @@
-import { cartHelper } from './../../helpers/cartHelper';
-import { ownerRequestStatus } from './../../models/enums/statuses/ownerRequestStatus';
-import { userHelper } from '../../helpers/userHelper';
+import { CartService } from './../../services/cart.service';
+import { CartHelper } from '../../helpers/CartHelper';
+import { OwnerRequestStatus } from '../../models/enums/statuses/OwnerRequestStatus';
+import { UserHelper } from '../../helpers/UserHelper';
 import { LogInComponent } from '../auth/log-in/log-in.component';
 import { SignUpComponent } from '../auth/sign-up/sign-up.component';
 import { AppComponent } from '../../app.component';
@@ -14,11 +15,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NavbarComponent implements OnInit {  
   toggleNavbar = true;
-  ownerRequestStatus: ownerRequestStatus;
+  ownerRequestStatus: OwnerRequestStatus;
 
   constructor(private modalService: NgbModal,
-    public userHelper:userHelper,
-    public cartHelper:cartHelper) { }
+    public userHelper:UserHelper,
+    public cartHelper:CartHelper,
+    public cartService: CartService) { }
 
   ngOnInit(): void {
   }

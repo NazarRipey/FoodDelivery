@@ -1,9 +1,11 @@
-import { paymentType } from './../../../models/enums/paymentType';
-import { orderStatus } from './../../../models/enums/statuses/orderStatus';
+
+
+import { PaymentType } from '../../../models/enums/PaymentType';
+import { OrderStatus } from '../../../models/enums/statuses/OrderStatus';
 import { ActivatedRoute, Router } from '@angular/router';
-import { orderFilterParams } from './../../../models/filters/orderFilterParams';
-import { paginationConfig } from './../../../models/paginationConfig';
-import { orderResponse } from './../../../models/order/orderResponse';
+import { OrderFilterParams } from '../../../models/filters/OrderFilterParams';
+import { PaginationConfig } from '../../../models/PaginationConfig';
+import { OrderResponse } from '../../../models/order/OrderResponse';
 import { OrderService } from './../../../services/order.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -13,11 +15,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-history-list.component.css']
 })
 export class OrderHistoryListComponent implements OnInit {
-  orderResponse: orderResponse = new orderResponse();
-  orderFilterParams: orderFilterParams = new orderFilterParams();
-  config: paginationConfig = new paginationConfig(); 
+  orderResponse: OrderResponse = new OrderResponse();
+  orderFilterParams: OrderFilterParams = new OrderFilterParams();
+  config: PaginationConfig = new PaginationConfig(); 
 
-  statuses = orderStatus;
+  statuses = OrderStatus;
+  selectedStatus: string;
 
   constructor(private orderService:OrderService,
     private route:ActivatedRoute,
@@ -26,12 +29,14 @@ export class OrderHistoryListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 18;
+      this.config.itemsPerPage = 6;
+      this.selectedStatus = params.status ? params.status : "All"; 
       this.orderFilterParams.search = params.search ? params.search : null;
     });  
 
     this.orderFilterParams.itemsPerPage = this.config.itemsPerPage;
     this.orderFilterParams.currentPage = this.config.currentPage;
+    this.orderFilterParams.status = this.statuses[`${this.selectedStatus}`];
 
     this.orderService.retrieveAll(this.orderFilterParams).subscribe(o => {
       this.orderResponse = o;

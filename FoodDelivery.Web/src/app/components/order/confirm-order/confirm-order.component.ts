@@ -1,10 +1,10 @@
 import { MessageComponent } from './../../message/message.component';
 import { OrderService } from './../../../services/order.service';
-import { addOrderObject } from './../../../models/order/addOrderObject';
+import { AddOrderModel } from '../../../models/order/AddOrderModel';
 import { Guid } from 'guid-typescript';
-import { paymentType } from './../../../models/enums/paymentType';
+import { PaymentType } from '../../../models/enums/PaymentType';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { confirmOrderErrrors } from './../../../models/enums/errors/confirmOrderErrors';
+import { ConfirmOrderErrrors } from '../../../models/enums/errors/ConfirmOrderErrors';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -27,8 +27,8 @@ export class ConfirmOrderComponent implements OnInit {
     comment: new FormControl('')
   });
 
-  errorsEnum = confirmOrderErrrors;
-  paymentTypes = paymentType;
+  errorsEnum = ConfirmOrderErrrors;
+  paymentTypes = PaymentType;
 
   constructor(public modalRef: NgbActiveModal, 
     private orderService:OrderService,
@@ -42,7 +42,7 @@ export class ConfirmOrderComponent implements OnInit {
     var max = 999999;
     var orderNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
-    const order: addOrderObject = {
+    const order: AddOrderModel = {
       cartId: this.cartId,
       orderNumber: orderNumber,
       address: this.confirmOrderForm.get('address').value,

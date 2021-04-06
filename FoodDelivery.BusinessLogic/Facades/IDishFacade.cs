@@ -9,7 +9,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 	{
 		ICollection<DishCategoryDTO> GetCategories();
 		DishListDTO GetByNameWithinRestaurant(string name, Guid restaurantId);
-		void Create(DishDTO dishDTO);
+		void Create(DishAddDTO dishDTO);
 		void Update(DishUpdateDTO dishUpdateDTO);
 		void Remove(Guid id);
 		DishListResponseDTO Retrieve(DishFilterParams filterParams);
@@ -18,5 +18,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Deactivate(Guid id);
 		void Activate(Guid id);
 		DishDetailDTO GetDetailDTOById(Guid id);
+		DishUpdateDTO GetUpdateDTOById(Guid id);
 	}
 }

@@ -1,3 +1,3 @@
-export enum confirmOrderErrrors{
+export enum ConfirmOrderErrrors{
     ModelInvalid = 1
 }

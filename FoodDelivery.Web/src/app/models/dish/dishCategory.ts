@@ -1,4 +1,4 @@
-export class dishCategory{
+export class DishCategory{
     id: number;
     name: string;
 }

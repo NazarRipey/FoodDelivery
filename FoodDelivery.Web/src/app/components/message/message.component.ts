@@ -9,11 +9,13 @@ import { LogInComponent } from '../auth/log-in/log-in.component';
 })
 export class MessageComponent implements OnInit {
 
+  public message;
+  public showLogIn: boolean;
+
   constructor(public modalRef: NgbActiveModal, private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
-  public message;
   
   openLogIn(){
     this.modalService.open(LogInComponent);

@@ -1,6 +1,6 @@
 import { Guid } from 'guid-typescript';
 
-export class restaurantUpdateObject{
+export class RestaurantUpdateModel{
     public id: Guid;
     public description: string;
 }

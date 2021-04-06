@@ -1,8 +1,7 @@
-import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
+import { RestaurantList } from '../../../../models/restaurant/RestaurantList';
 import { imgSrc } from './../../../../globals'
 import { RestaurantService } from './../../../../services/restaurant.service';
 import { Component, OnInit } from '@angular/core';
-import { dishListObject } from 'src/app/models/dish/dishListObject';
 
 @Component({
   selector: 'app-top-rated-restaurants',
@@ -12,7 +11,7 @@ import { dishListObject } from 'src/app/models/dish/dishListObject';
 export class TopRatedRestaurantsComponent implements OnInit {
   constructor(private restaurantService:RestaurantService) { }
 
-  restaurants: restaurantDetailObject[];
+  restaurants: RestaurantList[];
   imgSrc = imgSrc;
 
   ngOnInit(): void {

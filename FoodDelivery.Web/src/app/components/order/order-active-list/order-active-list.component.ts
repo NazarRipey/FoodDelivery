@@ -1,5 +1,6 @@
-import { orderStatus } from './../../../models/enums/statuses/orderStatus';
-import { orderShort } from './../../../models/order/orderShort';
+import { Guid } from 'guid-typescript';
+import { OrderStatus } from '../../../models/enums/statuses/OrderStatus';
+import { OrderShort } from '../../../models/order/OrderShort';
 import { OrderService } from './../../../services/order.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -10,8 +11,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderActiveListComponent implements OnInit {
 
-  orders: orderShort[];
-  statuses = orderStatus;
+  orders: OrderShort[];
+  statuses = OrderStatus;
 
   constructor(private orderService:OrderService) { }
 

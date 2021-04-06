@@ -1,7 +1,7 @@
-import { restaurantSortType } from '../enums/sorts/restaurantSortType';
-import { baseFilterParams } from './baseFilterParams';
+import { RestaurantSortType } from '../enums/sorts/RestaurantSortType';
+import { BaseFilterParams } from './BaseFilterParams';
 
-export class restaurantFilterParams extends baseFilterParams{
+export class RestaurantFilterParams extends BaseFilterParams{
     public types? : string[];
-    public restaurantSortType: restaurantSortType;
+    public restaurantSortType: RestaurantSortType;
 }

@@ -1,11 +1,10 @@
-import { modalHelper } from './../../../../helpers/modalHelper';
-import { cartHelper } from './../../../../helpers/cartHelper';
+import { ModalHelper } from '../../../../helpers/ModalHelper';
+import { CartHelper } from '../../../../helpers/CartHelper';
 import { Guid } from 'guid-typescript';
 import { imgSrc } from './../../../../globals'
 import { DishService } from './../../../../services/dish.service';
-import { restaurantDetailObject } from '../../../../models/restaurant/restaurantDetailObject';
 import { Component, OnInit } from '@angular/core';
-import { dishListObject } from 'src/app/models/dish/dishListObject';
+import { DishList } from 'src/app/models/dish/DishList';
 
 @Component({
   selector: 'app-top-rated-dishes',
@@ -14,11 +13,10 @@ import { dishListObject } from 'src/app/models/dish/dishListObject';
 })
 export class TopRatedDishesComponent implements OnInit {
 
-  dishes: dishListObject[];
-  restaurants: restaurantDetailObject[];
+  dishes: DishList[];
   imgSrc = imgSrc;
 
-  constructor(private modalHelper: modalHelper,
+  constructor(private modalHelper: ModalHelper,
     private dishService:DishService,) { }
 
   ngOnInit(): void {

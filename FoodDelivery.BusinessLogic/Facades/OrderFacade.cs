@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO.Order;
+using FoodDelivery.Entities.Enums.Status;
 using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.BusinessLogic.Facades
@@ -21,10 +22,15 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_cartRepository = cartRepository;
 		}
 
-		public void AddOrder(AddOrderDTO addOrderDTO)
+		public void AddOrder(AddOrderDTO addOrderDTO, Guid userId)
 		{
 			_orderRepository.AddOrder(addOrderDTO);
-			_cartRepository.Remove(addOrderDTO.CartId);
+			_cartRepository.Remove(userId);
+		}
+
+		public void Cancel(Guid id)
+		{
+			_orderRepository.UpdateStatus(id, (int)OrderStatus.Cancelled);
 		}
 
 		public ICollection<OrderShortDTO> GetActive(Guid userId)
@@ -32,9 +38,24 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _orderRepository.GetActive(userId);
 		}
 
+		public OrderDetailDTO GetOrderDetailDTOById(Guid id)
+		{
+			return _orderRepository.GetDetailDTOById(id);
+		}
+
+		public UpdateOrderDTO GetUpdateDTOById(Guid id)
+		{
+			return _orderRepository.GetUpdateDTOById(id);
+		}
+
 		public OrderResponseDTO RetrieveAll(OrderFilterParams orderFilterParams, Guid userId)
 		{
 			return _orderRepository.RetrieveAll(orderFilterParams, userId);
+		}
+
+		public void Update(UpdateOrderDTO updateOrderDTO)
+		{
+			_orderRepository.Update(updateOrderDTO);
 		}
 	}
 }

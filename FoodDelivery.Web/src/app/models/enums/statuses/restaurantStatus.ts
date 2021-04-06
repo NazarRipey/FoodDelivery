@@ -1,4 +1,4 @@
-export enum restaurantStatus{
+export enum RestaurantStatus{
     AwaitingApproval = 1,
 
     Active = 2,

@@ -2,12 +2,12 @@
     <div class="text-center">
         <h1>{{restaurant.name}}</h1>
     </div>
-    
     <div class="detail-wrapper mx-5 my-2">
         <img src="{{imgSrc}}" class="restaurant-image">
         <div class="w-100">
             <h5 class="text-right">{{restaurant.rating}}/5</h5>
             <p class="container mt-3">{{restaurant.description}}</p>
+            <p>Type: {{restaurant.type.name}}</p>
             <p>Addresses:</p>
             <ul>
                 <li *ngFor="let address of restaurant.addresses" class="my-2">

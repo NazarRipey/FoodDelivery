@@ -5,6 +5,7 @@ using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Restaurant;
 using FoodDelivery.Entities.Enums.Sorts;
 using FoodDelivery.Entities.Enums.Status;
 using FoodDelivery.Entities.FilterParams;
@@ -18,9 +19,9 @@ namespace FoodDelivery.DAL.Repositories
 			: base(db, mapper)
 		{ }
 
-		public void Create(RestaurantDetailDTO restaurantDTO)
+		public void Create(RestaurantAddDTO restaurantAddDTO)
 		{
-			Restaurant restaurant = _mapper.Map<Restaurant>(restaurantDTO);
+			Restaurant restaurant = _mapper.Map<Restaurant>(restaurantAddDTO);
 
 			restaurant.Status = (int)RestaurantStatus.AwaitingApproval;
 			//занулення щоб не додавалось в бд, в мапері не працює
@@ -97,14 +98,17 @@ namespace FoodDelivery.DAL.Repositories
 
 
 			//FILTERING INCLUDE ?
-			restaurant.Dishes = restaurant.Dishes.Where(d => d.Status == (int)DishStatus.Active).ToList();
+			if(restaurant != null)
+			{
+				restaurant.Dishes = restaurant.Dishes.Where(d => d.Status == (int)DishStatus.Active).ToList();
+			}
 
 			RestaurantDetailDTO restaurantDTO = _mapper.Map<RestaurantDetailDTO>(restaurant);
 
 			return restaurantDTO;
 		}
 
-		public RestaurantDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
+		public RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
 		{
 			int totalItemsCount;
 
@@ -117,10 +121,10 @@ namespace FoodDelivery.DAL.Repositories
 				.Take(filterParams.ItemsPerPage)
 				.ToList();
 
-			ICollection<RestaurantDetailDTO> restaurantDetailDTOs =
-				_mapper.Map<ICollection<RestaurantDetailDTO>>(restaurantsToReturn);
+			ICollection<RestaurantOwnerDetailDTO> restaurantDetailDTOs =
+				_mapper.Map<ICollection<RestaurantOwnerDetailDTO>>(restaurantsToReturn);
 
-			RestaurantDetailResponseDTO restaurantDetailResponseDTO = new RestaurantDetailResponseDTO()
+			RestaurantOwnerDetailResponseDTO restaurantDetailResponseDTO = new RestaurantOwnerDetailResponseDTO()
 			{
 				TotalRestaurantsCount = totalItemsCount,
 				Restaurants = restaurantDetailDTOs
@@ -169,6 +173,14 @@ namespace FoodDelivery.DAL.Repositories
 			_db.Entry(restaurant).State = EntityState.Modified;
 
 			SaveChanges();
+		}
+
+		public RestaurantUpdateDTO GetUpdateDTOById(Guid id)
+		{
+			Restaurant restaurant = _db.Restaurant.Find(id);
+			RestaurantUpdateDTO restaurantUpdateDTO = _mapper.Map<RestaurantUpdateDTO>(restaurant);
+
+			return restaurantUpdateDTO;
 		}
 	}
 }

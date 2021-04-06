@@ -2,7 +2,7 @@ import { imgSrc } from './../../globals'
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestaurantService } from './../../services/restaurant.service';
 import { Component, OnInit } from '@angular/core';
-import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
+import { RestaurantDetail } from 'src/app/models/restaurant/RestaurantDetail';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -12,7 +12,7 @@ import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDeta
 export class RestaurantDetailComponent implements OnInit {
 
   imgSrc = imgSrc;
-  restaurant: restaurantDetailObject;
+  restaurant: RestaurantDetail;
   sortType: string;
   searchParam: string;
 

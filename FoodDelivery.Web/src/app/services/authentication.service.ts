@@ -1,13 +1,11 @@
-import { sendConfirmationCodeModel } from '../models/auth/sendConfirmationCodeModel';
-import { userLogInModel } from '../models/auth/userLogInModel';
+import { UserLogInModel } from '../models/auth/UserLogInModel';
 import { serverUrl } from './../globals';
-import { userSignUpModel } from '../models/auth/userSignUpModel';
+import { UserSignUpModel } from '../models/auth/UserSignUpModel';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { confirmEmailModel } from '../models/auth/confirmEmailModel';
+import { ConfirmEmailModel } from '../models/auth/ConfirmEmailModel';
 import { throwError, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { userProfile } from '../models/userProfile/userProfile';
+import { UserProfile } from '../models/userProfile/UserProfile';
 
 @Injectable({
   providedIn: 'root'
@@ -18,31 +16,31 @@ export class AuthenticationService {
   
   constructor(private http: HttpClient) { }
 
-  public signUp(userSignUpModel: userSignUpModel){
+  public signUp(userSignUpModel: UserSignUpModel){
     const url = this.authUrl + "signup";
-    return this.http.post<userSignUpModel>(url, userSignUpModel, { observe: "response" });
+    return this.http.post<UserSignUpModel>(url, userSignUpModel, { observe: "response" });
   }
 
-  public confirmEmail(confirmEmailModel: confirmEmailModel){
+  public confirmEmail(confirmEmailModel: ConfirmEmailModel){
     const url = this.authUrl + "confirmEmail";
-    return this.http.post<confirmEmailModel>(url, confirmEmailModel);
+    return this.http.post<ConfirmEmailModel>(url, confirmEmailModel);
   }
 
-  public logIn(userLogInModel: userLogInModel){
+  public logIn(userLogInModel: UserLogInModel){
     const url = this.authUrl + "login";
-    return this.http.post<userLogInModel>(url, userLogInModel,
+    return this.http.post<UserLogInModel>(url, userLogInModel,
        { withCredentials: true, observe: "response" }
       );
   } 
 
-  public getUserProfile(): Observable<userProfile>{
+  public getUserProfile(): Observable<UserProfile>{
     const url = this.authUrl + "user";
-    return this.http.get<userProfile>(url, { withCredentials: true });
+    return this.http.get<UserProfile>(url, { withCredentials: true });
   }
 
-  public sendCode(sendCodeModel: sendConfirmationCodeModel){
+  public sendCode(email: string){
     const url = this.authUrl + "sendcode";
-    return this.http.post(url, sendCodeModel);
+    return this.http.post(url, JSON.stringify(email), { headers: {'Content-Type': 'application/json' }});
   }
 
   public logOut(){

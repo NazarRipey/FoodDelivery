@@ -1,17 +1,17 @@
-import { dishUpdateObject } from './../models/dish/dishUpdateObject';
-import { dishDetailObject } from './../models/dish/dishDetailObject';
-import { dishObject } from '../models/dish/dishObject';
-import { dishFilterParams } from './../models/filters/dishFilterParams';
-import { dishListResponse } from './../models/dish/dishListResponse';
-import { baseFilterParams } from '../models/filters/baseFilterParams';
+import { DishUpdateModel } from '../models/dish/DishUpdateModel';
+import { DishDetail } from '../models/dish/DishDetail';
+import { DishAddModel } from '../models/dish/DishAddModel';
+import { DishFilterParams } from '../models/filters/DishFilterParams';
+import { DishListResponse } from '../models/dish/DishListResponse';
+import { BaseFilterParams } from '../models/filters/BaseFilterParams';
 import { Guid } from 'guid-typescript';
-import { dishListObject } from 'src/app/models/dish/dishListObject';
+import { DishList } from 'src/app/models/dish/DishList';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { serverUrl } from './../globals';
 import { Injectable } from '@angular/core';
-import { dishCategory } from '../models/dish/dishCategory';
-import { dishCartObject } from '../models/dish/dishCartObject';
+import { DishCategory } from '../models/dish/DishCategory';
+import { DishCart } from '../models/dish/DishCart';
 
 @Injectable({
   providedIn: 'root'
@@ -22,37 +22,42 @@ export class DishService {
 
   constructor(private http:HttpClient) { }
 
-  public getCategories(): Observable<dishCategory[]>{
+  public getCategories(): Observable<DishCategory[]>{
     const url = this.dishUrl + "categories";
-    return this.http.get<dishCategory[]>(url);
+    return this.http.get<DishCategory[]>(url);
   }
 
-  public getTop(): Observable<dishListObject[]>{
+  public getTop(): Observable<DishList[]>{
     const url = this.dishUrl + "top";
-    return this.http.get<dishListObject[]>(url);
+    return this.http.get<DishList[]>(url);
   }
 
-  public getCartDishById(id: Guid): Observable<dishCartObject>{
+  public getCartDishById(id: Guid): Observable<DishCart>{
     const url = this.dishUrl + `cartdish/${id}`;
-    return this.http.get<dishCartObject>(url);
+    return this.http.get<DishCart>(url);
   }
 
-  public getDetailDishById(id: string): Observable<dishDetailObject>{
+  public getDetailDishById(id: string): Observable<DishDetail>{
     const url = this.dishUrl + `detail/${id}`;
-    return this.http.get<dishDetailObject>(url);
+    return this.http.get<DishDetail>(url);
   }
 
-  public retrieve(dishFilterParams: dishFilterParams): Observable<dishListResponse>{
+  public getUpdateDishById(id: string): Observable<DishUpdateModel>{
+    const url = this.dishUrl + `updatedish/${id}`;
+    return this.http.get<DishUpdateModel>(url, { withCredentials: true });
+  }
+
+  public retrieve(dishFilterParams: DishFilterParams): Observable<DishListResponse>{
     const url = this.dishUrl + "retrieve";
-    return this.http.post<dishListResponse>(url, dishFilterParams);
+    return this.http.post<DishListResponse>(url, dishFilterParams);
   }
 
-  public addDish(dish: dishObject){
+  public addDish(dish: DishAddModel){
     const url = this.dishUrl;
-    return this.http.post<dishObject>(url, dish, { withCredentials: true });
+    return this.http.post<DishAddModel>(url, dish, { withCredentials: true });
   }
 
-  public updateDish(dish: dishUpdateObject){
+  public updateDish(dish: DishUpdateModel){
     const url = this.dishUrl;
     return this.http.put(url, dish, { withCredentials: true });
   }

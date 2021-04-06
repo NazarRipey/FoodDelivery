@@ -1,8 +1,11 @@
+import { CartHelper } from '../../helpers/CartHelper';
+import { CartService } from './../../services/cart.service';
+import { CartItemModel } from './../../models/cart/CartItemModel';
 import { LogInComponent } from './../auth/log-in/log-in.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { userHelper } from './../../helpers/userHelper';
+import { UserHelper } from '../../helpers/UserHelper';
 import { trigger, transition, state, style, animate } from '@angular/animations';
-import { dishDetailObject } from './../../models/dish/dishDetailObject';
+import { DishDetail } from '../../models/dish/DishDetail';
 import { Guid } from 'guid-typescript';
 import { DishService } from './../../services/dish.service';
 import { ActivatedRoute } from '@angular/router';
@@ -22,7 +25,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DishDetailComponent implements OnInit {
   imgSrc = imgSrc;
-  dish: dishDetailObject;
+  dish: DishDetail;
   itemCount: number;
 
   added: boolean = false;
@@ -30,8 +33,10 @@ export class DishDetailComponent implements OnInit {
 
   constructor(private route:ActivatedRoute,
     private dishService:DishService,
-    private userHelper: userHelper,
-    private modalService: NgbModal) { }
+    private userHelper: UserHelper,
+    private modalService: NgbModal,
+    private cartService:CartService,
+    private cartHelper:CartHelper) { }
 
   ngOnInit(): void {
     this.itemCount = 1;
@@ -53,12 +58,22 @@ export class DishDetailComponent implements OnInit {
       this.modalService.open(LogInComponent, {centered: true});
     }
     else{
-      this.addedQuantity = quantity;
-      this.added = true;
+      const cartItemModel: CartItemModel = {
+        dishId: dishId, quantity: quantity
+      }
 
-      setTimeout(() => {
-        this.added = false;
-      }, 1500);
+      this.cartService.addItem(cartItemModel).subscribe(_ => {
+        this.addedQuantity = quantity;
+        this.added = true;
+  
+        this.cartHelper.getTotal().subscribe();
+
+        setTimeout(() => {
+          this.added = false;
+        }, 1000);
+      }, error => {
+        console.log(error);
+      })
     }
   }
 }

@@ -1,5 +1,5 @@
-import { baseFilterParams } from './baseFilterParams';
+import { BaseFilterParams } from './BaseFilterParams';
 
-export class orderFilterParams extends baseFilterParams{
-
+export class OrderFilterParams extends BaseFilterParams{
+    status: number;
 }

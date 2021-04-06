@@ -1,12 +1,12 @@
 import { Observable, of } from 'rxjs';
-import { CartService } from './../services/cart.service';
+import { CartService } from '../services/cart.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class cartHelper{
+export class CartHelper{
     public total: number;
 
     constructor(private cartService:CartService){

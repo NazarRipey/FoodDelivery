@@ -1,13 +1,11 @@
-import { restaurantUpdateObject } from './../../../models/restaurant/restaurantUpdateObject';
-import { restaurantDetailObject } from 'src/app/models/restaurant/restaurantDetailObject';
-import { userHelper } from './../../../helpers/userHelper';
+import { Guid } from 'guid-typescript';
+import { RestaurantUpdateModel } from '../../../models/restaurant/RestaurantUpdateModel';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { restaurantErrors } from '../../../models/enums/errors/restaurantErrors';
+import { RestaurantErrors } from '../../../models/enums/errors/RestaurantErrors';
 import { FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-restaurant',
@@ -16,8 +14,9 @@ import { Router } from '@angular/router';
 })
 export class UpdateRestaurantComponent implements OnInit {
   public addresses: FormArray;
-  restaurantErrors = restaurantErrors;
-  restaurant: restaurantDetailObject;
+  restaurantErrors = RestaurantErrors;
+  restaurantId: Guid;
+  restaurantName: string;
 
   updateRestaurantForm = new FormGroup({
     description: new FormControl('', [
@@ -26,18 +25,17 @@ export class UpdateRestaurantComponent implements OnInit {
   });
 
   constructor(public modalRef: NgbActiveModal,
-    private fb: FormBuilder,
-    private restaurantService: RestaurantService,
-    private userHelper: userHelper,
-    private router: Router) { }
+    private restaurantService: RestaurantService) { }
 
   ngOnInit(): void {
-    this.updateRestaurantForm.patchValue({description: this.restaurant.description});
+    this.restaurantService.getUpdateRestaurantById(this.restaurantId.toString()).subscribe(r => {
+      this.updateRestaurantForm.patchValue({description: r.description});
+    })
   }
 
   onSubmit(){
-    const restaurant :restaurantUpdateObject = {
-      id: this.restaurant.id,
+    const restaurant :RestaurantUpdateModel = {
+      id: this.restaurantId,
       description: this.updateRestaurantForm.get('description').value,
     }
 

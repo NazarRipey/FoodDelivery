@@ -1,18 +1,43 @@
-import { cartItemModel } from './../models/cart/cartItemModel';
+import { CartItemModel } from '../models/cart/CartItemModel';
 import { Observable } from 'rxjs';
-import { cartResponse } from './../models/cart/cartResponse';
+import { CartResponse } from '../models/cart/CartResponse';
 import { serverUrl } from './../globals';
 import { HttpClient } from '@angular/common/http';
 import { Guid } from 'guid-typescript';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable } from '@angular/core';
 import { AddToCartComponent } from '../components/cart/add-to-cart/add-to-cart.component';
-import { cartItem } from '../models/cart/cartItem';
+import { CartItem } from '../models/cart/CartItem';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  public interval;
+  public readonly totalTime = 900;
+  public timeLeft;
+
+  startTimer() {
+    if(!this.interval)
+    {
+      this.timeLeft = this.totalTime;
+
+      this.interval = setInterval(() => {
+        if(this.timeLeft > 1) {
+          this.timeLeft--;
+        } else {
+          this.stopTimer();
+          this.deleteCart().subscribe(_ => location.reload());
+        }
+      },1000)
+      console.log(this.interval);
+    }
+  }
+
+  stopTimer(){
+    clearInterval(this.interval);
+    this.interval = null;
+  }
 
   cartUrl = serverUrl + "api/cart";
 
@@ -23,12 +48,13 @@ export class CartService {
     return this.http.get<number>(url, { withCredentials: true });
   }
 
-  public get(): Observable<cartResponse>{
+  public get(): Observable<CartResponse>{
     const url = this.cartUrl;
-    return this.http.get<cartResponse>(url, { withCredentials: true });
+    return this.http.get<CartResponse>(url, { withCredentials: true });
   }
 
-  public addItem(cartItemModel: cartItemModel){
+  public addItem(cartItemModel: CartItemModel){
+    this.startTimer();
     const url = this.cartUrl;
     return this.http.post(url, cartItemModel, { withCredentials: true });
   }
@@ -43,8 +69,9 @@ export class CartService {
     return this.http.delete(url, { withCredentials: true });
   }
 
-  public deleteCart(id: Guid){
-    const url = this.cartUrl + `/${id}`;
+  public deleteCart(){
+    this.stopTimer();
+    const url = this.cartUrl;
     return this.http.delete(url, { withCredentials: true });
   }
 }

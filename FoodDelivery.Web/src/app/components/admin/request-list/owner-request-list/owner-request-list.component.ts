@@ -1,8 +1,8 @@
-import { ownerRequestStatus } from './../../../../models/enums/statuses/ownerRequestStatus';
+import { OwnerRequestStatus } from '../../../../models/enums/statuses/OwnerRequestStatus';
 import { Guid } from 'guid-typescript';
-import { ownerRequestFilterParams } from '../../../../models/filters/ownerRequestFilterParams';
-import { ownerRequestResponse } from './../../../../models/ownerRequest/ownerRequestResponse';
-import { paginationConfig } from 'src/app/models/paginationConfig';
+import { OwnerRequestFilterParams } from '../../../../models/filters/OwnerRequestFilterParams';
+import { OwnerRequestResponse } from '../../../../models/ownerRequest/OwnerRequestResponse';
+import { PaginationConfig } from 'src/app/models/PaginationConfig';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwnerRequestService } from '../../../../services/owner-request.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,13 +13,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./owner-request-list.component.css']
 })
 export class OwnerRequestListComponent implements OnInit {
-  config: paginationConfig = new paginationConfig();
-  requestResponse :ownerRequestResponse = new ownerRequestResponse();
-  requestFilterParams : ownerRequestFilterParams = new ownerRequestFilterParams();
+  config: PaginationConfig = new PaginationConfig();
+  requestResponse :OwnerRequestResponse = new OwnerRequestResponse();
+  requestFilterParams : OwnerRequestFilterParams = new OwnerRequestFilterParams();
 
   selectedStatus: string;
 
-  statuses = ownerRequestStatus;
+  statuses = OwnerRequestStatus;
 
   constructor(private requestService:OwnerRequestService, 
     private route: ActivatedRoute, 
