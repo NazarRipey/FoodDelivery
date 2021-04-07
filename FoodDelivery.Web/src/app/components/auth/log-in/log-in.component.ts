@@ -1,5 +1,5 @@
+import { LogInErrors } from '../../../models/enums/errors/LogInErrors';
 import { ConfirmEmailComponent } from './../confirm-email/confirm-email.component';
-import { AuthErrors } from '../../../models/enums/errors/AuthErrors';
 import { UserHelper } from '../../../helpers/UserHelper';
 import { UserLogInModel } from '../../../models/auth/UserLogInModel';
 import { SignUpComponent } from '../sign-up/sign-up.component';
@@ -33,7 +33,7 @@ export class LogInComponent implements OnInit {
     remember: new FormControl(),
   });
 
-  errorsEnum = AuthErrors;
+  errorsEnum = LogInErrors;
 
   ngOnInit(): void {
   }
@@ -59,6 +59,9 @@ export class LogInComponent implements OnInit {
     .subscribe(response => {
       if(!response){
         this.modalRef.close();
+        if(this.redirectUrl){
+          window.top.location = this.redirectUrl;
+        }
       }
       else{
         this.logInForm.setErrors({"server": +response.error});

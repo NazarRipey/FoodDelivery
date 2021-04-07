@@ -1,3 +1,4 @@
+import { CartInfo } from './../models/cart/CartInfo';
 import { CartItemModel } from '../models/cart/CartItemModel';
 import { Observable } from 'rxjs';
 import { CartResponse } from '../models/cart/CartResponse';
@@ -13,39 +14,13 @@ import { CartItem } from '../models/cart/CartItem';
   providedIn: 'root'
 })
 export class CartService {
-  public interval;
-  public readonly totalTime = 900;
-  public timeLeft;
-
-  startTimer() {
-    if(!this.interval)
-    {
-      this.timeLeft = this.totalTime;
-
-      this.interval = setInterval(() => {
-        if(this.timeLeft > 1) {
-          this.timeLeft--;
-        } else {
-          this.stopTimer();
-          this.deleteCart().subscribe(_ => location.reload());
-        }
-      },1000)
-      console.log(this.interval);
-    }
-  }
-
-  stopTimer(){
-    clearInterval(this.interval);
-    this.interval = null;
-  }
-
   cartUrl = serverUrl + "api/cart";
 
   constructor(private http: HttpClient) { }
   
-  public getTotalItems(): Observable<number>{
-    const url = this.cartUrl + "/total"
-    return this.http.get<number>(url, { withCredentials: true });
+  public getInfo(): Observable<CartInfo>{
+    const url = this.cartUrl + "/info"
+    return this.http.get<CartInfo>(url, { withCredentials: true });
   }
 
   public get(): Observable<CartResponse>{
@@ -54,14 +29,13 @@ export class CartService {
   }
 
   public addItem(cartItemModel: CartItemModel){
-    this.startTimer();
     const url = this.cartUrl;
     return this.http.post(url, cartItemModel, { withCredentials: true });
   }
 
   public updateItem(id: Guid, quantity: number){
     const url = this.cartUrl + `/${id}`;
-    return this.http.put(url, quantity, { withCredentials: true });
+    return this.http.put(url, JSON.stringify(quantity), { withCredentials: true, headers: {'Content-Type': 'application/json' } });
   }
 
   public deleteItem(id: Guid){
@@ -70,7 +44,6 @@ export class CartService {
   }
 
   public deleteCart(){
-    this.stopTimer();
     const url = this.cartUrl;
     return this.http.delete(url, { withCredentials: true });
   }

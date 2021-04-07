@@ -12,14 +12,19 @@
     </ul>
 
     <ul class="nav nav-pills ml-auto" *ngIf="userHelper.profile; else unauthorized">
-        <li *ngIf="userHelper.isInRole(['admin'])" class="nav-item">
-            <a class="nav-link" [routerLink]="['/requests']">Requests</a>
-        </li>
+        <div *ngIf="userHelper.isInRole(['admin'])" class="d-flex">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/requests']">Requests</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/ordermanagers']">Order managers</a>
+            </li>
+        </div>
         <li *ngIf="userHelper.ownerRequestStatus" class="nav-item">
             <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
         </li>
         <li *ngIf="userHelper.isInRole(['orderManager'])" class="nav-item">
-            <a class="nav-link" [routerLink]="['/requests']">Manage orders</a>
+            <a class="nav-link" [routerLink]="['/manageorders']">Manage orders</a>
         </li>
         <li class="nav-item">
             <div ngbDropdown class="nav-link">
@@ -36,13 +41,15 @@
         <li class="nav-item">
             <a class="nav-link" [routerLink]="['/cart']">
                 <i class="bi bi-cart4"></i>
-                <span *ngIf="cartHelper.total" class='badge badge-warning' id='lblCartCount'>
-                    {{cartHelper.total}}
+                <span *ngIf="cartHelper.info && cartHelper.info.total" class='badge badge-warning' id='lblCartCount'>
+                    {{cartHelper.info.total}}
                 </span>
             </a>
         </li>
-        <li class="nav-item" *ngIf="cartService.interval">
-            <small class="text-white">cart expires in {{cartService.timeLeft| minutesSeconds}}</small>
+        <li class="nav-item" *ngIf="cartHelper.info && cartHelper.info.timeLeft">
+            <small class="text-white">
+                cart expires in {{cartHelper.info.timeLeft| minutesSeconds}}
+            </small>
         </li>
     </ul>
 

@@ -1,5 +1,4 @@
 import { ModalHelper } from '../../../../helpers/ModalHelper';
-import { CartHelper } from '../../../../helpers/CartHelper';
 import { Guid } from 'guid-typescript';
 import { imgSrc } from './../../../../globals'
 import { DishService } from './../../../../services/dish.service';
@@ -24,6 +23,6 @@ export class TopRatedDishesComponent implements OnInit {
   }
 
   openAddToCart(dishId: Guid){
-    this.modalHelper.openAddToCart(dishId);
+    this.modalHelper.openAddToCart(dishId, true);
   }
 }

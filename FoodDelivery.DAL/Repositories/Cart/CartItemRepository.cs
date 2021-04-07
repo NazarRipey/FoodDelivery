@@ -44,6 +44,11 @@ namespace FoodDelivery.DAL.Repositories
 		public void Remove(Guid id)
 		{
 			CartItem cartItem = _db.CartItem.Find(id);
+
+			if (cartItem.Cart.CartItems.Count == 1)
+			{
+				_db.Remove(cartItem.Cart);
+			}
 			_db.Remove(cartItem);
 
 			SaveChanges();

@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
 
   openSignUp(){
     this.modalService.open(SignUpComponent);
+    this.cartHelper.info.total
   }
 
   openLogIn(){

@@ -8,7 +8,8 @@ namespace FoodDelivery.API.Mappers
 	{
 		public MappingProfile()
 		{
-			CreateMap<SignUpModel, UserProfileDTO>().ReverseMap();
+			CreateMap<SignUpModel, UserProfileDTO>()
+				.ReverseMap();
 		}
 	}
 }

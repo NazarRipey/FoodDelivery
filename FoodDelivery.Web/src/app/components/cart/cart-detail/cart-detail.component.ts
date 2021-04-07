@@ -6,6 +6,7 @@ import { imgSrc } from './../../../globals'
 import { CartResponse } from '../../../models/cart/CartResponse';
 import { CartService } from './../../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-detail',
@@ -17,18 +18,12 @@ export class CartDetailComponent implements OnInit {
   cartResponse: CartResponse = new CartResponse();
   imgSrc = imgSrc;
 
-  constructor(private cartService: CartService, private modalService: NgbModal) { }
+  constructor(private cartService: CartService, 
+    private modalService: NgbModal,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.cartService.get().subscribe(c => this.cartResponse = c);
-  }
-
-  Increment(item: CartItem){
-    item.quantity++;
-  }
-
-  Decrement(item: CartItem){
-    item.quantity--;
   }
 
   OpenConfirmOrder(){
@@ -36,10 +31,15 @@ export class CartDetailComponent implements OnInit {
     modal.componentInstance.cartId = this.cartResponse.id;
   }
 
-  UpdateQuantity(item: CartItem){
-    this.cartService.updateItem(item.id, item.quantity).subscribe(_ => {
-      location.reload();
-    })
+  UpdateQuantity(item: CartItem, quantity: number){
+    if(quantity <= 0){
+      alert("Quantity cannot be less than 1!")
+    }
+    else{
+      this.cartService.updateItem(item.id, quantity).subscribe(_ => {
+        location.reload();
+      })
+    }
   }
 
   RemoveItem(id: Guid){

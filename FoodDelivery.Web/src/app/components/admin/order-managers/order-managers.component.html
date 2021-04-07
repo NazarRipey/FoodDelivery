@@ -1,0 +1,118 @@
+<div class="container">
+    <div class="row d-flex mb-3 mt-2">
+        <div class="mx-auto search">
+          <app-search [value]="orderManagerFilterParams.search" placeholder="John Doe"></app-search>
+        </div>
+      
+        <app-status-drop-down [selectedStatus]="selectedStatus" [statuses]="statuses"></app-status-drop-down>
+    </div>
+
+    <div class="text-center my-3">
+        <button class="btn btn-lg bg-green" (click)="openAddManager()">+</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Account Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of userListResponse.users| paginate: config">
+                <td>{{user.fullName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.phoneNumber}}</td>
+                <td>{{statuses[user.status]}}</td>
+                <td>
+                    <button (click)="activate(user.email)" class="btn btn-sm bg-green"
+                    [disabled]="user.status==statuses.Active">
+                      Activate
+                    </button>
+                  </td>
+                  <td>
+                    <button (click)="deactivate(user.email)" class="btn btn-sm btn-danger"
+                    [disabled]="user.status==statuses.Inactive">
+                      Deactivate
+                    </button>
+                  </td>
+              </tr>
+            </tbody>
+          </table>  
+      </div>
+      <div class="text-center pb-0 pt-3">
+        <pagination-controls 
+            (pageChange)="pageChanged($event)">
+        </pagination-controls>
+      </div>      
+</div>
+
+<!--
+<div class="row d-flex mb-3 mt-2">
+    <div class="input-group search mx-auto">
+        <input type="search" #search class="form-control" (search)="onSearch(search.value)"
+         placeholder="John Doe" value="{{requestFilterParams.search}}"/>
+        <button type="button" class="btn bg-popstar" (click)="onSearch(search.value)">
+            <i class="bi bi-search"></i>
+        </button>
+    </div>
+  
+    <div ngbDropdown>
+        <button class="btn btn-outline-primary" id="sortDropDown" class="btn bg-popstar"
+        ngDefaultControl 
+         ngbDropdownToggle>{{selectedStatus}}</button>
+        <div ngbDropdownMenu aria-labelledby="sortDropDown">
+            <a ngbDropdownItem [queryParams]="{status:null}" queryParamsHandling='merge' [routerLink]="[]">All</a>
+            <a ngbDropdownItem *ngFor="let status of statuses | enumKeys"
+                [queryParams]="{status:status}" queryParamsHandling='merge' [routerLink]="[]">
+                {{status}}</a>
+        </div>
+    </div>  
+</div>
+  
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Created date</th>
+            <th scope="col">Closed date</th>
+            <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let request of requestResponse.ownerRequests| paginate: config">
+            <td>{{request.userProfile.fullName}}</td>
+            <td>{{request.userProfile.email}}</td>
+            <td>{{request.userProfile.phoneNumber}}</td>
+            <td>{{request.createdDate}}</td>
+            <td>{{request.closedDate}}</td>
+            <td>{{statuses[request.status]}}</td>
+            <td>
+                <button title="Approve" (click)="Approve(request.id)" class="btn btn-sm bg-green"
+                [disabled]="statuses[request.status]==statuses[statuses.Approved]">
+                <i class="bi bi-check"></i>
+                </button>
+            </td>
+            <td>
+                <button title="Decline" (click)="Decline(request.id)" class="btn btn-sm btn-danger"
+                [disabled]="statuses[request.status]==statuses[statuses.Declined]">
+                <i class="bi bi-x"></i>
+                </button>
+            </td>
+            </tr>
+        </tbody>
+        </table>  
+    </div>
+    <div class="text-center pb-0 pt-3">
+    <pagination-controls 
+        (pageChange)="pageChanged($event)">
+    </pagination-controls>
+</div>
+
+-->

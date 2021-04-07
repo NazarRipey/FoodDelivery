@@ -5,11 +5,13 @@ using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Cart;
 
 namespace FoodDelivery.DAL.Repositories
 {
 	public class CartRepository : BaseRepository, ICartRepository
 	{
+		private readonly int cartLifeTime = 900;
 		public CartRepository(FoodDeliveryDbContext db, IMapper mapper)
 			: base(db, mapper)
 		{ }
@@ -38,7 +40,8 @@ namespace FoodDelivery.DAL.Repositories
 				{
 					Id = cart.Id,
 					CartItems = cartItemDTOs,
-					TotalPrice = (double)cartItemDTOs.Select(c => c.Dish.Price * c.Quantity).Sum()
+					TotalPrice = (double)cartItemDTOs.Select(c => c.Dish.Price * c.Quantity).Sum(),
+					CreatedDate = cart.CreatedDate
 				};
 
 				return cartResponse;
@@ -54,27 +57,36 @@ namespace FoodDelivery.DAL.Repositories
 			return cart;
 		}
 
-		public int GetTotalItems(Guid userId)
+		public CartInfoDTO GetCartInfo(Guid userId)
 		{
-			int total = 0;
 			Cart cart = _db.Cart.Where(c => c.UserProfileId == userId).SingleOrDefault();
+			CartInfoDTO cartInfoDTO = null;
 
 			if (cart != null)
 			{
-				total = cart.CartItems.Count();
+				TimeSpan ts = DateTime.Now - cart.CreatedDate;
+
+				cartInfoDTO = new CartInfoDTO()
+				{
+					Total = cart.CartItems.Count(),
+					TimeLeft = cartLifeTime - (int)ts.TotalSeconds
+				};
 			}
 
-			return total;
+			return cartInfoDTO;
 		}
 
 		public void Remove(Guid userId)
 		{
 			Cart cart = _db.Cart.Where(c => c.UserProfileId == userId).SingleOrDefault();
 
-			_db.CartItem.RemoveRange(cart.CartItems);
-			_db.Cart.Remove(cart);
+			if (cart != null)
+			{
+				_db.CartItem.RemoveRange(cart.CartItems);
+				_db.Cart.Remove(cart);
 
-			_db.SaveChanges();
+				_db.SaveChanges();
+			}
 		}
 	}
 }

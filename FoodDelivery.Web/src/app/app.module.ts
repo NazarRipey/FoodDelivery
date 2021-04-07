@@ -53,6 +53,12 @@ import { OrderActiveListComponent } from './components/order/order-active-list/o
 import { MinutesSecondsPipe } from './pipes/minutes-seconds.pipe';
 import { UpdateOrderComponent } from './components/order/update-order/update-order.component';
 import { OrderListItemComponent } from './components/order/order-list-item/order-list-item.component';
+import { OrderManagersComponent } from './components/admin/order-managers/order-managers.component';
+import { SearchComponent } from './components/shared/search/search.component';
+import { SortDropDownComponent } from './components/shared/sort-drop-down/sort-drop-down.component';
+import { StatusDropDownComponent } from './components/shared/status-drop-down/status-drop-down.component';
+import { AddOrderManagerComponent } from './components/admin/order-managers/add-order-manager/add-order-manager.component';
+import { ManageOrdersListComponent } from './components/order-manager/manage-orders-list/manage-orders-list.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -98,6 +104,12 @@ export function startupServiceFactory(startupService: StartupService): Function 
     MinutesSecondsPipe,
     UpdateOrderComponent,
     OrderListItemComponent,
+    OrderManagersComponent,
+    SearchComponent,
+    SortDropDownComponent,
+    StatusDropDownComponent,
+    AddOrderManagerComponent,
+    ManageOrdersListComponent,
   ],
   imports: [
     BrowserModule,

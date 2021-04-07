@@ -60,8 +60,4 @@ export class RestaurantListComponent implements OnInit {
   pageChanged(event){
     this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
   }
-
-  onSearch(searchPhrase){
-    this.router.navigate([], {queryParams: {search: searchPhrase}, queryParamsHandling: 'merge'});
-  }
 }

@@ -10,8 +10,11 @@ export class ModalHelper{
     constructor(private modalSevice:NgbModal){
     }
     
-    openAddToCart(dishId: Guid){
+    openAddToCart(dishId: Guid, showDetail?: boolean){
         const modal = this.modalSevice.open(AddToCartComponent);
         modal.componentInstance.dishId = dishId;
+        if(showDetail){
+            modal.componentInstance.showDetail = showDetail;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Cart;
 
 namespace FoodDelivery.BusinessLogic.Facades
 {
@@ -10,6 +11,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void UpdateItem(Guid id, int quantity);
 		void RemoveItem(Guid id);
 		void RemoveCart(Guid userId);
-		int GetTotalItems(Guid userId);
+		CartInfoDTO GetCartInfo(Guid userId);
 	}
 }

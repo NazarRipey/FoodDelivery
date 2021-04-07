@@ -5,4 +5,5 @@ export class CartResponse{
     id: Guid;
     cartItems: CartItem[];
     totalPrice: number;
+    createdDate: Date;
 }

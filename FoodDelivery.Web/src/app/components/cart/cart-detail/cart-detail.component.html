@@ -30,17 +30,12 @@
                             <small class="text-left">weight: <b>{{item.dish.weight}}</b></small><br>
 
                             <div class="text-center">
-                                <button  (click)="Decrement(item)" [disabled]="item.quantity==1"
-                                    class="btn btn-sm bg-green">-</button>
-                                <span class="mx-2">{{item.quantity}}</span>
-                                <button  (click)="Increment(item)" class="btn btn-sm bg-green">+</button>
-
+                                <label>
+                                    Quantity: <input class="w-25" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" 
+                                    min="1" #quan [value]="item.quantity" 
+                                    (focusout)="UpdateQuantity(item, quan.value)"><br>
+                                </label>
                                 <p class="my-2"><b>Subtotal: {{item.quantity * item.dish.price}}₴</b></p>
-                            </div>
-                            <div class="text-center my-1">
-                                <button class="btn btn-sm bg-green" (click)="UpdateQuantity(item)">
-                                    Update quantity
-                                </button>
                             </div>
                         </div>   
                     </div>

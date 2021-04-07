@@ -30,6 +30,8 @@ export class AddToCartComponent implements OnInit {
   imgSrc = imgSrc;
   itemCount;
 
+  showDetail: boolean = false;
+
   added: boolean = false;
   addedQuantity: number;
 
@@ -69,7 +71,7 @@ export class AddToCartComponent implements OnInit {
         this.addedQuantity = quantity;
         this.added = true;
   
-        this.cartHelper.getTotal().subscribe();
+        this.cartHelper.getInfo().subscribe();
 
         setTimeout(() => {
           this.added = false;

@@ -1,22 +1,46 @@
+import { CartInfo } from './../models/cart/CartInfo';
 import { Observable, of } from 'rxjs';
 import { CartService } from '../services/cart.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 
 export class CartHelper{
-    public total: number;
+    public interval;
+
+    public info: CartInfo = new CartInfo();
 
     constructor(private cartService:CartService){
     }
 
-    getTotal(): Observable<number>{
-        var result = this.cartService.getTotalItems();
-
-        result.subscribe(t => this.total = t);
-
-        return result;
+    getInfo(): Observable<CartInfo>{
+      var result = this.cartService.getInfo();
+      result.subscribe(i => {
+        this.info = i;
+        this.startTimer();
+      });
+      return result;
     }
+
+  startTimer() {
+    if(!this.interval)
+    {  
+      this.interval = setInterval(() => {
+        if(this.info.timeLeft > 1) {
+          console.log(this.info.timeLeft);
+          this.info.timeLeft--;
+        } else {
+          this.stopTimer();
+          this.cartService.deleteCart().subscribe(_ => location.reload());
+        }
+      },1000)
+    }
+  }
+    
+  stopTimer(){
+    clearInterval(this.interval);
+    this.interval = null;
+  }
 }

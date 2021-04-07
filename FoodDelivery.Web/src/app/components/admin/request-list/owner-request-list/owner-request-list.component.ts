@@ -54,10 +54,6 @@ export class OwnerRequestListComponent implements OnInit {
     };
   }
 
-  onSearch(searchPhrase){
-    this.router.navigate([], {queryParams: {search: searchPhrase}, queryParamsHandling: 'merge'});
-  }
-
   pageChanged(event){
     this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
   }

@@ -48,7 +48,7 @@ export class UserHelper{
             concatMap(p => {
                 this._profile.next(p);
                 if(p){
-                    return forkJoin([this.getOwnerRequest(p.id), this.cartHelper.getTotal()]).toPromise();
+                    return forkJoin([this.getOwnerRequest(p.id), this.cartHelper.getInfo()]).toPromise();
                 }
                 else{
                     return of(p);
@@ -108,7 +108,7 @@ export class UserHelper{
         this.authService.logOut().subscribe(_ => {
             this._profile.next(null)
             this._ownerRequestStatus.next(null);
-            this.cartHelper.total = null;
+            this.cartHelper.info = null;
             this.router.navigateByUrl("");
         });       
     }   

@@ -1,4 +1,4 @@
-import { RestaurantStatus } from './../enums/statuses/RestaurantStatus';
+import { RestaurantStatus } from '../enums/statuses/RestaurantStatus';
 import { DishDetail } from './../dish/DishDetail';
 import { RestaurantAddress } from './RestaurantAddress';
 import { RestaurantType } from './RestaurantType';

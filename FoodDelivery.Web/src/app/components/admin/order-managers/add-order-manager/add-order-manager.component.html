@@ -1,0 +1,152 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Add order manager
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addManagerForm" (ngSubmit)="onSubmit()">
+            <div class="form-row form-group">
+                <label class="col">
+                    First name:
+                    <input type="text" class="form-control" formControlName="firstName">
+                    <div *ngIf="addManagerForm.get('firstName').errors 
+                        && addManagerForm.get('firstName').touched"
+                        class="text-danger">
+                        <small class="d-block" 
+                            *ngIf="addManagerForm.get('firstName').hasError('required')">
+                            First name is required
+                        </small>
+                        <small class="d-block" 
+                            *ngIf="addManagerForm.get('firstName').hasError('pattern')">
+                            First name can only have letters or dash charcter(-)
+                        </small>
+                    </div>
+                </label>
+                <label class="col">
+                    Last name:
+                    <input type="text" class="form-control" formControlName="lastName">
+                    <div *ngIf="addManagerForm.get('lastName').errors 
+                        && addManagerForm.get('lastName').touched"
+                        class="text-danger">
+                        <small class="d-block"
+                            *ngIf="addManagerForm.get('lastName').hasError('required')">
+                            Last name is required
+                        </small>
+                        <small class="d-block" 
+                            *ngIf="addManagerForm.get('lastName').hasError('pattern')">
+                            Last name can only have letters or dash charcter(-)
+                        </small>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group form-row">
+                <label class="col">
+                    Email:
+                    <input type="email" class="form-control" style="width: 100%;" formControlName="email">
+                    <div *ngIf="addManagerForm.get('email').errors && addManagerForm.get('email').touched"
+                    class="text-danger">
+                        <small class="d-block" *ngIf="addManagerForm.get('email').hasError('required')">
+                            Email is required
+                        </small>
+                        <small class="d-block" *ngIf="addManagerForm.get('email').hasError('email')">
+                            Email should match the pattern example@mail.com
+                        </small>
+                    </div>
+                </label>
+                <label class="col">
+                    Phone number:
+                    <input type="text" class="form-control" formControlName="phoneNumber"
+                        placeholder="format: +380679348848">
+                    <div *ngIf="addManagerForm.get('phoneNumber').errors 
+                        && addManagerForm.get('phoneNumber').touched"
+                    class="text-danger">
+                        <small class="d-block" 
+                            *ngIf="addManagerForm.get('phoneNumber').hasError('required')">
+                            Phone is required
+                        </small>
+                        <small class="d-block" 
+                            *ngIf="addManagerForm.get('phoneNumber').hasError('pattern')">
+                            Phone should match the pattern +380123456789
+                        </small>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Birthday: 
+                    <input type="date" class="form-control"  formControlName="birthday">
+                    <div *ngIf="addManagerForm.get('birthday').errors 
+                        && addManagerForm.get('birthday').touched"
+                    class="text-danger">
+                        <small class="d-block" 
+                            *ngIf="addManagerForm.get('birthday').hasError('required')">
+                            Birthday is required
+                        </small>
+                        <small class="d-block" *ngIf="addManagerForm.get('birthday').hasError('age')">
+                            You must be over 13 years old to join FoodDelivery
+                        </small>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group form-row">
+                <label class="col">
+                    Password:
+                    <input type="password" class="form-control" formControlName="password">
+                    <div *ngIf="addManagerForm.get('password').errors 
+                        && addManagerForm.get('password').touched"
+                    class="text-danger">
+                        <small class="d-block" 
+                            *ngIf="addManagerForm.get('password').hasError('required')">
+                            Password is required
+                        </small>
+                        <small class="d-block"
+                            *ngIf="addManagerForm.get('password').hasError('minlength')">
+                            Password should be at least 8 characters
+                        </small>
+                        <small class="d-block" 
+                            *ngIf="addManagerForm.get('password').hasError('pattern')">
+                            Password should contain one lowercase charcter, one uppercase charcter, and one number
+                        </small>
+                    </div>
+                </label>
+                <label class="col">
+                    Confirm password:
+                    <input type="password" class="form-control" formControlName="confirmPassword">
+                    <div *ngIf="addManagerForm.get('confirmPassword').touched" class="text-danger">
+                        <small class="d-block" *ngIf="addManagerForm.hasError('confirmPassword')">
+                            Passwords do not match
+                        </small>
+                    </div>
+                </label>
+            </div>
+
+            <div *ngIf="addManagerForm.hasError('server') && addManagerForm.touched"
+            class="text-danger">
+                <div [ngSwitch]="addManagerForm.errors['server']">
+                    <p *ngSwitchCase="errorsEnum.AlreadyExistsEmail">
+                        User with such email already exists
+                    </p>
+                    <p *ngSwitchCase="errorsEnum.AlreadyExistsPhone">
+                        User with such phone number already exists
+                    </p>
+                    <p *ngSwitchCase="errorsEnum.ModelInvalid">
+                        Model is invalid
+                    </p>
+                    <p *ngSwitchDefault>
+                        {{logInForm.errors['server']}}
+                    </p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="text-center">
+                <button type="submit" class="btn bg-green" [disabled]="addManagerForm.invalid">
+                    Add
+                </button>   
+            </div>
+        </form>   
+    </div>
+</div>

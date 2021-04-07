@@ -2,6 +2,7 @@
 using FoodDelivery.API.Models;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Cart;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,12 +34,12 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
-		[Route("total")]
-		public int GetTotalItems()
+		[Route("info")]
+		public CartInfoDTO GetCartInfo()
 		{
 			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
 
-			return _cartFacade.GetTotalItems(userId);
+			return _cartFacade.GetCartInfo(userId);
 		}
 
 		[HttpPost]

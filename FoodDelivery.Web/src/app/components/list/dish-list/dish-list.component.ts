@@ -89,10 +89,6 @@ export class DishListComponent implements OnInit {
     this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
   }
 
-  onSearch(searchPhrase){
-    this.router.navigate([], {queryParams: {search: searchPhrase}, queryParamsHandling: 'merge'});
-  }
-
   changePriceRange(){
     this.router.navigate([], {queryParams: {
         minPrice: this.sliderOptions.currentMin, 

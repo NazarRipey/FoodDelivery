@@ -1,6 +1,7 @@
 ﻿using System;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Cart;
 
 namespace FoodDelivery.BusinessLogic.Facades
 {
@@ -30,9 +31,9 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _cartRepository.Get(userId);
 		}
 
-		public int GetTotalItems(Guid userId)
+		public CartInfoDTO GetCartInfo(Guid userId)
 		{
-			return _cartRepository.GetTotalItems(userId);
+			return _cartRepository.GetCartInfo(userId);
 		}
 
 		public void RemoveCart(Guid userId)

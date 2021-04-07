@@ -1,4 +1,4 @@
-import { AuthErrors } from '../../../models/enums/errors/AuthErrors';
+import { ConfirmEmailErrors } from '../../../models/enums/errors/ConfirmEmailErrors';
 import { MessageComponent } from '../../message/message.component';
 import { ConfirmEmailModel } from '../../../models/auth/ConfirmEmailModel';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -19,7 +19,7 @@ export class ConfirmEmailComponent implements OnInit {
 
   email;
   message;
-  errorsEnum = AuthErrors;
+  errorsEnum = ConfirmEmailErrors;
 
   constructor(public modalRef: NgbActiveModal,
     private modalService: NgbModal, 
@@ -65,6 +65,7 @@ export class ConfirmEmailComponent implements OnInit {
       }
       const modal = this.modalService.open(MessageComponent);
       modal.componentInstance.message = this.message;
+      modal.componentInstance.showLogIn = true;
       this.modalRef.close();
     },
     err => {

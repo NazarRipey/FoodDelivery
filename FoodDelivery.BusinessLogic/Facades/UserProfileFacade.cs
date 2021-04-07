@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.DAL.Repositories;
+using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.FilterParams;
 using FoodDelivery.Utilities.Managers;
 
 namespace FoodDelivery.BusinessLogic.Facades
@@ -24,6 +26,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 			userProfile.EmailConfirmationCode = GenereateConfirmationCode();
 			_userProfileRepository.Create(userProfile);
 			await _emailManager.SendConfirmationCodeAsync(userProfile.Email, userProfile.EmailConfirmationCode);
+		}
+
+		public async Task SendPasswordToEmail(string email, string password)
+		{
+			await _emailManager.SendPasswordAsync(email, password);
 		}
 
 		public UserProfile GetByEmail(string email)
@@ -53,6 +60,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 		{
 			Random random = new Random();
 			return random.Next(1000, 9999);
+		}
+
+		public UserListResponseDTO RetrieveByRole(OrderManagerFilterParams filterParams, string role)
+		{
+			return _userProfileRepository.RetrieveByRole(filterParams, role);
 		}
 	}
 }

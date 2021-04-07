@@ -1,3 +1,5 @@
+import { ManageOrdersListComponent } from './components/order-manager/manage-orders-list/manage-orders-list.component';
+import { OrderManagersComponent } from './components/admin/order-managers/order-managers.component';
 import { OrderActiveListComponent } from './components/order/order-active-list/order-active-list.component';
 import { OrderDetailComponent } from './components/order/order-detail/order-detail.component';
 import { OrderHistoryListComponent } from './components/order/order-history-list/order-history-list.component';
@@ -40,12 +42,16 @@ const routes: Routes = [
       { path: '', redirectTo: 'owners', pathMatch: 'full'}
     ],
   },
+  { path: 'ordermanagers', component: OrderManagersComponent, 
+    canActivate: [AuthGuard, RoleGuard],  data: {roles: ['admin'] }},
   { path: "manage", component: ManageRestaurantsComponent, 
     canActivate: [AuthGuard, OwnerGuard] },
   { path: "cart", component: CartDetailComponent, canActivate: [AuthGuard] },
   { path: "orders", component: OrderActiveListComponent,  canActivate: [AuthGuard] }, 
   { path: "orders/history", component: OrderHistoryListComponent, canActivate: [AuthGuard] },
   { path: "orders/:id", component: OrderDetailComponent, canActivate: [AuthGuard] },
+  { path: "manageorders", component: ManageOrdersListComponent, 
+    canActivate: [AuthGuard, RoleGuard], data: {roles: ['orderManager'] } },
   { path: "noaccess", component: NoAccessComponent },
   { path: '**', component: NotFoundComponent }
 ];

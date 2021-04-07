@@ -1,6 +1,6 @@
 import { CartHelper } from '../../helpers/CartHelper';
 import { CartService } from './../../services/cart.service';
-import { CartItemModel } from './../../models/cart/CartItemModel';
+import { CartItemModel } from '../../models/cart/CartItemModel';
 import { LogInComponent } from './../auth/log-in/log-in.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserHelper } from '../../helpers/UserHelper';
@@ -66,7 +66,7 @@ export class DishDetailComponent implements OnInit {
         this.addedQuantity = quantity;
         this.added = true;
   
-        this.cartHelper.getTotal().subscribe();
+        this.cartHelper.getInfo().subscribe();
 
         setTimeout(() => {
           this.added = false;
