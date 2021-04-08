@@ -9,6 +9,7 @@ export class OrderDetail{
     public createdDate: Date;
     public closedDate?: Date;
     public paymentType: PaymentType;
+    public contactPhoneNumber: string;
     public address: string;
     public status: OrderStatus;
     public totalSum: number;

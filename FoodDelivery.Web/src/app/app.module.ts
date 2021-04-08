@@ -59,6 +59,9 @@ import { SortDropDownComponent } from './components/shared/sort-drop-down/sort-d
 import { StatusDropDownComponent } from './components/shared/status-drop-down/status-drop-down.component';
 import { AddOrderManagerComponent } from './components/admin/order-managers/add-order-manager/add-order-manager.component';
 import { ManageOrdersListComponent } from './components/order-manager/manage-orders-list/manage-orders-list.component';
+import { AvailableOrdersComponent } from './components/order-manager/manage-orders-list/available-orders/available-orders.component';
+import { TakenOrdersComponent } from './components/order-manager/manage-orders-list/taken-orders/taken-orders.component';
+import { ManagerOrderHistoryComponent } from './components/order-manager/manage-orders-list/manager-order-history/manager-order-history.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -110,6 +113,9 @@ export function startupServiceFactory(startupService: StartupService): Function 
     StatusDropDownComponent,
     AddOrderManagerComponent,
     ManageOrdersListComponent,
+    AvailableOrdersComponent,
+    TakenOrdersComponent,
+    ManagerOrderHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -135,7 +141,7 @@ export function startupServiceFactory(startupService: StartupService): Function 
       useFactory: startupServiceFactory,
       deps: [StartupService],
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

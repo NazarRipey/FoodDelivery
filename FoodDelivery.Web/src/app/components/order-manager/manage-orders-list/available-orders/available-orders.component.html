@@ -1,0 +1,38 @@
+<div class="row d-flex mb-3 mt-2">
+    <div class="mx-auto search">
+      <app-search [value]="filterParams.search" placeholder="John Doe"></app-search>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Order number</th>
+            <th scope="col">Customer name</th>
+            <th scope="col">Contact phone</th>
+            <th scope="col">Created date</th>
+            <th scope="col">Total sum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of ordersResponse.orders| paginate: config">
+            <td>{{order.orderNumber}}</td>
+            <td>{{order.customerName}}</td>
+            <td>{{order.contactPhoneNumber}}</td>
+            <td>{{order.createdDate}}</td>
+            <td><b>{{order.totalSum}}</b></td>
+            <td>
+              <button (click)="takeOrder(order.id)" class="btn bg-green">
+                Take
+              </button>
+            </td>
+          </tr>
+        </tbody>
+    </table>  
+</div>
+<div class="text-center pb-0 pt-3">
+    <pagination-controls 
+        (pageChange)="pageChanged($event)">
+    </pagination-controls>
+</div>

@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { UserHelper } from './../../../helpers/UserHelper';
 import { MessageComponent } from './../../message/message.component';
 import { OrderService } from './../../../services/order.service';
 import { AddOrderModel } from '../../../models/order/AddOrderModel';
@@ -20,7 +22,11 @@ export class ConfirmOrderComponent implements OnInit {
   confirmOrderForm = new FormGroup({
     paymentType: new FormControl('', [
         Validators.required,
-      ]),
+    ]),
+    phoneNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern("^\\+[0-9]{1,3}[0-9]{9}$")
+    ]),
     address: new FormControl('', [
       Validators.required,
     ]),
@@ -30,11 +36,18 @@ export class ConfirmOrderComponent implements OnInit {
   errorsEnum = ConfirmOrderErrrors;
   paymentTypes = PaymentType;
 
-  constructor(public modalRef: NgbActiveModal, 
+  constructor(
+    public modalRef: NgbActiveModal, 
     private orderService:OrderService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private userHelper:UserHelper,
+    private router: Router) { }
 
   ngOnInit(): void {
+    this.confirmOrderForm.patchValue({
+      phoneNumber: this.userHelper.profile.phoneNumber,
+      address: this.userHelper.profile.address
+    });
   }
 
   onSubmit(){
@@ -45,6 +58,7 @@ export class ConfirmOrderComponent implements OnInit {
     const order: AddOrderModel = {
       cartId: this.cartId,
       orderNumber: orderNumber,
+      contactPhoneNumber: this.confirmOrderForm.get('phoneNumber').value,
       address: this.confirmOrderForm.get('address').value,
       paymentType:this.paymentTypes[`${this.confirmOrderForm.get('paymentType').value}`],
       comment: this.confirmOrderForm.get('comment').value
@@ -57,7 +71,7 @@ export class ConfirmOrderComponent implements OnInit {
       this.modalRef.close();
 
       modal.result.then((result) => {
-        location.reload();
+        this.router.navigateByUrl("orders").then(_ => location.reload());
       }, (reason) => {
         location.reload();
       });

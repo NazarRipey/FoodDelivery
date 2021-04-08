@@ -6,13 +6,12 @@
         
         <app-status-drop-down [selectedStatus]="selectedStatus" [statuses]="statuses"></app-status-drop-down>
     </div>    
+    <div class="text-right mb-2 mr-2">
+        <a class="font-large" [routerLink]="['/orders']">Active orders</a>
+    </div>
 </div>
 
-<div class="b">
-    <div class="text-center mb-2">
-        <h2><a [routerLink]="['/orders']">Active orders</a></h2>
-    </div>
-    
+<div class="b">    
     <div class="wrapper d-flex align-items-stretch mt-2" *ngIf="orderResponse.orders">
         <div class="p-md-3 w-100">
             <div *ngIf="orderResponse.orders.length == 0">

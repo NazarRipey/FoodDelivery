@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.BusinessLogic.Facades
@@ -19,5 +20,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Activate(Guid id);
 		DishDetailDTO GetDetailDTOById(Guid id);
 		DishUpdateDTO GetUpdateDTOById(Guid id);
+		DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams);
 	}
 }

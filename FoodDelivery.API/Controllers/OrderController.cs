@@ -47,12 +47,12 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPost]
-		[Route("all")]
-		public OrderResponseDTO RetrieveAll(OrderFilterParams orderFilterParams)
+		[Route("history")]
+		public OrderResponseDTO RetrieveHistory(OrderFilterParams orderFilterParams)
 		{
 			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
 
-			return _orderFacade.RetrieveAll(orderFilterParams, userId);
+			return _orderFacade.RetrieveHistory(orderFilterParams, userId);
 		}
 
 		[HttpPost]
@@ -71,6 +71,7 @@ namespace FoodDelivery.API.Controllers
 
 			return Ok();
 		}
+
 
 		[HttpPost]
 		[Route("cancel")]
@@ -94,6 +95,33 @@ namespace FoodDelivery.API.Controllers
 			try
 			{
 				_orderFacade.Update(updateOrderDTO);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+
+
+		[HttpPost]
+		[Route("available")]
+		[Authorize(Roles = "orderManager")]
+		public AvailableOrderResponseDTO RetrieveAvailableOrders(BaseFilterParams filterParams)
+		{
+			return _orderFacade.RetrieveAvailable(filterParams);
+		}
+
+		[HttpPost]
+		[Route("take")]
+		[Authorize(Roles = "orderManager")]
+		public IActionResult TakeOrder([FromBody] Guid orderId)
+		{
+			Guid managerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+			try
+			{
+				_orderFacade.TakeOrder(orderId, managerId);
 			}
 			catch (Exception e)
 			{

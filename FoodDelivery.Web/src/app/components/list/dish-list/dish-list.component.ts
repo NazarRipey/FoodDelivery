@@ -1,19 +1,13 @@
-import { Guid } from 'guid-typescript';
 import { DishSortType } from '../../../models/enums/sorts/DishSortType';
 import { SliderOptions } from '../../../models/SliderOptions';
 import { DishListResponse } from '../../../models/dish/DishListResponse';
 import { DishFilterParams } from '../../../models/filters/DishFilterParams';
-import { NouisliderModule } from 'ng2-nouislider';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { DishService } from './../../../services/dish.service';
 import { CartService } from '../../../services/cart.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DishList } from 'src/app/models/dish/DishList';
-import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationConfig } from 'src/app/models/PaginationConfig';
-import { Options } from '@angular-slider/ngx-slider';
 
 @Component({
   selector: 'app-dish-list',

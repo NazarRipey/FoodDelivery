@@ -4,5 +4,6 @@
 	{
 		public int Quantity { get; set; }
 		public DishListDTO Dish { get; set; }
+		public string RestaurantName { get; set; }
 	}
 }

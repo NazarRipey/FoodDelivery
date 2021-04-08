@@ -5,6 +5,7 @@ using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.Enums.Sorts;
 using FoodDelivery.Entities.Enums.Status;
 using FoodDelivery.Entities.FilterParams;
@@ -181,6 +182,31 @@ namespace FoodDelivery.DAL.Repositories
 			_db.Entry(dish).State = EntityState.Modified;
 
 			SaveChanges();
+		}
+
+		public DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams)
+		{
+			int totalItemsCount;
+
+			IQueryable<Dish> dishes = _db.Dish.Where(d => d.Status == (int)DishStatus.Active
+				&& d.Restaurant.Name == filterParams.RestaurantName);
+
+			totalItemsCount = dishes.Count();
+
+			ICollection<Dish> dishesToReturn = dishes
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<DishListDTO> dishDTOs = _mapper.Map<ICollection<DishListDTO>>(dishesToReturn);
+
+			DishRestaurantListResponseDTO dishListResponseDTO = new DishRestaurantListResponseDTO()
+			{
+				Dishes = dishDTOs,
+				TotalDishesCount = totalItemsCount
+			};
+
+			return dishListResponseDTO;
 		}
 	}
 }

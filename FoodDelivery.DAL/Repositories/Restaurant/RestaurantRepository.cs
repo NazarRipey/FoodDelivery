@@ -93,15 +93,7 @@ namespace FoodDelivery.DAL.Repositories
 				Where(r => r.Name == name)
 				.Include(r => r.Addresses)
 				.Include(r => r.Type)
-				.Include(r => r.Dishes)
 				.SingleOrDefault();
-
-
-			//FILTERING INCLUDE ?
-			if(restaurant != null)
-			{
-				restaurant.Dishes = restaurant.Dishes.Where(d => d.Status == (int)DishStatus.Active).ToList();
-			}
 
 			RestaurantDetailDTO restaurantDTO = _mapper.Map<RestaurantDetailDTO>(restaurant);
 

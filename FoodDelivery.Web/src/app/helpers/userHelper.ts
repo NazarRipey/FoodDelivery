@@ -109,6 +109,7 @@ export class UserHelper{
             this._profile.next(null)
             this._ownerRequestStatus.next(null);
             this.cartHelper.info = null;
+            this.cartHelper.stopTimer();
             this.router.navigateByUrl("");
         });       
     }   

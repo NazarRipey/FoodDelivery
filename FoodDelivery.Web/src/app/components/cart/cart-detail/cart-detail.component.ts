@@ -49,8 +49,8 @@ export class CartDetailComponent implements OnInit {
   }
 
   RemoveCart(){
-    this.cartService.deleteCart().subscribe(_ => {
-      location.reload();
+    this.cartService.deleteCart().subscribe(_ => {      
+      this.router.navigateByUrl("dishes").then(_ => location.reload());
     })
   }
 }

@@ -42,7 +42,9 @@ export class DishDetailComponent implements OnInit {
     this.itemCount = 1;
     const id = this.route.snapshot.paramMap.get('id');
     
-    this.dishService.getDetailDishById(id).subscribe(d => this.dish = d);
+    this.dishService.getDetailDishById(id).subscribe(d => {
+      this.dish = d
+    });
   }
 
   Increment(){

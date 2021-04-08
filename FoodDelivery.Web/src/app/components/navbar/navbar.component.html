@@ -46,7 +46,7 @@
                 </span>
             </a>
         </li>
-        <li class="nav-item" *ngIf="cartHelper.info && cartHelper.info.timeLeft">
+        <li class="nav-item" *ngIf="cartHelper.info && cartHelper.info.timeLeft && cartHelper.info.timeLeft > 0">
             <small class="text-white">
                 cart expires in {{cartHelper.info.timeLeft| minutesSeconds}}
             </small>

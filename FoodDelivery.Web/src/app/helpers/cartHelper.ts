@@ -1,4 +1,4 @@
-import { CartInfo } from './../models/cart/CartInfo';
+import { CartInfo } from '../models/cart/CartInfo';
 import { Observable, of } from 'rxjs';
 import { CartService } from '../services/cart.service';
 import { Injectable } from '@angular/core';
@@ -25,17 +25,18 @@ export class CartHelper{
     }
 
   startTimer() {
-    if(!this.interval)
-    {  
-      this.interval = setInterval(() => {
-        if(this.info.timeLeft > 1) {
-          console.log(this.info.timeLeft);
-          this.info.timeLeft--;
-        } else {
-          this.stopTimer();
-          this.cartService.deleteCart().subscribe(_ => location.reload());
-        }
-      },1000)
+    if(this.info){
+      if(!this.interval)
+      {  
+        this.interval = setInterval(() => {
+          if(this.info.timeLeft > 1) {
+            this.info.timeLeft--;
+          } else {
+            this.stopTimer();
+            this.cartService.deleteCart().subscribe(_ => location.reload());
+          }
+        },1000)
+      }
     }
   }
     

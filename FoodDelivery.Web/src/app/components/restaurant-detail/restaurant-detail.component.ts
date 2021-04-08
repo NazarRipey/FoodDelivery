@@ -1,3 +1,8 @@
+import { UserHelper } from '../../helpers/UserHelper';
+import { RestaurantStatus } from './../../models/enums/statuses/RestaurantStatus';
+import { DishService } from './../../services/dish.service';
+import { DishRestaurantFilterParams } from './../../models/filters/DishRestaurantFilterParams';
+import { PaginationConfig } from './../../models/PaginationConfig';
 import { imgSrc } from './../../globals'
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestaurantService } from './../../services/restaurant.service';
@@ -10,17 +15,49 @@ import { RestaurantDetail } from 'src/app/models/restaurant/RestaurantDetail';
   styleUrls: ['./restaurant-detail.component.css']
 })
 export class RestaurantDetailComponent implements OnInit {
-
+  filterParams: DishRestaurantFilterParams = new DishRestaurantFilterParams(); 
+  config: PaginationConfig = new PaginationConfig();
+  restaurant: RestaurantDetail = new RestaurantDetail();
+  
   imgSrc = imgSrc;
-  restaurant: RestaurantDetail;
-  sortType: string;
-  searchParam: string;
+  statuses = RestaurantStatus;
 
   constructor(private restaurantService:RestaurantService,
-    private route: ActivatedRoute) { }
+    private dishService: DishService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     const name = this.route.snapshot.paramMap.get('name');
-    this.restaurantService.getByName(name).subscribe(r => this.restaurant = r);
+
+    this.route.queryParams.subscribe(params => {
+      this.config.currentPage = params.page ? +params.page : 1;
+      this.config.itemsPerPage = 18;
+    });
+
+    this.filterParams.restaurantName = name;
+    this.filterParams.currentPage = this.config.currentPage;
+    this.filterParams.itemsPerPage = this.config.itemsPerPage;
+
+    this.restaurantService.getByName(this.filterParams.restaurantName).subscribe(r => {
+      if(r){
+        this.restaurant = r;
+        this.dishService.retrieveByRestaurant(this.filterParams).subscribe(d => {
+          this.restaurant.dishResponse = d;
+          this.config.totalItems = d.totalDishesCount;
+        });
+      }
+      else{
+        this.router.navigateByUrl('/notfound');
+      }
+    });
+  }
+
+  pageChanged(event){
+    this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
+
+    setTimeout(() => {
+      document.getElementById('menu').scrollIntoView();
+    }, 250)
   }
 }

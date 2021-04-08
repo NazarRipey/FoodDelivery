@@ -35,6 +35,7 @@ namespace FoodDelivery.DAL.Repositories
 				PaymentType = (int)addOrderDTO.PaymentType,
 				Address = addOrderDTO.Address,
 				Comment = addOrderDTO.Comment,
+				ContactPhoneNumber = addOrderDTO.ContactPhoneNumber,
 
 				TotalSum = cart.CartItems.Select(c => c.Dish.Price * c.Quantity).Sum()
 			};
@@ -89,7 +90,40 @@ namespace FoodDelivery.DAL.Repositories
 			return updateOrderDTO;
 		}
 
-		public OrderResponseDTO RetrieveAll(OrderFilterParams orderFilterParams, Guid userId)
+		public AvailableOrderResponseDTO RetrieveAvailable(BaseFilterParams filterParams)
+		{
+			int totalOrdersCount = 0;
+
+			IQueryable<Order> orders = _db.Order
+				.Where(o => o.ManagerId == null && o.Status != (int)OrderStatus.Cancelled)
+				.OrderBy(o => o.CreatedDate);
+
+			if (filterParams.Search != null)
+			{
+				orders = orders
+					.Where(o => (o.UserProfile.FirstName + " " + o.UserProfile.LastName)
+					.Contains(filterParams.Search));
+			}
+
+			totalOrdersCount = orders.Count();
+
+			ICollection<Order> ordersToReturn = orders
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<AvailableOrderDTO> orderDTOs = _mapper.Map<ICollection<AvailableOrderDTO>>(ordersToReturn);
+
+			AvailableOrderResponseDTO availableOrderResponseDTO = new AvailableOrderResponseDTO()
+			{
+				TotalOrdersCount = totalOrdersCount,
+				Orders = orderDTOs
+			};
+
+			return availableOrderResponseDTO;
+		}
+
+		public OrderResponseDTO RetrieveHistory(OrderFilterParams orderFilterParams, Guid userId)
 		{
 			int totalItemsCount = 0;
 			IQueryable<Order> orders = _db.Order
@@ -123,12 +157,26 @@ namespace FoodDelivery.DAL.Repositories
 			return orderResponseDTO;
 		}
 
+		public void Take(Guid orderId, Guid managerId)
+		{
+			Order order = _db.Order.Find(orderId);
+			if (order.ManagerId == null)
+			{
+				order.ManagerId = managerId;
+			}
+
+			_db.Entry(order).State = EntityState.Modified;
+
+			SaveChanges();
+		}
+
 		public void Update(UpdateOrderDTO updateOrderDTO)
 		{
 			Order order = _db.Order.Find(updateOrderDTO.Id);
 
 			order.Comment = updateOrderDTO.Comment;
 			order.Address = updateOrderDTO.Address;
+			order.ContactPhoneNumber = updateOrderDTO.ContactPhoneNumber;
 
 			_db.Entry(order).State = EntityState.Modified;
 

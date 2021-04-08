@@ -48,9 +48,19 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _orderRepository.GetUpdateDTOById(id);
 		}
 
-		public OrderResponseDTO RetrieveAll(OrderFilterParams orderFilterParams, Guid userId)
+		public AvailableOrderResponseDTO RetrieveAvailable(BaseFilterParams filterParams)
 		{
-			return _orderRepository.RetrieveAll(orderFilterParams, userId);
+			return _orderRepository.RetrieveAvailable(filterParams);
+		}
+
+		public OrderResponseDTO RetrieveHistory(OrderFilterParams orderFilterParams, Guid userId)
+		{
+			return _orderRepository.RetrieveHistory(orderFilterParams, userId);
+		}
+
+		public void TakeOrder(Guid orderId, Guid managerId)
+		{
+			_orderRepository.Take(orderId, managerId);
 		}
 
 		public void Update(UpdateOrderDTO updateOrderDTO)

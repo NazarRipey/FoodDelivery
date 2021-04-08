@@ -22,20 +22,23 @@
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </div>
-                    <div class="detail-wrapper mx-5 my-2">
+                    <div class="detail-wrapper mx-3 my-2">
                         <img src="{{imgSrc}}" class="cart-item-image">
                         <div class="w-100">
-                            <small class="text-left">price: <b>{{item.dish.price}}₴</b></small><br>
-                            <small class="text-left">rating: <b>{{item.dish.rating}}/5</b></small><br>
-                            <small class="text-left">weight: <b>{{item.dish.weight}}</b></small><br>
-
-                            <div class="text-center">
-                                <label>
-                                    Quantity: <input class="w-25" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" 
-                                    min="1" #quan [value]="item.quantity" 
-                                    (focusout)="UpdateQuantity(item, quan.value)"><br>
-                                </label>
-                                <p class="my-2"><b>Subtotal: {{item.quantity * item.dish.price}}₴</b></p>
+                            <div class="content-wrapper">
+                                <div>
+                                    <small class="text-left">price: <b>{{item.dish.price}}₴</b></small><br>
+                                    <small class="text-left">rating: <b>{{item.dish.rating}}/5</b></small><br>
+                                    <small class="text-left">weight: <b>{{item.dish.weight}}</b></small><br>    
+                                </div>
+                                <div class="text-center">
+                                    <label>
+                                        Quantity: <input class="w-25" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" 
+                                        min="1" #quan [value]="item.quantity" 
+                                        (focusout)="UpdateQuantity(item, quan.value)"><br>
+                                    </label>
+                                    <p class="my-2"><b>Subtotal: {{item.quantity * item.dish.price}}₴</b></p>
+                                </div>
                             </div>
                         </div>   
                     </div>

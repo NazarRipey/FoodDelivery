@@ -1,3 +1,6 @@
+import { ManagerOrderHistoryComponent } from './components/order-manager/manage-orders-list/manager-order-history/manager-order-history.component';
+import { TakenOrdersComponent } from './components/order-manager/manage-orders-list/taken-orders/taken-orders.component';
+import { AvailableOrdersComponent } from './components/order-manager/manage-orders-list/available-orders/available-orders.component';
 import { ManageOrdersListComponent } from './components/order-manager/manage-orders-list/manage-orders-list.component';
 import { OrderManagersComponent } from './components/admin/order-managers/order-managers.component';
 import { OrderActiveListComponent } from './components/order/order-active-list/order-active-list.component';
@@ -50,9 +53,19 @@ const routes: Routes = [
   { path: "orders", component: OrderActiveListComponent,  canActivate: [AuthGuard] }, 
   { path: "orders/history", component: OrderHistoryListComponent, canActivate: [AuthGuard] },
   { path: "orders/:id", component: OrderDetailComponent, canActivate: [AuthGuard] },
-  { path: "manageorders", component: ManageOrdersListComponent, 
-    canActivate: [AuthGuard, RoleGuard], data: {roles: ['orderManager'] } },
+  { path: "manageorders", 
+    component: ManageOrdersListComponent, 
+    canActivate: [AuthGuard, RoleGuard], 
+    data: {roles: ['orderManager'] }, 
+    children: [
+      { path: 'available', component: AvailableOrdersComponent },
+      { path: 'taken', component: TakenOrdersComponent },
+      { path: 'history', component: ManagerOrderHistoryComponent },
+      { path: '', redirectTo: 'available', pathMatch: 'full'}
+    ]
+  },
   { path: "noaccess", component: NoAccessComponent },
+  { path: "notfound", component: NotFoundComponent },
   { path: '**', component: NotFoundComponent }
 ];
 

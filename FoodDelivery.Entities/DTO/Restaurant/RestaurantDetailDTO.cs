@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FoodDelivery.Entities.Enums.Status;
 
 namespace FoodDelivery.Entities.DTO
 {
@@ -11,6 +12,6 @@ namespace FoodDelivery.Entities.DTO
 		public double? Rating { get; set; }
 		public RestaurantTypeDTO Type { get; set; }
 		public List<RestaurantAddressDTO> Addresses { get; set; }
-		public List<DishListDTO> Dishes { get; set; }
+		public RestaurantStatus Status { get; set; }
 	}
 }
