@@ -62,6 +62,11 @@ import { ManageOrdersListComponent } from './components/order-manager/manage-ord
 import { AvailableOrdersComponent } from './components/order-manager/manage-orders-list/available-orders/available-orders.component';
 import { TakenOrdersComponent } from './components/order-manager/manage-orders-list/taken-orders/taken-orders.component';
 import { ManagerOrderHistoryComponent } from './components/order-manager/manage-orders-list/manager-order-history/manager-order-history.component';
+import { OrderItemsComponent } from './components/order-manager/manage-orders-list/order-items/order-items.component';
+import { ManageRestaurantOrdersComponent } from './components/owner/manage-restaurant-orders/manage-restaurant-orders.component';
+import { RestaurantOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/restaurant-orders.component';
+import { ActiveOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/active-orders/active-orders.component';
+import { OrdersHistoryComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/orders-history/orders-history.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -116,6 +121,11 @@ export function startupServiceFactory(startupService: StartupService): Function 
     AvailableOrdersComponent,
     TakenOrdersComponent,
     ManagerOrderHistoryComponent,
+    OrderItemsComponent,
+    ManageRestaurantOrdersComponent,
+    RestaurantOrdersComponent,
+    ActiveOrdersComponent,
+    OrdersHistoryComponent,
   ],
   imports: [
     BrowserModule,

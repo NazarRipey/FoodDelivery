@@ -1,3 +1,4 @@
+import { UserList } from './../../../models/userProfile/UserAccount';
 import { AccountStatus } from './../../../models/enums/statuses/AccountStatus';
 import { Guid } from 'guid-typescript';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +17,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderManagersComponent implements OnInit {
   config: PaginationConfig = new PaginationConfig();
-  userListResponse: UserListResponse =  new UserListResponse();
+  userList: UserList[] =  [];
   orderManagerFilterParams: OrderManagerFilterParams = new OrderManagerFilterParams();
 
   statuses = AccountStatus;
@@ -43,7 +44,7 @@ export class OrderManagersComponent implements OnInit {
 
     this.authService.retrieveOrderManagers(this.orderManagerFilterParams).subscribe(
       r => {
-        this.userListResponse = r;
+        this.userList = r.users;
         this.config.totalItems = r.totalUsersCount;
       },
       error => {

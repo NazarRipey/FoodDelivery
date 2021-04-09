@@ -30,6 +30,12 @@ namespace FoodDelivery.API.Controllers
 			return _orderFacade.GetOrderDetailDTOById(id);
 		}
 
+		[Route("items/{id}")]
+		public ICollection<OrderItemDTO> GetOrderItems(Guid id)
+		{
+			return _orderFacade.GetOrderItems(id);
+		}
+
 		[HttpGet]
 		[Route("active")]
 		public ICollection<OrderShortDTO> GetActive()
@@ -104,14 +110,35 @@ namespace FoodDelivery.API.Controllers
 			return Ok();
 		}
 
-
+		#region manager
 		[HttpPost]
 		[Route("available")]
 		[Authorize(Roles = "orderManager")]
-		public AvailableOrderResponseDTO RetrieveAvailableOrders(BaseFilterParams filterParams)
+		public AvailableOrderResponseDTO RetrieveAvailableOrders([FromBody] BaseFilterParams filterParams)
 		{
 			return _orderFacade.RetrieveAvailable(filterParams);
 		}
+
+		[HttpPost]
+		[Route("taken")]
+		[Authorize(Roles = "orderManager")]
+		public OrderManagerResponseDTO RetrieveTakenOrders([FromBody] BaseFilterParams filterParams)
+		{
+			Guid managerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+
+			return _orderFacade.RetrieveTaken(filterParams, managerId);
+		}
+
+		[HttpPost]
+		[Route("managerhistory")]
+		[Authorize(Roles = "orderManager")]
+		public OrderManagerResponseDTO RetrieveHistoryByManager([FromBody] BaseFilterParams filterParams)
+		{
+			Guid managerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+
+			return _orderFacade.RetrieveHistoryByManager(filterParams, managerId);
+		}
+
 
 		[HttpPost]
 		[Route("take")]
@@ -130,5 +157,55 @@ namespace FoodDelivery.API.Controllers
 
 			return Ok();
 		}
+
+		[HttpPost]
+		[Route("release")]
+		[Authorize(Roles = "orderManager")]
+		public IActionResult ReleaseOrder([FromBody] Guid orderId)
+		{
+			try
+			{
+				_orderFacade.ReleaseOrder(orderId);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+
+		[HttpPut]
+		[Route("item/{id}")]
+		public IActionResult UpdateOrderItem(Guid id, [FromBody] int quantity)
+		{
+			try
+			{
+				_orderFacade.UpdateOrderItem(id, quantity);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+
+		[HttpDelete]
+		[Route("item/{id}")]
+		public IActionResult DeleteItem(Guid id)
+		{
+			try
+			{
+				_orderFacade.RemoveItem(id);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+		#endregion
 	}
 }

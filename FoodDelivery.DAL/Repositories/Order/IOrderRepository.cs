@@ -16,5 +16,9 @@ namespace FoodDelivery.DAL.Repositories
 		void Update(UpdateOrderDTO updateOrderDTO);
 		AvailableOrderResponseDTO RetrieveAvailable(BaseFilterParams filterParams);
 		void Take(Guid orderId, Guid managerId);
+		OrderManagerResponseDTO RetrieveTaken(BaseFilterParams filterParams, Guid managerId);
+		ICollection<OrderItemDTO> GetOrderItems(Guid id);
+		void Release(Guid orderId);
+		OrderManagerResponseDTO RetrieveHistoryByManager(BaseFilterParams filterParams, Guid managerId);
 	}
 }

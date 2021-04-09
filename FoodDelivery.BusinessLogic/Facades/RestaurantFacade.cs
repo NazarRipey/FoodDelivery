@@ -92,5 +92,10 @@ namespace FoodDelivery.BusinessLogic.Facades
 		{
 			return _restaurantRepository.GetUpdateDTOById(id);
 		}
+
+		public ICollection<string> GetNamesByOwner(Guid ownerId)
+		{
+			return _restaurantRepository.GetNamesByOwner(ownerId);
+		}
 	}
 }

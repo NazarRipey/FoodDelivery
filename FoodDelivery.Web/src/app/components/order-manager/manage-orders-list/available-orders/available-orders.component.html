@@ -16,16 +16,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of ordersResponse.orders| paginate: config">
+          <tr *ngFor="let order of orders| paginate: config">
             <td>{{order.orderNumber}}</td>
             <td>{{order.customerName}}</td>
             <td>{{order.contactPhoneNumber}}</td>
             <td>{{order.createdDate}}</td>
             <td><b>{{order.totalSum}}</b></td>
             <td>
-              <button (click)="takeOrder(order.id)" class="btn bg-green">
-                Take
-              </button>
+              <button class="btn bg-popstar btn-sm" (click)="showItems(order.id)">Items</button>
+            </td>
+            <td>
+              <button class="btn btn-sm bg-green" (click)="takeOrder(order.id)">Take</button>
             </td>
           </tr>
         </tbody>

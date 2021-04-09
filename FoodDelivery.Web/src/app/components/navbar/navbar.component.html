@@ -20,9 +20,14 @@
                 <a class="nav-link" [routerLink]="['/ordermanagers']">Order managers</a>
             </li>
         </div>
-        <li *ngIf="userHelper.ownerRequestStatus" class="nav-item">
-            <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
-        </li>
+        <div *ngIf="userHelper.ownerRequestStatus" class="d-flex">
+            <li  class="nav-item">
+                <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
+            </li>
+            <li  class="nav-item">
+                <a class="nav-link" [routerLink]="['/restaurantorders']">Manage orders</a>
+            </li>
+        </div>
         <li *ngIf="userHelper.isInRole(['orderManager'])" class="nav-item">
             <a class="nav-link" [routerLink]="['/manageorders']">Manage orders</a>
         </li>

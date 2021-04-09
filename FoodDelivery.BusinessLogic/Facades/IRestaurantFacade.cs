@@ -22,5 +22,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Activate(Guid restaurantId);
 		void Deactivate(Guid restaurantId);
 		RestaurantUpdateDTO GetUpdateDTOById(Guid id);
+		ICollection<string> GetNamesByOwner(Guid ownerId);
 	}
 }

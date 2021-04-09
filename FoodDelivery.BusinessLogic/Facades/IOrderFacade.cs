@@ -16,5 +16,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Update(UpdateOrderDTO updateOrderDTO);
 		AvailableOrderResponseDTO RetrieveAvailable(BaseFilterParams filterParams);
 		void TakeOrder(Guid orderId, Guid managerId);
+		OrderManagerResponseDTO RetrieveTaken(BaseFilterParams filterParams, Guid managerId);
+		ICollection<OrderItemDTO> GetOrderItems(Guid id);
+		void ReleaseOrder(Guid orderId);
+		OrderManagerResponseDTO RetrieveHistoryByManager(BaseFilterParams filterParams, Guid managerId);
+		void UpdateOrderItem(Guid id, int quantity);
+		void RemoveItem(Guid id);
 	}
 }

@@ -1,0 +1,39 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Order items
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col">Restaurant name</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of items">
+                  <td>{{item.dish.restaurantName}}</td>
+                  <td>{{item.dish.name}}</td>
+                  <td>{{item.dish.price}}</td>
+                  <td *ngIf="enableEditing">
+                    <input class="w-75" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" 
+                      min="1" #quan [value]="item.quantity" (focusout)="updateQuantity(item.id, quan.value)">
+                  </td>
+                  <td *ngIf="!enableEditing">
+                    {{item.quantity}}
+                  </td>
+                  <td><b>{{item.quantity * item.dish.price}}</b></td>
+                  <td *ngIf="enableEditing">
+                    <button class="btn btn-danger btn-sm" (click)="deleteItem(item.id)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+        </table>  
+    </div>
+</div>

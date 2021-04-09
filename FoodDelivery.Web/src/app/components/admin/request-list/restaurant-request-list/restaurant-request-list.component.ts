@@ -1,3 +1,4 @@
+import { RestaurantRequest } from './../../../../models/restaurantRequest/RestaurantRequest';
 import { RestaurantRequestSortType } from '../../../../models/enums/sorts/RestaurantRequestSortType';
 import { Guid } from 'guid-typescript';
 import { RestaurantRequestStatus } from '../../../../models/enums/statuses/RestaurantRequestStatus';
@@ -15,7 +16,7 @@ import { RestaurantRequestResponse } from 'src/app/models/restaurantRequest/Rest
 })
 export class RestaurantRequestListComponent implements OnInit {
   config: PaginationConfig = new PaginationConfig();
-  requestResponse :RestaurantRequestResponse = new RestaurantRequestResponse();
+  requests :RestaurantRequest[] = [];
   requestFilterParams : RestaurantRequestFilterParams = new RestaurantRequestFilterParams();
 
   selectedStatus: string;
@@ -53,7 +54,7 @@ export class RestaurantRequestListComponent implements OnInit {
 
     this.requestService.retrieve(this.requestFilterParams).subscribe(
       r => {
-        this.requestResponse = r;
+        this.requests = r.restaurantRequests;
         this.config.totalItems = r.totalRequestsCount;
       },
       error => {

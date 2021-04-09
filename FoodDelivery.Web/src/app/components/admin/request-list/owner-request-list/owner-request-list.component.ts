@@ -1,3 +1,4 @@
+import { OwnerRequest } from './../../../../models/ownerRequest/OwnerRequest';
 import { OwnerRequestStatus } from '../../../../models/enums/statuses/OwnerRequestStatus';
 import { Guid } from 'guid-typescript';
 import { OwnerRequestFilterParams } from '../../../../models/filters/OwnerRequestFilterParams';
@@ -14,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OwnerRequestListComponent implements OnInit {
   config: PaginationConfig = new PaginationConfig();
-  requestResponse :OwnerRequestResponse = new OwnerRequestResponse();
+  requests :OwnerRequest[] = [];
   requestFilterParams : OwnerRequestFilterParams = new OwnerRequestFilterParams();
 
   selectedStatus: string;
@@ -41,7 +42,7 @@ export class OwnerRequestListComponent implements OnInit {
 
     this.requestService.retrieve(this.requestFilterParams).subscribe(
       r => {
-        this.requestResponse = r;
+        this.requests = r.ownerRequests;
         this.config.totalItems = r.totalRequestsCount;
       },
       error => {

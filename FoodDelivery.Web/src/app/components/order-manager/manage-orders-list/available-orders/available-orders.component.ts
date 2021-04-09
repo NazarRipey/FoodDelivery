@@ -1,10 +1,11 @@
+import { ModalHelper } from './../../../../helpers/ModalHelper';
 import { Guid } from 'guid-typescript';
 import { OrderService } from './../../../../services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseFilterParams } from './../../../../models/filters/BaseFilterParams';
 import { PaginationConfig } from './../../../../models/PaginationConfig';
-import { AvailableOrderResponse } from './../../../../models/order/AvailableOrderResponse';
 import { Component, OnInit } from '@angular/core';
+import { AvailableOrder } from 'src/app/models/order/AvailableOrder';
 
 @Component({
   selector: 'app-available-orders',
@@ -12,13 +13,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./available-orders.component.css']
 })
 export class AvailableOrdersComponent implements OnInit {
-  ordersResponse: AvailableOrderResponse = new AvailableOrderResponse();
+  orders: AvailableOrder[] = [];
   config: PaginationConfig = new PaginationConfig();
   filterParams: BaseFilterParams = new BaseFilterParams();
 
   constructor(private route: ActivatedRoute,
     private router:Router,
-    private orderService:OrderService) { }
+    private orderService:OrderService,
+    private modalHelper: ModalHelper) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -32,13 +34,17 @@ export class AvailableOrdersComponent implements OnInit {
     this.filterParams.itemsPerPage = this.config.itemsPerPage;
 
     this.orderService.retrieveAvailable(this.filterParams).subscribe(o => {
-      this.ordersResponse = o;
+      this.orders = o.orders;
       this.config.totalItems = o.totalOrdersCount;
     })
 
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
+  }
+  
+  showItems(id: Guid){
+    this.modalHelper.openOrderItems(id);
   }
 
   takeOrder(orderId: Guid){

@@ -43,9 +43,24 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _orderRepository.GetDetailDTOById(id);
 		}
 
+		public ICollection<OrderItemDTO> GetOrderItems(Guid id)
+		{
+			return _orderRepository.GetOrderItems(id);
+		}
+
 		public UpdateOrderDTO GetUpdateDTOById(Guid id)
 		{
 			return _orderRepository.GetUpdateDTOById(id);
+		}
+
+		public void ReleaseOrder(Guid orderId)
+		{
+			_orderRepository.Release(orderId);
+		}
+
+		public void RemoveItem(Guid id)
+		{
+			_orderItemRepository.Remove(id);
 		}
 
 		public AvailableOrderResponseDTO RetrieveAvailable(BaseFilterParams filterParams)
@@ -58,6 +73,16 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _orderRepository.RetrieveHistory(orderFilterParams, userId);
 		}
 
+		public OrderManagerResponseDTO RetrieveHistoryByManager(BaseFilterParams filterParams, Guid managerId)
+		{
+			return _orderRepository.RetrieveHistoryByManager(filterParams, managerId);
+		}
+
+		public OrderManagerResponseDTO RetrieveTaken(BaseFilterParams filterParams, Guid managerId)
+		{
+			return _orderRepository.RetrieveTaken(filterParams, managerId);
+		}
+
 		public void TakeOrder(Guid orderId, Guid managerId)
 		{
 			_orderRepository.Take(orderId, managerId);
@@ -66,6 +91,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public void Update(UpdateOrderDTO updateOrderDTO)
 		{
 			_orderRepository.Update(updateOrderDTO);
+		}
+
+		public void UpdateOrderItem(Guid id, int quantity)
+		{
+			_orderItemRepository.Update(id, quantity);
 		}
 	}
 }

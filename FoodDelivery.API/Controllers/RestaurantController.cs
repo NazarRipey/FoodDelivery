@@ -78,6 +78,16 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
+		[Route("ownernames")]
+		[Authorize(Roles = "owner")]
+		public ICollection<string> GetNamesByOwner()
+		{
+			Guid ownerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
+
+			return _restaurantFacade.GetNamesByOwner(ownerId);
+		}
+
+		[HttpGet]
 		[Route("types")]
 		[AllowAnonymous]
 		public ICollection<RestaurantTypeDTO> GetTypes()

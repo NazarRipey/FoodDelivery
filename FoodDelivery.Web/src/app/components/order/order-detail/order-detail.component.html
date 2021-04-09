@@ -40,7 +40,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of order.orderItems">
-          <td>{{item.restaurantName}}</td>
+          <td>{{item.dish.restaurantName}}</td>
           <td>{{item.dish.name}}</td>
           <td>{{item.dish.price}}</td>
           <td>{{item.quantity}}</td>

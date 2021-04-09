@@ -38,6 +38,11 @@ export class RestaurantService {
     return this.http.get<string[]>(url);
   }
 
+  public getNamesByOwner(): Observable<string[]>{
+    const url = this.restaurantUrl + "ownernames";
+    return this.http.get<string[]>(url, { withCredentials: true });
+  }
+
   public getByName(name: string): Observable<RestaurantDetail>{
     const url = this.restaurantUrl + name;
     return this.http.get<RestaurantDetail>(url);

@@ -1,3 +1,7 @@
+import { OrdersHistoryComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/orders-history/orders-history.component';
+import { ActiveOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/active-orders/active-orders.component';
+import { RestaurantOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/restaurant-orders.component';
+import { ManageRestaurantOrdersComponent } from './components/owner/manage-restaurant-orders/manage-restaurant-orders.component';
 import { ManagerOrderHistoryComponent } from './components/order-manager/manage-orders-list/manager-order-history/manager-order-history.component';
 import { TakenOrdersComponent } from './components/order-manager/manage-orders-list/taken-orders/taken-orders.component';
 import { AvailableOrdersComponent } from './components/order-manager/manage-orders-list/available-orders/available-orders.component';
@@ -62,6 +66,22 @@ const routes: Routes = [
       { path: 'taken', component: TakenOrdersComponent },
       { path: 'history', component: ManagerOrderHistoryComponent },
       { path: '', redirectTo: 'available', pathMatch: 'full'}
+    ]
+  },
+  {
+    path: "restaurantorders",
+    component: ManageRestaurantOrdersComponent,
+    canActivate: [AuthGuard, OwnerGuard], 
+    children : [
+      { 
+        path: ':name', 
+        component: RestaurantOrdersComponent,
+        children : [
+          { path: 'active', component: ActiveOrdersComponent },
+          { path: 'history', component: OrdersHistoryComponent },
+          { path: '', redirectTo: 'active', pathMatch: 'full'}
+        ]
+      },
     ]
   },
   { path: "noaccess", component: NoAccessComponent },

@@ -174,5 +174,15 @@ namespace FoodDelivery.DAL.Repositories
 
 			return restaurantUpdateDTO;
 		}
+
+		public ICollection<string> GetNamesByOwner(Guid ownerId)
+		{
+			ICollection<string> names = _db.Restaurant
+				.Where(r => r.OwnerId == ownerId && r.Status == (int)RestaurantStatus.Active)
+				.Select(r => r.Name)
+				.ToList();
+
+			return names;
+		}
 	}
 }
