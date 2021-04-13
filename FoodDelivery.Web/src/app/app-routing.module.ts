@@ -1,3 +1,5 @@
+import { UsersComponent } from './components/admin/users/users.component';
+import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
 import { OrdersHistoryComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/orders-history/orders-history.component';
 import { ActiveOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/active-orders/active-orders.component';
 import { RestaurantOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/restaurant-orders.component';
@@ -51,6 +53,8 @@ const routes: Routes = [
   },
   { path: 'ordermanagers', component: OrderManagersComponent, 
     canActivate: [AuthGuard, RoleGuard],  data: {roles: ['admin'] }},
+  { path: 'users', component: UsersComponent, 
+  canActivate: [AuthGuard, RoleGuard],  data: {roles: ['admin'] }},
   { path: "manage", component: ManageRestaurantsComponent, 
     canActivate: [AuthGuard, OwnerGuard] },
   { path: "cart", component: CartDetailComponent, canActivate: [AuthGuard] },
@@ -84,6 +88,7 @@ const routes: Routes = [
       },
     ]
   },
+  { path: "profile", component: MyProfileComponent, canActivate: [AuthGuard] },
   { path: "noaccess", component: NoAccessComponent },
   { path: "notfound", component: NotFoundComponent },
   { path: '**', component: NotFoundComponent }

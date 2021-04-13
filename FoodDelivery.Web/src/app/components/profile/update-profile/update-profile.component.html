@@ -1,0 +1,67 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Update profile
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
+            <div class="form-row form-group">
+                    <label class="col">
+                        First name
+                        <input type="text" class="form-control" formControlName="firstName">
+                        <div *ngIf="updateProfileForm.get('firstName').errors && updateProfileForm.get('firstName').touched"
+                            class="text-danger">
+                            <small class="d-block" *ngIf="updateProfileForm.get('firstName').hasError('required')">
+                                First name is required
+                            </small>
+                            <small class="d-block" *ngIf="updateProfileForm.get('firstName').hasError('pattern')">
+                                First name can only have letters or dash charcter(-)
+                            </small>
+                        </div>
+                    </label>
+                <label class="col">
+                    Last name
+                    <input type="text" class="form-control" formControlName="lastName">
+                    <div *ngIf="updateProfileForm.get('lastName').errors && updateProfileForm.get('lastName').touched"
+                        class="text-danger">
+                        <small class="d-block" *ngIf="updateProfileForm.get('lastName').hasError('required')">
+                            Last name is required
+                        </small>
+                        <small class="d-block" *ngIf="updateProfileForm.get('lastName').hasError('pattern')">
+                            Last name can only have letters or dash charcter(-)
+                        </small>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Birthday: 
+                    <input type="date" class="form-control"  formControlName="birthday" autocomplete="off">
+                    <div *ngIf="updateProfileForm.get('birthday').errors && updateProfileForm.get('birthday').touched"
+                    class="text-danger">
+                        <small class="d-block" *ngIf="updateProfileForm.get('birthday').hasError('required')">
+                            Birthday is required
+                        </small>
+                        <small class="d-block" *ngIf="updateProfileForm.get('birthday').hasError('age')">
+                            You must be over 13 years old to use FoodDelivery
+                        </small>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="w-100">
+                    Address
+                    <input type="text" class="form-control" formControlName="address">
+                </label>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn bg-green" [disabled]="updateProfileForm.invalid">
+                    Update
+                </button>   
+            </div>
+        </form>        
+    </div>
+</div>

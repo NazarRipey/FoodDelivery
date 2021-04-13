@@ -23,5 +23,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Deactivate(Guid restaurantId);
 		RestaurantUpdateDTO GetUpdateDTOById(Guid id);
 		ICollection<string> GetNamesByOwner(Guid ownerId);
+		void DeactivateByEmail(string email);
 	}
 }

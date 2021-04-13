@@ -11,5 +11,6 @@ namespace FoodDelivery.DAL.Repositories
 		void Update(Guid id, int statusId);
 		void Create(Guid userId, Guid restaurantId);
 		RestaurantRequest GetById(Guid id);
+		void DeclineAwaitingByEmail(string email);
 	}
 }

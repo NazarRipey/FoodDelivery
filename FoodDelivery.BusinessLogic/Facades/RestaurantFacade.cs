@@ -97,5 +97,10 @@ namespace FoodDelivery.BusinessLogic.Facades
 		{
 			return _restaurantRepository.GetNamesByOwner(ownerId);
 		}
+
+		public void DeactivateByEmail(string email)
+		{
+			_restaurantRepository.DeactivateByEmail(email);
+		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.UserProfile;
 using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.BusinessLogic.Facades
@@ -12,6 +13,8 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Create(UserProfile userProfile);
 		Task SendEmailConfirmationCodeAsync(string email);
 		Task SendPasswordToEmail(string email, string password);
-		UserListResponseDTO RetrieveByRole(OrderManagerFilterParams filterParams, string role);
+		UserListResponseDTO RetrieveByRole(UserFilterParams filterParams, string role);
+		void UpdateProfile(UpdateProfileDTO updateProfile);
+		UserListResponseDTO RetrieveUsers(UserFilterParams filterParams);
 	}
 }

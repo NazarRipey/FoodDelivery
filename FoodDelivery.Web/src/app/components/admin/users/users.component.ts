@@ -1,34 +1,30 @@
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AccountService } from './../../../services/account.service';
-import { UserList } from './../../../models/userProfile/UserAccount';
-import { AccountStatus } from './../../../models/enums/statuses/AccountStatus';
-import { Guid } from 'guid-typescript';
+import { UserFilterParams } from './../../../models/filters/UserFilterParams';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserFilterParams } from '../../../models/filters/UserFilterParams';
-import { UserListResponse } from './../../../models/userProfile/UserListResponse';
-import { PaginationConfig } from '../../../models/PaginationConfig';
-import { AddOrderManagerComponent } from './add-order-manager/add-order-manager.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AccountStatus } from './../../../models/enums/statuses/AccountStatus';
+import { BaseFilterParams } from './../../../models/filters/BaseFilterParams';
+import { UserList } from './../../../models/userProfile/UserAccount';
+import { PaginationConfig } from './../../../models/PaginationConfig';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-order-managers',
-  templateUrl: './order-managers.component.html',
-  styleUrls: ['./order-managers.component.css']
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.css']
 })
-export class OrderManagersComponent implements OnInit {
+export class UsersComponent implements OnInit {
   config: PaginationConfig = new PaginationConfig();
-  userList: UserList[] =  [];
+  userList: UserList[] = [];
   userFilterParams: UserFilterParams = new UserFilterParams();
 
   statuses = AccountStatus;
   selectedStatus: string;
 
-  constructor(private modalService: NgbModal,
-    private accountService:AccountService,
+  constructor(
+    private accountService: AccountService,
     private route: ActivatedRoute,
-    private router: Router) {
-    }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -43,7 +39,8 @@ export class OrderManagersComponent implements OnInit {
     this.userFilterParams.currentPage = this.config.currentPage;
     this.userFilterParams.status = this.statuses[`${this.selectedStatus}`];
 
-    this.accountService.retrieveOrderManagers(this.userFilterParams).subscribe(
+
+    this.accountService.retrieveUsers(this.userFilterParams).subscribe(
       r => {
         this.userList = r.users;
         this.config.totalItems = r.totalUsersCount;
@@ -58,10 +55,6 @@ export class OrderManagersComponent implements OnInit {
     };
   }
 
-  openAddManager(){
-    this.modalService.open(AddOrderManagerComponent);
-  }
-
   activate(email: string){
     this.accountService.activateAccount(email).subscribe(
       _ => {
@@ -74,6 +67,7 @@ export class OrderManagersComponent implements OnInit {
   }
 
   deactivate(email: string){
+    console.log(email);
     this.accountService.deactivateAccount(email).subscribe(
       _ => {
         location.reload();

@@ -48,7 +48,7 @@ namespace FoodDelivery.DAL.Repositories
 			SaveChanges();
 		}
 
-		public UserListResponseDTO RetrieveByRole(OrderManagerFilterParams filterParams, string role)
+		public UserListResponseDTO RetrieveByRole(UserFilterParams filterParams, string role)
 		{
 			//Is this query okay?
 			int totalUsersCount;
@@ -73,6 +73,79 @@ namespace FoodDelivery.DAL.Repositories
 					.Where(u => _userManager.IsLockedOutAsync(u).Result).Select(u => u.Id);
 			}
 
+			IQueryable<UserProfile> users = _db.UserProfile.Where(u => aspUserIds.Contains(u.AspNetUserId));
+
+			if (filterParams.Search != null)
+			{
+				users = users
+					.Where(u => (u.FirstName + u.LastName).Contains(filterParams.Search));
+			}
+
+			totalUsersCount = users.Count();
+
+			ICollection<UserProfile> userProfilesToReturn = users
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<UserAccountDTO> userListDTOs = userProfilesToReturn.Select(u =>
+				new UserAccountDTO()
+				{
+					FullName = u.FirstName + " " + u.LastName,
+					Email = u.Email,
+					PhoneNumber = u.PhoneNumber,
+					Status = accountStatus ?? (_userManager.IsLockedOutAsync(u.AspNetUser).Result == true ?
+						AccountStatus.Inactive : AccountStatus.Active)
+				}
+			).ToList();
+
+			UserListResponseDTO userListResponseDTO = new UserListResponseDTO()
+			{
+				TotalUsersCount = totalUsersCount,
+				Users = userListDTOs
+			};
+
+			return userListResponseDTO;
+		}
+
+		public void UpdateProfile(UpdateProfileDTO updateProfile)
+		{
+			UserProfile userProfile = _db.UserProfile.Find(updateProfile.Id);
+
+			userProfile.Address = updateProfile.Address;
+			userProfile.Birthday = updateProfile.Birthday;
+			userProfile.FirstName = updateProfile.FirstName;
+			userProfile.LastName = updateProfile.LastName;
+
+			_db.Entry(userProfile).State = EntityState.Modified;
+			SaveChanges();
+		}
+
+		public UserListResponseDTO RetrieveUsers(UserFilterParams filterParams)
+		{
+			int totalUsersCount;
+			AccountStatus? accountStatus = null;
+
+			IEnumerable<string> aspUserIds;
+
+			if (filterParams.Status == null)
+			{
+				aspUserIds = _userManager.Users.Select(u => u.Id);
+			}
+			else if (filterParams.Status == AccountStatus.Active)
+			{
+				accountStatus = AccountStatus.Active;
+				aspUserIds = _userManager.Users.ToList()
+					.Where(u => !_userManager.IsLockedOutAsync(u).Result).Select(u => u.Id);
+			}
+			else
+			{
+				accountStatus = AccountStatus.Inactive;
+				aspUserIds = _userManager.Users.ToList()
+					.Where(u => _userManager.IsLockedOutAsync(u).Result).Select(u => u.Id);
+			}
+
+			aspUserIds = aspUserIds.Except(_userManager.GetUsersInRoleAsync("admin").Result.Select(u => u.Id));
 			IQueryable<UserProfile> users = _db.UserProfile.Where(u => aspUserIds.Contains(u.AspNetUserId));
 
 			if (filterParams.Search != null)

@@ -14,9 +14,7 @@ namespace FoodDelivery.Utilities.Mappers
 	{
 		public MappingProfile()
 		{
-			CreateMap<UserProfileDTO, UserProfile>().ReverseMap();
-
-			CreateMap<UserProfileDTO, IdentityUser>()
+			CreateMap<UserProfile, IdentityUser>()
 				.ForMember(d => d.UserName,
 					opt => opt.MapFrom(src => src.Email))
 				.ReverseMap();

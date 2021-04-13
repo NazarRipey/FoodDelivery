@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of orders| paginate: config">
+          <tr *ngFor="let order of orders$| async |paginate: config">
             <td>{{order.orderNumber}}</td>
             <td>{{order.customerName}}</td>
             <td>{{order.contactPhoneNumber}}</td>

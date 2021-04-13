@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.UserProfile;
 using FoodDelivery.Entities.FilterParams;
 using FoodDelivery.Utilities.Managers;
 
@@ -62,9 +63,19 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return random.Next(1000, 9999);
 		}
 
-		public UserListResponseDTO RetrieveByRole(OrderManagerFilterParams filterParams, string role)
+		public UserListResponseDTO RetrieveByRole(UserFilterParams filterParams, string role)
 		{
 			return _userProfileRepository.RetrieveByRole(filterParams, role);
+		}
+
+		public void UpdateProfile(UpdateProfileDTO updateProfile)
+		{
+			_userProfileRepository.UpdateProfile(updateProfile);
+		}
+
+		public UserListResponseDTO RetrieveUsers(UserFilterParams filterParams)
+		{
+			return _userProfileRepository.RetrieveUsers(filterParams);
 		}
 	}
 }

@@ -6,7 +6,6 @@ using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.Enums.Errors;
-using FoodDelivery.Entities.FilterParams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +39,7 @@ namespace FoodDelivery.API.Controllers
 		[HttpGet]
 		[Route("user")]
 		[Authorize]
-		public async Task<ActionResult<UserLoggedInModel>> GetUser()
+		public async Task<ActionResult<UserProfileDTO>> GetUser()
 		{
 			IdentityUser user = await _userManager.GetUserAsync(User);
 			if (user == null)
@@ -50,64 +49,19 @@ namespace FoodDelivery.API.Controllers
 
 			UserProfile userProfile = _userProfileFacade.GetByEmail(user.Email);
 
-			//Not with mapper because of roles
-			UserLoggedInModel userLoggedInModel = new UserLoggedInModel
+			UserProfileDTO userProfileDTO = new UserProfileDTO
 			{
 				Id = userProfile.Id,
 				FirstName = userProfile.FirstName,
 				LastName = userProfile.LastName,
-				Birthday = userProfile.Birthday.ToString(),
+				Birthday = userProfile.Birthday,
 				Email = userProfile.Email,
 				PhoneNumber = userProfile.PhoneNumber,
 				Address = userProfile.Address,
 				Roles = await _userManager.GetRolesAsync(user)
 			};
 
-			return userLoggedInModel;
-		}
-
-		[HttpPost]
-		[Route("managers")]
-		[Authorize(Roles = "admin")]
-		public UserListResponseDTO RetrieveOrderManagers(OrderManagerFilterParams filterParams)
-		{
-			return _userProfileFacade.RetrieveByRole(filterParams, "orderManager");
-		}
-
-		[HttpPost]
-		[Route("deactivate")]
-		[Authorize(Roles = "admin")]
-		public async Task<IActionResult> DeactivateAccountAsync([FromBody] string email)
-		{
-			try
-			{
-				IdentityUser user = await _userManager.FindByNameAsync(email);
-				await _userManager.SetLockoutEndDateAsync(user, new DateTimeOffset(DateTime.MaxValue));
-			}
-			catch (Exception e)
-			{
-				return StatusCode(500);
-			}
-
-			return Ok();
-		}
-
-		[HttpPost]
-		[Route("activate")]
-		[Authorize(Roles = "admin")]
-		public async Task<IActionResult> ActivateAccountAsync([FromBody] string email)
-		{
-			try
-			{
-				IdentityUser user = await _userManager.FindByNameAsync(email);
-				await _userManager.SetLockoutEndDateAsync(user, null);
-			}
-			catch (Exception e)
-			{
-				return StatusCode(500);
-			}
-
-			return Ok();
+			return userProfileDTO;
 		}
 
 		//Adding manager here. Should there be another method with [Role(admin)] attribute?
@@ -130,15 +84,14 @@ namespace FoodDelivery.API.Controllers
 				return BadRequest(SignUpErrors.AlreadyExistsPhone);
 			}
 
-			UserProfileDTO userProfileDTO = _mapper.Map<UserProfileDTO>(signUpModel);
-			IdentityUser user = _mapper.Map<IdentityUser>(userProfileDTO);
+			UserProfile userProfile = _mapper.Map<UserProfile>(signUpModel);
+			IdentityUser user = _mapper.Map<IdentityUser>(userProfile);
 
 			IdentityResult result = await _userManager.CreateAsync(user, signUpModel.Password);
 
 			if (result.Succeeded)
 			{
 				//Mapping here and not in repo because need to set AspNetUserId
-				UserProfile userProfile = _mapper.Map<UserProfile>(userProfileDTO);
 				userProfile.AspNetUserId = user.Id;
 				userProfile.Id = Guid.NewGuid();
 

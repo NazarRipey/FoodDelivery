@@ -19,5 +19,6 @@ namespace FoodDelivery.DAL.Repositories
 		ICollection<string> GetAllNames();
 		RestaurantUpdateDTO GetUpdateDTOById(Guid id);
 		ICollection<string> GetNamesByOwner(Guid id);
+		void DeactivateByEmail(string email);
 	}
 }

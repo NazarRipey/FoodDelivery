@@ -33,6 +33,23 @@ namespace FoodDelivery.DAL.Repositories
 			SaveChanges();
 		}
 
+		public void DeclineAwaitingByEmail(string email)
+		{
+			ICollection<RestaurantRequest> restaurantRequests = _db.RestaurantRequest
+				.Where(r => r.UserProfile.Email == email && r.Status == (int)RestaurantRequestStatus.Awaiting)
+				.ToList();
+
+			foreach (var r in restaurantRequests)
+			{
+				r.Status = (int)RestaurantRequestStatus.Declined;
+
+				_db.Entry(r).State = EntityState.Modified;
+
+				SaveChanges();
+			}
+
+		}
+
 		public RestaurantRequest GetById(Guid id)
 		{
 			RestaurantRequest request = _db.RestaurantRequest.Find(id);

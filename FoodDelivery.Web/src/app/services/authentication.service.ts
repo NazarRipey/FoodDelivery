@@ -1,4 +1,5 @@
-import { OrderManagerFilterParams } from '../models/filters/OrderManagerFilterParams';
+import { UpdateProfile } from './../models/userProfile/UpdateProfile';
+import { UserFilterParams } from '../models/filters/UserFilterParams';
 import { UserLogInModel } from '../models/auth/UserLogInModel';
 import { serverUrl } from './../globals';
 import { UserSignUpModel } from '../models/auth/UserSignUpModel';
@@ -21,23 +22,6 @@ export class AuthenticationService {
   public signUp(userSignUpModel: UserSignUpModel){
     const url = this.authUrl + "signup";
     return this.http.post<UserSignUpModel>(url, userSignUpModel, { observe: "response" });
-  }
-
-  public retrieveOrderManagers(orderManagerFilterParams:OrderManagerFilterParams): Observable<UserListResponse>{
-    const url = this.authUrl + "managers";
-    return this.http.post<UserListResponse>(url, orderManagerFilterParams, { withCredentials: true });
-  }
-
-  public activateAccount(email: string){
-    const url = this.authUrl + "activate";
-    return this.http.post(url, JSON.stringify(email), 
-      { withCredentials: true, headers: {'Content-Type': 'application/json' } });
-  }
-
-  public deactivateAccount(email: string){
-    const url = this.authUrl + "deactivate";
-    return this.http.post(url, JSON.stringify(email), 
-      { withCredentials: true, headers: {'Content-Type': 'application/json' } });
   }
 
   public confirmEmail(confirmEmailModel: ConfirmEmailModel){

@@ -1,3 +1,5 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDialogComponent } from './../../../confirm-dialog/confirm-dialog.component';
 import { ModalHelper } from './../../../../helpers/ModalHelper';
 import { Guid } from 'guid-typescript';
 import { OrderStatus } from './../../../../models/enums/statuses/OrderStatus';
@@ -23,7 +25,8 @@ export class TakenOrdersComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private orderService: OrderService, 
-    private modalHelper:ModalHelper) { }
+    private modalHelper:ModalHelper,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -51,7 +54,15 @@ export class TakenOrdersComponent implements OnInit {
   }
 
   releaseOrder(id: Guid){
-    this.orderService.releaseOrder(id).subscribe(_ => location.reload());
+    const modal = this.modalService.open(ConfirmDialogComponent);
+    modal.componentInstance.confirmHeader = "Release order";
+    modal.componentInstance.confirmMessage = `Are you sure you want to release order?`;
+
+    modal.result.then((result) => {
+      if(result == true){
+        this.orderService.releaseOrder(id).subscribe(_ => location.reload());
+      }
+    });
   }
 
   pageChanged(event){

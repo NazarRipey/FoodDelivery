@@ -63,8 +63,8 @@ export class DishListComponent implements OnInit {
       this.dishResponse = d;
       this.config.totalItems = d.totalDishesCount;
       this.sliderOptions.options = {
-        floor: d.minPrice,
-        ceil: d.maxPrice
+        floor: d.minPrice | 0,
+        ceil: d.maxPrice | 0
       };
       if(!this.sliderOptions.currentMax){
         this.sliderOptions.currentMax = d.maxPrice;

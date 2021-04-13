@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FoodDelivery.Entities.DTO
 {
 	public class UserProfileDTO
 	{
+		public Guid Id { get; set; }
 		public string FirstName { get; set; }
 
 		public string LastName { get; set; }
@@ -15,5 +17,7 @@ namespace FoodDelivery.Entities.DTO
 		public DateTime Birthday { get; set; }
 
 		public string Address { get; set; }
+
+		public IEnumerable<string> Roles { get; set; }
 	}
 }

@@ -1,3 +1,4 @@
+import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Guid } from 'guid-typescript';
 import { PaymentType } from '../../../models/enums/PaymentType';
@@ -32,5 +33,19 @@ export class OrderDetailComponent implements OnInit {
   updateOrder(id: Guid){
     const modal = this.modalService.open(UpdateOrderComponent);
     modal.componentInstance.orderId = id; 
+  }
+
+  cancelOrder(id: Guid){
+    const modal = this.modalService.open(ConfirmDialogComponent);
+    modal.componentInstance.confirmHeader = "Order cancellation";
+    modal.componentInstance.confirmMessage = `Are you sure you want to cancel order?`;
+
+    modal.result.then((result) => {
+      if(result == true){
+        this.orderService.cancelOrder(id).subscribe(_ => {
+          location.reload();      
+        });
+      }
+    });
   }
 }

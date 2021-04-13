@@ -69,5 +69,10 @@ namespace FoodDelivery.BusinessLogic.Facades
 		{
 			return _restaurantRequestRepository.Retrieve(filterParam);
 		}
+
+		public void DeclineAwaitingByEmail(string email)
+		{
+			_restaurantRequestRepository.DeclineAwaitingByEmail(email);
+		}
 	}
 }

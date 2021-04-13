@@ -273,6 +273,11 @@ namespace FoodDelivery.DAL.Repositories
 
 			order.Status = status;
 
+			if (status == (int)OrderStatus.Cancelled || status == (int)OrderStatus.Delivered)
+			{
+				order.ClosedDate = DateTime.Now;
+			}
+
 			_db.Entry(order).State = EntityState.Modified;
 
 			SaveChanges();

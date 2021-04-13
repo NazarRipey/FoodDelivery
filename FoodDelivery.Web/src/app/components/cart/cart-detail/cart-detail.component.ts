@@ -1,3 +1,4 @@
+import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { ConfirmOrderComponent } from './../../order/confirm-order/confirm-order.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Guid } from 'guid-typescript';
@@ -49,8 +50,16 @@ export class CartDetailComponent implements OnInit {
   }
 
   RemoveCart(){
-    this.cartService.deleteCart().subscribe(_ => {      
-      this.router.navigateByUrl("dishes").then(_ => location.reload());
-    })
+    const modal = this.modalService.open(ConfirmDialogComponent);
+    modal.componentInstance.confirmHeader = "Clear cart";
+    modal.componentInstance.confirmMessage = `Are you sure you want to clear cart?`;
+
+    modal.result.then((result) => {
+      if(result == true){
+        this.cartService.deleteCart().subscribe(_ => {      
+          this.router.navigateByUrl("dishes").then(_ => location.reload());
+        })
+      }
+    });
   }
 }

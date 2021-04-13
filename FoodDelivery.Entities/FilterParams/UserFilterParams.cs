@@ -2,7 +2,7 @@
 
 namespace FoodDelivery.Entities.FilterParams
 {
-	public class OrderManagerFilterParams : BaseFilterParams
+	public class UserFilterParams : BaseFilterParams
 	{
 		public AccountStatus? Status { get; set; }
 	}

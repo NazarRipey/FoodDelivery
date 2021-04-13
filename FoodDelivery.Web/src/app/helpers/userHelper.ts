@@ -83,7 +83,7 @@ export class UserHelper{
         result.subscribe( _ => {
             this.getProfile().subscribe(
                 r => {
-                    if(this._profile)
+                    if(this._profile.value != null)
                     {
                         if(this._profile.value.roles.includes("admin"))
                         {

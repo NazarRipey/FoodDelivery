@@ -184,5 +184,20 @@ namespace FoodDelivery.DAL.Repositories
 
 			return names;
 		}
+
+		public void DeactivateByEmail(string email)
+		{
+			ICollection<Restaurant> restaurants = _db.Restaurant.Where(r => r.Owner.Email == email &&
+				(r.Status == (int)RestaurantStatus.Active)).ToList();
+
+			foreach (var r in restaurants)
+			{
+				r.Status = (int)RestaurantStatus.Inactive;
+				_db.Entry(r).State = EntityState.Modified;
+
+				SaveChanges();
+			}
+
+		}
 	}
 }

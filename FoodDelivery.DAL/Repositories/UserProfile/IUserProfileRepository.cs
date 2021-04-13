@@ -1,5 +1,6 @@
 ﻿using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.UserProfile;
 using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.DAL.Repositories
@@ -10,6 +11,8 @@ namespace FoodDelivery.DAL.Repositories
 		UserProfile GetByPhone(string phoneNumber);
 		void Update(UserProfile userProfile);
 		void Create(UserProfile userProfile);
-		UserListResponseDTO RetrieveByRole(OrderManagerFilterParams filterParams, string role);
+		UserListResponseDTO RetrieveByRole(UserFilterParams filterParams, string role);
+		void UpdateProfile(UpdateProfileDTO updateProfile);
+		UserListResponseDTO RetrieveUsers(UserFilterParams filterParams);
 	}
 }

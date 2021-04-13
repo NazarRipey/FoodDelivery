@@ -19,6 +19,9 @@
             <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/ordermanagers']">Order managers</a>
             </li>
+            <li  class="nav-item">
+                <a class="nav-link" [routerLink]="['/users']">Users</a>
+            </li>
         </div>
         <div *ngIf="userHelper.ownerRequestStatus" class="d-flex">
             <li  class="nav-item">
@@ -36,7 +39,7 @@
                 <button class="btn btn-outline-primary" id="profile" class="btn bg-green"
                     ngbDropdownToggle><i class="bi bi-person"></i></button>
                 <div ngbDropdownMenu aria-labelledby="profile" class="bg-dark">
-                    <a ngbDropdownItem class="px-1">My profile</a>
+                    <a *ngIf="!userHelper.isInRole(['admin'])" ngbDropdownItem class="px-1" [routerLink]="['/profile']">My profile</a>
                     <a ngbDropdownItem class="px-1" [routerLink]="['/orders']">Orders</a>
                     <a ngbDropdownItem class="px-1">Setting</a>
                     <a ngbDropdownItem class="px-1" (click)="LogOut()">Log out</a>

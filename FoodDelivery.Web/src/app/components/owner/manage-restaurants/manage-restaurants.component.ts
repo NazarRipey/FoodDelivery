@@ -1,3 +1,4 @@
+import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { DishStatus } from '../../../models/enums/statuses/DishStatus';
 import { RestaurantStatus } from '../../../models/enums/statuses/RestaurantStatus';
 import { MyRestaurantFilterParams } from '../../../models/filters/MyRestaurantFilterParams';
@@ -84,11 +85,20 @@ export class ManageRestaurantsComponent implements OnInit {
     });
   }
 
-  removeRestaurant(restaurantId: Guid){
-    this.restaurantService.removeRestaurant(restaurantId).subscribe(_ => {
-      this.router.navigate(['/manage'], { queryParams: { page: '1' } });
-    }, error => {
-      console.log(error);
+  removeRestaurant(restaurantId: Guid, restaurantName:string){
+    const modal = this.modalService.open(ConfirmDialogComponent);
+    modal.componentInstance.confirmHeader = "Restaurant deleting";
+    modal.componentInstance.confirmMessage = `Are you sure you want to delete ${restaurantName}?\r\n` +
+     "You won't be able to restore it.";
+
+    modal.result.then((result) => {
+      if(result == true){
+        this.restaurantService.removeRestaurant(restaurantId).subscribe(_ => {
+          this.router.navigate(['/manage'], { queryParams: { page: '1' } });
+        }, error => {
+          console.log(error);
+        });
+      }
     });
   }
 
@@ -106,11 +116,19 @@ export class ManageRestaurantsComponent implements OnInit {
     modal.componentInstance.dishId = id;  
   }
 
-  removeDish(dishId: Guid){
-    this.dishSerivce.removeDish(dishId).subscribe(_ => {
-      location.reload();      
-    }, error => {
-      console.log(error);
+  removeDish(dishId: Guid, dishName: string){
+    const modal = this.modalService.open(ConfirmDialogComponent);
+    modal.componentInstance.confirmHeader = "Restaurant deleting";
+    modal.componentInstance.confirmMessage = `Are you sure you want to delete ${dishName}?`;
+
+    modal.result.then((result) => {
+      if(result == true){
+        this.dishSerivce.removeDish(dishId).subscribe(_ => {
+          location.reload();      
+        }, error => {
+          console.log(error);
+        });
+      }
     });
   }
 

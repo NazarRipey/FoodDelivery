@@ -1,0 +1,24 @@
+<div *ngIf="userHelper.profile" class="border p-3 wrapper mx-auto my-2">
+    <div class="text-right">
+        <button (click)="deactivateAccount()" class="btn btn-danger">Deactivate</button>
+    </div>
+    <div class="text-center">
+        <img class="mx-3 profile-picture" src="{{imgSrc}}">
+    </div>
+    <div class="text-center my-2">
+        <button class="btn bg-blue">Change profile picture</button>
+    </div>
+    <div class="w-100">
+        <div class="text-right">
+            <button class="btn bg-blue" (click)="openUpdateForm()">
+                <i class="bi bi-pencil"></i>
+            </button>
+        </div>
+        <p>First name: {{userHelper.profile.firstName}}</p>
+        <p>Last name: {{userHelper.profile.lastName}}</p>
+        <p>Email: {{userHelper.profile.email}}</p>
+        <p>Phone number: {{userHelper.profile.phoneNumber}}</p>
+        <p>Birthday: {{userHelper.profile.birthday | date:'longDate'}}</p>
+        <p>Address: {{userHelper.profile.address}}</p>
+    </div> 
+</div>

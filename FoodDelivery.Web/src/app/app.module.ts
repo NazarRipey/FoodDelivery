@@ -67,6 +67,10 @@ import { ManageRestaurantOrdersComponent } from './components/owner/manage-resta
 import { RestaurantOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/restaurant-orders.component';
 import { ActiveOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/active-orders/active-orders.component';
 import { OrdersHistoryComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/orders-history/orders-history.component';
+import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
+import { UpdateProfileComponent } from './components/profile/update-profile/update-profile.component';
+import { UsersComponent } from './components/admin/users/users.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -126,6 +130,10 @@ export function startupServiceFactory(startupService: StartupService): Function 
     RestaurantOrdersComponent,
     ActiveOrdersComponent,
     OrdersHistoryComponent,
+    MyProfileComponent,
+    UpdateProfileComponent,
+    UsersComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

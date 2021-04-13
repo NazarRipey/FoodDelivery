@@ -1,5 +1,5 @@
 import { BaseFilterParams } from './BaseFilterParams';
 
-export class OrderManagerFilterParams extends BaseFilterParams{
+export class UserFilterParams extends BaseFilterParams{
     public status: number;
 }
