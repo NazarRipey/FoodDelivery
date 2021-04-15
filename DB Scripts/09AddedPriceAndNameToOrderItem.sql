@@ -1,0 +1,4 @@
+ALTER TABLE OrderItem 
+ADD 
+	Name NVARCHAR (250) NOT NULL,
+	Price Money NOT NULL;
