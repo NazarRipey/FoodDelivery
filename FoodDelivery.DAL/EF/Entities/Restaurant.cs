@@ -17,7 +17,6 @@ namespace FoodDelivery.DAL.EF.Entities
 
 		public string Description { get; set; }
 
-		public decimal? Rating { get; set; }
 		public int Status { get; set; }
 
 		[ForeignKey("Type")]
@@ -27,5 +26,6 @@ namespace FoodDelivery.DAL.EF.Entities
 		public virtual RestaurantType Type { get; set; }
 		public virtual List<RestaurantAddress> Addresses { get; set; }
 		public virtual List<Dish> Dishes { get; set; }
+		public virtual List<RestaurantRating> Ratings { get; set; }
 	}
 }

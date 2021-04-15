@@ -18,6 +18,7 @@ export class DishListItemComponent implements OnInit {
   constructor(private modalHelper: ModalHelper) { }
 
   ngOnInit(): void {
+    this.dish.rating.averageRating
   }
 
   openAddToCart(){

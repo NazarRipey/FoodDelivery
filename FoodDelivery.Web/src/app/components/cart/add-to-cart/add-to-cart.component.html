@@ -7,6 +7,19 @@
     <div *ngIf="showDetail" class="my-2 text-right">
         <button class="btn bg-popstar" (click)="ShowDetails()">Detail</button>
     </div>
+    <div class="text-right">
+        <ngb-rating [(rate)]="dish.userRating" 
+        max="5" [readonly]="true">
+        <ng-template let-fill="fill" >
+           <span class="default-rating" [class.filled]="fill === 100">
+               <span class="painted-rating" [style.width.%]="fill">&#9733;</span>&#9733;
+           </span>
+         </ng-template>
+       </ngb-rating>
+       <span class="mx-1">{{dish.rating.averageRating}} 
+           <small>({{dish.rating.ratedCount}})</small>
+        </span>
+    </div>
     <div class="cart-wrapper">
         <img src="{{imgSrc}}" class="cart-image mr-2">
         <div class="w-100 text-center">
@@ -16,7 +29,6 @@
             </div>
             <p>{{dish.description}}</p>
             <p class="text-left">price: <b>{{dish.price}}₴</b></p>
-            <p class="text-left">rating: <b>{{dish.rating}}/5</b></p>
             <p class="text-left">weight: <b>{{dish.weight}}</b></p>
             <div>
                 <button (click)="Decrement()" [disabled]="itemCount==1" class="btn bg-green">-</button>

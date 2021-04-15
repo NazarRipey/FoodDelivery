@@ -7,6 +7,7 @@
             <img src="{{imgSrc}}" class="restaurant-image">
             <div class="w-100">
 
+                <!--
                 <ngb-rating [(rate)]="currentRating" 
                  max="5" [readonly]="readOnly" (rateChange)="rated()">
                  <ng-template let-fill="fill" >
@@ -17,8 +18,8 @@
                 </ngb-rating>
                 <span class="font-x-large mx-1">{{currentRating}}</span>
                 <span class="text-secondary font-smaller">(count)</span>
+                -->
 
-                <h5 class="text-right">{{restaurant.rating}}/5</h5>
                 <p class="container mt-3">{{restaurant.description}}</p>
                 <p>Type: {{restaurant?.type?.name}}</p>
                 <p>Addresses:</p>

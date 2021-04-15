@@ -56,7 +56,7 @@ namespace FoodDelivery.DAL.Repositories
 					break;
 				case RestaurantSortType.Rating:
 				default:
-					restaurants = restaurants.OrderByDescending(r => r.Rating);
+					restaurants = restaurants.OrderByDescending(r => r.Ratings.Select(r => r.Rating).Average());
 					break;
 			}
 
@@ -103,7 +103,7 @@ namespace FoodDelivery.DAL.Repositories
 		public ICollection<RestaurantListDTO> GetTop(int count)
 		{
 			List<Restaurant> topRestaurants = _db.Restaurant
-				.OrderByDescending(r => r.Rating)
+				.OrderByDescending(r => r.Ratings.Select(r => r.Rating).Average())
 				.Take(count)
 				.ToList();
 

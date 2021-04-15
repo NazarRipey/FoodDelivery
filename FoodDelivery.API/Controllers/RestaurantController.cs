@@ -35,6 +35,7 @@ namespace FoodDelivery.API.Controllers
 		[Route("retrieve")]
 		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
 		{
+			string e = User.Identity.Name;
 			return _restaurantFacade.Retrieve(filterParams);
 		}
 

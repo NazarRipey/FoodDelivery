@@ -1,11 +1,6 @@
+import { RateDish } from './../../models/dish/RateDish';
 import { ModalHelper } from './../../helpers/ModalHelper';
-import { CartHelper } from '../../helpers/CartHelper';
-import { CartService } from './../../services/cart.service';
-import { CartItemModel } from '../../models/cart/CartItemModel';
-import { LogInComponent } from './../auth/log-in/log-in.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserHelper } from '../../helpers/UserHelper';
-import { trigger, transition, state, style, animate } from '@angular/animations';
 import { DishDetail } from '../../models/dish/DishDetail';
 import { Guid } from 'guid-typescript';
 import { DishService } from './../../services/dish.service';
@@ -29,18 +24,34 @@ export class DishDetailComponent implements OnInit {
 
   constructor(private route:ActivatedRoute,
     private dishService:DishService,
-    private modalHelper:ModalHelper) { }
+    private modalHelper:ModalHelper,
+    public userHelper: UserHelper) { }
 
   ngOnInit(): void {
     this.itemCount = 1;
     const id = this.route.snapshot.paramMap.get('id');
     
     this.dishService.getDetailDishById(id).subscribe(d => {
-      this.dish = d
+      this.dish = d;
+      if(!d.rating.userRating){
+        this.dish.rating.userRating = 0;
+      }
     });
   }
 
   AddToCart(dishId: Guid){
     this.modalHelper.openAddToCart(dishId);
+  }
+
+  rateDish(){
+    const rateDish: RateDish = {
+      userId: this.userHelper.profile.id,
+      dishId: this.dish.id,
+      rating: this.dish.rating.userRating
+    };
+
+    this.dishService.rate(rateDish).subscribe(_ => {
+      this.dishService.getRating(this.dish.id).subscribe(dr => this.dish.rating = dr);
+    });
   }
 }

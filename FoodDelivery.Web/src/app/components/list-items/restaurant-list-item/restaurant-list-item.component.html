@@ -1,5 +1,4 @@
 <a [routerLink]="['/restaurants', restaurant.name]">
-    <img src="{{imgSrc}}" class="list-image">
     <div class="text-right">
         <ngb-rating [(rate)]="restaurant.rating" 
         max="5" [readonly]="true">
@@ -9,8 +8,11 @@
            </span>
          </ng-template>
        </ngb-rating>
-       <span class="mx-1">{{restaurant.rating}}</span>
+       <span class="mx-1">{{restaurant.rating.averageRating}} 
+           <small>({{restaurant.rating.ratedCount}})</small>
+        </span>
     </div>
+    <img src="{{imgSrc}}" class="list-image">
     <div>
         <span>{{restaurant.name}}</span>
     </div>

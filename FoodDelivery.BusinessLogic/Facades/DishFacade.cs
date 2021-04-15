@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FoodDelivery.DAL.Repositories;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.Enums.Status;
@@ -12,11 +13,15 @@ namespace FoodDelivery.BusinessLogic.Facades
 	{
 		private readonly IDishRepository _dishRepository;
 		private readonly IDishCategoryRepository _dishCategoryRepository;
+		private readonly IDishRatingRepository _dishRatingRepository;
 
-		public DishFacade(IDishRepository dishRepository, IDishCategoryRepository dishCategoryRepository)
+		public DishFacade(IDishRepository dishRepository,
+			IDishCategoryRepository dishCategoryRepository,
+			IDishRatingRepository dishRatingRepository)
 		{
 			_dishRepository = dishRepository;
 			_dishCategoryRepository = dishCategoryRepository;
+			_dishRatingRepository = dishRatingRepository;
 		}
 
 		public void Create(DishAddDTO dishDTO)
@@ -54,9 +59,9 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_dishRepository.Update(dishUpdateDTO);
 		}
 
-		public DishCartDTO GetCartDTOById(Guid id)
+		public DishCartDTO GetCartDTOById(Guid id, Guid? userId)
 		{
-			return _dishRepository.GetCartDTOById(id);
+			return _dishRepository.GetCartDTOById(id, userId);
 		}
 
 		public void Deactivate(Guid id)
@@ -69,9 +74,9 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_dishRepository.UpdateStatus(id, (int)DishStatus.Active);
 		}
 
-		public DishDetailDTO GetDetailDTOById(Guid id)
+		public DishDetailDTO GetDetailDTOById(Guid id, Guid? userId)
 		{
-			return _dishRepository.GetDetailDTOById(id);
+			return _dishRepository.GetDetailDTOById(id, userId);
 		}
 
 		public DishUpdateDTO GetUpdateDTOById(Guid id)
@@ -87,6 +92,16 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams)
 		{
 			return _dishRepository.RetrieveDishDetailDTOByRestaurant(filterParams);
+		}
+
+		public Rating GetDishRating(Guid id, Guid? userId)
+		{
+			return _dishRepository.GetRating(id, userId);
+		}
+
+		public void RateDish(RateDishDTO rateDishDTO)
+		{
+			_dishRatingRepository.Rate(rateDishDTO);
 		}
 	}
 }

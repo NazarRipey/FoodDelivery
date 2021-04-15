@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.Enums.Sorts;
@@ -31,18 +32,22 @@ namespace FoodDelivery.DAL.Repositories
 			SaveChanges();
 		}
 
-		public DishCartDTO GetCartDTOById(Guid id)
+		public DishCartDTO GetCartDTOById(Guid id, Guid? userId)
 		{
 			Dish dish = _db.Dish.Find(id);
-			DishCartDTO dishCartDTO = _mapper.Map<DishCartDTO>(dish);
+			DishCartDTO dishCartDTO = _mapper.Map<Dish, DishCartDTO>(dish, opt =>
+				opt.AfterMap((src, dest) =>
+					dest.Rating.UserRating = src.Ratings.Where(r => r.UserId == userId).SingleOrDefault()?.Rating));
 
 			return dishCartDTO;
 		}
 
-		public DishDetailDTO GetDetailDTOById(Guid id)
+		public DishDetailDTO GetDetailDTOById(Guid id, Guid? userId)
 		{
 			Dish dish = _db.Dish.Find(id);
-			DishDetailDTO dishDetailDTO = _mapper.Map<DishDetailDTO>(dish);
+			DishDetailDTO dishDetailDTO = _mapper.Map<Dish, DishDetailDTO>(dish, opt =>
+				opt.AfterMap((src, dest) =>
+					dest.Rating.UserRating = src.Ratings.Where(r => r.UserId == userId).SingleOrDefault()?.Rating));
 
 			return dishDetailDTO;
 		}
@@ -107,7 +112,7 @@ namespace FoodDelivery.DAL.Repositories
 					break;
 				case DishSortType.Rating:
 				default:
-					dishes = dishes.OrderBy(d => d.Rating);
+					dishes = dishes.OrderByDescending(d => d.Ratings.Select(r => r.Rating).Average());
 					break;
 			}
 
@@ -142,7 +147,7 @@ namespace FoodDelivery.DAL.Repositories
 		public ICollection<DishListDTO> GetTop(int count)
 		{
 			List<Dish> topDishes = _db.Dish
-				.OrderBy(d => d.Rating)
+				.OrderByDescending(d => d.Ratings.Select(r => r.Rating).Average())
 				.Take(count)
 				.ToList();
 
@@ -243,6 +248,21 @@ namespace FoodDelivery.DAL.Repositories
 			};
 
 			return dishDetailResponseDTO;
+		}
+
+		public Rating GetRating(Guid id, Guid? userId)
+		{
+			Dish dish = _db.Dish.Find(id);
+
+			Rating rating = new Rating()
+			{
+				AverageRating = dish.Ratings.Count() == 0 ?
+					0 : Math.Round(dish.Ratings.Select(r => r.Rating).Average(), 2),
+				RatedCount = dish.Ratings.Count(),
+				UserRating = dish.Ratings.Where(r => r.UserId == userId).SingleOrDefault()?.Rating
+			};
+
+			return rating;
 		}
 	}
 }

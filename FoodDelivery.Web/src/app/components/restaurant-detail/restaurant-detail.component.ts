@@ -23,7 +23,6 @@ export class RestaurantDetailComponent implements OnInit {
   imgSrc = imgSrc;
   statuses = RestaurantStatus;
 
-  currentRating = 3;
   readOnly = false;
 
   constructor(private restaurantService:RestaurantService,
@@ -47,11 +46,6 @@ export class RestaurantDetailComponent implements OnInit {
     this.restaurantService.getByName(this.filterParams.restaurantName).subscribe(r => {
       if(r){
         this.restaurant = r;
-        if(r.rating){
-          this.currentRating = r.rating;
-        }else{
-          this.currentRating = 0;
-        }
         this.dishService.retrieveByRestaurant(this.filterParams).subscribe(d => {
           this.dishes = d.dishes;
           this.config.totalItems = d.totalDishesCount;
@@ -76,7 +70,6 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   rated(){
-    alert(this.currentRating);
     this.readOnly = true;
   }
 }

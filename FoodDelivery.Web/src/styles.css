@@ -185,6 +185,13 @@ app-filter{
       color:  #FFE81F;
 }
 
+.user-rating{
+    position: absolute;
+      display: inline-block;
+      overflow: hidden;
+      color:  #7e7631;
+}
+
 /*slider*/
 .custom-slider .ngx-slider .ngx-slider-bar {
     background: #343A40;

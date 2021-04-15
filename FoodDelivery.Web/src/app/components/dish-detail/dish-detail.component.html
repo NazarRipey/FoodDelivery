@@ -6,7 +6,17 @@
     <div class="detail-wrapper mx-5 my-2">
         <img src="{{imgSrc}}" class="restaurant-image">
         <div class="w-100">
-            <h5 class="text-right">{{dish.rating}}/5</h5>
+            <ngb-rating [(rate)]="dish.rating.userRating" max="5" (rateChange)="rateDish()"
+            [readonly]="!userHelper.isInRole(['customer'])">
+            <ng-template let-fill="fill" >
+               <span class="default-rating font-x-large" [class.filled]="fill === 100">
+                   <span class="painted-rating font-x-large" [style.width.%]="fill">&#9733;</span>&#9733;
+               </span>
+             </ng-template>
+            </ngb-rating>
+            <span class="mx-1 font-x-large">{{dish.rating.averageRating}} 
+                <small>({{dish.rating.ratedCount}})</small>
+            </span>
 
             <div class="my-1 text-center">
                 <p>
@@ -18,7 +28,6 @@
             <p>{{dish.description}}</p>
             <p class="text-left">category: <b>{{dish.category.name}}</b></p>
             <p class="text-left">price: <b>{{dish.price}}₴</b></p>
-            <p class="text-left">rating: <b>{{dish.rating}}/5</b></p>
             <p class="text-left">weight: <b>{{dish.weight}}</b></p>
         </div>   
     </div>

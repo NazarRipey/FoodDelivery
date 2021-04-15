@@ -1,5 +1,8 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using AutoMapper;
 using FoodDelivery.DAL.EF.Entities;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.DTO.Order;
@@ -32,7 +35,16 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<DishCategoryDTO, DishCategory>()
 				.ReverseMap();
 
-			CreateMap<DishListDTO, Dish>()
+			CreateMap<Dish, DishListDTO>()
+				.ForMember(d => d.Rating, opt =>
+				{
+					opt.MapFrom(src => new Rating()
+					{
+						RatedCount = src.Ratings.Count(),
+						AverageRating = src.Ratings.Count() == 0 ?
+							0 : Math.Round(src.Ratings.Select(r => r.Rating).Average(), 2)
+					});
+				})
 				.ReverseMap();
 
 			CreateMap<Dish, DishAddDTO>()
@@ -41,6 +53,15 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<Dish, DishCartDTO>()
 				.ForMember(d => d.RestaurantName,
 					opt => opt.MapFrom(src => src.Restaurant.Name))
+				.ForMember(d => d.Rating, opt =>
+				{
+					opt.MapFrom(src => new Rating()
+					{
+						AverageRating = src.Ratings.Count() == 0 ?
+							0 : Math.Round(src.Ratings.Select(r => r.Rating).Average(), 2),
+						RatedCount = src.Ratings.Count()
+					});
+				})
 				.ReverseMap();
 
 			CreateMap<Dish, DishOrderDTO>()
@@ -57,6 +78,15 @@ namespace FoodDelivery.Utilities.Mappers
 				{
 					opt.MapFrom(src => src.Restaurant.Name);
 				})
+				.ForMember(d => d.Rating, opt =>
+				{
+					opt.MapFrom(src => new Rating()
+					{
+						AverageRating = src.Ratings.Count() == 0 ?
+							0 : Math.Round(src.Ratings.Select(r => r.Rating).Average(), 2),
+						RatedCount = src.Ratings.Count()
+					});
+				})
 				.ReverseMap();
 
 			CreateMap<RestaurantTypeDTO, RestaurantType>()
@@ -69,13 +99,31 @@ namespace FoodDelivery.Utilities.Mappers
 				.ReverseMap();
 
 			CreateMap<Restaurant, RestaurantDetailDTO>()
+				.ForMember(d => d.Rating, opt =>
+				{
+					opt.MapFrom(src => new Rating()
+					{
+						AverageRating = src.Ratings.Count() == 0 ?
+							0 : Math.Round(src.Ratings.Select(r => r.Rating).Average(), 2),
+						RatedCount = src.Ratings.Count()
+					});
+				})
 				.ForMember(d => d.Status, opt =>
 				{
 					opt.MapFrom(r => (RestaurantStatus)r.Status);
 				})
 				.ReverseMap();
 
-			CreateMap<RestaurantListDTO, Restaurant>()
+			CreateMap<Restaurant, RestaurantListDTO>()
+				.ForMember(d => d.Rating, opt =>
+				{
+					opt.MapFrom(src => new Rating()
+					{
+						AverageRating = src.Ratings.Count() == 0 ?
+							0 : Math.Round(src.Ratings.Select(r => r.Rating).Average(), 2),
+						RatedCount = src.Ratings.Count()
+					});
+				})
 				.ReverseMap();
 
 			CreateMap<Restaurant, RestaurantUpdateDTO>();
@@ -99,6 +147,7 @@ namespace FoodDelivery.Utilities.Mappers
 			.ReverseMap();
 
 			CreateMap<Order, OrderDetailDTO>()
+
 			.ForMember(d => d.PaymentType, opt =>
 			{
 				opt.MapFrom(o => (PaymentType)o.PaymentType);

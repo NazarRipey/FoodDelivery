@@ -1,3 +1,4 @@
+import { Rating } from './../Rating';
 import { Guid } from 'guid-typescript';
 
 export class DishCart{
@@ -7,5 +8,5 @@ export class DishCart{
     public description: string;
     public price: number;
     public weight: number;
-    public rating?: number;
+    public rating: Rating;
 }

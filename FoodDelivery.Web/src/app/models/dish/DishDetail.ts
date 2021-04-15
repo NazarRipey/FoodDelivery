@@ -1,3 +1,4 @@
+import { Rating } from './../Rating';
 import { DishStatus } from '../enums/statuses/DishStatus';
 import { DishCategory } from './DishCategory';
 import { Guid } from 'guid-typescript';
@@ -8,7 +9,7 @@ export class DishDetail{
     public description: string;
     public price :number
     public weight : number;
-    public rating? :number;
+    public rating : Rating;
     public status?: DishStatus;
 
     public restaurantName: string;
