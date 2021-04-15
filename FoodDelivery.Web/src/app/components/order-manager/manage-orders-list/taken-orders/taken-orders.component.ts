@@ -1,3 +1,5 @@
+import { OrderManager } from './../../../../models/order/OrderManager';
+import { OrderItemsComponent } from './../order-items/order-items.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from './../../../confirm-dialog/confirm-dialog.component';
 import { ModalHelper } from './../../../../helpers/ModalHelper';
@@ -7,7 +9,6 @@ import { OrderService } from './../../../../services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseFilterParams } from './../../../../models/filters/BaseFilterParams';
 import { PaginationConfig } from './../../../../models/PaginationConfig';
-import { OrderManager } from '../../../../models/order/OrderManager';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -50,17 +51,36 @@ export class TakenOrdersComponent implements OnInit {
   }
 
   showItems(id: Guid){
-    this.modalHelper.openOrderItemsEdit(id);
+    this.modalHelper.openOrderItems(id);
   }
 
-  releaseOrder(id: Guid){
+  verifyOrder(i: number){
+    const modal = this.modalService.open(OrderItemsComponent);
+    modal.componentInstance.orderId = this.orders[i].id;
+    modal.componentInstance.header = "Verify order";
+    modal.componentInstance.enableEditing = true;
+
+    modal.result.then((result) => {
+      this.orderService.getOrderManagerById(this.orders[i].id.toString()).subscribe(o => {
+        this.orders[i] = o;
+      });                
+    }, (reason) => {
+      this.orderService.getOrderManagerById(this.orders[i].id.toString()).subscribe(o => {
+        this.orders[i] = o;
+      }); 
+    });
+  }
+
+  releaseOrder(i: number){
     const modal = this.modalService.open(ConfirmDialogComponent);
     modal.componentInstance.confirmHeader = "Release order";
     modal.componentInstance.confirmMessage = `Are you sure you want to release order?`;
 
     modal.result.then((result) => {
       if(result == true){
-        this.orderService.releaseOrder(id).subscribe(_ => location.reload());
+        this.orderService.releaseOrder(this.orders[i].id).subscribe(_ => {
+          this.orders.splice(i, 1);
+        });
       }
     });
   }

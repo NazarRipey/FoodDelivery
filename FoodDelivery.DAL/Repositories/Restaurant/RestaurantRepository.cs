@@ -56,7 +56,7 @@ namespace FoodDelivery.DAL.Repositories
 					break;
 				case RestaurantSortType.Rating:
 				default:
-					restaurants = restaurants.OrderBy(r => r.Rating);
+					restaurants = restaurants.OrderByDescending(r => r.Rating);
 					break;
 			}
 
@@ -100,35 +100,10 @@ namespace FoodDelivery.DAL.Repositories
 			return restaurantDTO;
 		}
 
-		public RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
-		{
-			int totalItemsCount;
-
-			IQueryable<Restaurant> restaurants = _db.Restaurant.Where(r => r.OwnerId == ownerId);
-
-			totalItemsCount = restaurants.Count();
-
-			ICollection<Restaurant> restaurantsToReturn = restaurants
-				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
-				.Take(filterParams.ItemsPerPage)
-				.ToList();
-
-			ICollection<RestaurantOwnerDetailDTO> restaurantDetailDTOs =
-				_mapper.Map<ICollection<RestaurantOwnerDetailDTO>>(restaurantsToReturn);
-
-			RestaurantOwnerDetailResponseDTO restaurantDetailResponseDTO = new RestaurantOwnerDetailResponseDTO()
-			{
-				TotalRestaurantsCount = totalItemsCount,
-				Restaurants = restaurantDetailDTOs
-			};
-
-			return restaurantDetailResponseDTO;
-		}
-
 		public ICollection<RestaurantListDTO> GetTop(int count)
 		{
 			List<Restaurant> topRestaurants = _db.Restaurant
-				.OrderBy(r => r.Rating)
+				.OrderByDescending(r => r.Rating)
 				.Take(count)
 				.ToList();
 
@@ -178,7 +153,7 @@ namespace FoodDelivery.DAL.Repositories
 		public ICollection<string> GetNamesByOwner(Guid ownerId)
 		{
 			ICollection<string> names = _db.Restaurant
-				.Where(r => r.OwnerId == ownerId && r.Status == (int)RestaurantStatus.Active)
+				.Where(r => r.OwnerId == ownerId)
 				.Select(r => r.Name)
 				.ToList();
 
@@ -198,6 +173,14 @@ namespace FoodDelivery.DAL.Repositories
 				SaveChanges();
 			}
 
+		}
+
+		public ICollection<RestaurantAddressDTO> GetAddresses(Guid id)
+		{
+			ICollection<RestaurantAddressDTO> addresses =
+				_mapper.Map<ICollection<RestaurantAddressDTO>>(_db.Restaurant.Find(id).Addresses);
+
+			return addresses;
 		}
 	}
 }

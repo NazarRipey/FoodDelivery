@@ -40,6 +40,14 @@ namespace FoodDelivery.API.Controllers
 			return _dishFacade.RetrieveByRestaurant(filterParams);
 		}
 
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("retrievedetailbyrestaurant")]
+		public DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams)
+		{
+			return _dishFacade.RetrieveDishDetailDTOByRestaurant(filterParams);
+		}
+
 		[HttpGet]
 		[AllowAnonymous]
 		[Route("detail/{id:Guid}")]

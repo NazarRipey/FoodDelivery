@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-                <tr *ngFor="let order of orders| paginate: config">
+                <tr *ngFor="let i = index; let order of orders | paginate: config">
                     <td>{{order.orderNumber}}</td>
                     <td>{{statuses[order.status]}}</td>
                     <td>{{order.customerName}}</td>
@@ -28,10 +28,10 @@
                         <button class="btn bg-popstar btn-sm" (click)="showItems(order.id)">Items</button>
                     </td>
                     <td>
-                        <button class="btn bg-green btn-sm">Verify</button>
+                        <button class="btn bg-green btn-sm" (click)="verifyOrder(i)">Verify</button>
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-sm" (click)="releaseOrder(order.id)">
+                        <button class="btn btn-danger btn-sm" (click)="releaseOrder(i)">
                             Release
                         </button>
                     </td>

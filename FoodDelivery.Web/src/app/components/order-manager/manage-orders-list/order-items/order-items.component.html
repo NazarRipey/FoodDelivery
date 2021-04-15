@@ -1,7 +1,7 @@
 <div class="modal-content">
     <div class="modal-header">
         <h4 class="modal-title">
-            Order items
+            {{header}}
         </h4>
         <button class="close" (click)="modalRef.close()">&times;</button>
     </div>
@@ -17,23 +17,29 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of items">
+                <tr *ngFor="let item of items; let i = index">
                   <td>{{item.dish.restaurantName}}</td>
                   <td>{{item.dish.name}}</td>
                   <td>{{item.dish.price}}</td>
                   <td *ngIf="enableEditing">
                     <input class="w-75" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" 
-                      min="1" #quan [value]="item.quantity" (focusout)="updateQuantity(item.id, quan.value)">
+                      min="1" #quan [value]="item.quantity" (focusout)="updateQuantity(i, quan.value)">
                   </td>
                   <td *ngIf="!enableEditing">
                     {{item.quantity}}
                   </td>
                   <td><b>{{item.quantity * item.dish.price}}</b></td>
                   <td *ngIf="enableEditing">
-                    <button class="btn btn-danger btn-sm" (click)="deleteItem(item.id)">Delete</button>
+                    <button class="btn btn-danger btn-sm" (click)="deleteItem(i)">Delete</button>
                   </td>
                 </tr>
               </tbody>
         </table>  
+        <div class="text-center">
+          <p><b>Total: {{total}}</b></p>
+        </div>
+        <div *ngIf="enableEditing" class="text-center my-3">
+          <button class="btn bg-green">Verify</button>
+        </div>
     </div>
 </div>

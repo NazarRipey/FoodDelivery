@@ -1,4 +1,4 @@
-import { UserHelper } from '../../helpers/UserHelper';
+import { DishList } from 'src/app/models/dish/DishList';
 import { RestaurantStatus } from './../../models/enums/statuses/RestaurantStatus';
 import { DishService } from './../../services/dish.service';
 import { DishRestaurantFilterParams } from './../../models/filters/DishRestaurantFilterParams';
@@ -18,22 +18,27 @@ export class RestaurantDetailComponent implements OnInit {
   filterParams: DishRestaurantFilterParams = new DishRestaurantFilterParams(); 
   config: PaginationConfig = new PaginationConfig();
   restaurant: RestaurantDetail = new RestaurantDetail();
-  
+  dishes: DishList[] = [];
+
   imgSrc = imgSrc;
   statuses = RestaurantStatus;
+
+  currentRating = 3;
+  readOnly = false;
 
   constructor(private restaurantService:RestaurantService,
     private dishService: DishService,
     private route: ActivatedRoute,
     private router: Router) { }
 
-  ngOnInit(): void {    
-    const name = this.route.snapshot.paramMap.get('name');
-
+  ngOnInit(): void {   
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
       this.config.itemsPerPage = 18;
+      this.filterParams.search = params.search ? params.search : null;
     });
+
+    const name = this.route.snapshot.paramMap.get('name');
 
     this.filterParams.restaurantName = name;
     this.filterParams.currentPage = this.config.currentPage;
@@ -42,8 +47,13 @@ export class RestaurantDetailComponent implements OnInit {
     this.restaurantService.getByName(this.filterParams.restaurantName).subscribe(r => {
       if(r){
         this.restaurant = r;
+        if(r.rating){
+          this.currentRating = r.rating;
+        }else{
+          this.currentRating = 0;
+        }
         this.dishService.retrieveByRestaurant(this.filterParams).subscribe(d => {
-          this.restaurant.dishResponse = d;
+          this.dishes = d.dishes;
           this.config.totalItems = d.totalDishesCount;
         });
       }
@@ -51,6 +61,10 @@ export class RestaurantDetailComponent implements OnInit {
         this.router.navigateByUrl('/notfound');
       }
     });
+
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
   }
 
   pageChanged(event){
@@ -58,6 +72,11 @@ export class RestaurantDetailComponent implements OnInit {
 
     setTimeout(() => {
       document.getElementById('menu').scrollIntoView();
-    }, 250)
+    }, 150)
+  }
+
+  rated(){
+    alert(this.currentRating);
+    this.readOnly = true;
   }
 }

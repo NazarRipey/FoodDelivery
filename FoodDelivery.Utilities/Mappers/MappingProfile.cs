@@ -75,13 +75,6 @@ namespace FoodDelivery.Utilities.Mappers
 				})
 				.ReverseMap();
 
-			CreateMap<Restaurant, RestaurantOwnerDetailDTO>()
-				.ForMember(d => d.Status, opt =>
-				{
-					opt.MapFrom(r => (RestaurantStatus)r.Status);
-				})
-				.ReverseMap();
-
 			CreateMap<RestaurantListDTO, Restaurant>()
 				.ReverseMap();
 
@@ -137,7 +130,16 @@ namespace FoodDelivery.Utilities.Mappers
 			.ReverseMap();
 
 			CreateMap<OrderItem, OrderItemDTO>()
-				.ReverseMap();
+			.ForMember(d => d.Dish, opt =>
+			{
+				opt.MapFrom(o => new DishOrderDTO()
+				{
+					Name = o.Name,
+					Price = o.Price,
+					RestaurantName = o.Dish.Restaurant.Name
+				});
+			})
+			.ReverseMap();
 		}
 	}
 }

@@ -51,7 +51,6 @@ export class UpdateOrderComponent implements OnInit {
     this.orderService.updateOrder(order).subscribe(
       _ => {
         this.modalRef.close();
-        location.reload();
       },
       err => {
         this.updateOrderForm.setErrors({"server": +err.error});

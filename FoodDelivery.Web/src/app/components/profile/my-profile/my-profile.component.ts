@@ -1,8 +1,8 @@
+import { UserHelper } from './../../../helpers/UserHelper';
 import { AccountService } from './../../../services/account.service';
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { UpdateProfileComponent } from './../update-profile/update-profile.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserHelper } from '../../../helpers/UserHelper';
 import { imgSrc } from '../../../globals';
 import { Component, OnInit } from '@angular/core';
 
@@ -20,11 +20,14 @@ export class MyProfileComponent implements OnInit {
     private accountService:AccountService) { }
 
   ngOnInit(): void {
-    
   }
 
   openUpdateForm(){
-    this.modalService.open(UpdateProfileComponent);
+    const modal = this.modalService.open(UpdateProfileComponent);
+
+    modal.result.then((result) => {
+      this.userHelper.getProfile().subscribe();
+    });
   }
 
   deactivateAccount(){

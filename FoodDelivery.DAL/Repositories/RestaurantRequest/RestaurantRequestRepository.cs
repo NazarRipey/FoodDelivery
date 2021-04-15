@@ -67,13 +67,18 @@ namespace FoodDelivery.DAL.Repositories
 			{
 				restaurantsRequests = restaurantsRequests
 					.Where(r => (r.UserProfile.FirstName + r.UserProfile.LastName).Contains(filterParam.Search) ||
-						r.UserProfile.Email.Contains(filterParam.Search));
+						r.UserProfile.Email.Contains(filterParam.Search) ||
+						r.Restaurant.Name.Contains(filterParam.Search));
 			}
 			if (filterParam.Status != null)
 			{
 				restaurantsRequests = restaurantsRequests.Where(r => r.Status == (int)filterParam.Status);
 			}
-			if (filterParam.Sort != null)
+			if (filterParam.Sort == null)
+			{
+				restaurantsRequests = restaurantsRequests.OrderByDescending(rr => rr.CreatedDate);
+			}
+			else
 			{
 				#region Sort
 				switch (filterParam.Sort)

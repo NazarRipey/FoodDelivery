@@ -12,7 +12,7 @@ namespace FoodDelivery.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize]
+	[Authorize(Roles = "customer")]
 	public class CartController : ControllerBase
 	{
 		private readonly IUserProfileFacade _userProfileFacade;
@@ -31,6 +31,13 @@ namespace FoodDelivery.API.Controllers
 			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
 
 			return _cartFacade.Get(userId);
+		}
+
+		[HttpGet]
+		[Route("item/{id}")]
+		public CartItemDTO GetItem(Guid id)
+		{
+			return _cartFacade.GetItem(id);
 		}
 
 		[HttpGet]

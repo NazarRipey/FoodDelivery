@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Entities;
+using FoodDelivery.Entities.DTO.Order;
 using FoodDelivery.Entities.Enums.Status;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,14 @@ namespace FoodDelivery.DAL.Repositories
 		public OrderItemRepository(FoodDeliveryDbContext db, IMapper mapper)
 			: base(db, mapper)
 		{ }
+
+		public OrderItemDTO Get(Guid id)
+		{
+			OrderItem orderItem = _db.OrderItem.Find(id);
+			OrderItemDTO orderItemDTO = _mapper.Map<OrderItemDTO>(orderItem);
+
+			return orderItemDTO;
+		}
 
 		public void Remove(Guid id)
 		{
@@ -44,7 +53,7 @@ namespace FoodDelivery.DAL.Repositories
 
 		private void RecalculatePrice(Order order)
 		{
-			order.TotalSum = order.OrderItems.Select(c => c.Dish.Price * c.Quantity).Sum();
+			order.TotalSum = order.OrderItems.Select(oi => oi.Price * oi.Quantity).Sum();
 			_db.Entry(order).State = EntityState.Modified;
 
 			SaveChanges();

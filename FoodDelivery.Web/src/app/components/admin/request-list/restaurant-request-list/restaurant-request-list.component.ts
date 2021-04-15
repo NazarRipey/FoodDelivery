@@ -1,3 +1,5 @@
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { RestaurantRequest } from './../../../../models/restaurantRequest/RestaurantRequest';
 import { RestaurantRequestSortType } from '../../../../models/enums/sorts/RestaurantRequestSortType';
 import { Guid } from 'guid-typescript';
@@ -16,7 +18,7 @@ import { RestaurantRequestResponse } from 'src/app/models/restaurantRequest/Rest
 })
 export class RestaurantRequestListComponent implements OnInit {
   config: PaginationConfig = new PaginationConfig();
-  requests :RestaurantRequest[] = [];
+  requests$;
   requestFilterParams : RestaurantRequestFilterParams = new RestaurantRequestFilterParams();
 
   selectedStatus: string;
@@ -52,15 +54,7 @@ export class RestaurantRequestListComponent implements OnInit {
     this.requestFilterParams.currentPage = this.config.currentPage;
     this.requestFilterParams.status = this.statuses[`${this.selectedStatus}`];
 
-    this.requestService.retrieve(this.requestFilterParams).subscribe(
-      r => {
-        this.requests = r.restaurantRequests;
-        this.config.totalItems = r.totalRequestsCount;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    this.retrieveRequests();
 
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
@@ -74,10 +68,7 @@ export class RestaurantRequestListComponent implements OnInit {
   Approve(id: Guid){
     this.requestService.approve(id).subscribe(
       _ => {
-        location.reload();
-      },
-      error => {
-        console.log(error)
+        this.retrieveRequests();
       }
     )
   }
@@ -85,11 +76,20 @@ export class RestaurantRequestListComponent implements OnInit {
   Decline(id: Guid){
     this.requestService.decline(id).subscribe(
       _ => {
-        location.reload();
-      },
-      error => {
-        console.log(error)
+        this.retrieveRequests();
       }
     )
+  }
+
+  private retrieveRequests(){
+    this.requests$ = Observable.interval(5000).startWith(0).mergeMap(_ => 
+      this.requestService.retrieve(this.requestFilterParams)
+      .pipe(map(r => 
+        {
+          this.config.totalItems = r.totalRequestsCount;
+          return r.restaurantRequests;
+        })
+      )
+    );
   }
 }

@@ -13,6 +13,7 @@ import { UpdateOrderModel } from '../models/order/UpdateOrderModel';
 import { AvailableOrderResponse } from '../models/order/AvailableOrderResponse';
 import { OrderManagerResponse } from '../models/order/OrderManagerResponse';
 import { OrderItem } from '../models/order/OrderItem';
+import { OrderManager } from '../models/order/OrderManager';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,16 @@ export class OrderService {
   public getUpdateOrderById(id: string): Observable<UpdateOrderModel>{
     const url = this.orderUrl + `updateorder/${id}`;
     return this.http.get<UpdateOrderModel>(url, { withCredentials: true });
+  }
+
+  public getOrderManagerById(id: string): Observable<OrderManager>{
+    const url = this.orderUrl + `managerorder/${id}`;
+    return this.http.get<OrderManager>(url, { withCredentials: true });
+  }
+
+  public getOrderItem(id: string): Observable<OrderItem>{
+    const url = this.orderUrl + `item/${id}`;
+    return this.http.get<OrderItem>(url, { withCredentials: true });    
   }
 
   public getOrderItems(id: string): Observable<OrderItem[]>{

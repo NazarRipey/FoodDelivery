@@ -1,3 +1,4 @@
+import { ManageRestaurantsTabComponent } from './components/owner/manage-restaurants-tab/manage-restaurants-tab.component';
 import { UsersComponent } from './components/admin/users/users.component';
 import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
 import { OrdersHistoryComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/orders-history/orders-history.component';
@@ -20,8 +21,7 @@ import { RequestListComponent } from './components/admin/request-list/request-li
 import { RoleGuard } from './guards/role.guard';
 import { NoAccessComponent } from './components/errors/no-access/no-access.component';
 import { AuthGuard } from './guards/auth.guard';
-import { AddRestaurantComponent } from './components/owner/add-restaurant/add-restaurant.component';
-import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
+import { ManageRestaurantsComponent } from './components/owner/manage-restaurants-tab/manage-restaurants/manage-restaurants.component';
 import { OwnerRequestListComponent } from './components/admin/request-list/owner-request-list/owner-request-list.component';
 import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
 import { RestaurantListComponent } from './components/list/restaurant-list/restaurant-list.component';
@@ -41,7 +41,8 @@ const routes: Routes = [
   { path: 'dishes/:id', component: DishDetailComponent },
   { path: 'restaurants', component: RestaurantListComponent },
   { path: 'restaurants/:name', component: RestaurantDetailComponent },
-  { path: 'requests',
+  { 
+    path: 'requests',
     component: RequestListComponent,
     canActivate: [AuthGuard, RoleGuard], 
     data: {roles: ['admin'] },
@@ -51,17 +52,57 @@ const routes: Routes = [
       { path: '', redirectTo: 'owners', pathMatch: 'full'}
     ],
   },
-  { path: 'ordermanagers', component: OrderManagersComponent, 
-    canActivate: [AuthGuard, RoleGuard],  data: {roles: ['admin'] }},
-  { path: 'users', component: UsersComponent, 
-  canActivate: [AuthGuard, RoleGuard],  data: {roles: ['admin'] }},
-  { path: "manage", component: ManageRestaurantsComponent, 
-    canActivate: [AuthGuard, OwnerGuard] },
-  { path: "cart", component: CartDetailComponent, canActivate: [AuthGuard] },
-  { path: "orders", component: OrderActiveListComponent,  canActivate: [AuthGuard] }, 
-  { path: "orders/history", component: OrderHistoryListComponent, canActivate: [AuthGuard] },
-  { path: "orders/:id", component: OrderDetailComponent, canActivate: [AuthGuard] },
-  { path: "manageorders", 
+  { 
+    path: 'ordermanagers',
+    component: OrderManagersComponent, 
+    canActivate: [AuthGuard, RoleGuard],  
+    data: {roles: ['admin'] }
+  },
+  { 
+    path: 'users', 
+    component: UsersComponent, 
+    canActivate: [AuthGuard, RoleGuard], 
+    data: {roles: ['admin'] }
+  },
+  { 
+    path: "manage", 
+    component: ManageRestaurantsTabComponent, 
+    canActivate: [AuthGuard, OwnerGuard],
+    children : [
+      { 
+        path: ':name', 
+        component: ManageRestaurantsComponent,
+        canActivate: [RoleGuard],
+        data: {roles: ['owner'] }
+      },
+    ] 
+  },
+  { 
+    path: "cart", 
+    component: CartDetailComponent, 
+    canActivate: [AuthGuard, RoleGuard], 
+    data: {roles: ['customer'] } 
+  },
+  { 
+    path: "orders", 
+    component: OrderActiveListComponent, 
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['customer'] }  
+  }, 
+  { 
+    path: "orders/history", 
+    component: OrderHistoryListComponent, 
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['customer'] }  
+  },
+  { 
+    path: "orders/:id", 
+    component: OrderDetailComponent, 
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['customer'] }  
+  },
+  { 
+    path: "manageorders", 
     component: ManageOrdersListComponent, 
     canActivate: [AuthGuard, RoleGuard], 
     data: {roles: ['orderManager'] }, 
@@ -88,7 +129,11 @@ const routes: Routes = [
       },
     ]
   },
-  { path: "profile", component: MyProfileComponent, canActivate: [AuthGuard] },
+  { 
+    path: "profile", 
+    component: MyProfileComponent, 
+    canActivate: [AuthGuard],
+  },
   { path: "noaccess", component: NoAccessComponent },
   { path: "notfound", component: NotFoundComponent },
   { path: '**', component: NotFoundComponent }

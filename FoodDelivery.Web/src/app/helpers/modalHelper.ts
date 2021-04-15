@@ -8,11 +8,11 @@ import { Guid } from 'guid-typescript';
     providedIn: 'root'
 })
 export class ModalHelper{
-    constructor(private modalSevice:NgbModal){
+    constructor(private modalService:NgbModal){
     }
     
     openAddToCart(dishId: Guid, showDetail?: boolean){
-        const modal = this.modalSevice.open(AddToCartComponent);
+        const modal = this.modalService.open(AddToCartComponent);
         modal.componentInstance.dishId = dishId;
         if(showDetail){
             modal.componentInstance.showDetail = showDetail;
@@ -20,19 +20,8 @@ export class ModalHelper{
     }
 
     openOrderItems(orderId: Guid){
-        const modal = this.modalSevice.open(OrderItemsComponent);
+        const modal = this.modalService.open(OrderItemsComponent);
         modal.componentInstance.orderId = orderId;
-    }
-
-    openOrderItemsEdit(orderId: Guid){
-        const modal = this.modalSevice.open(OrderItemsComponent);
-        modal.componentInstance.orderId = orderId;
-        modal.componentInstance.enableEditing = true;
-
-        modal.result.then((result) => {
-            location.reload();
-          }, (reason) => {
-            location.reload();
-          });
+        modal.componentInstance.header = "Order items";
     }
 }

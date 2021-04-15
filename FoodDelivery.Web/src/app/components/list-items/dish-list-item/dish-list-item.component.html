@@ -2,9 +2,9 @@
     <span>{{dish.rating}}/5</span>
 </div>
 <img src="{{imgSrc}}" class="list-image">
-<div class="d-flex justify-content-between my-1">
+<div class="d-flex justify-content-between my-2 mx-3">
     <button class="btn bg-green" (click)="openAddToCart()">
-        Open add to cart
+        Add to cart
     </button>
     <button class="btn bg-popstar" [routerLink]="['/dishes', dish.id]">
         Details

@@ -1,3 +1,4 @@
+import { UserAccount } from './../models/userProfile/UserAccount';
 import { UpdateProfile } from './../models/userProfile/UpdateProfile';
 import { UserListResponse } from './../models/userProfile/UserListResponse';
 import { UserFilterParams } from './../models/filters/UserFilterParams';
@@ -15,6 +16,11 @@ export class AccountService {
   authUrl = serverUrl + "api/account/";
 
   constructor(private http: HttpClient) { }
+
+  public getUserAccount(id: string): Observable<UserAccount>{
+    const url = this.authUrl + `user/${id}`;
+    return this.http.get<UserAccount>(url, { withCredentials: true });
+  }
 
   public retrieveOrderManagers(userFilterParams:UserFilterParams): Observable<UserListResponse>{
     const url = this.authUrl + "managers";

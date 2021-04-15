@@ -1,10 +1,9 @@
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { AccountService } from './../../../services/account.service';
 import { UserFilterParams } from './../../../models/filters/UserFilterParams';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AccountStatus } from './../../../models/enums/statuses/AccountStatus';
-import { BaseFilterParams } from './../../../models/filters/BaseFilterParams';
-import { UserList } from './../../../models/userProfile/UserAccount';
 import { PaginationConfig } from './../../../models/PaginationConfig';
 import { Component, OnInit } from '@angular/core';
 
@@ -15,7 +14,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
   config: PaginationConfig = new PaginationConfig();
-  userList: UserList[] = [];
+  users$;
   userFilterParams: UserFilterParams = new UserFilterParams();
 
   statuses = AccountStatus;
@@ -39,16 +38,7 @@ export class UsersComponent implements OnInit {
     this.userFilterParams.currentPage = this.config.currentPage;
     this.userFilterParams.status = this.statuses[`${this.selectedStatus}`];
 
-
-    this.accountService.retrieveUsers(this.userFilterParams).subscribe(
-      r => {
-        this.userList = r.users;
-        this.config.totalItems = r.totalUsersCount;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    this.retrieveUsers();
 
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
@@ -58,10 +48,7 @@ export class UsersComponent implements OnInit {
   activate(email: string){
     this.accountService.activateAccount(email).subscribe(
       _ => {
-        location.reload();
-      },
-      error => {
-        console.log(error)
+        this.retrieveUsers();
       }
     );
   }
@@ -70,15 +57,24 @@ export class UsersComponent implements OnInit {
     console.log(email);
     this.accountService.deactivateAccount(email).subscribe(
       _ => {
-        location.reload();
-      },
-      error => {
-        console.log(error)
+        this.retrieveUsers();
       }
     );
   }
 
   pageChanged(event){
     this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
+  }
+
+  private retrieveUsers(){
+    this.users$ = Observable.interval(5000).startWith(0).mergeMap(_ => 
+      this.accountService.retrieveUsers(this.userFilterParams)
+      .pipe(map(u => 
+        {
+          this.config.totalItems = u.totalUsersCount;
+          return u.users;
+        })
+      )
+    );
   }
 }

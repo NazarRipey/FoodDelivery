@@ -70,11 +70,10 @@ export class AddOrderManagerComponent implements OnInit {
       const modal = this.modalService.open(MessageComponent);
       modal.componentInstance.message = msg;
       
-      this.modalRef.close();
       modal.result.then((result) => {
-        location.reload();
+        this.modalRef.close();
       }, (reason) => {
-        location.reload();
+        this.modalRef.close();
       });
     },
     err => {

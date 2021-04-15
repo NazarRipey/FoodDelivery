@@ -36,6 +36,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _cartRepository.GetCartInfo(userId);
 		}
 
+		public CartItemDTO GetItem(Guid id)
+		{
+			return _cartItemRepository.Get(id);
+		}
+
 		public void RemoveCart(Guid userId)
 		{
 			_cartRepository.Remove(userId);

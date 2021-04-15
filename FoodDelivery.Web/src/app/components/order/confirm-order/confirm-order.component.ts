@@ -73,7 +73,7 @@ export class ConfirmOrderComponent implements OnInit {
       modal.result.then((result) => {
         this.router.navigateByUrl("orders").then(_ => location.reload());
       }, (reason) => {
-        location.reload();
+        this.router.navigateByUrl("orders").then(_ => location.reload());
       });
 
     }, error => {

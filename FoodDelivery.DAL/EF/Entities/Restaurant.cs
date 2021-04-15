@@ -17,7 +17,7 @@ namespace FoodDelivery.DAL.EF.Entities
 
 		public string Description { get; set; }
 
-		public double? Rating { get; set; }
+		public decimal? Rating { get; set; }
 		public int Status { get; set; }
 
 		[ForeignKey("Type")]

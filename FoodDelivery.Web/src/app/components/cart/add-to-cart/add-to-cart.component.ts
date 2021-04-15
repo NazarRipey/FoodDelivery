@@ -1,3 +1,4 @@
+import { MessageComponent } from './../../message/message.component';
 import { CartHelper } from '../../../helpers/CartHelper';
 import { CartItemModel } from '../../../models/cart/CartItemModel';
 import { CartService } from './../../../services/cart.service';
@@ -45,6 +46,7 @@ export class AddToCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.itemCount = 1;
+    
     this.dishService.getCartDishById(this.dishId).subscribe(d => {
       this.dish = d
     });
@@ -61,6 +63,10 @@ export class AddToCartComponent implements OnInit {
   AddToCart(dishId: Guid, quantity: number){
     if(!this.userHelper.profile){
       this.modalService.open(LogInComponent, {centered: true});
+    }
+    else if(!this.userHelper.isInRole(['customer'])){
+      const modal = this.modalService.open(MessageComponent);
+      modal.componentInstance.message = `Only users with role customers can add items to cart!`;
     }
     else{
       const cartItemModel: CartItemModel = {

@@ -60,7 +60,6 @@ export class UpdateProfileComponent implements OnInit {
     this.accountService.updateProfile(userProfile).subscribe(
       _ => {
         this.modalRef.close();
-        location.reload();
       },
       err => {
         this.updateProfileForm.setErrors({"server": +err.error});

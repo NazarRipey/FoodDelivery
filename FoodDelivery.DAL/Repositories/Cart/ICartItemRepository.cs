@@ -8,5 +8,6 @@ namespace FoodDelivery.DAL.Repositories
 		void Add(AddCartItemDTO cartItem);
 		void Update(Guid id, int quantity);
 		void Remove(Guid id);
+		CartItemDTO Get(Guid id);
 	}
 }

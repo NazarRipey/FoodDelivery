@@ -191,6 +191,12 @@ namespace FoodDelivery.DAL.Repositories
 			IQueryable<Dish> dishes = _db.Dish.Where(d => d.Status == (int)DishStatus.Active
 				&& d.Restaurant.Name == filterParams.RestaurantName);
 
+			if (filterParams.Search != null)
+			{
+				dishes = dishes
+					.Where(d => d.Name.Contains(filterParams.Search));
+			}
+
 			totalItemsCount = dishes.Count();
 
 			ICollection<Dish> dishesToReturn = dishes
@@ -207,6 +213,36 @@ namespace FoodDelivery.DAL.Repositories
 			};
 
 			return dishListResponseDTO;
+		}
+
+		public DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams)
+		{
+			int totalItemsCount;
+
+			IQueryable<Dish> dishes = _db.Dish.Where(d => d.Restaurant.Name == filterParams.RestaurantName);
+
+			if (filterParams.Search != null)
+			{
+				dishes = dishes
+					.Where(d => d.Name.Contains(filterParams.Search));
+			}
+
+			totalItemsCount = dishes.Count();
+
+			ICollection<Dish> dishesToReturn = dishes
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<DishDetailDTO> dishDTOs = _mapper.Map<ICollection<DishDetailDTO>>(dishesToReturn);
+
+			DishDetailResponseDTO dishDetailResponseDTO = new DishDetailResponseDTO()
+			{
+				Dishes = dishDTOs,
+				TotalDishesCount = totalItemsCount
+			};
+
+			return dishDetailResponseDTO;
 		}
 	}
 }

@@ -1,11 +1,8 @@
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AccountService } from './../../../services/account.service';
-import { UserList } from './../../../models/userProfile/UserAccount';
+import { UserAccount } from './../../../models/userProfile/UserAccount';
 import { AccountStatus } from './../../../models/enums/statuses/AccountStatus';
-import { Guid } from 'guid-typescript';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserFilterParams } from '../../../models/filters/UserFilterParams';
-import { UserListResponse } from './../../../models/userProfile/UserListResponse';
 import { PaginationConfig } from '../../../models/PaginationConfig';
 import { AddOrderManagerComponent } from './add-order-manager/add-order-manager.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderManagersComponent implements OnInit {
   config: PaginationConfig = new PaginationConfig();
-  userList: UserList[] =  [];
+  userList: UserAccount[] =  [];
   userFilterParams: UserFilterParams = new UserFilterParams();
 
   statuses = AccountStatus;
@@ -43,6 +40,46 @@ export class OrderManagersComponent implements OnInit {
     this.userFilterParams.currentPage = this.config.currentPage;
     this.userFilterParams.status = this.statuses[`${this.selectedStatus}`];
 
+    this.retrieveManagers();
+
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
+  }
+
+  openAddManager(){
+    const modal = this.modalService.open(AddOrderManagerComponent);
+
+    modal.result.then((result) => {
+      this.retrieveManagers();
+    });
+  }
+
+  activate(i: number){
+    this.accountService.activateAccount(this.userList[i].email).subscribe(
+      _ => {
+        this.accountService.getUserAccount(this.userList[i].id.toString()).subscribe(a => {
+          this.userList[i] = a;
+        })
+      }
+    );
+  }
+
+  deactivate(i: number){
+    this.accountService.deactivateAccount(this.userList[i].email).subscribe(
+      _ => {
+        this.accountService.getUserAccount(this.userList[i].id.toString()).subscribe(a => {
+          this.userList[i] = a;
+        })
+      },
+    );
+  }
+
+  pageChanged(event){
+    this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
+  }
+
+  private retrieveManagers(){
     this.accountService.retrieveOrderManagers(this.userFilterParams).subscribe(
       r => {
         this.userList = r.users;
@@ -52,39 +89,5 @@ export class OrderManagersComponent implements OnInit {
         console.log(error);
       }
     );
-
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
-      return false;
-    };
-  }
-
-  openAddManager(){
-    this.modalService.open(AddOrderManagerComponent);
-  }
-
-  activate(email: string){
-    this.accountService.activateAccount(email).subscribe(
-      _ => {
-        location.reload();
-      },
-      error => {
-        console.log(error)
-      }
-    );
-  }
-
-  deactivate(email: string){
-    this.accountService.deactivateAccount(email).subscribe(
-      _ => {
-        location.reload();
-      },
-      error => {
-        console.log(error)
-      }
-    );
-  }
-
-  pageChanged(event){
-    this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
   }
 }

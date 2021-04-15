@@ -1,3 +1,4 @@
+import { DishDetailResponse } from './../models/dish/DishDetailResponse';
 import { DishRestaurantFilterParams } from './../models/filters/DishRestaurantFilterParams';
 import { DishUpdateModel } from '../models/dish/DishUpdateModel';
 import { DishDetail } from '../models/dish/DishDetail';
@@ -57,6 +58,11 @@ export class DishService {
   public retrieveByRestaurant(filterParams: DishRestaurantFilterParams): Observable<DishRestaurantListResponse>{
     const url = this.dishUrl + "retrievebyrestaurant";
     return this.http.post<DishRestaurantListResponse>(url, filterParams);
+  }
+
+  public retrieveDetailByRestaurant(filterParams: DishRestaurantFilterParams): Observable<DishDetailResponse>{
+    const url = this.dishUrl + "retrievedetailbyrestaurant";
+    return this.http.post<DishDetailResponse>(url, filterParams);
   }
 
   public addDish(dish: DishAddModel){

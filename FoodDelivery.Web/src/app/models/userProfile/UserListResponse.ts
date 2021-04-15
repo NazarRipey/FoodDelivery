@@ -1,6 +1,6 @@
-import { UserList } from './UserAccount';
+import { UserAccount } from './UserAccount';
 
 export class UserListResponse{
-    public users: UserList[];
+    public users: UserAccount[];
     public totalUsersCount: number;
 }

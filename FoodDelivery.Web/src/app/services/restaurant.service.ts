@@ -2,7 +2,6 @@ import { RestaurantList } from './../models/restaurant/RestaurantList';
 import { RestaurantAddModel } from './../models/restaurant/RestaurantAddModel';
 import { RestaurantUpdateModel } from '../models/restaurant/RestaurantUpdateModel';
 import { serverUrl } from './../globals';
-import { RestaurantOwnerDetailResponse } from '../models/restaurant/RestaurantOwnerDetailResponse';
 import { MyRestaurantFilterParams } from '../models/filters/MyRestaurantFilterParams';
 import { RestaurantListResponse } from '../models/restaurant/RestaurantListResponse';
 import { RestaurantFilterParams } from '../models/filters/RestaurantFilterParams';
@@ -33,6 +32,11 @@ export class RestaurantService {
     return this.http.post<RestaurantListResponse>(url, restaurantFilterParams);
   }
 
+  public getAddresses(id: Guid): Observable<RestaurantAddress[]>{
+    const url = this.restaurantUrl + `${id}/addresses`;
+    return this.http.get<RestaurantAddress[]>(url);
+  }
+
   public getAllNames(): Observable<string[]>{
     const url = this.restaurantUrl + "names";
     return this.http.get<string[]>(url);
@@ -56,11 +60,6 @@ export class RestaurantService {
   public getUpdateRestaurantById(id: string): Observable<RestaurantUpdateModel>{
     const url = this.restaurantUrl + `updaterestaurant/${id}`;
     return this.http.get<RestaurantUpdateModel>(url, { withCredentials: true });
-  }
-
-  public retrieveMyRestaurants(filterParams: MyRestaurantFilterParams): Observable<RestaurantOwnerDetailResponse>{
-    const url = this.restaurantUrl + "myrestaurants";
-    return this.http.post<RestaurantOwnerDetailResponse>(url, filterParams, { withCredentials: true });
   }
 
   public addRestaurant(restaurant: RestaurantAddModel){

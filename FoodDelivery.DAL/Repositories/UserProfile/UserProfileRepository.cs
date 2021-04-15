@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
@@ -32,6 +33,22 @@ namespace FoodDelivery.DAL.Repositories
 		public UserProfile GetByPhone(string phone)
 		{
 			return _db.UserProfile.Where(u => u.PhoneNumber == phone).SingleOrDefault();
+		}
+
+		public UserAccountDTO GetAccountById(Guid id)
+		{
+			UserProfile u = _db.UserProfile.Find(id);
+			UserAccountDTO userAccountDTO = new UserAccountDTO()
+			{
+				Id = u.Id,
+				FullName = u.FirstName + " " + u.LastName,
+				Email = u.Email,
+				PhoneNumber = u.PhoneNumber,
+				Status = _userManager.IsLockedOutAsync(u.AspNetUser).Result == true ?
+					AccountStatus.Inactive : AccountStatus.Active
+			};
+
+			return userAccountDTO;
 		}
 
 		public void Create(UserProfile userProfile)
@@ -91,6 +108,7 @@ namespace FoodDelivery.DAL.Repositories
 			ICollection<UserAccountDTO> userListDTOs = userProfilesToReturn.Select(u =>
 				new UserAccountDTO()
 				{
+					Id = u.Id,
 					FullName = u.FirstName + " " + u.LastName,
 					Email = u.Email,
 					PhoneNumber = u.PhoneNumber,
@@ -164,6 +182,7 @@ namespace FoodDelivery.DAL.Repositories
 			ICollection<UserAccountDTO> userListDTOs = userProfilesToReturn.Select(u =>
 				new UserAccountDTO()
 				{
+					Id = u.Id,
 					FullName = u.FirstName + " " + u.LastName,
 					Email = u.Email,
 					PhoneNumber = u.PhoneNumber,

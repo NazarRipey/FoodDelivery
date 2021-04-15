@@ -6,6 +6,18 @@
         <div class="detail-wrapper mx-5 my-2">
             <img src="{{imgSrc}}" class="restaurant-image">
             <div class="w-100">
+
+                <ngb-rating [(rate)]="currentRating" 
+                 max="5" [readonly]="readOnly" (rateChange)="rated()">
+                 <ng-template let-fill="fill" >
+                    <span class="default-rating font-x-large" [class.filled]="fill === 100">
+                        <span class="painted-rating font-x-large" [style.width.%]="fill">&#9733;</span>&#9733;
+                    </span>
+                  </ng-template>
+                </ngb-rating>
+                <span class="font-x-large mx-1">{{currentRating}}</span>
+                <span class="text-secondary font-smaller">(count)</span>
+
                 <h5 class="text-right">{{restaurant.rating}}/5</h5>
                 <p class="container mt-3">{{restaurant.description}}</p>
                 <p>Type: {{restaurant?.type?.name}}</p>
@@ -21,10 +33,13 @@
             <h3 id="menu">Menu</h3>
         </div>
         <div class="p-md-3">
-            <div class="card text-center" *ngIf="restaurant.dishResponse">
+            <div class="card text-center">
+                <div class="mx-auto my-2 search">
+                    <app-search [value]="filterParams.search" placeholder="I'm looking for..."></app-search>
+                </div>
                 <div class="card-body d-flex">
                     <ul class="col justify-content-around">
-                        <li *ngFor="let dish of restaurant.dishResponse.dishes | paginate: config" 
+                        <li *ngFor="let dish of dishes | paginate: config" 
                             class="mb-2 list-item">
                             <app-dish-list-item [dish]="dish"></app-dish-list-item>
                         </li>

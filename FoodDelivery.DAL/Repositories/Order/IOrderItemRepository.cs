@@ -1,4 +1,5 @@
 ﻿using System;
+using FoodDelivery.Entities.DTO.Order;
 
 namespace FoodDelivery.DAL.Repositories
 {
@@ -6,5 +7,6 @@ namespace FoodDelivery.DAL.Repositories
 	{
 		void Update(Guid id, int quantity);
 		void Remove(Guid id);
+		OrderItemDTO Get(Guid id);
 	}
 }

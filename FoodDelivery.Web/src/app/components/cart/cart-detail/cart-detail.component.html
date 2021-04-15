@@ -15,10 +15,10 @@
         </div>
         <div class="card-body d-flex">
             <ul class="col justify-content-around">
-                <li *ngFor="let item of cartResponse.cartItems" class="mb-2 list-item">
+                <li *ngFor="let item of cartResponse.cartItems; let i = index" class="mb-2 list-item">
                     <div class="text-center d-flex">
                         <h4 class="ml-auto">{{item.dish.name}}</h4>
-                        <button (click)="RemoveItem(item.id)" class="ml-auto btn btn-danger">
+                        <button (click)="RemoveItem(i)" class="ml-auto btn btn-danger">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </div>
@@ -35,7 +35,7 @@
                                     <label>
                                         Quantity: <input class="w-25" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" 
                                         min="1" #quan [value]="item.quantity" 
-                                        (focusout)="UpdateQuantity(item, quan.value)"><br>
+                                        (focusout)="UpdateQuantity(i, quan.value)"><br>
                                     </label>
                                     <p class="my-2"><b>Subtotal: {{item.quantity * item.dish.price}}₴</b></p>
                                 </div>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="text-center mb-3">
-            <h4>Total: {{cartResponse.totalPrice}}₴</h4>
+            <h4>Total: {{total}}₴</h4>
             <button (click)="OpenConfirmOrder()" class="btn bg-green btn-lg">Proceed to checkout</button>
         </div>
     </div>

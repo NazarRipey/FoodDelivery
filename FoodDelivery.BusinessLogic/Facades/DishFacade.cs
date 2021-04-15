@@ -83,5 +83,10 @@ namespace FoodDelivery.BusinessLogic.Facades
 		{
 			return _dishRepository.RetrieveByRestaurant(filterParams);
 		}
+
+		public DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams)
+		{
+			return _dishRepository.RetrieveDishDetailDTOByRestaurant(filterParams);
+		}
 	}
 }

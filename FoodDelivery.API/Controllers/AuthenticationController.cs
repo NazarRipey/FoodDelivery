@@ -87,6 +87,8 @@ namespace FoodDelivery.API.Controllers
 			UserProfile userProfile = _mapper.Map<UserProfile>(signUpModel);
 			IdentityUser user = _mapper.Map<IdentityUser>(userProfile);
 
+			user.Id = Guid.NewGuid().ToString();
+
 			IdentityResult result = await _userManager.CreateAsync(user, signUpModel.Password);
 
 			if (result.Succeeded)

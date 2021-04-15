@@ -11,7 +11,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Create(RestaurantAddDTO restaurantAddDTO);
 		RestaurantDetailDTO GetByName(string name);
 		ICollection<RestaurantTypeDTO> GetTypes();
-		RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId);
 		RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams);
 		ICollection<RestaurantListDTO> GetTop(int count);
 		void Update(RestaurantUpdateDTO restaurantUpdateDTO);
@@ -24,5 +23,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		RestaurantUpdateDTO GetUpdateDTOById(Guid id);
 		ICollection<string> GetNamesByOwner(Guid ownerId);
 		void DeactivateByEmail(string email);
+		ICollection<RestaurantAddressDTO> GetAddresses(Guid id);
 	}
 }

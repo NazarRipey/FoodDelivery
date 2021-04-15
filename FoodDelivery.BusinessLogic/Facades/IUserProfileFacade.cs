@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.UserProfile;
@@ -16,5 +17,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		UserListResponseDTO RetrieveByRole(UserFilterParams filterParams, string role);
 		void UpdateProfile(UpdateProfileDTO updateProfile);
 		UserListResponseDTO RetrieveUsers(UserFilterParams filterParams);
+		UserAccountDTO GetAccountById(Guid id);
 	}
 }

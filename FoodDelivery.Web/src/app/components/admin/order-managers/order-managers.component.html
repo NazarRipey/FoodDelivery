@@ -22,19 +22,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of userList| paginate: config">
+              <tr *ngFor="let i = index; let user of userList| paginate: config">
                 <td>{{user.fullName}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.phoneNumber}}</td>
                 <td>{{statuses[user.status]}}</td>
                 <td>
-                    <button (click)="activate(user.email)" class="btn btn-sm bg-green"
+                    <button (click)="activate(i)" class="btn btn-sm bg-green"
                     [disabled]="user.status==statuses.Active">
                       Activate
                     </button>
                   </td>
                   <td>
-                    <button (click)="deactivate(user.email)" class="btn btn-sm btn-danger"
+                    <button (click)="deactivate(i)" class="btn btn-sm btn-danger"
                     [disabled]="user.status==statuses.Inactive">
                       Deactivate
                     </button>

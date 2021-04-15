@@ -52,7 +52,9 @@ namespace FoodDelivery.DAL.Repositories
 				{
 					OrderId = orderId,
 					DishId = cartItem.DishId,
-					Quantity = cartItem.Quantity
+					Quantity = cartItem.Quantity,
+					Name = cartItem.Dish.Name,
+					Price = cartItem.Dish.Price
 				};
 
 				_db.OrderItem.Add(orderItem);
@@ -89,6 +91,14 @@ namespace FoodDelivery.DAL.Repositories
 			ICollection<OrderItemDTO> orderItems = _mapper.Map<ICollection<OrderItemDTO>>(order.OrderItems);
 
 			return orderItems;
+		}
+
+		public OrderManagerDTO GetOrderManagerDTOById(Guid id)
+		{
+			Order order = _db.Order.Find(id);
+			OrderManagerDTO orderManagerDTO = _mapper.Map<OrderManagerDTO>(order);
+
+			return orderManagerDTO;
 		}
 
 		public UpdateOrderDTO GetUpdateDTOById(Guid id)

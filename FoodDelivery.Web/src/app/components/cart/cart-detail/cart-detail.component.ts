@@ -1,3 +1,4 @@
+import { CartHelper } from './../../../helpers/CartHelper';
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { ConfirmOrderComponent } from './../../order/confirm-order/confirm-order.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,16 +16,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./cart-detail.component.css']
 })
 export class CartDetailComponent implements OnInit {
-
   cartResponse: CartResponse = new CartResponse();
   imgSrc = imgSrc;
+  total: number;
 
   constructor(private cartService: CartService, 
     private modalService: NgbModal,
-    private router: Router) { }
+    private router: Router,
+    private cartHelper:CartHelper) { }
 
   ngOnInit(): void {
-    this.cartService.get().subscribe(c => this.cartResponse = c);
+    this.cartService.get().subscribe(c => {
+      this.cartResponse = c;
+      this.calculateSum();
+    });
   }
 
   OpenConfirmOrder(){
@@ -32,21 +37,37 @@ export class CartDetailComponent implements OnInit {
     modal.componentInstance.cartId = this.cartResponse.id;
   }
 
-  UpdateQuantity(item: CartItem, quantity: number){
+  UpdateQuantity(i: number, quantity: number){
     if(quantity <= 0){
       alert("Quantity cannot be less than 1!")
     }
     else{
-      this.cartService.updateItem(item.id, quantity).subscribe(_ => {
-        location.reload();
-      })
+      this.cartService.updateItem(this.cartResponse.cartItems[i].id, quantity).subscribe(_ =>
+        {
+          this.cartService.getItem(this.cartResponse.cartItems[i].id.toString()).subscribe(ci => {
+            this.cartResponse.cartItems[i] = ci;  
+            this.calculateSum();
+          })
+        }
+      );
     }
   }
 
-  RemoveItem(id: Guid){
-    this.cartService.deleteItem(id).subscribe(_ => {
-      location.reload();
-    });    
+  private calculateSum(){
+    this.total = this.cartResponse.cartItems.reduce((a, b) => a + (b.dish.price * b.quantity || 0), 0);
+  }
+
+  RemoveItem(i: number){
+    this.cartService.deleteItem(this.cartResponse.cartItems[i].id).subscribe(_ => {
+      this.cartResponse.cartItems.splice(i, 1);
+      if(this.cartResponse.cartItems.length == 0){
+        location.reload();      
+      }
+      else{
+        this.cartHelper.getInfo().subscribe();
+        this.calculateSum();
+      }
+    }); 
   }
 
   RemoveCart(){

@@ -77,5 +77,10 @@ namespace FoodDelivery.BusinessLogic.Facades
 		{
 			return _userProfileRepository.RetrieveUsers(filterParams);
 		}
+
+		public UserAccountDTO GetAccountById(Guid id)
+		{
+			return _userProfileRepository.GetAccountById(id);
+		}
 	}
 }

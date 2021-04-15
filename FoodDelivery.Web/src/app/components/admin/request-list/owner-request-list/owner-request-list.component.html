@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let request of requests| paginate: config">
+        <tr *ngFor="let request of requests$ | async | paginate: config">
           <td>{{request.userProfile.fullName}}</td>
           <td>{{request.userProfile.email}}</td>
           <td>{{request.userProfile.phoneNumber}}</td>

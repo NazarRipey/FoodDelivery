@@ -13,6 +13,8 @@ namespace FoodDelivery.DAL.EF.Entities
 		[ForeignKey("Dish")]
 		public Guid DishId { get; set; }
 		public int Quantity { get; set; }
+		public string Name { get; set; }
+		public decimal Price { get; set; }
 		public virtual Order Order { get; set; }
 		public virtual Dish Dish { get; set; }
 	}

@@ -1,5 +1,13 @@
+.font-smaller{
+    font-size: smaller;
+}
+
 .font-large{
     font-size: large;
+}
+
+.font-x-large{
+    font-size: x-large;
 }
 
 .text-green{
@@ -160,6 +168,21 @@ app-filter{
 
 .nav-tabs .nav-link{
     color: #B75D69;
+}
+
+/*rating*/
+.default-rating{
+    position: relative;
+    display: inline-block;
+    color:gray;
+    
+}
+
+.painted-rating{
+    position: absolute;
+      display: inline-block;
+      overflow: hidden;
+      color:  #FFE81F;
 }
 
 /*slider*/

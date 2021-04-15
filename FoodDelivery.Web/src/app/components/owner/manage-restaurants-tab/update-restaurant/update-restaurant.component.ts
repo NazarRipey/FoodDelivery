@@ -1,9 +1,9 @@
 import { Guid } from 'guid-typescript';
-import { RestaurantUpdateModel } from '../../../models/restaurant/RestaurantUpdateModel';
-import { RestaurantService } from './../../../services/restaurant.service';
+import { RestaurantUpdateModel } from '../../../../models/restaurant/RestaurantUpdateModel';
+import { RestaurantService } from '../../../../services/restaurant.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { RestaurantErrors } from '../../../models/enums/errors/RestaurantErrors';
+import { RestaurantErrors } from '../../../../models/enums/errors/RestaurantErrors';
 import { FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -42,7 +42,6 @@ export class UpdateRestaurantComponent implements OnInit {
     this.restaurantService.updateRestaurant(restaurant).subscribe(
       _ => {
         this.modalRef.close();
-        location.reload();
       },
       err => {
         this.updateRestaurantForm.setErrors({"server": +err.error});

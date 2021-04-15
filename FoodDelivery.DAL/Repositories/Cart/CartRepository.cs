@@ -40,7 +40,6 @@ namespace FoodDelivery.DAL.Repositories
 				{
 					Id = cart.Id,
 					CartItems = cartItemDTOs,
-					TotalPrice = (double)cartItemDTOs.Select(c => c.Dish.Price * c.Quantity).Sum(),
 					CreatedDate = cart.CreatedDate
 				};
 

@@ -33,6 +33,14 @@ namespace FoodDelivery.API.Controllers
 			_restaurantRequestFacade = restaurantRequestFacade;
 		}
 
+		[HttpGet]
+		[Route("user/{id}")]
+		[Authorize(Roles = "admin")]
+		public UserAccountDTO GetUserAccountById(Guid id)
+		{
+			return _userProfileFacade.GetAccountById(id);
+		}
+
 		[HttpPost]
 		[Route("managers")]
 		[Authorize(Roles = "admin")]

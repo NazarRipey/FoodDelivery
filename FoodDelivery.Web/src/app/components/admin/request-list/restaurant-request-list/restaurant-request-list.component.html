@@ -48,7 +48,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let request of requests| paginate: config">
+        <tr *ngFor="let request of requests$| async | paginate: config">
           <td>{{request.name}}</td>
           <td>{{request.type.name}}</td>
           <td>{{request.userProfile.fullName}}</td>

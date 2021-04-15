@@ -1,8 +1,8 @@
-import { DishAddModel } from '../../../models/dish/DishAddModel';
-import { DishErrors } from '../../../models/enums/errors/DishErrors';
-import { DishService } from './../../../services/dish.service';
+import { DishAddModel } from '../../../../models/dish/DishAddModel';
+import { DishErrors } from '../../../../models/enums/errors/DishErrors';
+import { DishService } from '../../../../services/dish.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { DishCategory } from '../../../models/dish/DishCategory';
+import { DishCategory } from '../../../../models/dish/DishCategory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Guid } from 'guid-typescript';
 import { Component, OnInit } from '@angular/core';
@@ -57,7 +57,6 @@ export class AddDishComponent implements OnInit {
     this.dishService.addDish(dish).subscribe(
       _ => {
         this.modalRef.close();
-        location.reload();
       },
       err => {
         this.addDishForm.setErrors({"server": +err.error});

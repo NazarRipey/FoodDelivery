@@ -22,5 +22,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 		OrderManagerResponseDTO RetrieveHistoryByManager(BaseFilterParams filterParams, Guid managerId);
 		void UpdateOrderItem(Guid id, int quantity);
 		void RemoveItem(Guid id);
+		OrderManagerDTO GetOrderManagerDTOById(Guid id);
+		OrderItemDTO GetOrderItem(Guid id);
 	}
 }

@@ -1,11 +1,10 @@
-import { RestaurantAddModel } from './../../../models/restaurant/RestaurantAddModel';
-import { MessageComponent } from './../../message/message.component';
-
-import { UserHelper } from '../../../helpers/UserHelper';
-import { RestaurantErrors } from '../../../models/enums/errors/RestaurantErrors';
-import { RestaurantService } from './../../../services/restaurant.service';
+import { RestaurantAddModel } from '../../../../models/restaurant/RestaurantAddModel';
+import { MessageComponent } from '../../../message/message.component';
+import { UserHelper } from '../../../../helpers/UserHelper';
+import { RestaurantErrors } from '../../../../models/enums/errors/RestaurantErrors';
+import { RestaurantService } from '../../../../services/restaurant.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RestaurantType } from '../../../models/restaurant/RestaurantType';
+import { RestaurantType } from '../../../../models/restaurant/RestaurantType';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -80,12 +79,15 @@ export class AddRestaurantComponent implements OnInit {
 
     this.restaurantService.addRestaurant(restaurant).subscribe(
       _ => {
-        this.modalRef.close();
-        location.reload();
-
         let msg = "Restaurant request has been successfully added. You will be able to add dishes once the request is approved";        
         const modal = this.modalService.open(MessageComponent);
         modal.componentInstance.message = msg;
+
+        modal.result.then((result) => {
+          this.modalRef.close();
+        }, (reason) => {
+          this.modalRef.close();
+        });
       },
       err => {
         this.addRestaurantForm.setErrors({"server": +err.error});

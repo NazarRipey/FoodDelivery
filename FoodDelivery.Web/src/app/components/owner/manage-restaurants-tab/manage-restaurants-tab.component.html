@@ -1,0 +1,32 @@
+<div *ngIf="userHelper.ownerRequestStatus==ownerRequestStatus.Approved">
+  <div class="text-center">
+      <button class="btn bg-green my-3" (click)="addRestaurant()">Add new restaurant</button>
+  </div>
+
+  <div *ngIf="restaurantNames" class="container mt-2">
+      <ul class="nav nav-tabs">
+        <li *ngFor="let name of restaurantNames" class="nav-item">
+          <a class="nav-link" [routerLink]="['/manage', name]" routerLinkActive="active">
+              {{name}} 
+          </a>
+        </li>
+      </ul>  
+  </div>
+
+  <router-outlet ></router-outlet>
+</div>
+
+<div *ngIf="userHelper.ownerRequestStatus==ownerRequestStatus.Awaiting">
+    <div class="text-center">
+        <h1>Your request is still awaiting</h1>
+        <p class="mt-3 lead">You will be email once we make the decision</p>
+    </div>
+</div>
+
+<div *ngIf="userHelper.ownerRequestStatus==ownerRequestStatus.Declined">
+    <div class="text-center">
+        <h1>Your request has been declined</h1>
+        <p class="mt-3 lead">If you think we made a mistake, please contact our</p>
+        <p class="lead">administrator at <b>admin@mailinator.com</b></p>
+    </div>
+</div>

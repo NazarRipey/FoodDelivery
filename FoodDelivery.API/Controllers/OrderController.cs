@@ -25,12 +25,22 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet("{id}")]
+		[Authorize(Roles = "customer")]
 		public OrderDetailDTO GetOrderDetailDTOById(Guid id)
 		{
 			return _orderFacade.GetOrderDetailDTOById(id);
 		}
 
+		[HttpGet]
+		[Route("item/{id}")]
+		[Authorize(Roles = "customer, orderManager")]
+		public OrderItemDTO GetOrderItem(Guid id)
+		{
+			return _orderFacade.GetOrderItem(id);
+		}
+
 		[Route("items/{id}")]
+		[Authorize(Roles = "customer, orderManager")]
 		public ICollection<OrderItemDTO> GetOrderItems(Guid id)
 		{
 			return _orderFacade.GetOrderItems(id);
@@ -38,6 +48,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpGet]
 		[Route("active")]
+		[Authorize(Roles = "customer")]
 		public ICollection<OrderShortDTO> GetActive()
 		{
 			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
@@ -47,6 +58,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpGet]
 		[Route("updateorder/{id}")]
+		[Authorize(Roles = "customer")]
 		public UpdateOrderDTO GetUpdateDTOById(Guid id)
 		{
 			return _orderFacade.GetUpdateDTOById(id);
@@ -54,6 +66,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("history")]
+		[Authorize(Roles = "customer")]
 		public OrderResponseDTO RetrieveHistory(OrderFilterParams orderFilterParams)
 		{
 			Guid userId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
@@ -63,6 +76,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("add")]
+		[Authorize(Roles = "customer")]
 		public IActionResult Post([FromBody] AddOrderDTO addOrderDTO)
 		{
 			try
@@ -81,6 +95,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("cancel")]
+		[Authorize(Roles = "customer, orderManager")]
 		public IActionResult Cancel([FromBody] Guid id)
 		{
 			try
@@ -96,6 +111,7 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize(Roles = "customer")]
 		public IActionResult Update(UpdateOrderDTO updateOrderDTO)
 		{
 			try
@@ -111,6 +127,14 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		#region manager
+		[HttpGet]
+		[Route("managerorder/{id}")]
+		[Authorize(Roles = "orderManager")]
+		public OrderManagerDTO GetOrderManagerDTOById(Guid id)
+		{
+			return _orderFacade.GetOrderManagerDTOById(id);
+		}
+
 		[HttpPost]
 		[Route("available")]
 		[Authorize(Roles = "orderManager")]
@@ -177,6 +201,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPut]
 		[Route("item/{id}")]
+		[Authorize(Roles = "orderManager")]
 		public IActionResult UpdateOrderItem(Guid id, [FromBody] int quantity)
 		{
 			try
@@ -193,6 +218,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpDelete]
 		[Route("item/{id}")]
+		[Authorize(Roles = "orderManager")]
 		public IActionResult DeleteItem(Guid id)
 		{
 			try

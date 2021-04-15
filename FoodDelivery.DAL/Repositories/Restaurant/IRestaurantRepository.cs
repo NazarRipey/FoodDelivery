@@ -10,7 +10,6 @@ namespace FoodDelivery.DAL.Repositories
 	{
 		void Create(RestaurantAddDTO restaurantAddDTO);
 		RestaurantDetailDTO GetByName(string name);
-		RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId);
 		RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams);
 		ICollection<RestaurantListDTO> GetTop(int count);
 		void Update(RestaurantUpdateDTO restaurantUpdateDTO);
@@ -20,5 +19,6 @@ namespace FoodDelivery.DAL.Repositories
 		RestaurantUpdateDTO GetUpdateDTOById(Guid id);
 		ICollection<string> GetNamesByOwner(Guid id);
 		void DeactivateByEmail(string email);
+		ICollection<RestaurantAddressDTO> GetAddresses(Guid id);
 	}
 }

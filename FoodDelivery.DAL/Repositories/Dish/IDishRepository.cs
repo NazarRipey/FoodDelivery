@@ -19,5 +19,6 @@ namespace FoodDelivery.DAL.Repositories
 		DishDetailDTO GetDetailDTOById(Guid id);
 		DishUpdateDTO GetUpdateDTOById(Guid id);
 		DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams);
+		DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams);
 	}
 }

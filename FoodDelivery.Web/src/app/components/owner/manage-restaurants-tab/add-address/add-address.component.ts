@@ -1,6 +1,6 @@
 import { Guid } from 'guid-typescript';
-import { RestaurantAddress } from '../../../models/restaurant/RestaurantAddress';
-import { RestaurantService } from './../../../services/restaurant.service';
+import { RestaurantAddress } from '../../../../models/restaurant/RestaurantAddress';
+import { RestaurantService } from '../../../../services/restaurant.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -39,7 +39,6 @@ export class AddAddressComponent implements OnInit {
     this.restaurantService.addAddress(restaurantAddress).subscribe(
       _ => {
         this.modalRef.close();
-        location.reload();
       },
       err => {
         this.addAddressForm.setErrors({"server": +err.error});

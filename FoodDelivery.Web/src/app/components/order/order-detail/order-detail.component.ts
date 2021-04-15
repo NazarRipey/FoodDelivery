@@ -15,6 +15,7 @@ import { UpdateOrderComponent } from '../update-order/update-order.component';
   styleUrls: ['./order-detail.component.css']
 })
 export class OrderDetailComponent implements OnInit {
+  orderId: string;
 
   order: OrderDetail;
   
@@ -26,13 +27,17 @@ export class OrderDetailComponent implements OnInit {
     private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.orderService.getDetailOrderById(id).subscribe(o => this.order = o);
+    this.orderId = this.route.snapshot.paramMap.get('id');
+    this.getOrder();
   }
 
   updateOrder(id: Guid){
     const modal = this.modalService.open(UpdateOrderComponent);
     modal.componentInstance.orderId = id; 
+
+    modal.result.then((result) => {
+      this.getOrder();
+    });
   }
 
   cancelOrder(id: Guid){
@@ -43,9 +48,13 @@ export class OrderDetailComponent implements OnInit {
     modal.result.then((result) => {
       if(result == true){
         this.orderService.cancelOrder(id).subscribe(_ => {
-          location.reload();      
+          this.getOrder();
         });
       }
     });
+  }
+
+  private getOrder(){
+    this.orderService.getDetailOrderById(this.orderId).subscribe(o => this.order = o);
   }
 }

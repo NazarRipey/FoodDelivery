@@ -1,6 +1,6 @@
 import { RestaurantRequestListComponent } from './components/admin/request-list/restaurant-request-list/restaurant-request-list.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-import { AddDishComponent } from './components/owner/add-dish/add-dish.component';
+import { AddDishComponent } from './components/owner/manage-restaurants-tab/add-dish/add-dish.component';
 import { StartupService } from './services/startup.service';
 import { GlobalHttpInterceptor } from './errors/GlobalInterceptor';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -30,12 +30,12 @@ import { MessageComponent } from './components/message/message.component';
 import { OwnerRequestListComponent } from './components/admin/request-list/owner-request-list/owner-request-list.component';
 import { FilterComponent } from './components/list/filter/filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ManageRestaurantsComponent } from './components/owner/manage-restaurants/manage-restaurants.component';
-import { AddRestaurantComponent } from './components/owner/add-restaurant/add-restaurant.component';
-import { UpdateRestaurantComponent } from './components/owner/update-restaurant/update-restaurant.component';
-import { AddAddressComponent } from './components/owner/add-address/add-address.component';
+import { ManageRestaurantsComponent } from './components/owner/manage-restaurants-tab/manage-restaurants/manage-restaurants.component';
+import { AddRestaurantComponent } from './components/owner/manage-restaurants-tab/add-restaurant/add-restaurant.component';
+import { UpdateRestaurantComponent } from './components/owner/manage-restaurants-tab/update-restaurant/update-restaurant.component';
+import { AddAddressComponent } from './components/owner/manage-restaurants-tab/add-address/add-address.component';
 import { NoAccessComponent } from './components/errors/no-access/no-access.component';
-import { UpdateDishComponent } from './components/owner/update-dish/update-dish.component';
+import { UpdateDishComponent } from './components/owner/manage-restaurants-tab/update-dish/update-dish.component';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RequestListComponent } from './components/admin/request-list/request-list.component';
@@ -71,6 +71,7 @@ import { MyProfileComponent } from './components/profile/my-profile/my-profile.c
 import { UpdateProfileComponent } from './components/profile/update-profile/update-profile.component';
 import { UsersComponent } from './components/admin/users/users.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ManageRestaurantsTabComponent } from './components/owner/manage-restaurants-tab/manage-restaurants-tab.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -134,6 +135,7 @@ export function startupServiceFactory(startupService: StartupService): Function 
     UpdateProfileComponent,
     UsersComponent,
     ConfirmDialogComponent,
+    ManageRestaurantsTabComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,5 +12,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void RemoveItem(Guid id);
 		void RemoveCart(Guid userId);
 		CartInfoDTO GetCartInfo(Guid userId);
+		CartItemDTO GetItem(Guid id);
 	}
 }

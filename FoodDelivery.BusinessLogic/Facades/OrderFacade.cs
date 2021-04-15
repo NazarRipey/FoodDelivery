@@ -43,9 +43,19 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _orderRepository.GetDetailDTOById(id);
 		}
 
+		public OrderItemDTO GetOrderItem(Guid id)
+		{
+			return _orderItemRepository.Get(id);
+		}
+
 		public ICollection<OrderItemDTO> GetOrderItems(Guid id)
 		{
 			return _orderRepository.GetOrderItems(id);
+		}
+
+		public OrderManagerDTO GetOrderManagerDTOById(Guid id)
+		{
+			return _orderRepository.GetOrderManagerDTOById(id);
 		}
 
 		public UpdateOrderDTO GetUpdateDTOById(Guid id)

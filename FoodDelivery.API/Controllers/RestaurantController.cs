@@ -38,15 +38,6 @@ namespace FoodDelivery.API.Controllers
 			return _restaurantFacade.Retrieve(filterParams);
 		}
 
-		[HttpPost]
-		[Route("myrestaurants")]
-		public RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams)
-		{
-			Guid ownerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
-
-			return _restaurantFacade.RetrieveMyRestaurants(filterParams, ownerId);
-		}
-
 		[HttpGet("{name}")]
 		[AllowAnonymous]
 		public RestaurantDetailDTO GetByName(string name)
@@ -59,6 +50,14 @@ namespace FoodDelivery.API.Controllers
 		public RestaurantUpdateDTO GetUpdateDTOById(Guid id)
 		{
 			return _restaurantFacade.GetUpdateDTOById(id);
+		}
+
+		[HttpGet]
+		[Route("{id:Guid}/addresses")]
+		[AllowAnonymous]
+		public ICollection<RestaurantAddressDTO> GetRestaurantAddresses(Guid id)
+		{
+			return _restaurantFacade.GetAddresses(id);
 		}
 
 		[HttpGet]

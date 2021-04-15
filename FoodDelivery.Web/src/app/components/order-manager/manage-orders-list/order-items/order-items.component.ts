@@ -10,30 +10,49 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-items.component.css']
 })
 export class OrderItemsComponent implements OnInit {
-
   items: OrderItem[] = [];
 
   orderId: Guid;
+  header: string;
   enableEditing: boolean = false;
+  total: number;
 
   constructor(public modalRef: NgbActiveModal,
     private orderService:OrderService) {
     }
 
   ngOnInit(): void {
-    this.orderService.getOrderItems(this.orderId.toString()).subscribe(i => this.items = i);
+    console.log(this.items);
+    this.orderService.getOrderItems(this.orderId.toString()).subscribe(i => {
+      this.items = i;
+      this.calculateSum();
+    });
   }
 
-  updateQuantity(id: Guid, quantity: number){
+  updateQuantity(i: number, quantity: number){
     if(quantity <= 0){
       alert("Quantity cannot be less than 1!")
     }
     else{
-      this.orderService.updateItem(id, quantity).subscribe(_ => this.ngOnInit());
+      this.orderService.updateItem(this.items[i].id, quantity).subscribe(_ =>
+        {
+          this.orderService.getOrderItem(this.items[i].id.toString()).subscribe(o => {
+            this.items[i] = o;  
+            this.calculateSum();
+          })
+        }
+      );
     }
   }
 
-  deleteItem(id: Guid){
-    this.orderService.deleteItem(id).subscribe(_ => this.ngOnInit());
+  private calculateSum(){
+    this.total = this.items.reduce((a, b) => a + (b.dish.price * b.quantity || 0), 0);
+  }
+
+  deleteItem(i: number){
+    this.orderService.deleteItem(this.items[i].id).subscribe(_ => {
+      this.items.splice(i, 1);
+      this.calculateSum();
+    });
   }
 }

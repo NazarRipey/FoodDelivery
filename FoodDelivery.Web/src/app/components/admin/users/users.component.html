@@ -18,7 +18,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of userList| paginate: config">
+              <tr *ngFor="let user of users$| async | paginate: config">
                 <td>{{user.fullName}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.phoneNumber}}</td>

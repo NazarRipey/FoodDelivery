@@ -28,6 +28,11 @@ export class CartService {
     return this.http.get<CartResponse>(url, { withCredentials: true });
   }
 
+  public getItem(id: string): Observable<CartItem>{
+    const url = this.cartUrl + `/item/${id}`;
+    return this.http.get<CartItem>(url, { withCredentials: true });
+  }
+
   public addItem(cartItemModel: CartItemModel){
     const url = this.cartUrl;
     return this.http.post(url, cartItemModel, { withCredentials: true });

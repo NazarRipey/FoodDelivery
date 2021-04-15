@@ -20,5 +20,6 @@ namespace FoodDelivery.DAL.Repositories
 		ICollection<OrderItemDTO> GetOrderItems(Guid id);
 		void Release(Guid orderId);
 		OrderManagerResponseDTO RetrieveHistoryByManager(BaseFilterParams filterParams, Guid managerId);
+		OrderManagerDTO GetOrderManagerDTOById(Guid id);
 	}
 }

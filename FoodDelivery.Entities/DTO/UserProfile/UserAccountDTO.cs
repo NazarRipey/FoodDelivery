@@ -1,9 +1,11 @@
-﻿using FoodDelivery.Entities.Enums.Status;
+﻿using System;
+using FoodDelivery.Entities.Enums.Status;
 
 namespace FoodDelivery.Entities.DTO.UserProfile
 {
 	public class UserAccountDTO
 	{
+		public Guid Id { get; set; }
 		public string FullName { get; set; }
 
 		public string Email { get; set; }

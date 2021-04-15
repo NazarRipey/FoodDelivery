@@ -48,7 +48,11 @@ export class UserHelper{
             concatMap(p => {
                 this._profile.next(p);
                 if(p){
-                    return forkJoin([this.getOwnerRequest(p.id), this.cartHelper.getInfo()]).toPromise();
+                    if(p.roles.includes("customer")){
+                        return forkJoin([this.getOwnerRequest(p.id), this.cartHelper.getInfo()]).toPromise();
+                    }
+                    
+                    return forkJoin([this.getOwnerRequest(p.id)]).toPromise();
                 }
                 else{
                     return of(p);

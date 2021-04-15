@@ -21,5 +21,11 @@ export class SearchComponent implements OnInit {
 
   onSearch(searchPhrase){
     this.router.navigate([], {queryParams: {search: searchPhrase}, queryParamsHandling: 'merge'});
+
+    if(document.getElementById('menu')){
+      setTimeout(() => {
+        document.getElementById('menu').scrollIntoView();
+      }, 150)
+    }
   }
 }
