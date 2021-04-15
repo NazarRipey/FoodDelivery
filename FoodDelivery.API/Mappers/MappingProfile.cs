@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FoodDelivery.API.Models;
-using FoodDelivery.Entities.DTO;
+using FoodDelivery.DAL.EF.Entities;
 
 namespace FoodDelivery.API.Mappers
 {
@@ -8,7 +8,8 @@ namespace FoodDelivery.API.Mappers
 	{
 		public MappingProfile()
 		{
-			CreateMap<SignUpModel, UserProfileDTO>().ReverseMap();
+			CreateMap<SignUpModel, UserProfile>()
+				.ReverseMap();
 		}
 	}
 }

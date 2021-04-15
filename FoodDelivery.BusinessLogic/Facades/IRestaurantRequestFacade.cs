@@ -10,5 +10,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		RestaurantRequestResponseDTO Retrieve(RestaurantRequestFilterParams filterParam);
 		void Approve(Guid id);
 		void Decline(Guid id);
+		void DeclineAwaitingByEmail(string email);
 	}
 }

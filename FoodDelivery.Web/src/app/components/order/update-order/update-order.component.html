@@ -7,7 +7,22 @@
     </div>
     <div class="modal-body">
         <form [formGroup]="updateOrderForm" (ngSubmit)="onSubmit()">
-            <div class="form-row form-group">
+            <div class="form-group">
+                <label class="w-50">
+                    Contact phone number:
+                    <input type="text" class="form-control" formControlName="phoneNumber">
+                    <div *ngIf="updateOrderForm.get('phoneNumber').errors && 
+                    updateOrderForm.get('phoneNumber').touched" class="text-danger">
+                        <small class="d-block" *ngIf="updateOrderForm.get('phoneNumber').hasError('required')">
+                            Phone is required
+                        </small>
+                        <small class="d-block" *ngIf="updateOrderForm.get('phoneNumber').hasError('pattern')">
+                            Phone should match the pattern +380123456789
+                        </small>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
                 <label class="w-100">
                     Address
                     <input type="text" class="form-control" formControlName="address">

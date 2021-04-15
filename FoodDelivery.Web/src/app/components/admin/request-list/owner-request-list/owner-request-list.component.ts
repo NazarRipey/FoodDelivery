@@ -1,3 +1,6 @@
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { OwnerRequest } from './../../../../models/ownerRequest/OwnerRequest';
 import { OwnerRequestStatus } from '../../../../models/enums/statuses/OwnerRequestStatus';
 import { Guid } from 'guid-typescript';
 import { OwnerRequestFilterParams } from '../../../../models/filters/OwnerRequestFilterParams';
@@ -14,7 +17,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OwnerRequestListComponent implements OnInit {
   config: PaginationConfig = new PaginationConfig();
-  requestResponse :OwnerRequestResponse = new OwnerRequestResponse();
+  requests$;
   requestFilterParams : OwnerRequestFilterParams = new OwnerRequestFilterParams();
 
   selectedStatus: string;
@@ -39,36 +42,21 @@ export class OwnerRequestListComponent implements OnInit {
     this.requestFilterParams.currentPage = this.config.currentPage;
     this.requestFilterParams.status = this.statuses[`${this.selectedStatus}`];
 
-    this.requestService.retrieve(this.requestFilterParams).subscribe(
-      r => {
-        this.requestResponse = r;
-        this.config.totalItems = r.totalRequestsCount;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    this.retrieveRequests();
 
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
   }
 
-  onSearch(searchPhrase){
-    this.router.navigate([], {queryParams: {search: searchPhrase}, queryParamsHandling: 'merge'});
-  }
-
   pageChanged(event){
-    this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
+    this.router.navigate([], { queryParams: {page: event}, queryParamsHandling: 'merge' });
   }
 
   Approve(id: Guid){
     this.requestService.approve(id).subscribe(
       _ => {
-        location.reload();
-      },
-      error => {
-        console.log(error)
+        this.retrieveRequests();
       }
     )
   }
@@ -76,11 +64,20 @@ export class OwnerRequestListComponent implements OnInit {
   Decline(id: Guid){
     this.requestService.decline(id).subscribe(
       _ => {
-        location.reload();
-      },
-      error => {
-        console.log(error)
+        this.retrieveRequests();
       }
     )
+  }
+
+  private retrieveRequests(){
+    this.requests$ = Observable.interval(5000).startWith(0).mergeMap(_ => 
+      this.requestService.retrieve(this.requestFilterParams)
+      .pipe(map(r => 
+        {
+          this.config.totalItems = r.totalRequestsCount;
+          return r.ownerRequests;
+        })
+      )
+    );
   }
 }

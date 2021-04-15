@@ -1,23 +1,9 @@
 <div class="row d-flex mb-3 mt-2">
-  <div class="input-group search mx-auto">
-      <input type="search" #search class="form-control" (search)="onSearch(search.value)"
-       placeholder="John Doe" value="{{requestFilterParams.search}}"/>
-      <button type="button" class="btn bg-popstar" (click)="onSearch(search.value)">
-          <i class="bi bi-search"></i>
-      </button>
+  <div class="mx-auto search">
+    <app-search [value]="requestFilterParams.search" placeholder="John Doe"></app-search>
   </div>
 
-  <div ngbDropdown>
-      <button class="btn btn-outline-primary" id="sortDropDown" class="btn bg-popstar"
-      ngDefaultControl 
-       ngbDropdownToggle>{{selectedStatus}}</button>
-      <div ngbDropdownMenu aria-labelledby="sortDropDown">
-          <a ngbDropdownItem [queryParams]="{status:null}" queryParamsHandling='merge' [routerLink]="[]">All</a>
-          <a ngbDropdownItem *ngFor="let status of statuses | enumKeys"
-              [queryParams]="{status:status}" queryParamsHandling='merge' [routerLink]="[]">
-              {{status}}</a>
-      </div>
-  </div>  
+  <app-status-drop-down [selectedStatus]="selectedStatus" [statuses]="statuses"></app-status-drop-down>
 </div>
 
 <div class="table-responsive">
@@ -33,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let request of requestResponse.ownerRequests| paginate: config">
+        <tr *ngFor="let request of requests$ | async | paginate: config">
           <td>{{request.userProfile.fullName}}</td>
           <td>{{request.userProfile.email}}</td>
           <td>{{request.userProfile.phoneNumber}}</td>

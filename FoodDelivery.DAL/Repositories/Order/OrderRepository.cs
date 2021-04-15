@@ -35,6 +35,7 @@ namespace FoodDelivery.DAL.Repositories
 				PaymentType = (int)addOrderDTO.PaymentType,
 				Address = addOrderDTO.Address,
 				Comment = addOrderDTO.Comment,
+				ContactPhoneNumber = addOrderDTO.ContactPhoneNumber,
 
 				TotalSum = cart.CartItems.Select(c => c.Dish.Price * c.Quantity).Sum()
 			};
@@ -51,7 +52,9 @@ namespace FoodDelivery.DAL.Repositories
 				{
 					OrderId = orderId,
 					DishId = cartItem.DishId,
-					Quantity = cartItem.Quantity
+					Quantity = cartItem.Quantity,
+					Name = cartItem.Dish.Name,
+					Price = cartItem.Dish.Price
 				};
 
 				_db.OrderItem.Add(orderItem);
@@ -81,6 +84,23 @@ namespace FoodDelivery.DAL.Repositories
 			return orderDetailDTO;
 		}
 
+		public ICollection<OrderItemDTO> GetOrderItems(Guid id)
+		{
+			Order order = _db.Order.Find(id);
+
+			ICollection<OrderItemDTO> orderItems = _mapper.Map<ICollection<OrderItemDTO>>(order.OrderItems);
+
+			return orderItems;
+		}
+
+		public OrderManagerDTO GetOrderManagerDTOById(Guid id)
+		{
+			Order order = _db.Order.Find(id);
+			OrderManagerDTO orderManagerDTO = _mapper.Map<OrderManagerDTO>(order);
+
+			return orderManagerDTO;
+		}
+
 		public UpdateOrderDTO GetUpdateDTOById(Guid id)
 		{
 			Order order = _db.Order.Find(id);
@@ -89,7 +109,50 @@ namespace FoodDelivery.DAL.Repositories
 			return updateOrderDTO;
 		}
 
-		public OrderResponseDTO RetrieveAll(OrderFilterParams orderFilterParams, Guid userId)
+		public void Release(Guid orderId)
+		{
+			Order order = _db.Order.Find(orderId);
+			order.ManagerId = null;
+
+			_db.Entry(order).State = EntityState.Modified;
+
+			SaveChanges();
+		}
+
+		public AvailableOrderResponseDTO RetrieveAvailable(BaseFilterParams filterParams)
+		{
+			int totalOrdersCount = 0;
+
+			IQueryable<Order> orders = _db.Order
+				.Where(o => o.ManagerId == null && o.Status != (int)OrderStatus.Cancelled)
+				.OrderBy(o => o.CreatedDate);
+
+			if (filterParams.Search != null)
+			{
+				orders = orders
+					.Where(o => (o.UserProfile.FirstName + " " + o.UserProfile.LastName)
+					.Contains(filterParams.Search));
+			}
+
+			totalOrdersCount = orders.Count();
+
+			ICollection<Order> ordersToReturn = orders
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<AvailableOrderDTO> orderDTOs = _mapper.Map<ICollection<AvailableOrderDTO>>(ordersToReturn);
+
+			AvailableOrderResponseDTO availableOrderResponseDTO = new AvailableOrderResponseDTO()
+			{
+				TotalOrdersCount = totalOrdersCount,
+				Orders = orderDTOs
+			};
+
+			return availableOrderResponseDTO;
+		}
+
+		public OrderResponseDTO RetrieveHistory(OrderFilterParams orderFilterParams, Guid userId)
 		{
 			int totalItemsCount = 0;
 			IQueryable<Order> orders = _db.Order
@@ -123,12 +186,91 @@ namespace FoodDelivery.DAL.Repositories
 			return orderResponseDTO;
 		}
 
+		public OrderManagerResponseDTO RetrieveHistoryByManager(BaseFilterParams filterParams, Guid managerId)
+		{
+			int totalItemsCount = 0;
+			IQueryable<Order> orders = _db.Order
+				.Where(o => o.ManagerId == managerId)
+				.OrderByDescending(o => o.CreatedDate);
+
+			if (filterParams.Search != null)
+			{
+				orders = orders.Where(o => o.OrderNumber.ToString().Contains(filterParams.Search)
+						|| (o.UserProfile.FirstName + " " + o.UserProfile.LastName).Contains(filterParams.Search));
+			}
+
+			totalItemsCount = orders.Count();
+
+			ICollection<Order> ordersToReturn = orders
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<OrderManagerDTO> orderDTOs = _mapper.Map<ICollection<OrderManagerDTO>>(ordersToReturn);
+
+			OrderManagerResponseDTO orderResponseDTO = new OrderManagerResponseDTO()
+			{
+				Orders = orderDTOs,
+				TotalOrdersCount = totalItemsCount
+			};
+
+			return orderResponseDTO;
+		}
+
+		public OrderManagerResponseDTO RetrieveTaken(BaseFilterParams filterParams, Guid managerId)
+		{
+			int totalOrdersCount = 0;
+
+			IQueryable<Order> orders = _db.Order
+				.Where(o => o.ManagerId == managerId
+					&& (o.Status != (int)OrderStatus.Cancelled && o.Status != (int)OrderStatus.Delivered))
+				.OrderBy(o => o.CreatedDate);
+
+			if (filterParams.Search != null)
+			{
+				orders = orders
+					.Where(o => (o.UserProfile.FirstName + " " + o.UserProfile.LastName)
+					.Contains(filterParams.Search));
+			}
+
+			totalOrdersCount = orders.Count();
+
+			ICollection<Order> ordersToReturn = orders
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<OrderManagerDTO> orderDTOs = _mapper.Map<ICollection<OrderManagerDTO>>(ordersToReturn);
+
+			OrderManagerResponseDTO takenOrderResponseDTO = new OrderManagerResponseDTO()
+			{
+				TotalOrdersCount = totalOrdersCount,
+				Orders = orderDTOs
+			};
+
+			return takenOrderResponseDTO;
+		}
+
+		public void Take(Guid orderId, Guid managerId)
+		{
+			Order order = _db.Order.Find(orderId);
+			if (order.ManagerId == null)
+			{
+				order.ManagerId = managerId;
+			}
+
+			_db.Entry(order).State = EntityState.Modified;
+
+			SaveChanges();
+		}
+
 		public void Update(UpdateOrderDTO updateOrderDTO)
 		{
 			Order order = _db.Order.Find(updateOrderDTO.Id);
 
 			order.Comment = updateOrderDTO.Comment;
 			order.Address = updateOrderDTO.Address;
+			order.ContactPhoneNumber = updateOrderDTO.ContactPhoneNumber;
 
 			_db.Entry(order).State = EntityState.Modified;
 
@@ -140,6 +282,11 @@ namespace FoodDelivery.DAL.Repositories
 			Order order = _db.Order.Find(id);
 
 			order.Status = status;
+
+			if (status == (int)OrderStatus.Cancelled || status == (int)OrderStatus.Delivered)
+			{
+				order.ClosedDate = DateTime.Now;
+			}
 
 			_db.Entry(order).State = EntityState.Modified;
 

@@ -10,5 +10,6 @@ namespace FoodDelivery.Utilities.Managers
 		Task SendRestaurantRequestStatusChangedAsync(string email,
 			string restaurantName,
 			RestaurantRequestStatus restaurantRequestStatus);
+		Task SendPasswordAsync(string email, string password);
 	}
 }

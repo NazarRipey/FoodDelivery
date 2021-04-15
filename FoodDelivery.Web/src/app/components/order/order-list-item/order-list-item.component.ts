@@ -1,5 +1,5 @@
-import { OrderStatus } from './../../../models/enums/statuses/OrderStatus';
-import { OrderShort } from './../../../models/order/OrderShort';
+import { OrderStatus } from '../../../models/enums/statuses/OrderStatus';
+import { OrderShort } from '../../../models/order/OrderShort';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({

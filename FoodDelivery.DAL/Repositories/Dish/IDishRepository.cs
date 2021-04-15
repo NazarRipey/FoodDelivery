@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.FilterParams;
 
 namespace FoodDelivery.DAL.Repositories
@@ -17,5 +18,7 @@ namespace FoodDelivery.DAL.Repositories
 		DishCartDTO GetCartDTOById(Guid id);
 		DishDetailDTO GetDetailDTOById(Guid id);
 		DishUpdateDTO GetUpdateDTOById(Guid id);
+		DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams);
+		DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams);
 	}
 }

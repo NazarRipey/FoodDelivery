@@ -48,7 +48,11 @@ export class UserHelper{
             concatMap(p => {
                 this._profile.next(p);
                 if(p){
-                    return forkJoin([this.getOwnerRequest(p.id), this.cartHelper.getTotal()]).toPromise();
+                    if(p.roles.includes("customer")){
+                        return forkJoin([this.getOwnerRequest(p.id), this.cartHelper.getInfo()]).toPromise();
+                    }
+                    
+                    return forkJoin([this.getOwnerRequest(p.id)]).toPromise();
                 }
                 else{
                     return of(p);
@@ -83,7 +87,7 @@ export class UserHelper{
         result.subscribe( _ => {
             this.getProfile().subscribe(
                 r => {
-                    if(this._profile)
+                    if(this._profile.value != null)
                     {
                         if(this._profile.value.roles.includes("admin"))
                         {
@@ -108,7 +112,8 @@ export class UserHelper{
         this.authService.logOut().subscribe(_ => {
             this._profile.next(null)
             this._ownerRequestStatus.next(null);
-            this.cartHelper.total = null;
+            this.cartHelper.info = null;
+            this.cartHelper.stopTimer();
             this.router.navigateByUrl("");
         });       
     }   

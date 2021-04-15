@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.Enums;
 using FoodDelivery.Entities.FilterParams;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,22 @@ namespace FoodDelivery.API.Controllers
 		public DishListResponseDTO Retrieve(DishFilterParams filterParams)
 		{
 			return _dishFacade.Retrieve(filterParams);
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("retrievebyrestaurant")]
+		public DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams)
+		{
+			return _dishFacade.RetrieveByRestaurant(filterParams);
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("retrievedetailbyrestaurant")]
+		public DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams)
+		{
+			return _dishFacade.RetrieveDishDetailDTOByRestaurant(filterParams);
 		}
 
 		[HttpGet]

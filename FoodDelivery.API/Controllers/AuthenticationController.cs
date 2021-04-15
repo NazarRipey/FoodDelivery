@@ -5,7 +5,7 @@ using FoodDelivery.API.Models;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
-using FoodDelivery.Entities.Enums;
+using FoodDelivery.Entities.Enums.Errors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +39,7 @@ namespace FoodDelivery.API.Controllers
 		[HttpGet]
 		[Route("user")]
 		[Authorize]
-		public async Task<ActionResult<UserLoggedInModel>> GetUser()
+		public async Task<ActionResult<UserProfileDTO>> GetUser()
 		{
 			IdentityUser user = await _userManager.GetUserAsync(User);
 			if (user == null)
@@ -49,52 +49,54 @@ namespace FoodDelivery.API.Controllers
 
 			UserProfile userProfile = _userProfileFacade.GetByEmail(user.Email);
 
-			//Not with mapper because of roles
-			UserLoggedInModel userLoggedInModel = new UserLoggedInModel
+			UserProfileDTO userProfileDTO = new UserProfileDTO
 			{
 				Id = userProfile.Id,
 				FirstName = userProfile.FirstName,
 				LastName = userProfile.LastName,
-				Birthday = userProfile.Birthday.ToString(),
+				Birthday = userProfile.Birthday,
 				Email = userProfile.Email,
 				PhoneNumber = userProfile.PhoneNumber,
 				Address = userProfile.Address,
 				Roles = await _userManager.GetRolesAsync(user)
 			};
 
-			return userLoggedInModel;
+			return userProfileDTO;
 		}
 
+		//Adding manager here. Should there be another method with [Role(admin)] attribute?
 		[HttpPost]
 		[Route("signup")]
 		public async Task<IActionResult> SignUp([FromBody] SignUpModel signUpModel)
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest(AuthErrors.ModelInvalid);
+				return BadRequest(SignUpErrors.ModelInvalid);
 			}
 
 			if ((await _userManager.FindByEmailAsync(signUpModel.Email)) != null)
 			{
-				return BadRequest(AuthErrors.AlreadyExistsEmail);
+				return BadRequest(SignUpErrors.AlreadyExistsEmail);
 			}
 
 			if (_userProfileFacade.GetByPhone(signUpModel.PhoneNumber) != null)
 			{
-				return BadRequest(AuthErrors.AlreadyExistsPhone);
+				return BadRequest(SignUpErrors.AlreadyExistsPhone);
 			}
 
-			UserProfileDTO userProfileDTO = _mapper.Map<UserProfileDTO>(signUpModel);
-			IdentityUser user = _mapper.Map<IdentityUser>(userProfileDTO);
+			UserProfile userProfile = _mapper.Map<UserProfile>(signUpModel);
+			IdentityUser user = _mapper.Map<IdentityUser>(userProfile);
+
+			user.Id = Guid.NewGuid().ToString();
 
 			IdentityResult result = await _userManager.CreateAsync(user, signUpModel.Password);
 
 			if (result.Succeeded)
 			{
 				//Mapping here and not in repo because need to set AspNetUserId
-				UserProfile userProfile = _mapper.Map<UserProfile>(userProfileDTO);
 				userProfile.AspNetUserId = user.Id;
 				userProfile.Id = Guid.NewGuid();
+
 				_userProfileFacade.Create(userProfile);
 
 				foreach (string role in signUpModel.Roles)
@@ -107,8 +109,12 @@ namespace FoodDelivery.API.Controllers
 					{
 						await _userManager.AddToRoleAsync(user, role);
 					}
-				}
 
+					if (role == "orderManager")
+					{
+						await _userProfileFacade.SendPasswordToEmail(signUpModel.Email, signUpModel.Password);
+					}
+				}
 
 				return Ok();
 			}
@@ -130,7 +136,7 @@ namespace FoodDelivery.API.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest(AuthErrors.ModelInvalid);
+				return BadRequest(ConfirmEmailErrors.ModelInvalid);
 			}
 
 			UserProfile userProfile = _userProfileFacade.GetByEmail(confirmEmailModel.Email);
@@ -150,7 +156,7 @@ namespace FoodDelivery.API.Controllers
 				return BadRequest(result.Errors);
 			}
 
-			return BadRequest(AuthErrors.WrongConfirmationCode);
+			return BadRequest(ConfirmEmailErrors.WrongConfirmationCode);
 		}
 
 		[HttpPost]
@@ -159,23 +165,23 @@ namespace FoodDelivery.API.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest(AuthErrors.ModelInvalid);
+				return BadRequest(LogInErrors.ModelInvalid);
 			}
 
 			IdentityUser user = await _userManager.FindByEmailAsync(logInModel.Email);
 			if (user == null)
 			{
-				return BadRequest(AuthErrors.WrongEmailPassword);
+				return BadRequest(LogInErrors.WrongEmailPassword);
 			}
 
 			if (!await _userManager.CheckPasswordAsync(user, logInModel.Password))
 			{
-				return BadRequest(AuthErrors.WrongEmailPassword);
+				return BadRequest(LogInErrors.WrongEmailPassword);
 			}
 
 			if (!await _userManager.IsEmailConfirmedAsync(user))
 			{
-				return BadRequest(AuthErrors.EmailNotConfirmed);
+				return BadRequest(LogInErrors.EmailNotConfirmed);
 			}
 
 			var result = await _signInManager.PasswordSignInAsync
@@ -185,8 +191,12 @@ namespace FoodDelivery.API.Controllers
 			{
 				return Ok();
 			}
+			if (result.IsLockedOut)
+			{
+				return BadRequest(LogInErrors.AccountDeactivated);
+			}
 
-			return BadRequest(AuthErrors.CannotSignIn);
+			return BadRequest(LogInErrors.CannotLogIn);
 		}
 
 		[HttpPost]

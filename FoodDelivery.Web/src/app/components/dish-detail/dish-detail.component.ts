@@ -1,6 +1,7 @@
+import { ModalHelper } from './../../helpers/ModalHelper';
 import { CartHelper } from '../../helpers/CartHelper';
 import { CartService } from './../../services/cart.service';
-import { CartItemModel } from './../../models/cart/CartItemModel';
+import { CartItemModel } from '../../models/cart/CartItemModel';
 import { LogInComponent } from './../auth/log-in/log-in.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserHelper } from '../../helpers/UserHelper';
@@ -15,14 +16,9 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-dish-detail',
   templateUrl: './dish-detail.component.html',
-  styleUrls: ['./dish-detail.component.css'],
-  animations:[
-    trigger('fade', [
-      state('in', style({ opacity: 1 })),
-      transition(':leave', animate(600, style({ opacity: 0 })))
-    ])
-  ]
+  styleUrls: ['./dish-detail.component.css']
 })
+
 export class DishDetailComponent implements OnInit {
   imgSrc = imgSrc;
   dish: DishDetail;
@@ -33,47 +29,18 @@ export class DishDetailComponent implements OnInit {
 
   constructor(private route:ActivatedRoute,
     private dishService:DishService,
-    private userHelper: UserHelper,
-    private modalService: NgbModal,
-    private cartService:CartService,
-    private cartHelper:CartHelper) { }
+    private modalHelper:ModalHelper) { }
 
   ngOnInit(): void {
     this.itemCount = 1;
     const id = this.route.snapshot.paramMap.get('id');
     
-    this.dishService.getDetailDishById(id).subscribe(d => this.dish = d);
+    this.dishService.getDetailDishById(id).subscribe(d => {
+      this.dish = d
+    });
   }
 
-  Increment(){
-    this.itemCount++;
-  }
-
-  Decrement(){
-    this.itemCount--;
-  }
-
-  AddToCart(dishId: Guid, quantity: number){
-    if(!this.userHelper.profile){
-      this.modalService.open(LogInComponent, {centered: true});
-    }
-    else{
-      const cartItemModel: CartItemModel = {
-        dishId: dishId, quantity: quantity
-      }
-
-      this.cartService.addItem(cartItemModel).subscribe(_ => {
-        this.addedQuantity = quantity;
-        this.added = true;
-  
-        this.cartHelper.getTotal().subscribe();
-
-        setTimeout(() => {
-          this.added = false;
-        }, 1000);
-      }, error => {
-        console.log(error);
-      })
-    }
+  AddToCart(dishId: Guid){
+    this.modalHelper.openAddToCart(dishId);
   }
 }

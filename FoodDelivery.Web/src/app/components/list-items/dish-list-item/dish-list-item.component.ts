@@ -1,9 +1,5 @@
 import { DishList } from './../../../models/dish/DishList';
 import { ModalHelper } from '../../../helpers/ModalHelper';
-import { CartHelper } from '../../../helpers/CartHelper';
-import { AddToCartComponent } from '../../cart/add-to-cart/add-to-cart.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DishAddModel } from '../../../models/dish/DishAddModel';
 import { imgSrc } from './../../../globals'
 import { Component, Input, OnInit } from '@angular/core';
 

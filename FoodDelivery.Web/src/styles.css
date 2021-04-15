@@ -1,3 +1,15 @@
+.font-smaller{
+    font-size: smaller;
+}
+
+.font-large{
+    font-size: large;
+}
+
+.font-x-large{
+    font-size: x-large;
+}
+
 .text-green{
     color: #06C167
 }
@@ -43,9 +55,9 @@
     max-height: 600px;
 }
 
-img{
+.cursor-pointer{
     cursor: pointer;
-}
+  }
 
 .form-control.ng-touched.ng-valid {
     border-left: 5px solid #06C167; 
@@ -147,6 +159,30 @@ app-filter{
 
 .ngx-pagination .current{
     background: #B75D69 !important;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #B75D69;
+    color: white;
+}
+
+.nav-tabs .nav-link{
+    color: #B75D69;
+}
+
+/*rating*/
+.default-rating{
+    position: relative;
+    display: inline-block;
+    color:gray;
+    
+}
+
+.painted-rating{
+    position: absolute;
+      display: inline-block;
+      overflow: hidden;
+      color:  #FFE81F;
 }
 
 /*slider*/

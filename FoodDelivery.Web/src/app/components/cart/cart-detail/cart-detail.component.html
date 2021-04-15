@@ -15,32 +15,30 @@
         </div>
         <div class="card-body d-flex">
             <ul class="col justify-content-around">
-                <li *ngFor="let item of cartResponse.cartItems" class="mb-2 list-item">
+                <li *ngFor="let item of cartResponse.cartItems; let i = index" class="mb-2 list-item">
                     <div class="text-center d-flex">
                         <h4 class="ml-auto">{{item.dish.name}}</h4>
-                        <button (click)="RemoveItem(item.id)" class="ml-auto btn btn-danger">
+                        <button (click)="RemoveItem(i)" class="ml-auto btn btn-danger">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </div>
-                    <div class="detail-wrapper mx-5 my-2">
+                    <div class="detail-wrapper mx-3 my-2">
                         <img src="{{imgSrc}}" class="cart-item-image">
                         <div class="w-100">
-                            <small class="text-left">price: <b>{{item.dish.price}}₴</b></small><br>
-                            <small class="text-left">rating: <b>{{item.dish.rating}}/5</b></small><br>
-                            <small class="text-left">weight: <b>{{item.dish.weight}}</b></small><br>
-
-                            <div class="text-center">
-                                <button  (click)="Decrement(item)" [disabled]="item.quantity==1"
-                                    class="btn btn-sm bg-green">-</button>
-                                <span class="mx-2">{{item.quantity}}</span>
-                                <button  (click)="Increment(item)" class="btn btn-sm bg-green">+</button>
-
-                                <p class="my-2"><b>Subtotal: {{item.quantity * item.dish.price}}₴</b></p>
-                            </div>
-                            <div class="text-center my-1">
-                                <button class="btn btn-sm bg-green" (click)="UpdateQuantity(item)">
-                                    Update quantity
-                                </button>
+                            <div class="content-wrapper">
+                                <div>
+                                    <small class="text-left">price: <b>{{item.dish.price}}₴</b></small><br>
+                                    <small class="text-left">rating: <b>{{item.dish.rating}}/5</b></small><br>
+                                    <small class="text-left">weight: <b>{{item.dish.weight}}</b></small><br>    
+                                </div>
+                                <div class="text-center">
+                                    <label>
+                                        Quantity: <input class="w-25" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" 
+                                        min="1" #quan [value]="item.quantity" 
+                                        (focusout)="UpdateQuantity(i, quan.value)"><br>
+                                    </label>
+                                    <p class="my-2"><b>Subtotal: {{item.quantity * item.dish.price}}₴</b></p>
+                                </div>
                             </div>
                         </div>   
                     </div>
@@ -49,7 +47,7 @@
         </div>
 
         <div class="text-center mb-3">
-            <h4>Total: {{cartResponse.totalPrice}}₴</h4>
+            <h4>Total: {{total}}₴</h4>
             <button (click)="OpenConfirmOrder()" class="btn bg-green btn-lg">Proceed to checkout</button>
         </div>
     </div>

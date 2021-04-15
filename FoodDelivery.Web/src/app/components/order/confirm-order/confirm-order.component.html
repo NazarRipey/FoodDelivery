@@ -24,7 +24,22 @@
                     </div>
                 </label>
             </div>
-            <div class="form-row form-group">
+            <div class="form-group">
+                <label class="w-50">
+                    Contact phone number:
+                    <input type="text" class="form-control" formControlName="phoneNumber">
+                    <div *ngIf="confirmOrderForm.get('phoneNumber').errors && 
+                    confirmOrderForm.get('phoneNumber').touched" class="text-danger">
+                        <small class="d-block" *ngIf="confirmOrderForm.get('phoneNumber').hasError('required')">
+                            Phone is required
+                        </small>
+                        <small class="d-block" *ngIf="confirmOrderForm.get('phoneNumber').hasError('pattern')">
+                            Phone should match the pattern +380123456789
+                        </small>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
                 <label class="w-100">
                     Address
                     <input type="text" class="form-control" formControlName="address">

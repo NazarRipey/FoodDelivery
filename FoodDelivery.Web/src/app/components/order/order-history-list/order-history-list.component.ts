@@ -1,6 +1,3 @@
-
-
-import { PaymentType } from '../../../models/enums/PaymentType';
 import { OrderStatus } from '../../../models/enums/statuses/OrderStatus';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderFilterParams } from '../../../models/filters/OrderFilterParams';
@@ -38,7 +35,7 @@ export class OrderHistoryListComponent implements OnInit {
     this.orderFilterParams.currentPage = this.config.currentPage;
     this.orderFilterParams.status = this.statuses[`${this.selectedStatus}`];
 
-    this.orderService.retrieveAll(this.orderFilterParams).subscribe(o => {
+    this.orderService.retrieveHistory(this.orderFilterParams).subscribe(o => {
       this.orderResponse = o;
       this.config.totalItems = o.totalOrdersCount;
     });

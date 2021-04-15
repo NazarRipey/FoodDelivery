@@ -6,6 +6,6 @@ namespace FoodDelivery.Entities.DTO
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }
-		public double? Rating { get; set; }
+		public decimal? Rating { get; set; }
 	}
 }

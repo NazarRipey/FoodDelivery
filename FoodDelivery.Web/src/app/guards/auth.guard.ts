@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private userHelper: UserHelper, private modalService: NgbModal){
+  constructor(private userHelper: UserHelper, 
+    private modalService: NgbModal){
   }
 
   canActivate(
@@ -19,7 +20,8 @@ export class AuthGuard implements CanActivate {
         return true;
       }
       else{
-        this.modalService.open(LogInComponent);   
+        const modal = this.modalService.open(LogInComponent);
+        modal.componentInstance.redirectUrl = state.url;
         return false;
       }
   }

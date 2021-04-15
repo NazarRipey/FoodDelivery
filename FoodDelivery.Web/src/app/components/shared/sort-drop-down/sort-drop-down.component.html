@@ -1,0 +1,12 @@
+<div ngbDropdown display="dynamic">
+    <button class="btn btn-outline-primary" id="sortDropDown" class="btn bg-popstar"
+    ngbDropdownToggle>
+    {{selectedsortType}}
+    </button>
+    <div ngbDropdownMenu aria-labelledby="sortDropDown">
+        <a ngbDropdownItem *ngFor="let sortType of sortTypes | enumKeys" 
+            [queryParams]="{sortType:sortType}" queryParamsHandling='merge' [routerLink]="[]">
+            {{sortType}}
+        </a>
+    </div>
+</div>

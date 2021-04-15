@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.DTO.Order;
 using FoodDelivery.Entities.DTO.Restaurant;
 using FoodDelivery.Entities.Enums;
@@ -13,9 +14,7 @@ namespace FoodDelivery.Utilities.Mappers
 	{
 		public MappingProfile()
 		{
-			CreateMap<UserProfileDTO, UserProfile>().ReverseMap();
-
-			CreateMap<UserProfileDTO, IdentityUser>()
+			CreateMap<UserProfile, IdentityUser>()
 				.ForMember(d => d.UserName,
 					opt => opt.MapFrom(src => src.Email))
 				.ReverseMap();
@@ -44,6 +43,11 @@ namespace FoodDelivery.Utilities.Mappers
 					opt => opt.MapFrom(src => src.Restaurant.Name))
 				.ReverseMap();
 
+			CreateMap<Dish, DishOrderDTO>()
+			.ForMember(d => d.RestaurantName,
+				opt => opt.MapFrom(src => src.Restaurant.Name))
+			.ReverseMap();
+
 			CreateMap<Dish, DishDetailDTO>()
 				.ForMember(d => d.Status, opt =>
 				{
@@ -65,9 +69,6 @@ namespace FoodDelivery.Utilities.Mappers
 				.ReverseMap();
 
 			CreateMap<Restaurant, RestaurantDetailDTO>()
-				.ReverseMap();
-
-			CreateMap<Restaurant, RestaurantOwnerDetailDTO>()
 				.ForMember(d => d.Status, opt =>
 				{
 					opt.MapFrom(r => (RestaurantStatus)r.Status);
@@ -90,9 +91,12 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<CartItem, CartItemDTO>()
 				.ReverseMap();
 
-			CreateMap<OrderItem, OrderItemDTO>()
-				.ReverseMap();
-
+			CreateMap<Order, AvailableOrderDTO>()
+			.ForMember(d => d.CustomerName, opt =>
+			{
+				opt.MapFrom(src => src.UserProfile.FirstName + " " + src.UserProfile.LastName);
+			})
+			.ReverseMap();
 
 			CreateMap<Order, OrderDetailDTO>()
 			.ForMember(d => d.PaymentType, opt =>
@@ -105,12 +109,35 @@ namespace FoodDelivery.Utilities.Mappers
 			})
 			.ReverseMap();
 
+			CreateMap<Order, OrderManagerDTO>()
+			.ForMember(d => d.Status, opt =>
+			{
+				opt.MapFrom(o => (OrderStatus)o.Status);
+			})
+			.ForMember(d => d.CustomerName, opt =>
+			{
+				opt.MapFrom(src => src.UserProfile.FirstName + " " + src.UserProfile.LastName);
+			})
+			.ReverseMap();
+
 			CreateMap<Order, UpdateOrderDTO>();
 
 			CreateMap<Order, OrderShortDTO>()
 			.ForMember(d => d.Status, opt =>
 			{
 				opt.MapFrom(o => (OrderStatus)o.Status);
+			})
+			.ReverseMap();
+
+			CreateMap<OrderItem, OrderItemDTO>()
+			.ForMember(d => d.Dish, opt =>
+			{
+				opt.MapFrom(o => new DishOrderDTO()
+				{
+					Name = o.Name,
+					Price = o.Price,
+					RestaurantName = o.Dish.Restaurant.Name
+				});
 			})
 			.ReverseMap();
 		}

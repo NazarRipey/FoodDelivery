@@ -1,37 +1,19 @@
 <div class="text-center">
-    <p><b>
-        <a  [routerLink]="['/orders', order.id]">
-            Order number: {{order.orderNumber}}
-        </a>
-    </b></p>
+    <p>
+      <b>
+        Order number: {{order.orderNumber}}
+      </b>
+    </p>
+    <a  [routerLink]="['/orders', order.id]">
+      details
+    </a>
 </div>
 <div>
     <p>Status: {{statuses[order.status]}}</p>
+    <p>Contact number: {{order.contactPhoneNumber}}</p>
     <p>Created date: {{order.createdDate | date:'short'}}</p>
     <p *ngIf="order.closedDate">Closed date: {{order.closedDate | date:'short'}}</p>
 </div>
-<div class="text-center">
-    <p><b>Items</b></p>
-</div>
-<table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Subtotal</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of order.orderItems">
-        <td>{{item.dish.name}}</td>
-        <td>{{item.dish.price}}</td>
-        <td>{{item.quantity}}</td>
-        <td><b>{{item.quantity * item.dish.price}}</b></td>
-      </tr>
-    </tbody>
-  </table>  
-
 <hr>
 <div class="text-center">
     <p><b>Total {{order.totalSum}}</b></p>

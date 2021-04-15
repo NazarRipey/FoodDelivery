@@ -32,6 +32,14 @@ namespace FoodDelivery.Utilities.Managers
 			await SendMessage(email, subject, message);
 		}
 
+		public async Task SendPasswordAsync(string email, string password)
+		{
+			string subject = "Confidential!";
+			string message = $"Your password: {password}";
+
+			await SendMessage(email, subject, message);
+		}
+
 		public async Task SendRestaurantRequestStatusChangedAsync(string email,
 			string restaurantName, RestaurantRequestStatus restaurantRequestStatus)
 		{

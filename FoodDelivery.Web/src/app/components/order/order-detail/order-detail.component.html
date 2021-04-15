@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="order">
   <div class="text-center">
       <p><b>
         Order number: {{order.orderNumber}}
@@ -7,6 +7,7 @@
   <div class="d-flex justify-content-between">
       <div>
           <p>Status: {{statuses[order.status]}}</p>
+          <p>Contact number: {{order.contactPhoneNumber}}</p>
           <p>Created date: {{order.createdDate | date:'short'}}</p>
           <p>Closed date: {{order.closedDate | date:'short'}}</p>
           <p>Payment type: {{paymentTypes[order.paymentType]}}</p>
@@ -19,7 +20,8 @@
           ||order.status==statuses.Cooking" class="btn bg-blue mx-2" (click)="updateOrder(order.id)">
           Update
         </button>
-        <button *ngIf="order.status==statuses.AwaitingManagerVerification" class="btn btn-danger mx-2">
+        <button *ngIf="order.status==statuses.AwaitingManagerVerification"
+          (click)="cancelOrder(order.id)" class="btn btn-danger mx-2">
           Cancel
         </button>
       </div>
@@ -30,6 +32,7 @@
   <table class="table table-striped">
       <thead>
         <tr>
+          <th scope="col">Restaurant name</th>
           <th scope="col">Name</th>
           <th scope="col">Price</th>
           <th scope="col">Quantity</th>
@@ -38,6 +41,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of order.orderItems">
+          <td>{{item.dish.restaurantName}}</td>
           <td>{{item.dish.name}}</td>
           <td>{{item.dish.price}}</td>
           <td>{{item.quantity}}</td>

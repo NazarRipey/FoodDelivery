@@ -43,19 +43,69 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _orderRepository.GetDetailDTOById(id);
 		}
 
+		public OrderItemDTO GetOrderItem(Guid id)
+		{
+			return _orderItemRepository.Get(id);
+		}
+
+		public ICollection<OrderItemDTO> GetOrderItems(Guid id)
+		{
+			return _orderRepository.GetOrderItems(id);
+		}
+
+		public OrderManagerDTO GetOrderManagerDTOById(Guid id)
+		{
+			return _orderRepository.GetOrderManagerDTOById(id);
+		}
+
 		public UpdateOrderDTO GetUpdateDTOById(Guid id)
 		{
 			return _orderRepository.GetUpdateDTOById(id);
 		}
 
-		public OrderResponseDTO RetrieveAll(OrderFilterParams orderFilterParams, Guid userId)
+		public void ReleaseOrder(Guid orderId)
 		{
-			return _orderRepository.RetrieveAll(orderFilterParams, userId);
+			_orderRepository.Release(orderId);
+		}
+
+		public void RemoveItem(Guid id)
+		{
+			_orderItemRepository.Remove(id);
+		}
+
+		public AvailableOrderResponseDTO RetrieveAvailable(BaseFilterParams filterParams)
+		{
+			return _orderRepository.RetrieveAvailable(filterParams);
+		}
+
+		public OrderResponseDTO RetrieveHistory(OrderFilterParams orderFilterParams, Guid userId)
+		{
+			return _orderRepository.RetrieveHistory(orderFilterParams, userId);
+		}
+
+		public OrderManagerResponseDTO RetrieveHistoryByManager(BaseFilterParams filterParams, Guid managerId)
+		{
+			return _orderRepository.RetrieveHistoryByManager(filterParams, managerId);
+		}
+
+		public OrderManagerResponseDTO RetrieveTaken(BaseFilterParams filterParams, Guid managerId)
+		{
+			return _orderRepository.RetrieveTaken(filterParams, managerId);
+		}
+
+		public void TakeOrder(Guid orderId, Guid managerId)
+		{
+			_orderRepository.Take(orderId, managerId);
 		}
 
 		public void Update(UpdateOrderDTO updateOrderDTO)
 		{
 			_orderRepository.Update(updateOrderDTO);
+		}
+
+		public void UpdateOrderItem(Guid id, int quantity)
+		{
+			_orderItemRepository.Update(id, quantity);
 		}
 	}
 }

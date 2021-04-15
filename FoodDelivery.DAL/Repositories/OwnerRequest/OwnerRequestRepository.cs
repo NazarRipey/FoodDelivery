@@ -21,7 +21,7 @@ namespace FoodDelivery.DAL.Repositories
 		{
 			int totalItemsCount;
 
-			IQueryable<OwnerRequest> ownerRequests = _db.OwnerRequest;
+			IQueryable<OwnerRequest> ownerRequests = _db.OwnerRequest.OrderByDescending(or => or.CreatedDate);
 
 			if (filterParam.Search != null)
 			{

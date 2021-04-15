@@ -12,35 +12,56 @@
     </ul>
 
     <ul class="nav nav-pills ml-auto" *ngIf="userHelper.profile; else unauthorized">
-        <li *ngIf="userHelper.isInRole(['admin'])" class="nav-item">
-            <a class="nav-link" [routerLink]="['/requests']">Requests</a>
-        </li>
-        <li *ngIf="userHelper.ownerRequestStatus" class="nav-item">
-            <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
+        <div *ngIf="userHelper.isInRole(['admin'])" class="d-flex">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/requests']">Requests</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/ordermanagers']">Order managers</a>
+            </li>
+            <li  class="nav-item">
+                <a class="nav-link" [routerLink]="['/users']">Users</a>
+            </li>
+        </div>
+        <div *ngIf="userHelper.ownerRequestStatus" class="d-flex">
+            <li  class="nav-item">
+                <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
+            </li>
+            <li  class="nav-item">
+                <a class="nav-link" [routerLink]="['/restaurantorders']">Manage orders</a>
+            </li>
+        </div>
+        <li *ngIf="userHelper.isInRole(['orderManager'])" class="nav-item">
+            <a class="nav-link" [routerLink]="['/manageorders']">Manage orders</a>
         </li>
         <li class="nav-item">
-            <div ngbDropdown class="nav-link">
+            <div ngbDropdown class="nav-link" display="dynamic">
                 <button class="btn btn-outline-primary" id="profile" class="btn bg-green"
                     ngbDropdownToggle><i class="bi bi-person"></i></button>
                 <div ngbDropdownMenu aria-labelledby="profile" class="bg-dark">
-                    <a ngbDropdownItem class="px-1">My profile</a>
-                    <a ngbDropdownItem class="px-1" [routerLink]="['/orders']">Orders</a>
+                    <a ngbDropdownItem class="px-1" [routerLink]="['/profile']">My profile</a>
+                    <a *ngIf="userHelper.isInRole(['customer'])" 
+                        ngbDropdownItem class="px-1" [routerLink]="['/orders']">Orders</a>
                     <a ngbDropdownItem class="px-1">Setting</a>
                     <a ngbDropdownItem class="px-1" (click)="LogOut()">Log out</a>
                 </div>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/cart']">
-                <i class="bi bi-cart4"></i>
-                <span *ngIf="cartHelper.total" class='badge badge-warning' id='lblCartCount'>
-                    {{cartHelper.total}}
-                </span>
-            </a>
-        </li>
-        <li class="nav-item" *ngIf="cartService.interval">
-            <small class="text-white">cart expires in {{cartService.timeLeft| minutesSeconds}}</small>
-        </li>
+        <div *ngIf="userHelper.isInRole(['customer'])" class="d-flex">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/cart']">
+                    <i class="bi bi-cart4"></i>
+                    <span *ngIf="cartHelper.info && cartHelper.info.total" class='badge badge-warning' id='lblCartCount'>
+                        {{cartHelper.info.total}}
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" *ngIf="cartHelper.info && cartHelper.info.timeLeft && cartHelper.info.timeLeft > 0">
+                <small class="text-white">
+                    cart expires in {{cartHelper.info.timeLeft| minutesSeconds}}
+                </small>
+            </li>
+        </div>
     </ul>
 
     <ng-template #unauthorized>        

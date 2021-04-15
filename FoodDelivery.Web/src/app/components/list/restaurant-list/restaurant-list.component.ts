@@ -3,7 +3,6 @@ import { RestaurantFilterParams } from '../../../models/filters/RestaurantFilter
 import { RestaurantListResponse } from '../../../models/restaurant/RestaurantListResponse';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartService } from '../../../services/cart.service';
 import { PaginationConfig } from '../../../models/PaginationConfig';
 import { Component, OnInit } from '@angular/core';
 
@@ -24,8 +23,7 @@ export class RestaurantListComponent implements OnInit {
     
   toggleFilter = false;
   
-  constructor(private cartService:CartService, 
-    private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private router:Router,
     private restaurantService:RestaurantService) 
     { }
@@ -59,9 +57,5 @@ export class RestaurantListComponent implements OnInit {
 
   pageChanged(event){
     this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
-  }
-
-  onSearch(searchPhrase){
-    this.router.navigate([], {queryParams: {search: searchPhrase}, queryParamsHandling: 'merge'});
   }
 }

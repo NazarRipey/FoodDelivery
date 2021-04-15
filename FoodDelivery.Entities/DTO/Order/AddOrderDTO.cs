@@ -9,6 +9,7 @@ namespace FoodDelivery.Entities.DTO.Order
 		public int OrderNumber { get; set; }
 		public PaymentType PaymentType { get; set; }
 		public string Address { get; set; }
+		public string ContactPhoneNumber { get; set; }
 		public string Comment { get; set; }
 	}
 }

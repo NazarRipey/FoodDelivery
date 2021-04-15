@@ -1,4 +1,3 @@
-import { OrderItem } from './OrderItem';
 import { OrderStatus } from '../enums/statuses/OrderStatus';
 import { Guid } from 'guid-typescript';
 
@@ -8,7 +7,6 @@ export class OrderShort{
     public status: OrderStatus;
     public createdDate: Date;
     public closedDate?: Date;
+    public contactPhoneNumber: string;
     public totalSum: number;
-
-    public orderItems: OrderItem[];
 }

@@ -1,35 +1,17 @@
 <div class="container">
     <div class="row d-flex mb-3 mt-2">
-        <div class="input-group search mx-auto">
-            <input type="search" #search class="form-control" (search)="onSearch(search.value)"
-                placeholder="I'm looking for..." value="{{orderFilterParams.search}}"/>
-            <button type="submit" class="btn bg-popstar" (click)="onSearch(search.value)">
-                <i class="bi bi-search"></i>
-            </button>
+        <div class="mx-auto search">
+            <app-search [value]="orderFilterParams.search" placeholder="Order number"></app-search>
         </div>
         
-        <div ngbDropdown display="dynamic">
-            <button class="btn btn-outline-primary" id="sortDropDown" class="btn bg-popstar"
-            ngDefaultControl 
-             ngbDropdownToggle>{{selectedStatus}}</button>
-            <div ngbDropdownMenu aria-labelledby="sortDropDown">
-                <a ngbDropdownItem [queryParams]="{status:null}" queryParamsHandling='merge' [routerLink]="[]">
-                    All
-                </a>
-                <a ngbDropdownItem *ngFor="let status of statuses | enumKeys"
-                    [queryParams]="{status:status}" queryParamsHandling='merge' [routerLink]="[]">
-                    {{status}}
-                </a>
-            </div>
-        </div>
+        <app-status-drop-down [selectedStatus]="selectedStatus" [statuses]="statuses"></app-status-drop-down>
     </div>    
+    <div class="text-right mb-2 mr-2">
+        <a class="font-large" [routerLink]="['/orders']">Active orders</a>
+    </div>
 </div>
 
-<div class="b">
-    <div class="text-center mb-2">
-        <h2><a [routerLink]="['/orders']">Active orders</a></h2>
-    </div>
-    
+<div class="b">    
     <div class="wrapper d-flex align-items-stretch mt-2" *ngIf="orderResponse.orders">
         <div class="p-md-3 w-100">
             <div *ngIf="orderResponse.orders.length == 0">

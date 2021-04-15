@@ -1,3 +1,5 @@
+import { DishDetailResponse } from './../models/dish/DishDetailResponse';
+import { DishRestaurantFilterParams } from './../models/filters/DishRestaurantFilterParams';
 import { DishUpdateModel } from '../models/dish/DishUpdateModel';
 import { DishDetail } from '../models/dish/DishDetail';
 import { DishAddModel } from '../models/dish/DishAddModel';
@@ -12,6 +14,7 @@ import { serverUrl } from './../globals';
 import { Injectable } from '@angular/core';
 import { DishCategory } from '../models/dish/DishCategory';
 import { DishCart } from '../models/dish/DishCart';
+import { DishRestaurantListResponse } from '../models/dish/DishRestaurantListResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +53,16 @@ export class DishService {
   public retrieve(dishFilterParams: DishFilterParams): Observable<DishListResponse>{
     const url = this.dishUrl + "retrieve";
     return this.http.post<DishListResponse>(url, dishFilterParams);
+  }
+
+  public retrieveByRestaurant(filterParams: DishRestaurantFilterParams): Observable<DishRestaurantListResponse>{
+    const url = this.dishUrl + "retrievebyrestaurant";
+    return this.http.post<DishRestaurantListResponse>(url, filterParams);
+  }
+
+  public retrieveDetailByRestaurant(filterParams: DishRestaurantFilterParams): Observable<DishDetailResponse>{
+    const url = this.dishUrl + "retrievedetailbyrestaurant";
+    return this.http.post<DishDetailResponse>(url, filterParams);
   }
 
   public addDish(dish: DishAddModel){

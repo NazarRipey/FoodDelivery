@@ -1,0 +1,15 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {{confirmHeader}}
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <p style="white-space: pre-line" class="text-lead">{{confirmMessage}}</p>
+        <div class="text-center">
+            <button class="btn btn-danger mx-3" (click)="modalRef.close(true)">Yes</button>
+            <button class="btn bg-green" (click)="modalRef.close()">No</button>
+        </div>
+    </div>
+</div>

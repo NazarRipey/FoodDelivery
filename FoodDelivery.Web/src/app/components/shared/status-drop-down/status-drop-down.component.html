@@ -1,0 +1,11 @@
+<div ngbDropdown display="dynamic">
+    <button class="btn btn-outline-primary" id="sortDropDown" class="btn bg-popstar"
+    ngDefaultControl 
+     ngbDropdownToggle>{{selectedStatus}}</button>
+    <div ngbDropdownMenu aria-labelledby="sortDropDown">
+        <a ngbDropdownItem [queryParams]="{status:null}" queryParamsHandling='merge' [routerLink]="[]">All</a>
+        <a ngbDropdownItem *ngFor="let status of statuses | enumKeys"
+            [queryParams]="{status:status}" queryParamsHandling='merge' [routerLink]="[]">
+            {{status}}</a>
+    </div>
+</div> 

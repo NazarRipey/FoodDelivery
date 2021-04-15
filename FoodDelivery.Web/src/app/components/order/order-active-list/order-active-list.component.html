@@ -1,8 +1,7 @@
-<div class="text-center mb-2">
-    <h2><a [routerLink]="['/orders/history']">Order History</a></h2>
-</div>
-
 <div class="container card-body" *ngIf="orders">
+    <div class="text-right mb-2 mr-2">
+        <a class="font-large" [routerLink]="['/orders/history']">Order history</a>
+    </div>    
     <div *ngIf="orders.length == 0">
         <div class="text-center">
             <h4>No active orders</h4>

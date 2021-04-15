@@ -1,3 +1,5 @@
+import { UpdateProfile } from './../models/userProfile/UpdateProfile';
+import { UserFilterParams } from '../models/filters/UserFilterParams';
 import { UserLogInModel } from '../models/auth/UserLogInModel';
 import { serverUrl } from './../globals';
 import { UserSignUpModel } from '../models/auth/UserSignUpModel';
@@ -6,6 +8,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ConfirmEmailModel } from '../models/auth/ConfirmEmailModel';
 import { throwError, Observable } from 'rxjs';
 import { UserProfile } from '../models/userProfile/UserProfile';
+import { UserListResponse } from '../models/userProfile/UserListResponse';
 
 @Injectable({
   providedIn: 'root'

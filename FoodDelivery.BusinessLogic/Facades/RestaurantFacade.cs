@@ -48,11 +48,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _restaurantRepository.GetByName(name);
 		}
 
-		public RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
-		{
-			return _restaurantRepository.RetrieveMyRestaurants(filterParams, ownerId);
-		}
-
 		public ICollection<RestaurantListDTO> GetTop(int count)
 		{
 			return _restaurantRepository.GetTop(count);
@@ -91,6 +86,21 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public RestaurantUpdateDTO GetUpdateDTOById(Guid id)
 		{
 			return _restaurantRepository.GetUpdateDTOById(id);
+		}
+
+		public ICollection<string> GetNamesByOwner(Guid ownerId)
+		{
+			return _restaurantRepository.GetNamesByOwner(ownerId);
+		}
+
+		public void DeactivateByEmail(string email)
+		{
+			_restaurantRepository.DeactivateByEmail(email);
+		}
+
+		public ICollection<RestaurantAddressDTO> GetAddresses(Guid id)
+		{
+			return _restaurantRepository.GetAddresses(id);
 		}
 	}
 }

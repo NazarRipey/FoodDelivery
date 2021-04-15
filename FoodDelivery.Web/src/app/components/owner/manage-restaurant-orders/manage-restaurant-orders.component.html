@@ -1,0 +1,11 @@
+<div *ngIf="restaurantNames" class="container mt-2">
+    <ul class="nav nav-tabs">
+      <li *ngFor="let name of restaurantNames" class="nav-item">
+        <a class="nav-link" [routerLink]="['/restaurantorders', name]" routerLinkActive="active">
+            {{name}} 
+        </a>
+      </li>
+    </ul>  
+  
+    <router-outlet ></router-outlet>
+</div>

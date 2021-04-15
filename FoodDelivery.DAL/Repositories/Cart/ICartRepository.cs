@@ -1,6 +1,7 @@
 ﻿using System;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Cart;
 
 namespace FoodDelivery.DAL.Repositories
 {
@@ -10,6 +11,6 @@ namespace FoodDelivery.DAL.Repositories
 		void Add(Guid userProfileId);
 		CartResponseDTO Get(Guid userId);
 		void Remove(Guid userId);
-		int GetTotalItems(Guid userId);
+		CartInfoDTO GetCartInfo(Guid userId);
 	}
 }

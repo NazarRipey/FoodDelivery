@@ -56,7 +56,7 @@ namespace FoodDelivery.DAL.Repositories
 					break;
 				case RestaurantSortType.Rating:
 				default:
-					restaurants = restaurants.OrderBy(r => r.Rating);
+					restaurants = restaurants.OrderByDescending(r => r.Rating);
 					break;
 			}
 
@@ -93,50 +93,17 @@ namespace FoodDelivery.DAL.Repositories
 				Where(r => r.Name == name)
 				.Include(r => r.Addresses)
 				.Include(r => r.Type)
-				.Include(r => r.Dishes)
 				.SingleOrDefault();
-
-
-			//FILTERING INCLUDE ?
-			if(restaurant != null)
-			{
-				restaurant.Dishes = restaurant.Dishes.Where(d => d.Status == (int)DishStatus.Active).ToList();
-			}
 
 			RestaurantDetailDTO restaurantDTO = _mapper.Map<RestaurantDetailDTO>(restaurant);
 
 			return restaurantDTO;
 		}
 
-		public RestaurantOwnerDetailResponseDTO RetrieveMyRestaurants(MyRestaurantsFilterParams filterParams, Guid ownerId)
-		{
-			int totalItemsCount;
-
-			IQueryable<Restaurant> restaurants = _db.Restaurant.Where(r => r.OwnerId == ownerId);
-
-			totalItemsCount = restaurants.Count();
-
-			ICollection<Restaurant> restaurantsToReturn = restaurants
-				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
-				.Take(filterParams.ItemsPerPage)
-				.ToList();
-
-			ICollection<RestaurantOwnerDetailDTO> restaurantDetailDTOs =
-				_mapper.Map<ICollection<RestaurantOwnerDetailDTO>>(restaurantsToReturn);
-
-			RestaurantOwnerDetailResponseDTO restaurantDetailResponseDTO = new RestaurantOwnerDetailResponseDTO()
-			{
-				TotalRestaurantsCount = totalItemsCount,
-				Restaurants = restaurantDetailDTOs
-			};
-
-			return restaurantDetailResponseDTO;
-		}
-
 		public ICollection<RestaurantListDTO> GetTop(int count)
 		{
 			List<Restaurant> topRestaurants = _db.Restaurant
-				.OrderBy(r => r.Rating)
+				.OrderByDescending(r => r.Rating)
 				.Take(count)
 				.ToList();
 
@@ -181,6 +148,39 @@ namespace FoodDelivery.DAL.Repositories
 			RestaurantUpdateDTO restaurantUpdateDTO = _mapper.Map<RestaurantUpdateDTO>(restaurant);
 
 			return restaurantUpdateDTO;
+		}
+
+		public ICollection<string> GetNamesByOwner(Guid ownerId)
+		{
+			ICollection<string> names = _db.Restaurant
+				.Where(r => r.OwnerId == ownerId)
+				.Select(r => r.Name)
+				.ToList();
+
+			return names;
+		}
+
+		public void DeactivateByEmail(string email)
+		{
+			ICollection<Restaurant> restaurants = _db.Restaurant.Where(r => r.Owner.Email == email &&
+				(r.Status == (int)RestaurantStatus.Active)).ToList();
+
+			foreach (var r in restaurants)
+			{
+				r.Status = (int)RestaurantStatus.Inactive;
+				_db.Entry(r).State = EntityState.Modified;
+
+				SaveChanges();
+			}
+
+		}
+
+		public ICollection<RestaurantAddressDTO> GetAddresses(Guid id)
+		{
+			ICollection<RestaurantAddressDTO> addresses =
+				_mapper.Map<ICollection<RestaurantAddressDTO>>(_db.Restaurant.Find(id).Addresses);
+
+			return addresses;
 		}
 	}
 }

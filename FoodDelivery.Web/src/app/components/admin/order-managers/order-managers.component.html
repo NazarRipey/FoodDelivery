@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row d-flex mb-3 mt-2">
+        <div class="mx-auto search">
+          <app-search [value]="userFilterParams.search" placeholder="John Doe"></app-search>
+        </div>
+      
+        <app-status-drop-down [selectedStatus]="selectedStatus" [statuses]="statuses"></app-status-drop-down>
+    </div>
+
+    <div class="text-center my-3">
+        <button class="btn btn-lg bg-green" (click)="openAddManager()">+</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Account Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let i = index; let user of userList| paginate: config">
+                <td>{{user.fullName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.phoneNumber}}</td>
+                <td>{{statuses[user.status]}}</td>
+                <td>
+                    <button (click)="activate(i)" class="btn btn-sm bg-green"
+                    [disabled]="user.status==statuses.Active">
+                      Activate
+                    </button>
+                  </td>
+                  <td>
+                    <button (click)="deactivate(i)" class="btn btn-sm btn-danger"
+                    [disabled]="user.status==statuses.Inactive">
+                      Deactivate
+                    </button>
+                  </td>
+              </tr>
+            </tbody>
+          </table>  
+      </div>
+      <div class="text-center pb-0 pt-3">
+        <pagination-controls 
+            (pageChange)="pageChanged($event)">
+        </pagination-controls>
+      </div>      
+</div>

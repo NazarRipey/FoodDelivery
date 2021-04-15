@@ -11,12 +11,12 @@ namespace FoodDelivery.Entities.DTO.Order
 		public int OrderNumber { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public DateTime? ClosedDate { get; set; }
+		public string ContactPhoneNumber { get; set; }
 		public PaymentType PaymentType { get; set; }
 		public string Address { get; set; }
 		public OrderStatus Status { get; set; }
 		public int TotalSum { get; set; }
 		public string Comment { get; set; }
-
 		public ICollection<OrderItemDTO> OrderItems { get; set; }
 	}
 }

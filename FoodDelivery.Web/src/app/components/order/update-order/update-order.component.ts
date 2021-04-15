@@ -16,6 +16,10 @@ export class UpdateOrderComponent implements OnInit {
   orderNumber: number;
 
   updateOrderForm = new FormGroup({
+    phoneNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern("^\\+[0-9]{1,3}[0-9]{9}$")
+    ]),
     address: new FormControl('', [
       Validators.required
     ]),
@@ -28,6 +32,7 @@ export class UpdateOrderComponent implements OnInit {
     this.orderService.getUpdateOrderById(this.orderId.toString()).subscribe(o => {
       this.orderNumber = o.orderNumber;
       this.updateOrderForm.patchValue({
+        phoneNumber: o.contactPhoneNumber,
         address: o.address,
         comment: o.comment,
       });
@@ -40,12 +45,12 @@ export class UpdateOrderComponent implements OnInit {
       orderNumber: this.orderNumber,
       address: this.updateOrderForm.get('address').value,
       comment: this.updateOrderForm.get('comment').value,
+      contactPhoneNumber: this.updateOrderForm.get('phoneNumber').value,
     }
 
     this.orderService.updateOrder(order).subscribe(
       _ => {
         this.modalRef.close();
-        location.reload();
       },
       err => {
         this.updateOrderForm.setErrors({"server": +err.error});

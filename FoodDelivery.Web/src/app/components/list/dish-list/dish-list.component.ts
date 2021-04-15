@@ -1,19 +1,13 @@
-import { Guid } from 'guid-typescript';
 import { DishSortType } from '../../../models/enums/sorts/DishSortType';
 import { SliderOptions } from '../../../models/SliderOptions';
 import { DishListResponse } from '../../../models/dish/DishListResponse';
 import { DishFilterParams } from '../../../models/filters/DishFilterParams';
-import { NouisliderModule } from 'ng2-nouislider';
 import { RestaurantService } from './../../../services/restaurant.service';
 import { DishService } from './../../../services/dish.service';
 import { CartService } from '../../../services/cart.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DishList } from 'src/app/models/dish/DishList';
-import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationConfig } from 'src/app/models/PaginationConfig';
-import { Options } from '@angular-slider/ngx-slider';
 
 @Component({
   selector: 'app-dish-list',
@@ -69,8 +63,8 @@ export class DishListComponent implements OnInit {
       this.dishResponse = d;
       this.config.totalItems = d.totalDishesCount;
       this.sliderOptions.options = {
-        floor: d.minPrice,
-        ceil: d.maxPrice
+        floor: d.minPrice | 0,
+        ceil: d.maxPrice | 0
       };
       if(!this.sliderOptions.currentMax){
         this.sliderOptions.currentMax = d.maxPrice;
@@ -87,10 +81,6 @@ export class DishListComponent implements OnInit {
 
   pageChanged(event){
     this.router.navigate([], {queryParams: {page: event}, queryParamsHandling: 'merge'});
-  }
-
-  onSearch(searchPhrase){
-    this.router.navigate([], {queryParams: {search: searchPhrase}, queryParamsHandling: 'merge'});
   }
 
   changePriceRange(){

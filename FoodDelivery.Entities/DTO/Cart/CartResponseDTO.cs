@@ -7,6 +7,6 @@ namespace FoodDelivery.Entities.DTO
 	{
 		public Guid Id { get; set; }
 		public ICollection<CartItemDTO> CartItems { get; set; }
-		public double TotalPrice { get; set; }
+		public DateTime CreatedDate { get; set; }
 	}
 }

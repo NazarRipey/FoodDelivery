@@ -51,10 +51,14 @@
                     </p>
                     <div *ngSwitchCase="errorsEnum.EmailNotConfirmed">
                         <p>Email not confirmed!</p>
-                        <button class="btn btn-yellow" (click)="openConfirmEmail()">Confirm</button>
+                        <button class="btn bg-yellow" (click)="openConfirmEmail()">Confirm</button>
                     </div>
                     <p *ngSwitchCase="errorsEnum.ModelInvalid">
                         Model is invalid
+                    </p>
+                    <p *ngSwitchCase="errorsEnum.AccountDeactivated">
+                        Your account has been <b>deactivated</b>.<br>
+                        Contact admin at admin@mailinator.com if you think this is a mistake.
                     </p>
                     <p *ngSwitchDefault>
                         {{logInForm.errors['server']}}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO;
+using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.Enums.Status;
 using FoodDelivery.Entities.FilterParams;
 
@@ -76,6 +77,16 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public DishUpdateDTO GetUpdateDTOById(Guid id)
 		{
 			return _dishRepository.GetUpdateDTOById(id);
+		}
+
+		public DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams)
+		{
+			return _dishRepository.RetrieveByRestaurant(filterParams);
+		}
+
+		public DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams)
+		{
+			return _dishRepository.RetrieveDishDetailDTOByRestaurant(filterParams);
 		}
 	}
 }

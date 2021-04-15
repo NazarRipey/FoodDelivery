@@ -41,9 +41,22 @@ namespace FoodDelivery.DAL.Repositories
 			SaveChanges();
 		}
 
+		public CartItemDTO Get(Guid id)
+		{
+			CartItem cartItem = _db.CartItem.Find(id);
+			CartItemDTO cartItemDTO = _mapper.Map<CartItemDTO>(cartItem);
+
+			return cartItemDTO;
+		}
+
 		public void Remove(Guid id)
 		{
 			CartItem cartItem = _db.CartItem.Find(id);
+
+			if (cartItem.Cart.CartItems.Count == 1)
+			{
+				_db.Remove(cartItem.Cart);
+			}
 			_db.Remove(cartItem);
 
 			SaveChanges();

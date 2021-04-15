@@ -1,0 +1,7 @@
+<div class="input-group">
+    <input type="search" #search class="form-control" (search)="onSearch(search.value)"
+    placeholder="{{placeholder}}" value="{{value}}"/>
+    <button type="button" class="btn bg-popstar" (click)="onSearch(search.value)">
+        <i class="bi bi-search"></i>
+    </button>
+</div>

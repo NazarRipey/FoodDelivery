@@ -6,25 +6,12 @@
             <i class="bi bi-filter"></i>
         </button>
 
-        <div class="input-group search mx-auto">
-            <input type="search" #search class="form-control" (search)="onSearch(search.value)"
-             placeholder="I'm looking for..." value="{{restaurantFilterParams.search}}"/>
-            <button type="button" class="btn bg-popstar" (click)="onSearch(search.value)">
-                <i class="bi bi-search"></i>
-            </button>
+        <div class="mx-auto search">
+            <app-search [value]="restaurantFilterParams.search" placeholder="I'm looking for..."></app-search>
         </div>
 
-        <div ngbDropdown>
-            <button class="btn btn-outline-primary" id="sortDropDown" class="btn bg-popstar"
-             ngbDropdownToggle>{{selectedsortType}}
-            </button>
-            <div ngbDropdownMenu aria-labelledby="sortDropDown">
-                <a ngbDropdownItem *ngFor="let sortType of restaurantSortTypes| enumKeys" 
-                    [queryParams]="{sortType:sortType}" queryParamsHandling='merge' [routerLink]="[]">
-                    {{sortType}}
-                </a>
-            </div>
-        </div>
+        <app-sort-drop-down [selectedsortType]="selectedsortType" [sortTypes]="restaurantSortTypes">
+        </app-sort-drop-down>
     </div>
 </div>
 
