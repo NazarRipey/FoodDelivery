@@ -1,3 +1,5 @@
+import { UserHelper } from '../../helpers/UserHelper';
+import { RateRestaurant } from './../../models/restaurant/RateRestaurant';
 import { DishList } from 'src/app/models/dish/DishList';
 import { RestaurantStatus } from './../../models/enums/statuses/RestaurantStatus';
 import { DishService } from './../../services/dish.service';
@@ -23,13 +25,11 @@ export class RestaurantDetailComponent implements OnInit {
   imgSrc = imgSrc;
   statuses = RestaurantStatus;
 
-  currentRating = 3;
-  readOnly = false;
-
   constructor(private restaurantService:RestaurantService,
     private dishService: DishService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    public userHelper:UserHelper) { }
 
   ngOnInit(): void {   
     this.route.queryParams.subscribe(params => {
@@ -47,10 +47,8 @@ export class RestaurantDetailComponent implements OnInit {
     this.restaurantService.getByName(this.filterParams.restaurantName).subscribe(r => {
       if(r){
         this.restaurant = r;
-        if(r.rating){
-          this.currentRating = r.rating;
-        }else{
-          this.currentRating = 0;
+        if(!r.userRating){
+          this.restaurant.userRating = 0;
         }
         this.dishService.retrieveByRestaurant(this.filterParams).subscribe(d => {
           this.dishes = d.dishes;
@@ -75,8 +73,15 @@ export class RestaurantDetailComponent implements OnInit {
     }, 150)
   }
 
-  rated(){
-    alert(this.currentRating);
-    this.readOnly = true;
+  rateRestaurant(){
+    const rateRestaurant: RateRestaurant = {
+      userId: this.userHelper.profile.id,
+      restaurantId: this.restaurant.id,
+      rating: this.restaurant.userRating
+    };
+
+    this.restaurantService.rate(rateRestaurant).subscribe(_ => {
+      this.restaurantService.getRating(this.restaurant.id).subscribe(rr => this.restaurant.rating = rr);
+    });
   }
 }

@@ -1,16 +1,8 @@
 <a [routerLink]="['/restaurants', restaurant.name]">
+    <app-readonly-rating [average]="restaurant.rating.averageRating" 
+        [ratedCount]="restaurant.rating.ratedCount">
+    </app-readonly-rating>
     <img src="{{imgSrc}}" class="list-image">
-    <div class="text-right">
-        <ngb-rating [(rate)]="restaurant.rating" 
-        max="5" [readonly]="true">
-        <ng-template let-fill="fill" >
-           <span class="default-rating" [class.filled]="fill === 100">
-               <span class="painted-rating" [style.width.%]="fill">&#9733;</span>&#9733;
-           </span>
-         </ng-template>
-       </ngb-rating>
-       <span class="mx-1">{{restaurant.rating}}</span>
-    </div>
     <div>
         <span>{{restaurant.name}}</span>
     </div>

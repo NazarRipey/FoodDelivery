@@ -26,9 +26,11 @@
                         <img src="{{imgSrc}}" class="cart-item-image">
                         <div class="w-100">
                             <div class="content-wrapper">
+                                <app-readonly-rating [average]="item.dish.rating.averageRating" 
+                                    [ratedCount]="item.dish.rating.ratedCount">
+                                </app-readonly-rating>
                                 <div>
                                     <small class="text-left">price: <b>{{item.dish.price}}₴</b></small><br>
-                                    <small class="text-left">rating: <b>{{item.dish.rating}}/5</b></small><br>
                                     <small class="text-left">weight: <b>{{item.dish.weight}}</b></small><br>    
                                 </div>
                                 <div class="text-center">

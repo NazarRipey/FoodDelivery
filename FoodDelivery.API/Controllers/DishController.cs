@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FoodDelivery.BusinessLogic.Facades;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.Enums;
@@ -14,18 +15,19 @@ namespace FoodDelivery.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(Roles = "owner")]
 	public class DishController : ControllerBase
 	{
 		private readonly IDishFacade _dishFacade;
+		private readonly IUserProfileFacade _userProfileFacade;
 
-		public DishController(IDishFacade dishFacade)
+		public DishController(IDishFacade dishFacade,
+			IUserProfileFacade userProfileFacade)
 		{
 			_dishFacade = dishFacade;
+			_userProfileFacade = userProfileFacade;
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		[Route("retrieve")]
 		public DishListResponseDTO Retrieve(DishFilterParams filterParams)
 		{
@@ -33,7 +35,6 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		[Route("retrievebyrestaurant")]
 		public DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams)
 		{
@@ -41,7 +42,6 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		[Route("retrievedetailbyrestaurant")]
 		public DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams)
 		{
@@ -49,15 +49,15 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
-		[AllowAnonymous]
 		[Route("detail/{id:Guid}")]
 		public DishDetailDTO GetDishDetailDTOById(Guid id)
 		{
-			return _dishFacade.GetDetailDTOById(id);
+			Guid? userId = _userProfileFacade.GetByEmail(User.Identity?.Name)?.Id;
+
+			return _dishFacade.GetDetailDTOById(id, userId);
 		}
 
 		[HttpGet]
-		[AllowAnonymous]
 		[Route("cartdish/{id:Guid}")]
 		public DishCartDTO GetCartDTOById(Guid id)
 		{
@@ -66,14 +66,20 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpGet]
 		[Route("updatedish/{id:Guid}")]
+		[Authorize(Roles = "owner")]
 		public DishUpdateDTO GetUpdateDTOById(Guid id)
 		{
 			return _dishFacade.GetUpdateDTOById(id);
 		}
 
+		[HttpGet("rating/{id:Guid}")]
+		public Rating GetDishRating(Guid id)
+		{
+			return _dishFacade.GetDishRating(id);
+		}
+
 		[HttpGet]
 		[Route("top")]
-		[AllowAnonymous]
 		public ICollection<DishListDTO> GetTop(int count = 3)
 		{
 			return _dishFacade.GetTop(count);
@@ -82,13 +88,13 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpGet]
 		[Route("categories")]
-		[AllowAnonymous]
 		public ICollection<DishCategoryDTO> GetCategories()
 		{
 			return _dishFacade.GetCategories();
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "owner")]
 		public IActionResult Post([FromBody] DishAddDTO dishDTO)
 		{
 			if (!ModelState.IsValid)
@@ -114,6 +120,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("deactivate")]
+		[Authorize(Roles = "owner")]
 		public IActionResult Deactivate([FromBody] Guid id)
 		{
 			try
@@ -130,6 +137,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("activate")]
+		[Authorize(Roles = "owner")]
 		public IActionResult Activate([FromBody] Guid id)
 		{
 			try
@@ -145,6 +153,7 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize(Roles = "owner")]
 		public IActionResult Put([FromBody] DishUpdateDTO dishUpdateDTO)
 		{
 			try
@@ -160,9 +169,27 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpDelete("{id}")]
+		[Authorize(Roles = "owner")]
 		public void Delete(Guid id)
 		{
 			_dishFacade.Remove(id);
+		}
+
+		[HttpPost]
+		[Authorize(Roles = "customer")]
+		[Route("rate")]
+		public IActionResult RateDish(RateDishDTO rateDishDTO)
+		{
+			try
+			{
+				_dishFacade.RateDish(rateDishDTO);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
 		}
 	}
 }

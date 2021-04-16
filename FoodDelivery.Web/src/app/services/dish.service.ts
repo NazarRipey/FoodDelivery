@@ -1,3 +1,4 @@
+import { RateDish } from './../models/dish/RateDish';
 import { DishDetailResponse } from './../models/dish/DishDetailResponse';
 import { DishRestaurantFilterParams } from './../models/filters/DishRestaurantFilterParams';
 import { DishUpdateModel } from '../models/dish/DishUpdateModel';
@@ -15,6 +16,7 @@ import { Injectable } from '@angular/core';
 import { DishCategory } from '../models/dish/DishCategory';
 import { DishCart } from '../models/dish/DishCart';
 import { DishRestaurantListResponse } from '../models/dish/DishRestaurantListResponse';
+import { Rating } from '../models/Rating';
 
 @Injectable({
   providedIn: 'root'
@@ -37,12 +39,12 @@ export class DishService {
 
   public getCartDishById(id: Guid): Observable<DishCart>{
     const url = this.dishUrl + `cartdish/${id}`;
-    return this.http.get<DishCart>(url);
+    return this.http.get<DishCart>(url, { withCredentials: true });
   }
 
   public getDetailDishById(id: string): Observable<DishDetail>{
     const url = this.dishUrl + `detail/${id}`;
-    return this.http.get<DishDetail>(url);
+    return this.http.get<DishDetail>(url, { withCredentials: true });
   }
 
   public getUpdateDishById(id: string): Observable<DishUpdateModel>{
@@ -57,7 +59,7 @@ export class DishService {
 
   public retrieveByRestaurant(filterParams: DishRestaurantFilterParams): Observable<DishRestaurantListResponse>{
     const url = this.dishUrl + "retrievebyrestaurant";
-    return this.http.post<DishRestaurantListResponse>(url, filterParams);
+    return this.http.post<DishRestaurantListResponse>(url, filterParams, { withCredentials:true });
   }
 
   public retrieveDetailByRestaurant(filterParams: DishRestaurantFilterParams): Observable<DishDetailResponse>{
@@ -88,5 +90,15 @@ export class DishService {
   public activate(id: Guid){
     const url = this.dishUrl + "activate";
     return this.http.post(url, JSON.stringify(id), { withCredentials: true, headers: {'Content-Type': 'application/json' } });
+  }
+
+  public rate(rateDish: RateDish){
+    const url = this.dishUrl + "rate";
+    return this.http.post(url, rateDish, { withCredentials: true });    
+  }
+
+  public getRating(id: Guid): Observable<Rating>{
+    const url = this.dishUrl + `rating/${id}`;
+    return this.http.get<Rating>(url, { withCredentials: true });
   }
 }

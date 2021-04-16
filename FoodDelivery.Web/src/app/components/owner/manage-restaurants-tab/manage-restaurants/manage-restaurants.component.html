@@ -21,6 +21,11 @@
             <div class="text-center">
                 <h4>{{restaurant.name}}</h4>
             </div>
+            <div class="mb-2">
+                <app-readonly-rating class="font-large" [average]="restaurant.rating.averageRating" 
+                    [ratedCount]="restaurant.rating.ratedCount">
+                </app-readonly-rating>
+            </div>
             <div class="d-flex">
                 <h4 class="ml-auto">Status <b>{{restaurantStatus[restaurant.status]}}</b></h4>
                 <button class="btn bg-green btn-sm mx-2" (click)="Activate()"  
@@ -91,9 +96,9 @@
                                 status: <b>{{dishStatus[dish.status]}}</b>
                             </div>
                             <img src="{{imgSrc}}" class="list-image">
-                            <div class="text-right">
-                                {{dish.rating}}/5
-                            </div>
+                            <app-readonly-rating [average]="dish.rating.averageRating" 
+                                [ratedCount]="dish.rating.ratedCount">
+                            </app-readonly-rating>
                             <div class="text-center">
                                 <h5>{{dish.name}}</h5>
                             </div>

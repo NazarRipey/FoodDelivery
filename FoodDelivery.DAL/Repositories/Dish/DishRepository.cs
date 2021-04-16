@@ -106,8 +106,11 @@ namespace FoodDelivery.DAL.Repositories
 					dishes = dishes.OrderByDescending(d => d.Weight);
 					break;
 				case DishSortType.Rating:
+					dishes = dishes.OrderByDescending(d => d.Ratings.Select(r => r.Rating).Average());
+					break;
+				case DishSortType.Popularity:
 				default:
-					dishes = dishes.OrderBy(d => d.Rating);
+					dishes = dishes.OrderByDescending(d => d.Ratings.Count());
 					break;
 			}
 
@@ -142,7 +145,8 @@ namespace FoodDelivery.DAL.Repositories
 		public ICollection<DishListDTO> GetTop(int count)
 		{
 			List<Dish> topDishes = _db.Dish
-				.OrderBy(d => d.Rating)
+				.Where(d => d.Status == (int)DishStatus.Active && d.Restaurant.Status == (int)RestaurantStatus.Active)
+				.OrderByDescending(d => d.Ratings.Select(r => r.Rating).Average())
 				.Take(count)
 				.ToList();
 

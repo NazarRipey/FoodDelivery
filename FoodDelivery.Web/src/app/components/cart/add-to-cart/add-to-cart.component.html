@@ -7,6 +7,9 @@
     <div *ngIf="showDetail" class="my-2 text-right">
         <button class="btn bg-popstar" (click)="ShowDetails()">Detail</button>
     </div>
+    <app-readonly-rating [average]="dish.rating.averageRating" 
+        [ratedCount]="dish.rating.ratedCount">
+    </app-readonly-rating>
     <div class="cart-wrapper">
         <img src="{{imgSrc}}" class="cart-image mr-2">
         <div class="w-100 text-center">
@@ -16,7 +19,6 @@
             </div>
             <p>{{dish.description}}</p>
             <p class="text-left">price: <b>{{dish.price}}₴</b></p>
-            <p class="text-left">rating: <b>{{dish.rating}}/5</b></p>
             <p class="text-left">weight: <b>{{dish.weight}}</b></p>
             <div>
                 <button (click)="Decrement()" [disabled]="itemCount==1" class="btn bg-green">-</button>

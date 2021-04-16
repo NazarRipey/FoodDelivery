@@ -10,6 +10,10 @@
     font-size: x-large;
 }
 
+.font-xx-large{
+    font-size: xx-large
+}
+
 .text-green{
     color: #06C167
 }
@@ -183,6 +187,13 @@ app-filter{
       display: inline-block;
       overflow: hidden;
       color:  #FFE81F;
+}
+
+.user-rating{
+    position: absolute;
+      display: inline-block;
+      overflow: hidden;
+      color:  #7e7631;
 }
 
 /*slider*/

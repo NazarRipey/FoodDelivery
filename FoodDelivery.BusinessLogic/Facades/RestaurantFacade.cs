@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FoodDelivery.DAL.Repositories;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Restaurant;
 using FoodDelivery.Entities.Enums.Status;
@@ -13,14 +14,17 @@ namespace FoodDelivery.BusinessLogic.Facades
 		private readonly IRestaurantRepository _restaurantRepository;
 		private readonly IRestaurantAddressRepository _restaurantAddressRepository;
 		private readonly IRestaurantTypeRepository _restaurantTypeRepository;
+		private readonly IRestaurantRatingRepository _restaurantRatingRepository;
 
 		public RestaurantFacade(IRestaurantRepository restaurantRepository,
 			IRestaurantAddressRepository restaurantAddressRepository,
-			IRestaurantTypeRepository restaurantTypeRepository)
+			IRestaurantTypeRepository restaurantTypeRepository,
+			IRestaurantRatingRepository restaurantRatingRepository)
 		{
 			_restaurantRepository = restaurantRepository;
 			_restaurantAddressRepository = restaurantAddressRepository;
 			_restaurantTypeRepository = restaurantTypeRepository;
+			_restaurantRatingRepository = restaurantRatingRepository;
 		}
 
 		public void AddAddress(RestaurantAddressDTO restaurantAddressDTO)
@@ -35,7 +39,14 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
 		{
-			return _restaurantRepository.Retrieve(filterParams);
+			var restaurantResponse = _restaurantRepository.Retrieve(filterParams);
+
+			foreach (RestaurantListDTO restaurant in restaurantResponse.Restaurants)
+			{
+				restaurant.Rating = GetRestaurantRating(restaurant.Id);
+			}
+
+			return restaurantResponse;
 		}
 
 		public ICollection<string> GetAllNames()
@@ -43,14 +54,25 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return _restaurantRepository.GetAllNames();
 		}
 
-		public RestaurantDetailDTO GetByName(string name)
+		public RestaurantDetailDTO GetByName(string name, Guid? userId)
 		{
-			return _restaurantRepository.GetByName(name);
+			RestaurantDetailDTO restaurantDetailDTO = _restaurantRepository.GetByName(name);
+			restaurantDetailDTO.Rating = GetRestaurantRating(restaurantDetailDTO.Id);
+			restaurantDetailDTO.UserRating = _restaurantRatingRepository.GetUserRating(restaurantDetailDTO.Id, userId);
+
+			return restaurantDetailDTO;
 		}
 
 		public ICollection<RestaurantListDTO> GetTop(int count)
 		{
-			return _restaurantRepository.GetTop(count);
+			var restaurants = _restaurantRepository.GetTop(count);
+
+			foreach (RestaurantListDTO restaurant in restaurants)
+			{
+				restaurant.Rating = GetRestaurantRating(restaurant.Id);
+			}
+
+			return restaurants;
 		}
 
 		public ICollection<RestaurantTypeDTO> GetTypes()
@@ -101,6 +123,16 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public ICollection<RestaurantAddressDTO> GetAddresses(Guid id)
 		{
 			return _restaurantRepository.GetAddresses(id);
+		}
+
+		public Rating GetRestaurantRating(Guid id)
+		{
+			return _restaurantRatingRepository.GetRating(id);
+		}
+
+		public void RateRestaurant(RateRestaurantDTO rateRestaurantDTO)
+		{
+			_restaurantRatingRepository.Rate(rateRestaurantDTO);
 		}
 	}
 }

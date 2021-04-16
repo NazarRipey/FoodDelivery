@@ -2,8 +2,10 @@
 {
 	public enum RestaurantSortType
 	{
-		Rating = 0,
+		Popularity = 0,
 
-		Name = 1
+		Rating = 1,
+
+		Name = 2
 	}
 }

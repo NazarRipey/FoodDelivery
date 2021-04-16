@@ -33,12 +33,12 @@ export class RestaurantListComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 18;
+      this.config.itemsPerPage = 12;
 
       this.restaurantFilterParams.search = params.search ? params.search : null;
       this.restaurantFilterParams.types = params.Type ? params.Type.split(',') : [];
 
-      this.selectedsortType = params.sortType? params.sortType: "Rating";
+      this.selectedsortType = params.sortType? params.sortType: "Popularity";
     });    
 
     this.restaurantFilterParams.itemsPerPage = this.config.itemsPerPage;

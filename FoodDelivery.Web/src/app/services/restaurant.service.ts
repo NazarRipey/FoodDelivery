@@ -1,3 +1,4 @@
+import { RateRestaurant } from './../models/restaurant/RateRestaurant';
 import { RestaurantList } from './../models/restaurant/RestaurantList';
 import { RestaurantAddModel } from './../models/restaurant/RestaurantAddModel';
 import { RestaurantUpdateModel } from '../models/restaurant/RestaurantUpdateModel';
@@ -12,6 +13,7 @@ import { Observable } from 'rxjs';
 import { RestaurantType } from '../models/restaurant/RestaurantType';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Rating } from '../models/Rating';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +51,7 @@ export class RestaurantService {
 
   public getByName(name: string): Observable<RestaurantDetail>{
     const url = this.restaurantUrl + name;
-    return this.http.get<RestaurantDetail>(url);
+    return this.http.get<RestaurantDetail>(url, { withCredentials: true });
   }
 
   public getTop(): Observable<RestaurantList[]>{
@@ -95,5 +97,15 @@ export class RestaurantService {
   public activate(id: Guid){
     const url = this.restaurantUrl + "activate";
     return this.http.post(url, JSON.stringify(id), { withCredentials: true, headers: {'Content-Type': 'application/json' } });
+  }
+
+  public rate(rateRestaurant: RateRestaurant){
+    const url = this.restaurantUrl + "rate";
+    return this.http.post(url, rateRestaurant, { withCredentials: true });    
+  }
+
+  public getRating(id: Guid): Observable<Rating>{
+    const url = this.restaurantUrl + `rating/${id}`;
+    return this.http.get<Rating>(url, { withCredentials: true });
   }
 }

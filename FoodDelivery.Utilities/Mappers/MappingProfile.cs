@@ -32,7 +32,7 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<DishCategoryDTO, DishCategory>()
 				.ReverseMap();
 
-			CreateMap<DishListDTO, Dish>()
+			CreateMap<Dish, DishListDTO>()
 				.ReverseMap();
 
 			CreateMap<Dish, DishAddDTO>()
@@ -75,7 +75,7 @@ namespace FoodDelivery.Utilities.Mappers
 				})
 				.ReverseMap();
 
-			CreateMap<RestaurantListDTO, Restaurant>()
+			CreateMap<Restaurant, RestaurantListDTO>()
 				.ReverseMap();
 
 			CreateMap<Restaurant, RestaurantUpdateDTO>();
@@ -99,6 +99,7 @@ namespace FoodDelivery.Utilities.Mappers
 			.ReverseMap();
 
 			CreateMap<Order, OrderDetailDTO>()
+
 			.ForMember(d => d.PaymentType, opt =>
 			{
 				opt.MapFrom(o => (PaymentType)o.PaymentType);

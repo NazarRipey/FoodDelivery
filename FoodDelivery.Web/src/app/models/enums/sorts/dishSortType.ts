@@ -1,14 +1,15 @@
 export enum DishSortType{
-    Rating = 0,
+    Popularity = 0, 
 
-	Name = 1,
+    Rating = 1,
 
-    Weight = 2,
+	Name = 2,
 
-    ExpensiveFirst = 3,
+    Weight = 3,
+
+    ExpensiveFirst = 4,
     
-    CheapFirst = 4
+    CheapFirst = 5
 
-    //Popular but maybe later, because need to store total views of dish
     //Newest = "Newest", need to store adding date
 }
