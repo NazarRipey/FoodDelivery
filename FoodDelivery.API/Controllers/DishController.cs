@@ -61,9 +61,7 @@ namespace FoodDelivery.API.Controllers
 		[Route("cartdish/{id:Guid}")]
 		public DishCartDTO GetCartDTOById(Guid id)
 		{
-			Guid? userId = _userProfileFacade.GetByEmail(User.Identity?.Name)?.Id;
-
-			return _dishFacade.GetCartDTOById(id, userId);
+			return _dishFacade.GetCartDTOById(id);
 		}
 
 		[HttpGet]
@@ -77,9 +75,7 @@ namespace FoodDelivery.API.Controllers
 		[HttpGet("rating/{id:Guid}")]
 		public Rating GetDishRating(Guid id)
 		{
-			Guid? userId = _userProfileFacade.GetByEmail(User.Identity?.Name)?.Id;
-
-			return _dishFacade.GetDishRating(id, userId);
+			return _dishFacade.GetDishRating(id);
 		}
 
 		[HttpGet]

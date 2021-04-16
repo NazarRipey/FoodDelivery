@@ -16,14 +16,14 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Remove(Guid id);
 		DishListResponseDTO Retrieve(DishFilterParams filterParams);
 		ICollection<DishListDTO> GetTop(int count);
-		DishCartDTO GetCartDTOById(Guid id, Guid? userId);
+		DishCartDTO GetCartDTOById(Guid id);
 		void Deactivate(Guid id);
 		void Activate(Guid id);
 		DishDetailDTO GetDetailDTOById(Guid id, Guid? userId);
 		DishUpdateDTO GetUpdateDTOById(Guid id);
 		DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams);
 		DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams);
-		Rating GetDishRating(Guid id, Guid? userId);
+		Rating GetDishRating(Guid id);
 		void RateDish(RateDishDTO rateDishDTO);
 	}
 }

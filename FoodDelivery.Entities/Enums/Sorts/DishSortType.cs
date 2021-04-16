@@ -2,14 +2,16 @@
 {
 	public enum DishSortType
 	{
-		Rating = 0,
+		Popularity = 0,
 
-		Name = 1,
+		Rating = 1,
 
-		Weight = 2,
+		Name = 2,
 
-		ExpensiveFirst = 3,
+		Weight = 3,
 
-		CheapFirst = 4
+		ExpensiveFirst = 4,
+
+		CheapFirst = 5
 	}
 }

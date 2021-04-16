@@ -33,8 +33,8 @@ export class DishDetailComponent implements OnInit {
     
     this.dishService.getDetailDishById(id).subscribe(d => {
       this.dish = d;
-      if(!d.rating.userRating){
-        this.dish.rating.userRating = 0;
+      if(!d.userRating){
+        this.dish.userRating = 0;
       }
     });
   }
@@ -47,7 +47,7 @@ export class DishDetailComponent implements OnInit {
     const rateDish: RateDish = {
       userId: this.userHelper.profile.id,
       dishId: this.dish.id,
-      rating: this.dish.rating.userRating
+      rating: this.dish.userRating
     };
 
     this.dishService.rate(rateDish).subscribe(_ => {

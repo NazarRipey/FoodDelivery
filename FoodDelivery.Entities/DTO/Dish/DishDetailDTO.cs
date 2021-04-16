@@ -13,6 +13,7 @@ namespace FoodDelivery.Entities.DTO
 		public DishStatus? Status { get; set; }
 		public string RestaurantName { get; set; }
 		public Rating Rating { get; set; }
+		public int? UserRating { get; set; }
 		public DishCategoryDTO Category { get; set; }
 	}
 }

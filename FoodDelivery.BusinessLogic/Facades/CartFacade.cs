@@ -9,11 +9,15 @@ namespace FoodDelivery.BusinessLogic.Facades
 	{
 		private readonly ICartRepository _cartRepository;
 		private readonly ICartItemRepository _cartItemRepository;
+		private readonly IDishRatingRepository _dishRatingRepository;
 
-		public CartFacade(ICartRepository cartRepository, ICartItemRepository cartItemRepository)
+		public CartFacade(ICartRepository cartRepository,
+			ICartItemRepository cartItemRepository,
+			IDishRatingRepository dishRatingRepository)
 		{
 			_cartRepository = cartRepository;
 			_cartItemRepository = cartItemRepository;
+			_dishRatingRepository = dishRatingRepository;
 		}
 
 		public void AddItem(AddCartItemDTO cartItem)
@@ -28,7 +32,17 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public CartResponseDTO Get(Guid userId)
 		{
-			return _cartRepository.Get(userId);
+			CartResponseDTO cartResponseDTO = _cartRepository.Get(userId);
+
+			if(cartResponseDTO != null)
+			{
+				foreach (var item in cartResponseDTO.CartItems)
+				{
+					item.Dish.Rating = _dishRatingRepository.GetRating(item.Dish.Id);
+				}
+			}
+
+			return cartResponseDTO;
 		}
 
 		public CartInfoDTO GetCartInfo(Guid userId)
@@ -38,7 +52,10 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public CartItemDTO GetItem(Guid id)
 		{
-			return _cartItemRepository.Get(id);
+			CartItemDTO cartItemDTO = _cartItemRepository.Get(id);
+			cartItemDTO.Dish.Rating = _dishRatingRepository.GetRating(cartItemDTO.Dish.Id);
+
+			return cartItemDTO;
 		}
 
 		public void RemoveCart(Guid userId)

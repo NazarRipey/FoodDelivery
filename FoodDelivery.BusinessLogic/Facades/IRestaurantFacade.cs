@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Restaurant;
 using FoodDelivery.Entities.FilterParams;
@@ -9,7 +10,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 	public interface IRestaurantFacade
 	{
 		void Create(RestaurantAddDTO restaurantAddDTO);
-		RestaurantDetailDTO GetByName(string name);
+		RestaurantDetailDTO GetByName(string name, Guid? userId);
 		ICollection<RestaurantTypeDTO> GetTypes();
 		RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams);
 		ICollection<RestaurantListDTO> GetTop(int count);
@@ -24,5 +25,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 		ICollection<string> GetNamesByOwner(Guid ownerId);
 		void DeactivateByEmail(string email);
 		ICollection<RestaurantAddressDTO> GetAddresses(Guid id);
+		Rating GetRestaurantRating(Guid id);
+		void RateRestaurant(RateRestaurantDTO rateRestaurantDTO);
 	}
 }

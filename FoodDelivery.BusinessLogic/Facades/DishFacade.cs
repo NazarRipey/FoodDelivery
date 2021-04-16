@@ -31,7 +31,14 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public DishListResponseDTO Retrieve(DishFilterParams filterParams)
 		{
-			return _dishRepository.Retrieve(filterParams);
+			var dishResponse = _dishRepository.Retrieve(filterParams);
+
+			foreach (DishListDTO dish in dishResponse.Dishes)
+			{
+				dish.Rating = GetDishRating(dish.Id);
+			}
+
+			return dishResponse;
 		}
 
 		public DishListDTO GetByNameWithinRestaurant(string name, Guid restaurantId)
@@ -46,7 +53,14 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public ICollection<DishListDTO> GetTop(int count)
 		{
-			return _dishRepository.GetTop(count);
+			var dishes = _dishRepository.GetTop(count);
+
+			foreach (DishListDTO dish in dishes)
+			{
+				dish.Rating = GetDishRating(dish.Id);
+			}
+
+			return dishes;
 		}
 
 		public void Remove(Guid id)
@@ -59,9 +73,12 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_dishRepository.Update(dishUpdateDTO);
 		}
 
-		public DishCartDTO GetCartDTOById(Guid id, Guid? userId)
+		public DishCartDTO GetCartDTOById(Guid id)
 		{
-			return _dishRepository.GetCartDTOById(id, userId);
+			DishCartDTO dishCartDTO = _dishRepository.GetCartDTOById(id);
+			dishCartDTO.Rating = GetDishRating(id);
+
+			return dishCartDTO;
 		}
 
 		public void Deactivate(Guid id)
@@ -76,7 +93,12 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public DishDetailDTO GetDetailDTOById(Guid id, Guid? userId)
 		{
-			return _dishRepository.GetDetailDTOById(id, userId);
+			DishDetailDTO dishDetailDTO = _dishRepository.GetDetailDTOById(id);
+
+			dishDetailDTO.Rating = GetDishRating(id);
+			dishDetailDTO.UserRating = _dishRatingRepository.GetUserRating(id, userId);
+
+			return dishDetailDTO;
 		}
 
 		public DishUpdateDTO GetUpdateDTOById(Guid id)
@@ -86,17 +108,31 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams)
 		{
-			return _dishRepository.RetrieveByRestaurant(filterParams);
+			var dishResponse = _dishRepository.RetrieveByRestaurant(filterParams);
+
+			foreach (DishListDTO dish in dishResponse.Dishes)
+			{
+				dish.Rating = GetDishRating(dish.Id);
+			}
+
+			return dishResponse;
 		}
 
 		public DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams)
 		{
-			return _dishRepository.RetrieveDishDetailDTOByRestaurant(filterParams);
+			var dishResponse = _dishRepository.RetrieveDishDetailDTOByRestaurant(filterParams);
+
+			foreach (DishDetailDTO dish in dishResponse.Dishes)
+			{
+				dish.Rating = GetDishRating(dish.Id);
+			}
+
+			return dishResponse;
 		}
 
-		public Rating GetDishRating(Guid id, Guid? userId)
+		public Rating GetDishRating(Guid id)
 		{
-			return _dishRepository.GetRating(id, userId);
+			return _dishRatingRepository.GetRating(id);
 		}
 
 		public void RateDish(RateDishDTO rateDishDTO)

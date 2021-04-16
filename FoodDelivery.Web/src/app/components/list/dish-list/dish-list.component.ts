@@ -41,7 +41,7 @@ export class DishListComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 18;
+      this.config.itemsPerPage = 12;
 
       this.dishFilterParams.categories = params.Category ? params.Category.split(',') : [];
       this.dishFilterParams.restaurants = params.Restaurant ? params.Restaurant.split(',') : [];
@@ -50,7 +50,7 @@ export class DishListComponent implements OnInit {
       this.sliderOptions.currentMin = +params.minPrice ? +params.minPrice : null;
       this.sliderOptions.currentMax = +params.maxPrice ? +params.maxPrice : null;
       
-      this.selectedsortType = params.sortType? params.sortType: "Rating";
+      this.selectedsortType = params.sortType? params.sortType: "Popularity";
     });    
 
     this.dishFilterParams.itemsPerPage = this.config.itemsPerPage;

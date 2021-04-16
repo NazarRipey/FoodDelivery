@@ -59,7 +59,7 @@ export class DishService {
 
   public retrieveByRestaurant(filterParams: DishRestaurantFilterParams): Observable<DishRestaurantListResponse>{
     const url = this.dishUrl + "retrievebyrestaurant";
-    return this.http.post<DishRestaurantListResponse>(url, filterParams);
+    return this.http.post<DishRestaurantListResponse>(url, filterParams, { withCredentials:true });
   }
 
   public retrieveDetailByRestaurant(filterParams: DishRestaurantFilterParams): Observable<DishDetailResponse>{

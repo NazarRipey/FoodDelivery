@@ -1,15 +1,7 @@
 <div class="text-right">
-    <ngb-rating [(rate)]="dish.rating" 
-    max="5" [readonly]="true">
-    <ng-template let-fill="fill" >
-       <span class="default-rating" [class.filled]="fill === 100">
-           <span class="painted-rating" [style.width.%]="fill">&#9733;</span>&#9733;
-       </span>
-     </ng-template>
-   </ngb-rating>
-   <span class="mx-1">{{dish.rating.averageRating}} 
-       <small>({{dish.rating.ratedCount}})</small>
-    </span>
+    <app-readonly-rating [average]="dish.rating.averageRating" 
+        [ratedCount]="dish.rating.ratedCount">
+    </app-readonly-rating>
 </div>
 <img src="{{imgSrc}}" class="list-image">
 <div class="d-flex justify-content-between my-2 mx-3">

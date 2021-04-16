@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FoodDelivery.BusinessLogic.Facades;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Restaurant;
 using FoodDelivery.Entities.Enums;
@@ -14,7 +15,6 @@ namespace FoodDelivery.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(Roles = "owner")]
 	public class RestaurantController : ControllerBase
 	{
 		private readonly IRestaurantFacade _restaurantFacade;
@@ -31,7 +31,6 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		[Route("retrieve")]
 		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
 		{
@@ -40,14 +39,22 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet("{name}")]
-		[AllowAnonymous]
 		public RestaurantDetailDTO GetByName(string name)
 		{
-			return _restaurantFacade.GetByName(name);
+			Guid? userId = _userProfileFacade.GetByEmail(User.Identity?.Name)?.Id;
+
+			return _restaurantFacade.GetByName(name, userId);
+		}
+
+		[HttpGet("rating/{id:Guid}")]
+		public Rating GetRestaurantRating(Guid id)
+		{
+			return _restaurantFacade.GetRestaurantRating(id);
 		}
 
 		[HttpGet]
 		[Route("updaterestaurant/{id:Guid}")]
+		[Authorize(Roles = "owner")]
 		public RestaurantUpdateDTO GetUpdateDTOById(Guid id)
 		{
 			return _restaurantFacade.GetUpdateDTOById(id);
@@ -55,7 +62,6 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpGet]
 		[Route("{id:Guid}/addresses")]
-		[AllowAnonymous]
 		public ICollection<RestaurantAddressDTO> GetRestaurantAddresses(Guid id)
 		{
 			return _restaurantFacade.GetAddresses(id);
@@ -63,7 +69,6 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpGet]
 		[Route("top")]
-		[AllowAnonymous]
 		public ICollection<RestaurantListDTO> GetTop(int count = 3)
 		{
 			return _restaurantFacade.GetTop(count);
@@ -71,7 +76,6 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpGet]
 		[Route("names")]
-		[AllowAnonymous]
 		public ICollection<string> GetNames()
 		{
 			return _restaurantFacade.GetAllNames();
@@ -89,7 +93,6 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpGet]
 		[Route("types")]
-		[AllowAnonymous]
 		public ICollection<RestaurantTypeDTO> GetTypes()
 		{
 			return _restaurantFacade.GetTypes();
@@ -97,13 +100,14 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("add")]
+		[Authorize(Roles = "owner")]
 		public IActionResult Post([FromBody] RestaurantAddDTO restaurantAddDTO)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(RestaurantErrors.ModelInvalid);
 			}
-			if (_restaurantFacade.GetByName(restaurantAddDTO.Name) != null)
+			if (_restaurantFacade.GetByName(restaurantAddDTO.Name, null) != null)
 			{
 				return BadRequest(RestaurantErrors.AlreadyExistsName);
 			}
@@ -125,6 +129,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("deactivate")]
+		[Authorize(Roles = "owner")]
 		public IActionResult Deactivate([FromBody] Guid id)
 		{
 			try
@@ -141,6 +146,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("activate")]
+		[Authorize(Roles = "owner")]
 		public IActionResult Activate([FromBody] Guid id)
 		{
 			try
@@ -157,6 +163,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("address")]
+		[Authorize(Roles = "owner")]
 		public IActionResult PostAddress(RestaurantAddressDTO restaurantAddressDTO)
 		{
 			try
@@ -172,6 +179,7 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize(Roles = "owner")]
 		public IActionResult Put([FromBody] RestaurantUpdateDTO restaurantUpdateDTO)
 		{
 			try
@@ -188,15 +196,34 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpDelete]
 		[Route("address/{id}")]
+		[Authorize(Roles = "owner")]
 		public void DeleteAddress(Guid id)
 		{
 			_restaurantFacade.RemoveAddress(id);
 		}
 
 		[HttpDelete("{id}")]
+		[Authorize(Roles = "owner")]
 		public void Delete(Guid id)
 		{
 			_restaurantFacade.RemoveRestaurant(id);
+		}
+
+		[HttpPost]
+		[Authorize(Roles = "customer")]
+		[Route("rate")]
+		public IActionResult RateRestaurant(RateRestaurantDTO rateRestaurantDTO)
+		{
+			try
+			{
+				_restaurantFacade.RateRestaurant(rateRestaurantDTO);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
 		}
 	}
 }

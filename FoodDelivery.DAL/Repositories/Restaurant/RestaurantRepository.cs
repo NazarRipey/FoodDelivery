@@ -55,8 +55,11 @@ namespace FoodDelivery.DAL.Repositories
 					restaurants = restaurants.OrderBy(r => r.Name);
 					break;
 				case RestaurantSortType.Rating:
-				default:
 					restaurants = restaurants.OrderByDescending(r => r.Ratings.Select(r => r.Rating).Average());
+					break;
+				case RestaurantSortType.Popularity:
+				default:
+					restaurants = restaurants.OrderByDescending(r => r.Ratings.Count());
 					break;
 			}
 
@@ -103,6 +106,7 @@ namespace FoodDelivery.DAL.Repositories
 		public ICollection<RestaurantListDTO> GetTop(int count)
 		{
 			List<Restaurant> topRestaurants = _db.Restaurant
+				.Where(r => r.Status == (int)RestaurantStatus.Active)
 				.OrderByDescending(r => r.Ratings.Select(r => r.Rating).Average())
 				.Take(count)
 				.ToList();

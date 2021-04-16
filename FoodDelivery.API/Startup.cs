@@ -93,6 +93,7 @@ namespace FoodDelivery.API
 			services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 			services.AddScoped<IRestaurantAddressRepository, RestaurantAddressRepository>();
 			services.AddScoped<IRestaurantTypeRepository, RestaurantTypeRepository>();
+			services.AddScoped<IRestaurantRatingRepository, RestaurantRatingRepository>();
 			services.AddScoped<IRestaurantFacade, RestaurantFacade>();
 
 			services.AddScoped<IRestaurantRequestRepository, RestaurantRequestRepository>();

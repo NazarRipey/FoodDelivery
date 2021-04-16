@@ -1,0 +1,13 @@
+<div class="text-right">
+    <ngb-rating [(rate)]="average" 
+    max="5" [readonly]="true">
+    <ng-template let-fill="fill" >
+       <span class="default-rating" [class.filled]="fill === 100">
+           <span class="painted-rating" [style.width.%]="fill">&#9733;</span>&#9733;
+       </span>
+     </ng-template>
+   </ngb-rating>
+   <span class="mx-1">{{average}} 
+       <small>({{ratedCount}})</small>
+    </span>
+</div>

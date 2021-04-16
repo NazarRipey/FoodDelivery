@@ -72,6 +72,7 @@ import { UpdateProfileComponent } from './components/profile/update-profile/upda
 import { UsersComponent } from './components/admin/users/users.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ManageRestaurantsTabComponent } from './components/owner/manage-restaurants-tab/manage-restaurants-tab.component';
+import { ReadonlyRatingComponent } from './components/shared/readonly-rating/readonly-rating.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -136,6 +137,7 @@ export function startupServiceFactory(startupService: StartupService): Function 
     UsersComponent,
     ConfirmDialogComponent,
     ManageRestaurantsTabComponent,
+    ReadonlyRatingComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ export class RestaurantDetail{
     public name: string;
     public description: string;
     public rating: Rating;
+    public userRating?: number;
     public type: RestaurantType;
     public addresses: RestaurantAddress[];
     public status: RestaurantStatus;

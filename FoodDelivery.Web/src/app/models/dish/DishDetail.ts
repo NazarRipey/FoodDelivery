@@ -11,6 +11,7 @@ export class DishDetail{
     public weight : number;
     public rating : Rating;
     public status?: DishStatus;
+    public userRating? : number;
 
     public restaurantName: string;
     public category: DishCategory;

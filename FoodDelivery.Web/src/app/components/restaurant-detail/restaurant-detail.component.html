@@ -1,4 +1,4 @@
-<div *ngIf="restaurant">
+<div *ngIf="restaurant?.status">
     <div *ngIf="restaurant.status==statuses.Active">
         <div class="text-center">
             <h1>{{restaurant.name}}</h1>
@@ -6,19 +6,20 @@
         <div class="detail-wrapper mx-5 my-2">
             <img src="{{imgSrc}}" class="restaurant-image">
             <div class="w-100">
-
-                <!--
-                <ngb-rating [(rate)]="currentRating" 
-                 max="5" [readonly]="readOnly" (rateChange)="rated()">
-                 <ng-template let-fill="fill" >
-                    <span class="default-rating font-x-large" [class.filled]="fill === 100">
-                        <span class="painted-rating font-x-large" [style.width.%]="fill">&#9733;</span>&#9733;
-                    </span>
-                  </ng-template>
-                </ngb-rating>
-                <span class="font-x-large mx-1">{{currentRating}}</span>
-                <span class="text-secondary font-smaller">(count)</span>
-                -->
+                <div>
+                    <small>your rate:</small>
+                    <ngb-rating [(rate)]="restaurant.userRating" max="5" (rateChange)="rateRestaurant()"
+                    [readonly]="!userHelper.isInRole(['customer'])">
+                    <ng-template let-fill="fill" >
+                       <span class="default-rating font-x-large" [class.filled]="fill === 100">
+                           <span class="painted-rating font-x-large" [style.width.%]="fill">&#9733;</span>&#9733;
+                       </span>
+                     </ng-template>
+                    </ngb-rating>
+                    <span class="ml-5 font-x-large">{{restaurant.rating.averageRating}} 
+                        <small>({{restaurant.rating.ratedCount}})</small>
+                    </span>    
+                </div>
 
                 <p class="container mt-3">{{restaurant.description}}</p>
                 <p>Type: {{restaurant?.type?.name}}</p>

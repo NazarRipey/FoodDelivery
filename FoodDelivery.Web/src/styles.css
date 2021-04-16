@@ -10,6 +10,10 @@
     font-size: x-large;
 }
 
+.font-xx-large{
+    font-size: xx-large
+}
+
 .text-green{
     color: #06C167
 }

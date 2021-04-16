@@ -1,8 +1,9 @@
 export enum RestaurantSortType{
-    Rating = 0,
+    Popularity = 0,
 
-    Name = 1
+    Rating = 1,
 
-    //Popular but maybe later, because need to store total views of dish
+    Name = 2
+
     //Newest = "Newest", need to store adding date
 }
