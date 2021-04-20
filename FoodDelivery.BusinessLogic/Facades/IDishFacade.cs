@@ -25,5 +25,8 @@ namespace FoodDelivery.BusinessLogic.Facades
 		DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams);
 		Rating GetDishRating(Guid id);
 		void RateDish(RateDishDTO rateDishDTO);
+		void ChangeImage(Guid id, FileData image);
+		string GetImage(Guid id);
+		void DeleteImage(Guid id);
 	}
 }

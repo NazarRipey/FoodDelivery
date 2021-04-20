@@ -19,10 +19,15 @@ namespace FoodDelivery.DAL.Repositories
 			: base(db, mapper)
 		{ }
 
-		public void Create(DishAddDTO dishDTO)
+		public void Create(DishAddDTO dishDTO, Guid? imageName)
 		{
 			Dish dish = _mapper.Map<Dish>(dishDTO);
 			dish.Status = (int)DishStatus.Active;
+
+			if (imageName != null)
+			{
+				dish.ImageName = imageName;
+			}
 
 			//занулення щоб не додавалось в бд, в мапері не працює
 			dish.Category = null;
@@ -247,6 +252,19 @@ namespace FoodDelivery.DAL.Repositories
 			};
 
 			return dishDetailResponseDTO;
+		}
+
+		public string GetImageName(Guid id)
+		{
+			Dish dish = _db.Dish.Find(id);
+
+			if (dish.ImageName == null)
+			{
+				dish.ImageName = Guid.NewGuid();
+				SaveChanges();
+			}
+
+			return dish.ImageName.ToString();
 		}
 	}
 }

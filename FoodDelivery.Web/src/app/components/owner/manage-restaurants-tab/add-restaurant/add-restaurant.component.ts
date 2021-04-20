@@ -1,3 +1,4 @@
+import { IFileDetails } from './../../../../models/IFileDetails';
 import { RestaurantAddModel } from '../../../../models/restaurant/RestaurantAddModel';
 import { MessageComponent } from '../../../message/message.component';
 import { UserHelper } from '../../../../helpers/UserHelper';
@@ -15,6 +16,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddRestaurantComponent implements OnInit {
   types: RestaurantType[];
+
+  selectedImage: IFileDetails = null;
 
   public addresses: FormArray;
   restaurantErrors = RestaurantErrors
@@ -68,13 +71,37 @@ export class AddRestaurantComponent implements OnInit {
     this.addresses.removeAt(i);
   }
 
+  onImageSelected(event){
+    const e = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const details = {
+        contentType: e.type,
+        fileName: e.name,
+        data: reader.result,
+      };
+
+      this.selectedImage = details as IFileDetails;
+    };
+
+    if(e){
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  uploadImage(){
+    alert("uploaded");
+  }
+
   onSubmit(){
     const restaurant :RestaurantAddModel = {
       ownerId: this.userHelper.profile.id,
       name: this.addRestaurantForm.get('name').value,
       description: this.addRestaurantForm.get('description').value,
       type: this.addRestaurantForm.get('type').value,
-      addresses: this.addresses.value
+      addresses: this.addresses.value,
+      image: this.selectedImage
     }
 
     this.restaurantService.addRestaurant(restaurant).subscribe(

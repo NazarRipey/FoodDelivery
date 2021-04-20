@@ -15,5 +15,7 @@ namespace FoodDelivery.Entities.DTO
 		public Rating Rating { get; set; }
 		public int? UserRating { get; set; }
 		public DishCategoryDTO Category { get; set; }
+		public string ImageName { get; set; }
+		public string Base64Image { get; set; }
 	}
 }

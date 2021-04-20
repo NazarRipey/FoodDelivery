@@ -1,3 +1,4 @@
+import { IFileDetails } from 'src/app/models/IFileDetails';
 import { RateDish } from './../models/dish/RateDish';
 import { DishDetailResponse } from './../models/dish/DishDetailResponse';
 import { DishRestaurantFilterParams } from './../models/filters/DishRestaurantFilterParams';
@@ -100,5 +101,24 @@ export class DishService {
   public getRating(id: Guid): Observable<Rating>{
     const url = this.dishUrl + `rating/${id}`;
     return this.http.get<Rating>(url, { withCredentials: true });
+  }
+
+  public changeImage(image: IFileDetails, id: string){
+    const url = this.dishUrl + `changeimage/${id}`;
+    return this.http.post(url, image, { withCredentials: true });
+  }
+
+  public deleteImage(id: string){
+    const url = this.dishUrl + `deleteimage/${id}`;
+    return this.http.delete(url, { withCredentials: true });
+  }
+
+  public getImage(id: string): Observable<string>{
+    const url = this.dishUrl + `image/${id}`;
+    const requestOptions: Object = {
+      responseType: 'text'
+    }
+
+    return this.http.get<string>(url,  requestOptions);
   }
 }

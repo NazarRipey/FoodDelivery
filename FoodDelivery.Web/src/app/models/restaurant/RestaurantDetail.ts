@@ -14,4 +14,6 @@ export class RestaurantDetail{
     public type: RestaurantType;
     public addresses: RestaurantAddress[];
     public status: RestaurantStatus;
+
+    public base64Image: string;
 }

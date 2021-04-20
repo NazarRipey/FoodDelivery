@@ -12,6 +12,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
+import { Observable, observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-to-cart',
@@ -48,7 +49,7 @@ export class AddToCartComponent implements OnInit {
     this.itemCount = 1;
     
     this.dishService.getCartDishById(this.dishId).subscribe(d => {
-      this.dish = d
+      this.dish = d;
     });
   }
 

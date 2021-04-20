@@ -10,5 +10,6 @@ namespace FoodDelivery.Entities.DTO
 		public decimal Price { get; set; }
 		public double Weight { get; set; }
 		public DishCategoryDTO Category { get; set; }
+		public FileData Image { get; set; }
 	}
 }

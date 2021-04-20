@@ -12,6 +12,7 @@ export class DishDetail{
     public rating : Rating;
     public status?: DishStatus;
     public userRating? : number;
+    public base64Image: string;
 
     public restaurantName: string;
     public category: DishCategory;

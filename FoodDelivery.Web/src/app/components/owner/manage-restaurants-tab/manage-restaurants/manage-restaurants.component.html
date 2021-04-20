@@ -8,8 +8,28 @@
 </div>
 <div *ngIf="restaurant.status==restaurantStatus.Active||restaurant.status==restaurantStatus.Inactive" >
     <div class="detail-wrapper mx-5 mt-3">
-        <img src="{{imgSrc}}" class="restaurant-image">
-        <div class="w-100">
+        <div class="img-wrapper w-50">
+            <img [src]="restaurant.base64Image" class="restaurant-image">
+            <div class="img-overlay">
+                <div ngbDropdown display="dynamic">
+                    <button class="btn" class="btn btn-sm bg-blue"
+                        ngbDropdownToggle>
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <div ngbDropdownMenu >
+                        <input style="display: none;" type="file" #restaurantImage
+                        (change)="onRerstaurantImageChange($event)">
+                        <button (click)="restaurantImage.click()" class="btn btn-sm" ngbDropdownItem>
+                            Change image         
+                        </button>
+                        <button (click)="deleteRestaurantImage()" class="btn btn-sm" ngbDropdownItem>
+                            Delete image
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-75">
             <div class="text-right">
                 <button class="btn bg-blue" (click)="updateRestaurant()">
                     <i class="bi bi-pencil"></i>
@@ -95,7 +115,27 @@
                             <div class="text-left">
                                 status: <b>{{dishStatus[dish.status]}}</b>
                             </div>
-                            <img src="{{imgSrc}}" class="list-image">
+                            <div class="img-wrapper">
+                                <img [src]="dish.base64Image" class="list-image">
+                                <div class="img-overlay">
+                                    <div ngbDropdown display="dynamic">
+                                        <button class="btn" class="btn btn-sm bg-blue"
+                                            ngbDropdownToggle>
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <div ngbDropdownMenu >
+                                            <input style="display: none;" type="file" #dishImage
+                                            (change)="onDishImageChange($event, i)">
+                                            <button (click)="dishImage.click()" class="btn btn-sm" ngbDropdownItem>
+                                                Change image         
+                                            </button>
+                                            <button (click)="deleteDishImage(i)" class="btn btn-sm" ngbDropdownItem>
+                                                Delete image
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <app-readonly-rating [average]="dish.rating.averageRating" 
                                 [ratedCount]="dish.rating.ratedCount">
                             </app-readonly-rating>

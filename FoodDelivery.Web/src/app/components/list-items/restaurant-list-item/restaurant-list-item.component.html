@@ -2,7 +2,7 @@
     <app-readonly-rating [average]="restaurant.rating.averageRating" 
         [ratedCount]="restaurant.rating.ratedCount">
     </app-readonly-rating>
-    <img src="{{imgSrc}}" class="list-image">
+    <img [src]="restaurant.base64Image" class="list-image">
     <div>
         <span>{{restaurant.name}}</span>
     </div>

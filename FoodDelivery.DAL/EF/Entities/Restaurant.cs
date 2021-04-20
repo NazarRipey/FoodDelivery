@@ -19,6 +19,8 @@ namespace FoodDelivery.DAL.EF.Entities
 
 		public int Status { get; set; }
 
+		public Guid? ImageName { get; set; }
+
 		[ForeignKey("Type")]
 		public int TypeId { get; set; }
 

@@ -1,3 +1,4 @@
+import { itemsPerPage } from './../../../../globals';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ModalHelper } from './../../../../helpers/ModalHelper';
@@ -30,7 +31,7 @@ export class AvailableOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 18;
+      this.config.itemsPerPage = itemsPerPage;
 
       this.filterParams.search = params.search ? params.search : null;
     });    
