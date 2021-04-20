@@ -1,3 +1,4 @@
+import { itemsPerPage } from './../../../globals';
 import { OrderStatus } from '../../../models/enums/statuses/OrderStatus';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderFilterParams } from '../../../models/filters/OrderFilterParams';
@@ -26,7 +27,7 @@ export class OrderHistoryListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 6;
+      this.config.itemsPerPage = itemsPerPage;
       this.selectedStatus = params.status ? params.status : "All"; 
       this.orderFilterParams.search = params.search ? params.search : null;
     });  

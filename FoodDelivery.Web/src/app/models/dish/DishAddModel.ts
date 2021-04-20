@@ -1,4 +1,4 @@
-import { DishStatus } from '../enums/statuses/DishStatus';
+import { IFileDetails } from './../IFileDetails';
 import { DishCategory } from './DishCategory';
 import { Guid } from 'guid-typescript';
 
@@ -10,4 +10,6 @@ export class DishAddModel{
 
     public restaurantId: Guid;
     public category: DishCategory;
+
+    public image?: IFileDetails;
 }

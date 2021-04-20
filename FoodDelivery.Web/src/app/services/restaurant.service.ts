@@ -1,3 +1,4 @@
+import { IFileDetails } from './../models/IFileDetails';
 import { RateRestaurant } from './../models/restaurant/RateRestaurant';
 import { RestaurantList } from './../models/restaurant/RestaurantList';
 import { RestaurantAddModel } from './../models/restaurant/RestaurantAddModel';
@@ -107,5 +108,24 @@ export class RestaurantService {
   public getRating(id: Guid): Observable<Rating>{
     const url = this.restaurantUrl + `rating/${id}`;
     return this.http.get<Rating>(url, { withCredentials: true });
+  }
+
+  public changeImage(image: IFileDetails, id: string){
+    const url = this.restaurantUrl + `changeimage/${id}`;
+    return this.http.post(url, image, { withCredentials: true });
+  }
+
+  public deleteImage(id: string){
+    const url = this.restaurantUrl + `deleteimage/${id}`;
+    return this.http.delete(url, { withCredentials: true });
+  }
+
+  public getImage(id: string): Observable<string>{
+    const url = this.restaurantUrl + `image/${id}`;
+    const requestOptions: Object = {
+      responseType: 'text'
+    }
+
+    return this.http.get<string>(url,  requestOptions);
   }
 }

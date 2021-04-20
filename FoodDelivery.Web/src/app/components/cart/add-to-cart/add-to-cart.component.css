@@ -7,6 +7,11 @@
     align-items: stretch;
 }
 
+.modal-content{
+    width: fit-content;
+    max-width: fit-content;
+}
+
 @media only screen and (max-width: 450px) {
     .cart-wrapper{
         display: block;

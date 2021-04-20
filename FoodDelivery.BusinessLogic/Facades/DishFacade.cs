@@ -6,6 +6,7 @@ using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Dish;
 using FoodDelivery.Entities.Enums.Status;
 using FoodDelivery.Entities.FilterParams;
+using FoodDelivery.Utilities.Helpers;
 
 namespace FoodDelivery.BusinessLogic.Facades
 {
@@ -26,7 +27,15 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public void Create(DishAddDTO dishDTO)
 		{
-			_dishRepository.Create(dishDTO);
+			Guid? imageName = null;
+
+			if (dishDTO.Image != null && !string.IsNullOrWhiteSpace(dishDTO.Image.Data))
+			{
+				imageName = Guid.NewGuid();
+				FileHelper.SaveDishImage(dishDTO.Image.Data, imageName.ToString());
+			}
+
+			_dishRepository.Create(dishDTO, imageName);
 		}
 
 		public DishListResponseDTO Retrieve(DishFilterParams filterParams)
@@ -36,6 +45,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 			foreach (DishListDTO dish in dishResponse.Dishes)
 			{
 				dish.Rating = GetDishRating(dish.Id);
+				dish.Base64Image = FileHelper.GetDishImage(dish.ImageName);
 			}
 
 			return dishResponse;
@@ -58,6 +68,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 			foreach (DishListDTO dish in dishes)
 			{
 				dish.Rating = GetDishRating(dish.Id);
+				dish.Base64Image = FileHelper.GetDishImage(dish.ImageName);
 			}
 
 			return dishes;
@@ -65,6 +76,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public void Remove(Guid id)
 		{
+			this.DeleteImage(id);
 			_dishRepository.Remove(id);
 		}
 
@@ -76,7 +88,9 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public DishCartDTO GetCartDTOById(Guid id)
 		{
 			DishCartDTO dishCartDTO = _dishRepository.GetCartDTOById(id);
+
 			dishCartDTO.Rating = GetDishRating(id);
+			dishCartDTO.Base64Image = FileHelper.GetDishImage(dishCartDTO.ImageName);
 
 			return dishCartDTO;
 		}
@@ -97,6 +111,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 			dishDetailDTO.Rating = GetDishRating(id);
 			dishDetailDTO.UserRating = _dishRatingRepository.GetUserRating(id, userId);
+			dishDetailDTO.Base64Image = FileHelper.GetDishImage(dishDetailDTO.ImageName);
 
 			return dishDetailDTO;
 		}
@@ -113,6 +128,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 			foreach (DishListDTO dish in dishResponse.Dishes)
 			{
 				dish.Rating = GetDishRating(dish.Id);
+				dish.Base64Image = FileHelper.GetDishImage(dish.ImageName);
 			}
 
 			return dishResponse;
@@ -125,6 +141,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 			foreach (DishDetailDTO dish in dishResponse.Dishes)
 			{
 				dish.Rating = GetDishRating(dish.Id);
+				dish.Base64Image = FileHelper.GetDishImage(dish.ImageName);
 			}
 
 			return dishResponse;
@@ -138,6 +155,27 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public void RateDish(RateDishDTO rateDishDTO)
 		{
 			_dishRatingRepository.Rate(rateDishDTO);
+		}
+
+		public void ChangeImage(Guid id, FileData image)
+		{
+			string imgName = _dishRepository.GetImageName(id);
+
+			FileHelper.SaveDishImage(image.Data, imgName);
+		}
+
+		public string GetImage(Guid id)
+		{
+			string imgName = _dishRepository.GetImageName(id);
+
+			return FileHelper.GetDishImage(imgName);
+		}
+
+		public void DeleteImage(Guid id)
+		{
+			string imgName = _dishRepository.GetImageName(id);
+
+			FileHelper.DeleteDishImage(imgName);
 		}
 	}
 }

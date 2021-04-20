@@ -6,6 +6,7 @@ import { DishCategory } from '../../../../models/dish/DishCategory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Guid } from 'guid-typescript';
 import { Component, OnInit } from '@angular/core';
+import { IFileDetails } from 'src/app/models/IFileDetails';
 
 @Component({
   selector: 'app-add-dish',
@@ -16,6 +17,8 @@ export class AddDishComponent implements OnInit {
   restaurantId: Guid;
   categories: DishCategory[];
   dishErrors = DishErrors;
+
+  selectedImage: IFileDetails = null;
 
   addDishForm = new FormGroup({
     name: new FormControl('', [
@@ -44,6 +47,25 @@ export class AddDishComponent implements OnInit {
     this.dishService.getCategories().subscribe(c => this.categories = c);
   }
 
+  onImageSelected(event){
+    const e = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const details = {
+        contentType: e.type,
+        fileName: e.name,
+        data: reader.result,
+      };
+
+      this.selectedImage = details as IFileDetails;
+    };
+
+    if(e){
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
   onSubmit(){
     const dish :DishAddModel = {
       name: this.addDishForm.get('name').value,
@@ -51,7 +73,8 @@ export class AddDishComponent implements OnInit {
       price: this.addDishForm.get('price').value,
       weight: this.addDishForm.get('weight').value,
       restaurantId: this.restaurantId,
-      category: (this.addDishForm.get('category').value)
+      category: (this.addDishForm.get('category').value),
+      image: this.selectedImage
     }
 
     this.dishService.addDish(dish).subscribe(
@@ -60,6 +83,7 @@ export class AddDishComponent implements OnInit {
       },
       err => {
         this.addDishForm.setErrors({"server": +err.error});
+        console.log(err);
       }
     );
   }

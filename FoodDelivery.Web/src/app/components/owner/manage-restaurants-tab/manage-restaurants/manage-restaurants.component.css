@@ -13,3 +13,32 @@
         flex: 0 0 49%;
     }
 }
+
+.dropdown-toggle::after { 
+    content: none; 
+}
+
+.img-wrapper {
+    position: relative;
+}
+
+.img-responsive {
+    width: 100%;
+    height: auto;
+}
+
+.img-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: right;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.img-overlay:before {
+    content: ' ';
+    display: block;
+}

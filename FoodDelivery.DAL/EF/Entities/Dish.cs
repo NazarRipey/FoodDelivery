@@ -13,8 +13,8 @@ namespace FoodDelivery.DAL.EF.Entities
 		public string Description { get; set; }
 		public decimal Price { get; set; }
 		public double Weight { get; set; }
-
 		public int Status { get; set; }
+		public Guid? ImageName { get; set; }
 
 		[ForeignKey("Category")]
 		public int CategoryId { get; set; }

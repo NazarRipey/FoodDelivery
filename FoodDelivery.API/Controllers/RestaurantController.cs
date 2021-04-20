@@ -30,55 +30,81 @@ namespace FoodDelivery.API.Controllers
 			_restaurantRequestFacade = restaurantRequestFacade;
 		}
 
+		#region image
+		[HttpGet]
+		[Route("image/{id:Guid}")]
+		public string GetImage(Guid id)
+		{
+			return _restaurantFacade.GetImage(id);
+		}
+
 		[HttpPost]
-		[Route("retrieve")]
-		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
+		[Authorize(Roles = "owner")]
+		[Route("changeImage/{id:Guid}")]
+		public IActionResult ChangeImage(Guid id, [FromBody] FileData image)
 		{
-			string e = User.Identity.Name;
-			return _restaurantFacade.Retrieve(filterParams);
+			try
+			{
+				_restaurantFacade.ChangeImage(id, image);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
 		}
 
-		[HttpGet("{name}")]
-		public RestaurantDetailDTO GetByName(string name)
+		[HttpDelete]
+		[Authorize(Roles = "owner")]
+		[Route("deleteImage/{id:Guid}")]
+		public IActionResult DeleteImage(Guid id)
 		{
-			Guid? userId = _userProfileFacade.GetByEmail(User.Identity?.Name)?.Id;
+			try
+			{
+				_restaurantFacade.DeleteImage(id);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
 
-			return _restaurantFacade.GetByName(name, userId);
+			return Ok();
 		}
+		#endregion
 
+		#region rating
 		[HttpGet("rating/{id:Guid}")]
 		public Rating GetRestaurantRating(Guid id)
 		{
 			return _restaurantFacade.GetRestaurantRating(id);
 		}
 
+		[HttpPost]
+		[Authorize(Roles = "customer")]
+		[Route("rate")]
+		public IActionResult RateRestaurant(RateRestaurantDTO rateRestaurantDTO)
+		{
+			try
+			{
+				_restaurantFacade.RateRestaurant(rateRestaurantDTO);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+		#endregion
+
+		#region owner
 		[HttpGet]
 		[Route("updaterestaurant/{id:Guid}")]
 		[Authorize(Roles = "owner")]
 		public RestaurantUpdateDTO GetUpdateDTOById(Guid id)
 		{
 			return _restaurantFacade.GetUpdateDTOById(id);
-		}
-
-		[HttpGet]
-		[Route("{id:Guid}/addresses")]
-		public ICollection<RestaurantAddressDTO> GetRestaurantAddresses(Guid id)
-		{
-			return _restaurantFacade.GetAddresses(id);
-		}
-
-		[HttpGet]
-		[Route("top")]
-		public ICollection<RestaurantListDTO> GetTop(int count = 3)
-		{
-			return _restaurantFacade.GetTop(count);
-		}
-
-		[HttpGet]
-		[Route("names")]
-		public ICollection<string> GetNames()
-		{
-			return _restaurantFacade.GetAllNames();
 		}
 
 		[HttpGet]
@@ -89,13 +115,6 @@ namespace FoodDelivery.API.Controllers
 			Guid ownerId = _userProfileFacade.GetByEmail(User.Identity.Name).Id;
 
 			return _restaurantFacade.GetNamesByOwner(ownerId);
-		}
-
-		[HttpGet]
-		[Route("types")]
-		public ICollection<RestaurantTypeDTO> GetTypes()
-		{
-			return _restaurantFacade.GetTypes();
 		}
 
 		[HttpPost]
@@ -208,22 +227,49 @@ namespace FoodDelivery.API.Controllers
 		{
 			_restaurantFacade.RemoveRestaurant(id);
 		}
+		#endregion
 
 		[HttpPost]
-		[Authorize(Roles = "customer")]
-		[Route("rate")]
-		public IActionResult RateRestaurant(RateRestaurantDTO rateRestaurantDTO)
+		[Route("retrieve")]
+		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
 		{
-			try
-			{
-				_restaurantFacade.RateRestaurant(rateRestaurantDTO);
-			}
-			catch (Exception e)
-			{
-				return StatusCode(500);
-			}
+			return _restaurantFacade.Retrieve(filterParams);
+		}
 
-			return Ok();
+		[HttpGet("{name}")]
+		public RestaurantDetailDTO GetByName(string name)
+		{
+			Guid? userId = _userProfileFacade.GetByEmail(User.Identity?.Name)?.Id;
+
+			return _restaurantFacade.GetByName(name, userId);
+		}
+
+		[HttpGet]
+		[Route("{id:Guid}/addresses")]
+		public ICollection<RestaurantAddressDTO> GetRestaurantAddresses(Guid id)
+		{
+			return _restaurantFacade.GetAddresses(id);
+		}
+
+		[HttpGet]
+		[Route("top")]
+		public ICollection<RestaurantListDTO> GetTop(int count = 3)
+		{
+			return _restaurantFacade.GetTop(count);
+		}
+
+		[HttpGet]
+		[Route("names")]
+		public ICollection<string> GetNames()
+		{
+			return _restaurantFacade.GetAllNames();
+		}
+
+		[HttpGet]
+		[Route("types")]
+		public ICollection<RestaurantTypeDTO> GetTypes()
+		{
+			return _restaurantFacade.GetTypes();
 		}
 	}
 }

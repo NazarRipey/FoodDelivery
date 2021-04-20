@@ -11,5 +11,6 @@ namespace FoodDelivery.Entities.DTO.Restaurant
 		public string Description { get; set; }
 		public RestaurantTypeDTO Type { get; set; }
 		public List<RestaurantAddressDTO> Addresses { get; set; }
+		public FileData Image { get; set; }
 	}
 }

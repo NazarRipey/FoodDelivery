@@ -9,4 +9,5 @@ export class DishCart{
     public price: number;
     public weight: number;
     public rating: Rating;
+    public base64Image: string;
 }

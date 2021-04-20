@@ -88,6 +88,13 @@
                             </div>
                         </label>
                     </div>
+                    <img [src]="selectedImage.data" *ngIf="selectedImage" class="picked-image mb-1">
+                    <input style="display: none;" type="file" #imageInput (change)="onImageSelected($event)">
+                    <div class="text-center">
+                        <button type="button" (click)="imageInput.click()" class="btn btn-sm mt-1 bg-blue">
+                            Pick image
+                        </button>
+                    </div>
                     <div *ngIf="addDishForm.hasError('server') && addDishForm.touched"
                     class="text-danger">
                         <div [ngSwitch]="addDishForm.errors['server']">

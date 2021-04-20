@@ -3,7 +3,7 @@
         [ratedCount]="dish.rating.ratedCount">
     </app-readonly-rating>
 </div>
-<img src="{{imgSrc}}" class="list-image">
+<img [src]="dish.base64Image" class="list-image">
 <div class="d-flex justify-content-between my-2 mx-3">
     <button class="btn bg-green" (click)="openAddToCart()">
         Add to cart

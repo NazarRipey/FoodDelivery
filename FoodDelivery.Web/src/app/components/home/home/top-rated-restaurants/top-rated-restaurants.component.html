@@ -4,7 +4,7 @@
         <ngb-carousel>  
             <ng-template ngbSlide *ngFor="let restaurant of restaurants">  
                 <a [routerLink]="['/restaurants', restaurant.name]">
-                    <img src="{{imgSrc}}" alt={{restaurant.name}} class="banner-img">  
+                    <img [src]="restaurant.base64Image" alt={{restaurant.name}} class="banner-img">  
                     <div class="carousel-caption">  
                         <h1>{{restaurant.name}}</h1>
                         <h5 class="text-right">

@@ -1,3 +1,4 @@
+import { itemsPerPage } from './../../../../globals';
 import { OrderManager } from './../../../../models/order/OrderManager';
 import { OrderItemsComponent } from './../order-items/order-items.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -32,7 +33,7 @@ export class TakenOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 18;
+      this.config.itemsPerPage = itemsPerPage;
 
       this.filterParams.search = params.search ? params.search : null;
     });    

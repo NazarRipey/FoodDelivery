@@ -6,4 +6,5 @@ export class DishList{
     public name: string;
     public price: number;
     public rating: Rating;
+    public base64Image: string;
 }

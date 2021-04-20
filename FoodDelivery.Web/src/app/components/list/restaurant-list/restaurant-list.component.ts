@@ -1,3 +1,4 @@
+import { listItemsPerPage } from './../../../globals';
 import { RestaurantSortType } from '../../../models/enums/sorts/RestaurantSortType';
 import { RestaurantFilterParams } from '../../../models/filters/RestaurantFilterParams';
 import { RestaurantListResponse } from '../../../models/restaurant/RestaurantListResponse';
@@ -33,7 +34,7 @@ export class RestaurantListComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 12;
+      this.config.itemsPerPage = listItemsPerPage;
 
       this.restaurantFilterParams.search = params.search ? params.search : null;
       this.restaurantFilterParams.types = params.Type ? params.Type.split(',') : [];

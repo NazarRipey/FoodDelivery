@@ -27,5 +27,8 @@ namespace FoodDelivery.BusinessLogic.Facades
 		ICollection<RestaurantAddressDTO> GetAddresses(Guid id);
 		Rating GetRestaurantRating(Guid id);
 		void RateRestaurant(RateRestaurantDTO rateRestaurantDTO);
+		string GetImage(Guid id);
+		void ChangeImage(Guid id, FileData image);
+		void DeleteImage(Guid id);
 	}
 }

@@ -1,3 +1,4 @@
+import { listItemsPerPage } from './../../../globals';
 import { DishSortType } from '../../../models/enums/sorts/DishSortType';
 import { SliderOptions } from '../../../models/SliderOptions';
 import { DishListResponse } from '../../../models/dish/DishListResponse';
@@ -41,7 +42,7 @@ export class DishListComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 12;
+      this.config.itemsPerPage = listItemsPerPage;
 
       this.dishFilterParams.categories = params.Category ? params.Category.split(',') : [];
       this.dishFilterParams.restaurants = params.Restaurant ? params.Restaurant.split(',') : [];

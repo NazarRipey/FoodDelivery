@@ -11,5 +11,7 @@ namespace FoodDelivery.Entities.DTO
 		public decimal Price { get; set; }
 		public double Weight { get; set; }
 		public Rating Rating { get; set; }
+		public string ImageName { get; set; }
+		public string Base64Image { get; set; }
 	}
 }

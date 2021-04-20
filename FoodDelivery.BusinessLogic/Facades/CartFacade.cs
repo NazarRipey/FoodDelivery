@@ -2,6 +2,7 @@
 using FoodDelivery.DAL.Repositories;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Cart;
+using FoodDelivery.Utilities.Helpers;
 
 namespace FoodDelivery.BusinessLogic.Facades
 {
@@ -34,11 +35,12 @@ namespace FoodDelivery.BusinessLogic.Facades
 		{
 			CartResponseDTO cartResponseDTO = _cartRepository.Get(userId);
 
-			if(cartResponseDTO != null)
+			if (cartResponseDTO != null)
 			{
 				foreach (var item in cartResponseDTO.CartItems)
 				{
 					item.Dish.Rating = _dishRatingRepository.GetRating(item.Dish.Id);
+					item.Dish.Base64Image = FileHelper.GetDishImage(item.Dish.ImageName);
 				}
 			}
 

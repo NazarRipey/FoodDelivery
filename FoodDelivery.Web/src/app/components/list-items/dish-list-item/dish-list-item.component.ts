@@ -1,6 +1,5 @@
 import { DishList } from './../../../models/dish/DishList';
 import { ModalHelper } from '../../../helpers/ModalHelper';
-import { imgSrc } from './../../../globals'
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -9,16 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./dish-list-item.component.css']
 })
 export class DishListItemComponent implements OnInit {
-
-  imgSrc = imgSrc;
-
   @Input()
   dish: DishList;
 
   constructor(private modalHelper: ModalHelper) { }
 
   ngOnInit(): void {
-    this.dish.rating.averageRating
   }
 
   openAddToCart(){

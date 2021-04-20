@@ -1,3 +1,4 @@
+import { itemsPerPage } from './../../../../globals';
 import { DishDetail } from './../../../../models/dish/DishDetail';
 import { RestaurantDetail } from 'src/app/models/restaurant/RestaurantDetail';
 import { DishRestaurantFilterParams } from '../../../../models/filters/DishRestaurantFilterParams';
@@ -45,7 +46,7 @@ export class ManageRestaurantsComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 18;
+      this.config.itemsPerPage = itemsPerPage;
 
       this.filterParams.search = params.search ? params.search : null;
     });   
@@ -178,6 +179,68 @@ export class ManageRestaurantsComponent implements OnInit {
     this.dishSerivce.stop(this.dishes[i].id).subscribe( _ => {
       this.getDish(i);
     });    
+  }
+
+  onRerstaurantImageChange(event){
+    const e = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const restaurantImage = {
+        contentType: e.type,
+        fileName: e.name,
+        data: reader.result.toString(),
+      };
+
+      this.restaurantService.changeImage(restaurantImage, this.restaurant.id.toString()).subscribe(_ => {
+        this.restaurantService.getImage(this.restaurant.id.toString()).subscribe(img => {
+          this.restaurant.base64Image = img;
+        });
+      });
+    };
+
+    if(e){
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  onDishImageChange(event, i){
+    const e = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dishImage = {
+        contentType: e.type,
+        fileName: e.name,
+        data: reader.result.toString(),
+      };
+
+      this.dishSerivce.changeImage(dishImage, this.dishes[i].id.toString()).subscribe(_ => {
+        this.dishSerivce.getImage(this.dishes[i].id.toString()).subscribe(img => {
+          this.dishes[i].base64Image = img;
+        });
+      });
+    };
+
+    if(e){
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  public deleteDishImage(i){
+    this.dishSerivce.deleteImage(this.dishes[i].id.toString()).subscribe(_ => {
+      this.dishSerivce.getImage(this.dishes[i].id.toString()).subscribe(img => {
+        this.dishes[i].base64Image = img;
+      });
+    })
+  }
+
+  deleteRestaurantImage(){
+    this.restaurantService.deleteImage(this.restaurant.id.toString()).subscribe(_ => {
+      this.restaurantService.getImage(this.restaurant.id.toString()).subscribe(img => {
+        this.restaurant.base64Image = img;
+      });
+    })
   }
 
   private getAddresses(){

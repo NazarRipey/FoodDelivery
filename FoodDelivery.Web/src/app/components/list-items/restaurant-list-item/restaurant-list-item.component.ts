@@ -1,4 +1,3 @@
-import { imgSrc } from './../../../globals'
 import { RestaurantList } from '../../../models/restaurant/RestaurantList';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -11,8 +10,6 @@ export class RestaurantListItemComponent implements OnInit {
 
   @Input()
   restaurant: RestaurantList;
-
-  imgSrc = imgSrc;
 
   constructor() { }
 

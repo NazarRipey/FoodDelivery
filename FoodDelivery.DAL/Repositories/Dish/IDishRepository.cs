@@ -9,7 +9,7 @@ namespace FoodDelivery.DAL.Repositories
 	public interface IDishRepository
 	{
 		DishListDTO GetByNameWithinRestaurant(string name, Guid restaurantId);
-		void Create(DishAddDTO dishDTO);
+		void Create(DishAddDTO dishDTO, Guid? imageName);
 		void Update(DishUpdateDTO dishUpdateDTO);
 		void UpdateStatus(Guid id, int status);
 		void Remove(Guid id);
@@ -20,5 +20,6 @@ namespace FoodDelivery.DAL.Repositories
 		DishUpdateDTO GetUpdateDTOById(Guid id);
 		DishRestaurantListResponseDTO RetrieveByRestaurant(DishRestaurantFilterParams filterParams);
 		DishDetailResponseDTO RetrieveDishDetailDTOByRestaurant(DishRestaurantFilterParams filterParams);
+		string GetImageName(Guid id);
 	}
 }

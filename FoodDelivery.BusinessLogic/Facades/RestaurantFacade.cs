@@ -6,6 +6,7 @@ using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Restaurant;
 using FoodDelivery.Entities.Enums.Status;
 using FoodDelivery.Entities.FilterParams;
+using FoodDelivery.Utilities.Helpers;
 
 namespace FoodDelivery.BusinessLogic.Facades
 {
@@ -34,7 +35,15 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public void Create(RestaurantAddDTO restaurantAddDTO)
 		{
-			_restaurantRepository.Create(restaurantAddDTO);
+			Guid? imageName = null;
+
+			if (restaurantAddDTO.Image != null && !string.IsNullOrWhiteSpace(restaurantAddDTO.Image.Data))
+			{
+				imageName = Guid.NewGuid();
+				FileHelper.SaveRestaurantImage(restaurantAddDTO.Image.Data, imageName.ToString());
+			}
+
+			_restaurantRepository.Create(restaurantAddDTO, imageName);
 		}
 
 		public RestaurantListResponseDTO Retrieve(RestaurantFilterParams filterParams)
@@ -44,6 +53,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 			foreach (RestaurantListDTO restaurant in restaurantResponse.Restaurants)
 			{
 				restaurant.Rating = GetRestaurantRating(restaurant.Id);
+				restaurant.Base64Image = FileHelper.GetRestaurantImage(restaurant.ImageName);
 			}
 
 			return restaurantResponse;
@@ -57,8 +67,10 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public RestaurantDetailDTO GetByName(string name, Guid? userId)
 		{
 			RestaurantDetailDTO restaurantDetailDTO = _restaurantRepository.GetByName(name);
+
 			restaurantDetailDTO.Rating = GetRestaurantRating(restaurantDetailDTO.Id);
 			restaurantDetailDTO.UserRating = _restaurantRatingRepository.GetUserRating(restaurantDetailDTO.Id, userId);
+			restaurantDetailDTO.Base64Image = FileHelper.GetRestaurantImage(restaurantDetailDTO.ImageName);
 
 			return restaurantDetailDTO;
 		}
@@ -70,6 +82,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 			foreach (RestaurantListDTO restaurant in restaurants)
 			{
 				restaurant.Rating = GetRestaurantRating(restaurant.Id);
+				restaurant.Base64Image = FileHelper.GetRestaurantImage(restaurant.ImageName);
 			}
 
 			return restaurants;
@@ -87,6 +100,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 		public void RemoveRestaurant(Guid restaurantId)
 		{
+			this.DeleteImage(restaurantId);
 			_restaurantRepository.Remove(restaurantId);
 		}
 
@@ -133,6 +147,27 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public void RateRestaurant(RateRestaurantDTO rateRestaurantDTO)
 		{
 			_restaurantRatingRepository.Rate(rateRestaurantDTO);
+		}
+
+		public string GetImage(Guid id)
+		{
+			string imgName = _restaurantRepository.GetImageName(id);
+
+			return FileHelper.GetRestaurantImage(imgName);
+		}
+
+		public void ChangeImage(Guid id, FileData image)
+		{
+			string imgName = _restaurantRepository.GetImageName(id);
+
+			FileHelper.SaveRestaurantImage(image.Data, imgName);
+		}
+
+		public void DeleteImage(Guid id)
+		{
+			string imgName = _restaurantRepository.GetImageName(id);
+
+			FileHelper.DeleteRestaurantImage(imgName);
 		}
 	}
 }

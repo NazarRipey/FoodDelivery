@@ -1,3 +1,4 @@
+import { itemsPerPage } from './../../../globals';
 import { AccountService } from './../../../services/account.service';
 import { UserAccount } from './../../../models/userProfile/UserAccount';
 import { AccountStatus } from './../../../models/enums/statuses/AccountStatus';
@@ -30,7 +31,7 @@ export class OrderManagersComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
-      this.config.itemsPerPage = 18;
+      this.config.itemsPerPage = itemsPerPage;
       this.selectedStatus = params.status ? params.status : "All"; 
 
       this.userFilterParams.search = params.search ? params.search : null;
