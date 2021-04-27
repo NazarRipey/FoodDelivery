@@ -65,8 +65,8 @@ namespace FoodDelivery.DAL.Repositories
 			int totalItemsCount;
 			decimal? maxPrice = null, minPrice = null;
 
-			IQueryable<Dish> dishes = _db.Dish.Where(d => d.Status == (int)DishStatus.Active
-				&& d.Restaurant.Status == (int)RestaurantStatus.Active);
+			IQueryable<Dish> dishes = _db.Dish
+				.Where(d => d.Status == (int)DishStatus.Active && d.Restaurant.Status == (int)RestaurantStatus.Active);
 
 			if (dishes.Count() != 0)
 			{
@@ -171,14 +171,6 @@ namespace FoodDelivery.DAL.Repositories
 			dish.Price = dishUpdateDTO.Price;
 
 			_db.Entry(dish).State = EntityState.Modified;
-
-			SaveChanges();
-		}
-
-		public void Remove(Guid id)
-		{
-			Dish dish = _db.Dish.Find(id);
-			_db.Dish.Remove(dish);
 
 			SaveChanges();
 		}

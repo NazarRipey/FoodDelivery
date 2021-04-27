@@ -23,15 +23,7 @@ export class RestaurantRequestListComponent implements OnInit {
   requestFilterParams : RestaurantRequestFilterParams = new RestaurantRequestFilterParams();
 
   selectedStatus: string;
-
-  nameSort: boolean = false;
-  typeSort: boolean = false;
-  ownerNameSort: boolean = false;
-  emailSort: boolean = false;
-  phoneSort: boolean = false;
-  createdDateSort: boolean = false;
-  closedDateSort: boolean = false;
-  statusSort: boolean = false;
+  ascending: boolean;
 
   statuses = RestaurantRequestStatus;
   sortTypes = RestaurantRequestSortType;
@@ -44,6 +36,8 @@ export class RestaurantRequestListComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.config.currentPage = params.page ? +params.page : 1;
       this.config.itemsPerPage = itemsPerPage;
+
+      this.ascending = params.asc ? params.asc == 'true' : false;
 
       this.requestFilterParams.search = params.search ? params.search : null;
       this.selectedStatus = params.status ? params.status : "All"; 

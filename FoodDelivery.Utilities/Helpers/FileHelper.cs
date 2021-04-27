@@ -7,6 +7,7 @@ namespace FoodDelivery.Utilities.Helpers
 	{
 		public static readonly string dishPath = @"Resources\Images\Dishes\";
 		public static readonly string restaurantPath = @"Resources\Images\Restaurants\";
+		public static readonly string profilePath = @"Resources\Images\UserProfiles\";
 		public static readonly string placeholderPath = @"Resources\Images\placeholder.jpg";
 
 		private static string GetBase64Image(string path)
@@ -49,6 +50,11 @@ namespace FoodDelivery.Utilities.Helpers
 			return GetBase64Image(dishPath + fileName + ".jpg");
 		}
 
+		public static string GetUserProfileImage(string fileName)
+		{
+			return GetBase64Image(profilePath + fileName + ".jpg");
+		}
+
 		public static void SaveDishImage(string image, string name)
 		{
 			SaveImage(image, dishPath + name + ".jpg");
@@ -59,6 +65,11 @@ namespace FoodDelivery.Utilities.Helpers
 			SaveImage(image, restaurantPath + name + ".jpg");
 		}
 
+		public static void SaveUserProfileImage(string image, string name)
+		{
+			SaveImage(image, profilePath + name + ".jpg");
+		}
+
 		public static void DeleteDishImage(string path)
 		{
 			DeleteImage(dishPath + path + ".jpg");
@@ -67,6 +78,11 @@ namespace FoodDelivery.Utilities.Helpers
 		public static void DeleteRestaurantImage(string path)
 		{
 			DeleteImage(restaurantPath + path + ".jpg");
+		}
+
+		public static void DeleteProfileImage(string path)
+		{
+			DeleteImage(profilePath + path + ".jpg");
 		}
 	}
 }

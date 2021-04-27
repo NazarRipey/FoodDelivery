@@ -3,7 +3,6 @@ import { AccountService } from './../../../services/account.service';
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { UpdateProfileComponent } from './../update-profile/update-profile.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { imgSrc } from '../../../globals';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -12,8 +11,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-profile.component.css']
 })
 export class MyProfileComponent implements OnInit {
-
-  imgSrc = imgSrc;
 
   constructor(public userHelper:UserHelper,
     private modalService:NgbModal,
@@ -43,5 +40,28 @@ export class MyProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  onProfileImageChange(event){
+    const e = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const profileImage = {
+        contentType: e.type,
+        fileName: e.name,
+        data: reader.result.toString(),
+      };
+
+      this.userHelper.changeImage(profileImage);
+    };
+
+    if(e){
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  public deleteProfileImage(){
+    this.userHelper.deleteImage();
   }
 }

@@ -17,7 +17,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void Update(RestaurantUpdateDTO restaurantUpdateDTO);
 		void AddAddress(RestaurantAddressDTO restaurantAddressDTO);
 		void RemoveAddress(Guid restaurantAddressId);
-		void RemoveRestaurant(Guid restaurantId);
 		ICollection<string> GetAllNames();
 		void Activate(Guid restaurantId);
 		void Deactivate(Guid restaurantId);

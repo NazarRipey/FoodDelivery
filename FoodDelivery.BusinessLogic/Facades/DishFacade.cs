@@ -74,12 +74,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 			return dishes;
 		}
 
-		public void Remove(Guid id)
-		{
-			this.DeleteImage(id);
-			_dishRepository.Remove(id);
-		}
-
 		public void Update(DishUpdateDTO dishUpdateDTO)
 		{
 			_dishRepository.Update(dishUpdateDTO);

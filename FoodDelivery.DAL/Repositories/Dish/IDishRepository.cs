@@ -12,7 +12,6 @@ namespace FoodDelivery.DAL.Repositories
 		void Create(DishAddDTO dishDTO, Guid? imageName);
 		void Update(DishUpdateDTO dishUpdateDTO);
 		void UpdateStatus(Guid id, int status);
-		void Remove(Guid id);
 		DishListResponseDTO Retrieve(DishFilterParams filterParams);
 		ICollection<DishListDTO> GetTop(int count);
 		DishCartDTO GetCartDTOById(Guid id);

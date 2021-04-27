@@ -95,23 +95,6 @@ export class ManageRestaurantsComponent implements OnInit {
     });
   }
 
-  removeRestaurant(){
-    const modal = this.modalService.open(ConfirmDialogComponent);
-    modal.componentInstance.confirmHeader = "Restaurant deleting";
-    modal.componentInstance.confirmMessage = `Are you sure you want to delete ${this.restaurant.name}?\r\n` +
-     "You won't be able to restore it.";
-
-    modal.result.then((result) => {
-      if(result == true){
-        this.restaurantService.removeRestaurant(this.restaurant.id).subscribe(_ => {
-          this.router.navigate(['/manage']);
-        }, error => {
-          console.log(error);
-        });
-      }
-    });
-  }
-
   updateRestaurant(){
     const modal = this.modalService.open(UpdateRestaurantComponent);
 
@@ -130,22 +113,6 @@ export class ManageRestaurantsComponent implements OnInit {
     
     modal.result.then((result) => {
       this.getDish(i);
-    });
-  }
-
-  removeDish(i: number){
-    const modal = this.modalService.open(ConfirmDialogComponent);
-    modal.componentInstance.confirmHeader = "Restaurant deleting";
-    modal.componentInstance.confirmMessage = `Are you sure you want to delete ${this.dishes[i].name}?`;
-
-    modal.result.then((result) => {
-      if(result == true){
-        this.dishSerivce.removeDish(this.dishes[i].id).subscribe(_ => {
-          this.dishes.splice(i, 1);
-        }, error => {
-          console.log(error);
-        });
-      }
     });
   }
 

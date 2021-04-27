@@ -36,11 +36,6 @@ export class AuthenticationService {
       );
   } 
 
-  public getUserProfile(): Observable<UserProfile>{
-    const url = this.authUrl + "user";
-    return this.http.get<UserProfile>(url, { withCredentials: true });
-  }
-
   public sendCode(email: string){
     const url = this.authUrl + "sendcode";
     return this.http.post(url, JSON.stringify(email), { headers: {'Content-Type': 'application/json' }});

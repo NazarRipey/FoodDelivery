@@ -77,12 +77,7 @@ export class DishService {
     const url = this.dishUrl;
     return this.http.put(url, dish, { withCredentials: true });
   }
-
-  public removeDish(dishId: Guid){
-    const url = this.dishUrl + `${dishId}`;
-    return this.http.delete(url, { withCredentials: true });
-  }
-
+  
   public stop(id: Guid){
     const url = this.dishUrl + "deactivate";
     return this.http.post(url, JSON.stringify(id), { withCredentials: true, headers: {'Content-Type': 'application/json' } });

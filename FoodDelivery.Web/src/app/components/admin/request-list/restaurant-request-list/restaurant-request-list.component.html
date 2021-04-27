@@ -10,38 +10,35 @@
   <table class="table table-striped">
       <thead>
         <tr>
-          <th (click)="nameSort=!nameSort" scope="col" [queryParams]="{sort:sortTypes.Name, asc:nameSort}"
+          <th scope="col" [queryParams]="{sort:sortTypes.Name, asc:!ascending}"
            queryParamsHandling='merge' [routerLink]="[]">
             Name 
           </th>
-          <th (click)="typeSort=!typeSort" scope="col" [queryParams]="{sort:sortTypes.Type, asc:typeSort}"
+          <th scope="col" [queryParams]="{sort:sortTypes.Type, asc:!ascending}"
             queryParamsHandling='merge' [routerLink]="[]">
             Type 
           </th>
-          <th (click)="ownerNameSort=!ownerNameSort" scope="col" 
-            [queryParams]="{sort:sortTypes.OwnerName, asc:ownerNameSort}" queryParamsHandling='merge' 
-            [routerLink]="[]">
+          <th scope="col" [queryParams]="{sort:sortTypes.OwnerName, asc:!ascending}" 
+            queryParamsHandling='merge' [routerLink]="[]">
             Owner name
           </th>
-          <th (click)="emailSort=!emailSort" scope="col" [queryParams]="{sort:sortTypes.Email, asc:emailSort}"
+          <th scope="col" [queryParams]="{sort:sortTypes.Email, asc:!ascending}"
             queryParamsHandling='merge' [routerLink]="[]">
             Email
           </th>
-          <th (click)="phoneSort=!phoneSort" scope="col" [queryParams]="{sort:sortTypes.PhoneNumber, asc:phoneSort}"
+          <th scope="col" [queryParams]="{sort:sortTypes.PhoneNumber, asc:!ascending}"
             queryParamsHandling='merge' [routerLink]="[]">
             Phone number
           </th>
-          <th (click)="createdDateSort=!createdDateSort" scope="col" 
-            [queryParams]="{sort:sortTypes.CreatedDate, asc:createdDateSort}"
+          <th scope="col" [queryParams]="{sort:sortTypes.CreatedDate, asc:!ascending}"
             queryParamsHandling='merge' [routerLink]="[]">
             Created date
           </th>
-          <th (click)="closedDateSort=!closedDateSort" scope="col" 
-            [queryParams]="{sort:sortTypes.ClosedDate, asc:closedDateSort}"
+          <th scope="col" [queryParams]="{sort:sortTypes.ClosedDate, asc:!ascending}"
             queryParamsHandling='merge' [routerLink]="[]">
             Closed date
           </th>
-          <th (click)="statusSort=!statusSort" scope="col" [queryParams]="{sort:sortTypes.Status, asc:statusSort}"
+          <th scope="col" [queryParams]="{sort:sortTypes.Status, asc:!ascending}"
             queryParamsHandling='merge' [routerLink]="[]">
             Status
           </th>
@@ -75,6 +72,6 @@
 </div>
 <div class="text-center pb-0 pt-3">
   <pagination-controls 
-      (pageChange)="pageChanged($event)">
+    (pageChange)="pageChanged($event)">
   </pagination-controls>
 </div>

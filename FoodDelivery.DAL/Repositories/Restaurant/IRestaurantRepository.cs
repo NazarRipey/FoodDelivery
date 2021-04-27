@@ -14,7 +14,6 @@ namespace FoodDelivery.DAL.Repositories
 		ICollection<RestaurantListDTO> GetTop(int count);
 		void Update(RestaurantUpdateDTO restaurantUpdateDTO);
 		void UpdateStatus(Guid id, int status);
-		void Remove(Guid restaurantId);
 		ICollection<string> GetAllNames();
 		RestaurantUpdateDTO GetUpdateDTOById(Guid id);
 		ICollection<string> GetNamesByOwner(Guid id);

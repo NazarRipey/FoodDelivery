@@ -80,6 +80,8 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
 import { OrderItemsStatusComponent } from './components/order/order-items-status/order-items-status.component';
 import { StartCookingOrderComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/start-cooking-order/start-cooking-order.component';
 import { ManageRestaurantOrderComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/manage-restaurant-order/manage-restaurant-order.component';
+import { PrivacyPolicyComponent } from './components/legal/privacy-policy/privacy-policy.component';
+import { TermsOfUseComponent } from './components/legal/terms-of-use/terms-of-use.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -150,7 +152,9 @@ export function startupServiceFactory(startupService: StartupService): Function 
     SpinnerComponent,
     OrderItemsStatusComponent,
     StartCookingOrderComponent,
-    ManageRestaurantOrderComponent
+    ManageRestaurantOrderComponent,
+    PrivacyPolicyComponent,
+    TermsOfUseComponent
   ],
   imports: [
     BrowserModule,

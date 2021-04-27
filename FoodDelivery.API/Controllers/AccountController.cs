@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FoodDelivery.BusinessLogic.Facades;
+using FoodDelivery.DAL.EF.Entities;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.UserProfile;
 using FoodDelivery.Entities.FilterParams;
@@ -14,7 +16,6 @@ namespace FoodDelivery.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize]
 	public class AccountController : ControllerBase
 	{
 		private readonly UserManager<IdentityUser> _userManager;
@@ -34,7 +35,35 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpGet]
-		[Route("user/{id}")]
+		[Route("user")]
+		public async Task<ActionResult<UserProfileDTO>> GetUser()
+		{
+			IdentityUser user = await _userManager.GetUserAsync(User);
+			if (user == null)
+			{
+				return null;
+			}
+
+			UserProfile userProfile = _userProfileFacade.GetByEmail(user.Email);
+
+			UserProfileDTO userProfileDTO = new UserProfileDTO
+			{
+				Id = userProfile.Id,
+				FirstName = userProfile.FirstName,
+				LastName = userProfile.LastName,
+				Birthday = userProfile.Birthday,
+				Email = userProfile.Email,
+				PhoneNumber = userProfile.PhoneNumber,
+				Address = userProfile.Address,
+				Base64Image = _userProfileFacade.GetImage(userProfile.Id),
+				Roles = await _userManager.GetRolesAsync(user)
+			};
+
+			return userProfileDTO;
+		}
+
+		[HttpGet]
+		[Route("account/{id}")]
 		[Authorize(Roles = "admin")]
 		public UserAccountDTO GetUserAccountById(Guid id)
 		{
@@ -77,6 +106,7 @@ namespace FoodDelivery.API.Controllers
 
 		[HttpPost]
 		[Route("deactivate")]
+		[Authorize]
 		public async Task<IActionResult> DeactivateAccountAsync([FromBody] string email)
 		{
 			try
@@ -96,7 +126,7 @@ namespace FoodDelivery.API.Controllers
 		}
 
 		[HttpPut]
-		[Route("update")]
+		[Authorize]
 		public IActionResult UpdateProfile([FromBody] UpdateProfileDTO updateProfile)
 		{
 			try
@@ -110,5 +140,49 @@ namespace FoodDelivery.API.Controllers
 
 			return Ok();
 		}
+
+		#region image
+		[HttpGet]
+		[Route("image/{id:Guid}")]
+		[Authorize]
+		public string GetImage(Guid id)
+		{
+			return _userProfileFacade.GetImage(id);
+		}
+
+		[HttpPost]
+		[Route("changeImage/{id:Guid}")]
+		[Authorize]
+		public IActionResult ChangeImage(Guid id, [FromBody] FileData image)
+		{
+			try
+			{
+				_userProfileFacade.ChangeImage(id, image);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+
+		[HttpDelete]
+		[Route("deleteImage/{id:Guid}")]
+		[Authorize]
+		public IActionResult DeleteImage(Guid id)
+		{
+			try
+			{
+				_userProfileFacade.DeleteImage(id);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500);
+			}
+
+			return Ok();
+		}
+		#endregion
 	}
 }

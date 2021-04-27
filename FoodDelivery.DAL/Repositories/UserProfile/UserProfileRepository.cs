@@ -199,5 +199,17 @@ namespace FoodDelivery.DAL.Repositories
 
 			return userListResponseDTO;
 		}
+		public string GetImageName(Guid id)
+		{
+			UserProfile userProfile = _db.UserProfile.Find(id);
+
+			if (userProfile.ImageName == null)
+			{
+				userProfile.ImageName = Guid.NewGuid();
+				SaveChanges();
+			}
+
+			return userProfile.ImageName.ToString();
+		}
 	}
 }
