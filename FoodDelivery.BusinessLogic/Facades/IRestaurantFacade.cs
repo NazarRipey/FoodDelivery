@@ -30,5 +30,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		string GetImage(Guid id);
 		void ChangeImage(Guid id, FileData image);
 		void DeleteImage(Guid id);
+		int GetRestaurantStatus(string name);
 	}
 }

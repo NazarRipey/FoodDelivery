@@ -28,11 +28,29 @@
                 <a class="nav-link" [routerLink]="['/manage']">Manage my restaurants</a>
             </li>
             <li  class="nav-item">
-                <a class="nav-link" [routerLink]="['/restaurantorders']">Manage orders</a>
+                <a class="nav-link" [routerLink]="['/restaurantorders']">Manage orders
+                    <span *ngIf="ownerHelper.info && ownerHelper.info.totalPendingCooking"
+                    class='badge badge-warning lblCount bg-light-green'>
+                        {{ownerHelper.info.totalPendingCooking}}
+                    </span>
+                    <span *ngIf="ownerHelper.info && ownerHelper.info.totalReplied"
+                    class='badge badge-warning lblCount bg-orange mx-1'>
+                        {{ownerHelper.info.totalReplied}}
+                    </span>
+                </a>
             </li>
         </div>
         <li *ngIf="userHelper.isInRole(['orderManager'])" class="nav-item">
-            <a class="nav-link" [routerLink]="['/manageorders']">Manage orders</a>
+            <a class="nav-link" [routerLink]="['/manageorders']">Manage orders
+                <span *ngIf="managerHelper.info && managerHelper.info.totalRequestAwaiting"
+                 class='badge badge-warning lblCount bg-orange'>
+                    {{managerHelper.info.totalRequestAwaiting}}
+                </span>
+                <span *ngIf="managerHelper.info && managerHelper.info.totalReady"
+                    class='badge badge-warning lblCount bg-light-green mx-1'>
+                   {{managerHelper.info.totalReady}}
+               </span>
+            </a>
         </li>
         <li class="nav-item">
             <div ngbDropdown class="nav-link" display="dynamic">
@@ -51,7 +69,7 @@
             <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/cart']">
                     <i class="bi bi-cart4"></i>
-                    <span *ngIf="cartHelper.info && cartHelper.info.total" class='badge badge-warning' id='lblCartCount'>
+                    <span *ngIf="cartHelper.info && cartHelper.info.total" class='badge badge-warning lblCount bg-orange'>
                         {{cartHelper.info.total}}
                     </span>
                 </a>

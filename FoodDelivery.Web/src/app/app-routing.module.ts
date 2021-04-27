@@ -1,3 +1,4 @@
+import { AwaitingOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/awaiting-orders/awaiting-orders.component';
 import { ManageRestaurantsTabComponent } from './components/owner/manage-restaurants-tab/manage-restaurants-tab.component';
 import { UsersComponent } from './components/admin/users/users.component';
 import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
@@ -122,9 +123,10 @@ const routes: Routes = [
         path: ':name', 
         component: RestaurantOrdersComponent,
         children : [
+          { path: 'awaiting', component: AwaitingOrdersComponent },
           { path: 'active', component: ActiveOrdersComponent },
           { path: 'history', component: OrdersHistoryComponent },
-          { path: '', redirectTo: 'active', pathMatch: 'full'}
+          { path: '', redirectTo: 'awaiting', pathMatch: 'full'}
         ]
       },
     ]

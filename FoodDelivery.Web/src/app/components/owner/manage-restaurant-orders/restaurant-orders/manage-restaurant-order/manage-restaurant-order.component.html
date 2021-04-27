@@ -1,0 +1,38 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Manage order
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of items; let i = index">
+                  <td>{{item.orderItem.dish.name}}</td>
+                  <td>{{item.orderItem.dish.price}}</td>
+                  <td>{{item.orderItem.quantity}}</td>
+                  <td>{{itemStatuses[item.status]}}</td>
+                  <td><b>{{item.orderItem.quantity * item.orderItem.dish.price}}</b></td>
+                  <td *ngIf="item.status==itemStatuses.Cooking">
+                      <button class="btn bg-green btn-sm" (click)="cooked(item)">
+                        Cooked
+                      </button>
+                  </td>
+                </tr>
+              </tbody>
+        </table>  
+        <div class="text-center">
+          <p><b>Total: {{total}}</b></p>
+        </div>
+    </div>
+</div>

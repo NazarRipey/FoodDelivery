@@ -1,6 +1,6 @@
 import { OrderService } from './../../../../services/order.service';
 import { Guid } from 'guid-typescript';
-import { OrderItem } from './../../../../models/order/OrderItem';
+import { OrderItem } from '../../../../models/order/OrderItem';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit } from '@angular/core';
 
@@ -22,7 +22,6 @@ export class OrderItemsComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    console.log(this.items);
     this.orderService.getOrderItems(this.orderId.toString()).subscribe(i => {
       this.items = i;
       this.calculateSum();
@@ -43,6 +42,12 @@ export class OrderItemsComponent implements OnInit {
         }
       );
     }
+  }
+
+  verifyOrder(){
+    this.orderService.verifyOrder(this.orderId).subscribe(_ => { 
+      this.modalRef.close();
+    });
   }
 
   private calculateSum(){

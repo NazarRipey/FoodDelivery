@@ -16,6 +16,11 @@
       </div>
 
       <div class="mr-1">
+        <button *ngIf="order.status>=statuses.ChangeQuantityRequested&&order.status<=statuses.Completed" 
+            class="btn bg-green mx-2"
+          (click)="trackOrder(order.id)">
+          Track
+        </button>
         <button *ngIf="order.status==statuses.AwaitingManagerVerification
           ||order.status==statuses.Cooking" class="btn bg-blue mx-2" (click)="updateOrder(order.id)">
           Update

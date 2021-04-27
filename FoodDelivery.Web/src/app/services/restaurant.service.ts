@@ -1,3 +1,6 @@
+import { RestaurantOrderShortResponse } from './../models/restaurantOrder/RestaurantOrderShortResponse';
+import { BaseFilterParams } from './../models/filters/BaseFilterParams';
+import { OrderResponse } from './../models/order/OrderResponse';
 import { IFileDetails } from './../models/IFileDetails';
 import { RateRestaurant } from './../models/restaurant/RateRestaurant';
 import { RestaurantList } from './../models/restaurant/RestaurantList';
@@ -15,6 +18,9 @@ import { RestaurantType } from '../models/restaurant/RestaurantType';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Rating } from '../models/Rating';
+import { RestaurantOrderResponse } from '../models/restaurantOrder/RestaurantOrderResponse';
+import { RestaurantOrderShort } from '../models/restaurantOrder/RestaurantOrderShort';
+import { RestaurantOrderItem } from '../models/restaurantOrder/RestaurantOrderItem';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +59,11 @@ export class RestaurantService {
   public getByName(name: string): Observable<RestaurantDetail>{
     const url = this.restaurantUrl + name;
     return this.http.get<RestaurantDetail>(url, { withCredentials: true });
+  }
+
+  public getStatus(name: string):Observable<number>{
+    const url = this.restaurantUrl + `${name}/status`;
+    return this.http.get<number>(url, { withCredentials: true });
   }
 
   public getTop(): Observable<RestaurantList[]>{

@@ -10,6 +10,6 @@ export class RestaurantOrdersComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
-
 }

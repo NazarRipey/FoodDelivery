@@ -1,3 +1,7 @@
+<div *ngIf="order.status>=statuses.ChangeQuantityRequested&&order.status<=statuses.Completed"
+    class="text-right">
+  <button class="btn btn-sm bg-green" (click)="trackOrder(order.id)">Track</button>
+</div>
 <div class="text-center">
     <p>
       <b>

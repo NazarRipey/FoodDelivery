@@ -1,3 +1,6 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { OrderItemsStatusComponent } from './../order-items-status/order-items-status.component';
+import { Guid } from 'guid-typescript';
 import { OrderStatus } from '../../../models/enums/statuses/OrderStatus';
 import { OrderShort } from '../../../models/order/OrderShort';
 import { Component, Input, OnInit } from '@angular/core';
@@ -14,8 +17,13 @@ export class OrderListItemComponent implements OnInit {
 
   statuses = OrderStatus;
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
+  }
+
+  trackOrder(id:Guid){
+    const modal = this.modalService.open(OrderItemsStatusComponent);
+    modal.componentInstance.orderId = id; 
   }
 }

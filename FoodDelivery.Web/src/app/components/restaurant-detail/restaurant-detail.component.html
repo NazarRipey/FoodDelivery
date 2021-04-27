@@ -12,7 +12,7 @@
                     [readonly]="!userHelper.isInRole(['customer'])">
                     <ng-template let-fill="fill" >
                        <span class="default-rating font-x-large" [class.filled]="fill === 100">
-                           <span class="painted-rating font-x-large" [style.width.%]="fill">&#9733;</span>&#9733;
+                           <span class="user-rating font-x-large" [style.width.%]="fill">&#9733;</span>&#9733;
                        </span>
                      </ng-template>
                     </ngb-rating>

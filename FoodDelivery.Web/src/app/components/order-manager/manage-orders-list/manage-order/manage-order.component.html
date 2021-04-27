@@ -1,0 +1,72 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Manage order
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="restaurantOrders">
+        <div class="my-1" *ngFor="let restaurantOrder of restaurantOrders; let i = index">
+          <p>
+              <b>{{restaurantOrder.restaurantName}}</b> - {{orderStatuses[restaurantOrder.status]}}
+          </p>
+          <div class="text-right my-1" *ngIf="restaurantOrder.status==orderStatuses.ChangeQuantityRequested">
+            <button class="btn btn-sm bg-danger text-white mx-1"
+              (click)="cancelRestaurantOrder(restaurantOrder)">Cancel restaurant order
+            </button>
+          </div>
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col" *ngIf="restaurantOrder.status==orderStatuses.ChangeQuantityRequested">
+                      Requested quantity
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of restaurantOrder.restaurantOrderItems; let j = index"
+                    [class.bg-warning]="item.status==itemStatuses.ChangeQuantityRequested">
+                    <td>{{item.orderItem.dish.name}}</td>
+                    <td>{{item.orderItem.dish.price}}</td>
+                    <td>{{item.orderItem.quantity}}</td>
+                    <td>{{itemStatuses[item.status]}}</td>
+                    <td>{{item.orderItem.quantity * item.orderItem.dish.price}}</td>
+                    <td *ngIf="item.status == itemStatuses.ChangeQuantityRequested">
+                      <b>{{item.requestedQuantity}}</b>
+                    </td>
+                    <td *ngIf="item.status == itemStatuses.ChangeQuantityRequested">
+                      <button class="btn btn-sm bg-green" (click)="approveQuantityRequestItem(item)">
+                        <i class="bi bi-check"></i>
+                      </button>
+                    </td>
+                    <td *ngIf="item.status == itemStatuses.ChangeQuantityRequested">
+                      <button class="btn btn-sm bg-danger text-white" 
+                        (click)="declineQuantityRequestItem(item)">
+                        <i class="bi bi-x"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+          </table>  
+          <div class="text-center">
+            <p><b>Total by restaurant: {{restaurantOrder.totalSum}}</b></p>
+          </div>
+          <hr>
+      </div>
+      <div class="text-center">
+          <h4>Total: {{total}}</h4>
+      </div>
+    </div>
+    <div *ngIf="!restaurantOrders">
+      <div class="text-center">
+        <p>no restaurant orders</p>
+      </div>
+    </div>
+  </div>
+</div>

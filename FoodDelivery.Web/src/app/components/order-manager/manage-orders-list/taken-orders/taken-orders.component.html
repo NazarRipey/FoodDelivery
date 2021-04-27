@@ -2,6 +2,8 @@
     <div class="mx-auto search">
       <app-search [value]="filterParams.search" placeholder="John Doe"></app-search>
     </div>
+
+    <app-status-drop-down [selectedStatus]="selectedStatus" [statuses]="statuses"></app-status-drop-down>
 </div>
 
 <div class="table-responsive">
@@ -17,25 +19,40 @@
           </tr>
         </thead>
         <tbody>
-                <tr *ngFor="let i = index; let order of orders | paginate: config">
-                    <td>{{order.orderNumber}}</td>
-                    <td>{{statuses[order.status]}}</td>
-                    <td>{{order.customerName}}</td>
-                    <td>{{order.contactPhoneNumber}}</td>
-                    <td>{{order.createdDate}}</td>
-                    <td><b>{{order.totalSum}}</b></td>
-                    <td>
-                        <button class="btn bg-popstar btn-sm" (click)="showItems(order.id)">Items</button>
-                    </td>
-                    <td>
-                        <button class="btn bg-green btn-sm" (click)="verifyOrder(i)">Verify</button>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" (click)="releaseOrder(i)">
-                            Release
-                        </button>
-                    </td>
-                </tr>
+            <tr *ngFor="let i = index; let order of orders$| async | paginate: config"
+                [class.bg-warning]="order.status==statuses.ChangeQuantityRequested"
+                [class.bg-light-green]="order.status==statuses.Ready">
+                <td>{{order.orderNumber}}</td>
+                <td>{{statuses[order.status]}}</td>
+                <td>{{order.customerName}}</td>
+                <td>{{order.contactPhoneNumber}}</td>
+                <td>{{order.createdDate | date:'short'}}</td>
+                <td><b>{{order.totalSum}}</b></td>
+                <td>
+                    <button class="btn bg-popstar btn-sm" (click)="showItems(order.id)">Items</button>
+                </td>
+                <td *ngIf="order.status==statuses.AwaitingManagerVerification">
+                    <button class="btn bg-green btn-sm" (click)="verifyOrder(order.id)">Verify</button>
+                </td>
+                <td *ngIf="order.status>=statuses.ChangeQuantityRequested&&order.status<=statuses.Completed">
+                    <button class="btn bg-green btn-sm" (click)="manageOrder(order.id)">Manage</button>
+                </td>
+                <td *ngIf="order.status==statuses.Ready">
+                    <button class="btn btn-sm bg-green" (click)="startDelivery(order.id)">
+                        Start delivery
+                    </button>
+                </td>
+                <td *ngIf="order.status==statuses.Delivering">
+                    <button class="btn btn-sm bg-green" (click)="deliveryCompleted(order)">
+                        Delivery completed
+                    </button>
+                </td>
+                <td *ngIf="order.status==statuses.AwaitingManagerVerification">
+                    <button class="btn btn-danger btn-sm" (click)="releaseOrder(order.id)">
+                        Release
+                    </button>
+                </td>
+            </tr>
         </tbody>
     </table>  
 </div>

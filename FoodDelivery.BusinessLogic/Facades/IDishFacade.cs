@@ -28,5 +28,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 		void ChangeImage(Guid id, FileData image);
 		string GetImage(Guid id);
 		void DeleteImage(Guid id);
+		ICollection<int> GetRestrictedCategoriesIds();
 	}
 }

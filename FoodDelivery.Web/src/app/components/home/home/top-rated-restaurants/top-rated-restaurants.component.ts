@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { RestaurantList } from '../../../../models/restaurant/RestaurantList';
 import { imgSrc } from './../../../../globals'
 import { RestaurantService } from './../../../../services/restaurant.service';
@@ -15,6 +16,8 @@ export class TopRatedRestaurantsComponent implements OnInit {
   imgSrc = imgSrc;
 
   ngOnInit(): void {
-    this.restaurantService.getTop().subscribe(r => this.restaurants = r);
+    this.restaurantService.getTop().subscribe(r => {
+      this.restaurants = r
+    });
   }
 }

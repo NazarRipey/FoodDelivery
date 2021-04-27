@@ -23,8 +23,8 @@
             <td>{{statuses[order.status]}}</td>
             <td>{{order.customerName}}</td>
             <td>{{order.contactPhoneNumber}}</td>
-            <td>{{order.createdDate}}</td>
-            <td>{{order.closedDate}}</td>
+            <td>{{order.createdDate | date:'short'}}</td>
+            <td>{{order.closedDate | date:'short'}}</td>
             <td><b>{{order.totalSum}}</b></td>
             <td>
               <button class="btn bg-popstar btn-sm" (click)="showItems(order.id)">Items</button>

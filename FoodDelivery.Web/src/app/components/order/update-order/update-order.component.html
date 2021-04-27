@@ -8,7 +8,7 @@
     <div class="modal-body">
         <form [formGroup]="updateOrderForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label class="w-50">
+                <label class="w-100">
                     Contact phone number:
                     <input type="text" class="form-control" formControlName="phoneNumber">
                     <div *ngIf="updateOrderForm.get('phoneNumber').errors && 

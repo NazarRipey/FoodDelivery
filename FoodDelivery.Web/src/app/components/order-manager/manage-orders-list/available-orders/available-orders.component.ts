@@ -1,7 +1,7 @@
 import { itemsPerPage } from './../../../../globals';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ModalHelper } from './../../../../helpers/ModalHelper';
+import { ModalHelper } from '../../../../helpers/ModalHelper';
 import { Guid } from 'guid-typescript';
 import { OrderService } from './../../../../services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -53,7 +53,7 @@ export class AvailableOrdersComponent implements OnInit {
   takeOrder(orderId: Guid){
     this.orderService.takeOrder(orderId).subscribe(_ => {
       this.retrieveOrders();
-    })
+    });
   }
 
   pageChanged(event){

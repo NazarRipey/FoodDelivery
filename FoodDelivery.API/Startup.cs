@@ -115,6 +115,10 @@ namespace FoodDelivery.API
 			services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 			services.AddScoped<IOrderFacade, OrderFacade>();
 
+			services.AddScoped<IRestaurantOrderRepository, RestaurantOrderRepository>();
+			services.AddScoped<IRestaurantOrderItemRepository, RestaurantOrderItemRepository>();
+			services.AddScoped<IRestaurantOrderFacade, RestaurantOrderFacade>();
+
 			services.AddControllers().AddNewtonsoftJson(options =>
 			{
 				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

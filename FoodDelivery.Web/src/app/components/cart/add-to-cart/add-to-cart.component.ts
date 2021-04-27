@@ -1,3 +1,5 @@
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AddToCartErrors } from './../../../models/enums/errors/AddToCartErrors';
 import { MessageComponent } from './../../message/message.component';
 import { CartHelper } from '../../../helpers/CartHelper';
 import { CartItemModel } from '../../../models/cart/CartItemModel';
@@ -31,6 +33,9 @@ export class AddToCartComponent implements OnInit {
   dish: DishCart;
   imgSrc = imgSrc;
   itemCount;
+
+  error: number;
+  cartErrors = AddToCartErrors;
 
   showDetail: boolean = false;
 
@@ -71,7 +76,9 @@ export class AddToCartComponent implements OnInit {
     }
     else{
       const cartItemModel: CartItemModel = {
-        dishId: dishId, quantity: quantity
+        dishId: dishId, 
+        quantity: quantity,
+        dishCategoryId: this.dish.categoryId
       }
 
       this.cartService.addItem(cartItemModel).subscribe(_ => {
@@ -84,7 +91,7 @@ export class AddToCartComponent implements OnInit {
           this.added = false;
         }, 1000);
       }, error => {
-        console.log(error);
+        this.error = error.error;
       })
     }
   }

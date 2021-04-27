@@ -1,5 +1,5 @@
 import { Guid } from 'guid-typescript';
-import { DishOrder } from './../dish/DishOrder';
+import { DishOrder } from '../dish/DishOrder';
 
 export class OrderItem{
     public id: Guid;

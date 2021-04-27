@@ -205,5 +205,53 @@ namespace FoodDelivery.DAL.Repositories
 
 			return restaurant.ImageName.ToString();
 		}
+
+		public RestaurantOrderShortResponseDTO RetrieveOrdersByStatus(string name, BaseFilterParams filterParams,
+			List<int> statuses)
+		{
+			Restaurant restaurant = _db.Restaurant.Where(r => r.Name == name).SingleOrDefault();
+
+			if (restaurant == null)
+			{
+				return null;
+			}
+
+			int totalItemsCount = 0;
+
+			IEnumerable<RestaurantOrder> restaurantOrders = restaurant.RestaurantOrders
+				.Where(ro => statuses.Contains(ro.Status))
+				.OrderByDescending(ro => ro.Order.CreatedDate);
+
+			if (filterParams.Search != null)
+			{
+				restaurantOrders = restaurantOrders
+					.Where(ro => ro.Order.OrderNumber.ToString().Contains(filterParams.Search));
+			}
+
+			totalItemsCount = restaurantOrders.Count();
+
+			restaurantOrders = restaurantOrders
+				.Skip(filterParams.ItemsPerPage * (filterParams.CurrentPage - 1))
+				.Take(filterParams.ItemsPerPage)
+				.ToList();
+
+			ICollection<RestaurantOrderShortDTO> restaurantOrderDTOs =
+				_mapper.Map<ICollection<RestaurantOrderShortDTO>>(restaurantOrders);
+
+			RestaurantOrderShortResponseDTO restaurantOrderResponseDTO = new RestaurantOrderShortResponseDTO()
+			{
+				Orders = restaurantOrderDTOs,
+				TotalOrdersCount = totalItemsCount
+			};
+
+			return restaurantOrderResponseDTO;
+		}
+
+		public int GetStatus(string name)
+		{
+			Restaurant restaurant = _db.Restaurant.Where(r => r.Name == name).SingleOrDefault();
+
+			return restaurant.Status;
+		}
 	}
 }

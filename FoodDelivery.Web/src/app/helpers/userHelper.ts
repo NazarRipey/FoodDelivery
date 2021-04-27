@@ -1,3 +1,5 @@
+import { OwnerHelper } from './ownerHelper';
+import { ManagerHelper } from './managerHelper';
 import { CartHelper } from './CartHelper';
 import { OwnerRequestStatus } from '../models/enums/statuses/OwnerRequestStatus';
 import { Guid } from 'guid-typescript';
@@ -18,7 +20,9 @@ export class UserHelper{
     constructor(private authService: AuthenticationService, 
         private router:Router,
         private ownerRequestService:OwnerRequestService,
-        private cartHelper: CartHelper)
+        private cartHelper: CartHelper,
+        private managerHelper:ManagerHelper,
+        private ownerHelper: OwnerHelper)
     {}
 
     private _profile = new BehaviorSubject<UserProfile>(null);
@@ -48,11 +52,19 @@ export class UserHelper{
             concatMap(p => {
                 this._profile.next(p);
                 if(p){
-                    if(p.roles.includes("customer")){
-                        return forkJoin([this.getOwnerRequest(p.id), this.cartHelper.getInfo()]).toPromise();
+                    let actions: Observable<any>[] = new Array();
+                    if (p.roles.includes("customer")){
+                        actions.push(this.getOwnerRequest(p.id));
+                        actions.push(this.cartHelper.getInfo());
                     }
-                    
-                    return forkJoin([this.getOwnerRequest(p.id)]).toPromise();
+                    if(p.roles.includes("owner")){
+                        actions.push(this.ownerHelper.getInfo());
+                    }
+                    if(p.roles.includes("orderManager")){
+                        actions.push(this.managerHelper.getInfo());
+                    }
+
+                    return forkJoin(actions).toPromise();
                 }
                 else{
                     return of(p);

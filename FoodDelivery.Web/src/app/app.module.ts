@@ -5,7 +5,7 @@ import { StartupService } from './services/startup.service';
 import { GlobalHttpInterceptor } from './errors/GlobalInterceptor';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DishListComponent } from './components/list/dish-list/dish-list.component';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -73,6 +73,13 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ManageRestaurantsTabComponent } from './components/owner/manage-restaurants-tab/manage-restaurants-tab.component';
 import { ReadonlyRatingComponent } from './components/shared/readonly-rating/readonly-rating.component';
+import { ManageOrderComponent } from './components/order-manager/manage-orders-list/manage-order/manage-order.component';
+import { AwaitingOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/awaiting-orders/awaiting-orders.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerComponent } from './components/shared/spinner/spinner.component';
+import { OrderItemsStatusComponent } from './components/order/order-items-status/order-items-status.component';
+import { StartCookingOrderComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/start-cooking-order/start-cooking-order.component';
+import { ManageRestaurantOrderComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/manage-restaurant-order/manage-restaurant-order.component';
 
 export function startupServiceFactory(startupService: StartupService): Function {
   return () => startupService.load();
@@ -138,6 +145,12 @@ export function startupServiceFactory(startupService: StartupService): Function 
     ConfirmDialogComponent,
     ManageRestaurantsTabComponent,
     ReadonlyRatingComponent,
+    ManageOrderComponent,
+    AwaitingOrdersComponent,
+    SpinnerComponent,
+    OrderItemsStatusComponent,
+    StartCookingOrderComponent,
+    ManageRestaurantOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -150,6 +163,7 @@ export function startupServiceFactory(startupService: StartupService): Function 
     HttpClientModule,
     BrowserAnimationsModule,
     NgxSliderModule,
+    NgxSpinnerModule
   ],
   providers: [
     NgbActiveModal,
@@ -165,6 +179,7 @@ export function startupServiceFactory(startupService: StartupService): Function 
       multi: true
     },
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 

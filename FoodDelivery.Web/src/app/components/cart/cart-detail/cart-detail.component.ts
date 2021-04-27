@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { CartHelper } from './../../../helpers/CartHelper';
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { ConfirmOrderComponent } from './../../order/confirm-order/confirm-order.component';
@@ -28,8 +29,11 @@ export class CartDetailComponent implements OnInit {
   ngOnInit(): void {
     this.cartService.get().subscribe(c => {
       this.cartResponse = c;
-      this.calculateSum();
+      if(c){
+        this.calculateSum();
+      }
     });
+
   }
 
   OpenConfirmOrder(){

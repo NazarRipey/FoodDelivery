@@ -1,3 +1,5 @@
+import { OwnerHelper } from './../../helpers/ownerHelper';
+import { ManagerHelper } from '../../helpers/managerHelper';
 import { CartService } from './../../services/cart.service';
 import { CartHelper } from '../../helpers/CartHelper';
 import { OwnerRequestStatus } from '../../models/enums/statuses/OwnerRequestStatus';
@@ -20,9 +22,12 @@ export class NavbarComponent implements OnInit {
   constructor(private modalService: NgbModal,
     public userHelper:UserHelper,
     public cartHelper:CartHelper,
-    public cartService: CartService) { }
+    public cartService: CartService,
+    public managerHelper: ManagerHelper,
+    public ownerHelper: OwnerHelper) { }
 
   ngOnInit(): void {
+    
   }
 
   openSignUp(){

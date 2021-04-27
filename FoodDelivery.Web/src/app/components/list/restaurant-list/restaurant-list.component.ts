@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { listItemsPerPage } from './../../../globals';
 import { RestaurantSortType } from '../../../models/enums/sorts/RestaurantSortType';
 import { RestaurantFilterParams } from '../../../models/filters/RestaurantFilterParams';
@@ -26,10 +27,12 @@ export class RestaurantListComponent implements OnInit {
   
   constructor(private route: ActivatedRoute,
     private router:Router,
-    private restaurantService:RestaurantService) 
+    private restaurantService:RestaurantService,
+    private spinner: NgxSpinnerService) 
     { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.restaurantService.getTypes().subscribe(t => this.restaurantTypeNames = t.map(t => t.name));
 
     this.route.queryParams.subscribe(params => {
@@ -49,6 +52,7 @@ export class RestaurantListComponent implements OnInit {
     this.restaurantService.retrieve(this.restaurantFilterParams).subscribe(r => {
       this.restaurantResponse = r;
       this.config.totalItems = r.totalRestaurantsCount;
+      this.spinner.hide();
     });
 
     this.router.routeReuseStrategy.shouldReuseRoute = function() {

@@ -9,6 +9,7 @@ import { CartService } from '../../../services/cart.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationConfig } from 'src/app/models/PaginationConfig';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dish-list',
@@ -28,15 +29,19 @@ export class DishListComponent implements OnInit {
   selectedsortType: string;
 
   toggleFilters = false;
+  loaded = false;
 
   constructor(private cartService:CartService,
     private route: ActivatedRoute,
     private router:Router,
     private dishService: DishService,
-    private restaurantService: RestaurantService) {    
+    private restaurantService: RestaurantService,
+    private spinner: NgxSpinnerService) {    
   }
 
   ngOnInit(): void {
+    this.spinner.show();
+
     this.dishService.getCategories().subscribe(c => this.dishCategories = c.map(c => c.name));
     this.restaurantService.getAllNames().subscribe(r => this.restaurantNames = r);
 
@@ -63,6 +68,7 @@ export class DishListComponent implements OnInit {
     this.dishService.retrieve(this.dishFilterParams).subscribe(d => {
       this.dishResponse = d;
       this.config.totalItems = d.totalDishesCount;
+      this.spinner.hide();
       this.sliderOptions.options = {
         floor: d.minPrice | 0,
         ceil: d.maxPrice | 0

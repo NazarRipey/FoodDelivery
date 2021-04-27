@@ -1,7 +1,7 @@
 import { itemsPerPage } from './../../../../globals';
 import { OrderStatus } from './../../../../models/enums/statuses/OrderStatus';
 import { Guid } from 'guid-typescript';
-import { ModalHelper } from './../../../../helpers/ModalHelper';
+import { ModalHelper } from '../../../../helpers/ModalHelper';
 import { OrderService } from './../../../../services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseFilterParams } from './../../../../models/filters/BaseFilterParams';

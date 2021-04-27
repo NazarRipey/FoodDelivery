@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
@@ -51,11 +52,33 @@ namespace FoodDelivery.DAL.Repositories
 			RecalculatePrice(orderItem.Order);
 		}
 
-		private void RecalculatePrice(Order order)
+		public void UpdateQuantity(Guid orderItemId, int? requestedQuantity)
+		{
+			OrderItem orderItem = _db.OrderItem.Find(orderItemId);
+
+			orderItem.Quantity = (int)requestedQuantity;
+			_db.Entry(orderItem).State = EntityState.Modified;
+
+			SaveChanges();
+		}
+
+		public void RecalculatePrice(Order order)
 		{
 			order.TotalSum = order.OrderItems.Select(oi => oi.Price * oi.Quantity).Sum();
 			_db.Entry(order).State = EntityState.Modified;
 
+			SaveChanges();
+		}
+
+		public void RecalculatePrice(Guid id)
+		{
+			Order order = _db.Order.Find(id);
+			RecalculatePrice(order);
+		}
+
+		public void DeleteItems(List<OrderItem> orderItems)
+		{
+			_db.OrderItem.RemoveRange(orderItems);
 			SaveChanges();
 		}
 	}
