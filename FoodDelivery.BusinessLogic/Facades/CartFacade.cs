@@ -56,6 +56,7 @@ namespace FoodDelivery.BusinessLogic.Facades
 		{
 			CartItemDTO cartItemDTO = _cartItemRepository.Get(id);
 			cartItemDTO.Dish.Rating = _dishRatingRepository.GetRating(cartItemDTO.Dish.Id);
+			cartItemDTO.Dish.Base64Image = FileHelper.GetDishImage(cartItemDTO.Dish.ImageName);
 
 			return cartItemDTO;
 		}

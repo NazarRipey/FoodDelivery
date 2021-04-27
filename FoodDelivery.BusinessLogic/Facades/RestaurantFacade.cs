@@ -17,15 +17,19 @@ namespace FoodDelivery.BusinessLogic.Facades
 		private readonly IRestaurantTypeRepository _restaurantTypeRepository;
 		private readonly IRestaurantRatingRepository _restaurantRatingRepository;
 
+		private readonly IRestaurantOrderRepository _restaurantOrderRepository;
+
 		public RestaurantFacade(IRestaurantRepository restaurantRepository,
 			IRestaurantAddressRepository restaurantAddressRepository,
 			IRestaurantTypeRepository restaurantTypeRepository,
-			IRestaurantRatingRepository restaurantRatingRepository)
+			IRestaurantRatingRepository restaurantRatingRepository,
+			IRestaurantOrderRepository restaurantOrderRepository)
 		{
 			_restaurantRepository = restaurantRepository;
 			_restaurantAddressRepository = restaurantAddressRepository;
 			_restaurantTypeRepository = restaurantTypeRepository;
 			_restaurantRatingRepository = restaurantRatingRepository;
+			_restaurantOrderRepository = restaurantOrderRepository;
 		}
 
 		public void AddAddress(RestaurantAddressDTO restaurantAddressDTO)
@@ -168,6 +172,11 @@ namespace FoodDelivery.BusinessLogic.Facades
 			string imgName = _restaurantRepository.GetImageName(id);
 
 			FileHelper.DeleteRestaurantImage(imgName);
+		}
+
+		public int GetRestaurantStatus(string name)
+		{
+			return _restaurantRepository.GetStatus(name);
 		}
 	}
 }

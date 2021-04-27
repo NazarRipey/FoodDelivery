@@ -1,0 +1,42 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Items statuses
+        </h4>
+        <button class="close" (click)="modalRef.close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="my-1" *ngFor="let restaurantOrder of restaurantOrders">
+            <p>
+                {{restaurantOrder.restaurantName}} - <b>{{orderStatuses[restaurantOrder.status]}}</b>
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of restaurantOrder.restaurantOrderItems">
+                      <td>{{item.orderItem.dish.name}}</td>
+                      <td>{{item.orderItem.dish.price}}</td>
+                      <td>{{item.orderItem.quantity}}</td>
+                      <td><b>{{itemStatuses[item.status]}}</b></td>
+                      <td>{{item.orderItem.quantity * item.orderItem.dish.price}}</td>
+                    </tr>
+                  </tbody>
+            </table>  
+            <div class="text-center">
+              <p><b>Total by restaurant: {{restaurantOrder.totalSum}}</b></p>
+            </div>
+            <hr>
+        </div>
+        <div class="text-center">
+            <h4>Total: {{total}}</h4>
+        </div>
+    </div>
+</div>

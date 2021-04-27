@@ -2,14 +2,24 @@
 {
 	public enum OrderStatus
 	{
-		AwaitingManagerVerification = 1,
+		Created = 1,
 
-		Cooking = 2,
+		AwaitingManagerVerification = 2,
 
-		Delivering = 3,
+		ChangeQuantityRequested = 3,
 
-		Delivered = 4,
+		ChangeQuantityReplied = 4,
 
-		Cancelled = 5,
+		PendingCooking = 5,
+
+		Cooking = 6,
+
+		Ready = 7,
+
+		Delivering = 8,
+
+		Completed = 9,
+
+		Cancelled = 10
 	}
 }

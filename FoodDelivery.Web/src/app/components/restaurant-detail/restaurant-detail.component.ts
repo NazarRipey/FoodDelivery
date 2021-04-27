@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { UserHelper } from '../../helpers/UserHelper';
 import { RateRestaurant } from './../../models/restaurant/RateRestaurant';
 import { DishList } from 'src/app/models/dish/DishList';
@@ -29,7 +30,7 @@ export class RestaurantDetailComponent implements OnInit {
     private dishService: DishService,
     private route: ActivatedRoute,
     private router: Router,
-    public userHelper:UserHelper) { }
+    public userHelper:UserHelper,) { }
 
   ngOnInit(): void {   
     this.route.queryParams.subscribe(params => {

@@ -14,6 +14,9 @@ import { AvailableOrderResponse } from '../models/order/AvailableOrderResponse';
 import { OrderManagerResponse } from '../models/order/OrderManagerResponse';
 import { OrderItem } from '../models/order/OrderItem';
 import { OrderManager } from '../models/order/OrderManager';
+import { RestaurantOrder } from '../models/restaurantOrder/RestaurantOrder';
+import { ManagerInfo } from '../models/info/ManagerInfo';
+import { OwnerInfo } from '../models/info/OwnerInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -107,5 +110,35 @@ export class OrderService {
   public deleteItem(id: Guid){
     const url = this.orderUrl + `item/${id}`;
     return this.http.delete(url, { withCredentials: true });
+  }
+
+  public verifyOrder(id: Guid){
+    const url = this.orderUrl + 'verify';
+    return this.http.post(url, JSON.stringify(id), { withCredentials: true,  headers: {'Content-Type': 'application/json' } });    
+  }
+
+  public getRestaurantOrders(id: Guid): Observable<RestaurantOrder[]>{
+    const url = this.orderUrl + `${id}/restaurantorders`;
+    return this.http.get<RestaurantOrder[]>(url, { withCredentials:true });    
+  }
+
+  public getManagerInfo(): Observable<ManagerInfo>{
+    const url = this.orderUrl + "managerinfo";
+    return this.http.get<ManagerInfo>(url, { withCredentials: true });
+  }
+
+  public getOwnerInfo(): Observable<OwnerInfo>{
+    const url = this.orderUrl + "ownerinfo";
+    return this.http.get<OwnerInfo>(url, { withCredentials: true });
+  }
+
+  public startDelivery(id: Guid){
+    const url = this.orderUrl + 'startdelivery';
+    return this.http.post(url, JSON.stringify(id), { withCredentials: true,  headers: {'Content-Type': 'application/json' } });    
+  }
+
+  public deliveryCompleted(order: OrderManager){
+    const url = this.orderUrl + 'deliverycompleted';
+    return this.http.post(url, order, { withCredentials: true });    
   }
 }

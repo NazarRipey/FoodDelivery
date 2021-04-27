@@ -1,3 +1,4 @@
+import { OrderItemsStatusComponent } from './../order-items-status/order-items-status.component';
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Guid } from 'guid-typescript';
@@ -38,6 +39,11 @@ export class OrderDetailComponent implements OnInit {
     modal.result.then((result) => {
       this.getOrder();
     });
+  }
+
+  trackOrder(id:Guid){
+    const modal = this.modalService.open(OrderItemsStatusComponent);
+    modal.componentInstance.orderId = id; 
   }
 
   cancelOrder(id: Guid){

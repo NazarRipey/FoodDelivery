@@ -8,8 +8,7 @@
 }
 
 .modal-content{
-    width: fit-content;
-    max-width: fit-content;
+    min-width: fit-content;
 }
 
 @media only screen and (max-width: 450px) {

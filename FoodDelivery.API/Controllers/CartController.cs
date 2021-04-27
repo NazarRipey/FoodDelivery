@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using FoodDelivery.API.Models;
 using FoodDelivery.BusinessLogic.Facades;
+using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Cart;
+using FoodDelivery.Entities.Enums.Errors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +20,15 @@ namespace FoodDelivery.API.Controllers
 	{
 		private readonly IUserProfileFacade _userProfileFacade;
 		private readonly ICartFacade _cartFacade;
+		private readonly IDishFacade _dishFacade;
 
 		public CartController(IUserProfileFacade userProfileFacade,
-			ICartFacade cartFacade)
+			ICartFacade cartFacade,
+			IDishFacade dishFacade)
 		{
 			_userProfileFacade = userProfileFacade;
 			_cartFacade = cartFacade;
+			_dishFacade = dishFacade;
 		}
 
 		[HttpGet]
@@ -52,10 +58,25 @@ namespace FoodDelivery.API.Controllers
 		[HttpPost]
 		public IActionResult Post([FromBody] CartItemModel cartItem)
 		{
+			ICollection<int> restrictedCategoryIds = _dishFacade.GetRestrictedCategoriesIds();
+			UserProfile userProfile = _userProfileFacade.GetByEmail(User.Identity.Name);
+
+			if (restrictedCategoryIds.Contains(cartItem.DishCategoryId))
+			{
+				DateTime zeroTime = new DateTime(1, 1, 1);
+				TimeSpan span = DateTime.Now - userProfile.Birthday;
+				int years = (zeroTime + span).Year - 1;
+
+				if (years < 18)
+				{
+					return BadRequest(AddToCartErrors.AgeRestriction);
+				}
+			}
+
 			AddCartItemDTO addCartItem = new AddCartItemDTO()
 			{
 				//Getting Id here and not from FrontEnd
-				UserProfileId = _userProfileFacade.GetByEmail(User.Identity.Name).Id,
+				UserProfileId = userProfile.Id,
 				DishId = cartItem.DishId,
 				Quantity = cartItem.Quantity
 			};

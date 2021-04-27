@@ -1,0 +1,1 @@
+ALTER TABLE RestaurantOrderItem ADD RequestedQuantity INT NULL

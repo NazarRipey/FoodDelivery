@@ -24,6 +24,7 @@ namespace FoodDelivery.DAL.EF.Entities
 		public string Comment { get; set; }
 		public virtual UserProfile UserProfile { get; set; }
 		public virtual UserProfile Manager { get; set; }
+		public virtual List<RestaurantOrder> RestaurantOrders { get; set; }
 		public virtual List<OrderItem> OrderItems { get; set; }
 	}
 }

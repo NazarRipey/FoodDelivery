@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalHelper } from '../../../../helpers/ModalHelper';
 import { Guid } from 'guid-typescript';
 import { imgSrc } from './../../../../globals'
@@ -16,10 +17,15 @@ export class TopRatedDishesComponent implements OnInit {
   imgSrc = imgSrc;
 
   constructor(private modalHelper: ModalHelper,
-    private dishService:DishService,) { }
+    private dishService:DishService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    this.dishService.getTop().subscribe(d => this.dishes = d);
+    this.spinner.show();
+    this.dishService.getTop().subscribe(d => {
+      this.dishes = d
+      this.spinner.hide();
+    });
   }
 
   openAddToCart(dishId: Guid){

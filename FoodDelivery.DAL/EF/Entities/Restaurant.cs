@@ -29,5 +29,6 @@ namespace FoodDelivery.DAL.EF.Entities
 		public virtual List<RestaurantAddress> Addresses { get; set; }
 		public virtual List<Dish> Dishes { get; set; }
 		public virtual List<RestaurantRating> Ratings { get; set; }
+		public virtual List<RestaurantOrder> RestaurantOrders { get; set; }
 	}
 }

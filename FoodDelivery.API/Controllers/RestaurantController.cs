@@ -244,6 +244,12 @@ namespace FoodDelivery.API.Controllers
 			return _restaurantFacade.GetByName(name, userId);
 		}
 
+		[HttpGet("{name}/status")]
+		public int GetRestaurantStatus(string name)
+		{
+			return _restaurantFacade.GetRestaurantStatus(name);
+		}
+
 		[HttpGet]
 		[Route("{id:Guid}/addresses")]
 		public ICollection<RestaurantAddressDTO> GetRestaurantAddresses(Guid id)

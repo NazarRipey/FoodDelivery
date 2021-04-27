@@ -1,3 +1,4 @@
+import { DishCategory } from './DishCategory';
 import { Rating } from './../Rating';
 import { Guid } from 'guid-typescript';
 
@@ -10,4 +11,5 @@ export class DishCart{
     public weight: number;
     public rating: Rating;
     public base64Image: string;
+    public categoryId: number;
 }

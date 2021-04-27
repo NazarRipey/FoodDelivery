@@ -21,5 +21,7 @@ namespace FoodDelivery.DAL.Repositories
 		void DeactivateByEmail(string email);
 		ICollection<RestaurantAddressDTO> GetAddresses(Guid id);
 		string GetImageName(Guid id);
+		RestaurantOrderShortResponseDTO RetrieveOrdersByStatus(string name, BaseFilterParams filterParams, List<int> statuses);
+		int GetStatus(string name);
 	}
 }

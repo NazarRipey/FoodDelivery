@@ -3,8 +3,7 @@
         <button class="close" (click)="modalRef.close();">&times;</button>
         <h5>Add to cart</h5>        
     </div>
-    
-    <div class="modal-body mt-2 mb-3" *ngIf="dish">
+    <div class="modal-body mt-2 mb-2" *ngIf="dish">
         <div *ngIf="showDetail" class="my-2 text-right">
             <button class="btn bg-popstar" (click)="ShowDetails()">Detail</button>
         </div>
@@ -33,9 +32,16 @@
         <p class="text-right"><b>Total without delivery: {{itemCount * dish.price}}₴</b></p>
         <p class="text-right"><b>With delivery:{{itemCount * dish.price * 1.05}}₴</b></p>
     
-        <button (click)="AddToCart(dish.id, itemCount)" class="btn bg-green text-center col-sm-8 d-block mx-auto">
+        <button (click)="AddToCart(dish.id, itemCount)" class="btn bg-green text-center col-sm-8 d-block mx-auto"
+            [disabled]="error">
             Add to cart
         </button>
+
+        <div *ngIf="error" class="text-center mt-1">
+            <p *ngIf="error==cartErrors.AgeRestriction" class="text-danger">
+                You must be over 18 years old to buy this item!
+            </p>
+        </div>
     
         <div class="text-center my-3" *ngIf="added==true" [@fade]>
             <b>

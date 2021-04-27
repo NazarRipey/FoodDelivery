@@ -19,5 +19,7 @@ namespace FoodDelivery.DAL.EF.Context
 		public DbSet<OrderItem> OrderItem { get; set; }
 		public DbSet<RestaurantRating> RestaurantRating { get; set; }
 		public DbSet<DishRating> DishRating { get; set; }
+		public DbSet<RestaurantOrder> RestaurantOrder { get; set; }
+		public DbSet<RestaurantOrderItem> RestaurantOrderItem { get; set; }
 	}
 }

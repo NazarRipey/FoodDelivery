@@ -177,5 +177,10 @@ namespace FoodDelivery.BusinessLogic.Facades
 
 			FileHelper.DeleteDishImage(imgName);
 		}
+
+		public ICollection<int> GetRestrictedCategoriesIds()
+		{
+			return _dishCategoryRepository.GetRestrictedCategoriesIds();
+		}
 	}
 }

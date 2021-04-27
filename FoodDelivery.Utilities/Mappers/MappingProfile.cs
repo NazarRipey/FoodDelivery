@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.Dish;
@@ -133,12 +134,50 @@ namespace FoodDelivery.Utilities.Mappers
 			CreateMap<OrderItem, OrderItemDTO>()
 			.ForMember(d => d.Dish, opt =>
 			{
-				opt.MapFrom(o => new DishOrderDTO()
+				opt.MapFrom(r => new DishOrderDTO()
 				{
-					Name = o.Name,
-					Price = o.Price,
-					RestaurantName = o.Dish.Restaurant.Name
+					Name = r.Name,
+					Price = r.Price,
+					RestaurantName = r.Dish.Restaurant.Name,
+					RestaurantId = r.Dish.RestaurantId,
 				});
+			})
+			.ReverseMap();
+
+			CreateMap<RestaurantOrder, RestaurantOrderDTO>()
+			.ForMember(d => d.Status, opt =>
+			{
+				opt.MapFrom(r => (OrderStatus)r.Status);
+			})
+			.ForMember(d => d.RestaurantName, opt =>
+			{
+				opt.MapFrom(r => r.Restaurant.Name);
+			})
+			.ForMember(d => d.TotalSum, opt =>
+			{
+				opt.MapFrom(r => r.RestaurantOrderItems.Sum(roi => roi.OrderItem.Dish.Price * roi.OrderItem.Quantity));
+			})
+			.ReverseMap();
+
+			CreateMap<RestaurantOrderItem, RestaurantOrderItemDTO>()
+			.ForMember(d => d.Status, opt =>
+			{
+				opt.MapFrom(r => (OrderItemStatus)r.Status);
+			})
+			.ReverseMap();
+
+			CreateMap<RestaurantOrder, RestaurantOrderShortDTO>()
+			.ForMember(d => d.CreatedDate, opt =>
+			{
+				opt.MapFrom(r => r.Order.CreatedDate);
+			})
+			.ForMember(d => d.OrderNumber, opt =>
+			{
+				opt.MapFrom(r => r.Order.OrderNumber);
+			})
+			.ForMember(d => d.TotalSum, opt =>
+			{
+				opt.MapFrom(r => r.RestaurantOrderItems.Sum(roi => roi.OrderItem.Dish.Price * roi.OrderItem.Quantity));
 			})
 			.ReverseMap();
 		}

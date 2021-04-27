@@ -1,4 +1,4 @@
-import { OrderItemsComponent } from './../components/order-manager/manage-orders-list/order-items/order-items.component';
+import { OrderItemsComponent } from '../components/order-manager/manage-orders-list/order-items/order-items.component';
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddToCartComponent } from '../components/cart/add-to-cart/add-to-cart.component';

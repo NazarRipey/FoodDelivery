@@ -1,6 +1,7 @@
 <div class='container-fluid mb-5 cursor-pointer'>   
     <h3 class="title text-center"><i>Top rated dishes</i></h3>
     <div class='banner mx-auto'>  
+        <app-spinner></app-spinner>
         <ngb-carousel>  
             <ng-template ngbSlide *ngFor="let dish of dishes">  
                 <img [src]="dish.base64Image" alt={{dish.name}} (click)="openAddToCart(dish.id)" class="banner-img">  

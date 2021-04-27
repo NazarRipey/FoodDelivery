@@ -39,7 +39,7 @@
           <p><b>Total: {{total}}</b></p>
         </div>
         <div *ngIf="enableEditing" class="text-center my-3">
-          <button class="btn bg-green">Verify</button>
+          <button class="btn bg-green" (click)="verifyOrder()">Verify</button>
         </div>
     </div>
 </div>

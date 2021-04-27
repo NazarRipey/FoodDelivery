@@ -14,6 +14,14 @@ namespace FoodDelivery.Utilities.Managers
 			await SendMessage(email, subject, message);
 		}
 
+		public async Task SendOrderCompletedAsync(string email, int orderNumber)
+		{
+			string subject = "Order completed";
+			string message = $"Your order №{orderNumber} has been completed.";
+
+			await SendMessage(email, subject, message);
+		}
+
 		public async Task SendOwnerRequestStatusChangedAsync(string email, OwnerRequestStatus ownerRequestStatus)
 		{
 			string subject = "Owner request status changed";

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.Entities.DTO;
@@ -19,5 +20,14 @@ namespace FoodDelivery.DAL.Repositories
 			return dishCategories;
 		}
 
+		public ICollection<int> GetRestrictedCategoriesIds()
+		{
+			ICollection<int> restrictedCategories = _db.DishCategory
+				.Where(c => c.Name == "Alcoholic beverage")
+				.Select(c => c.Id)
+				.ToList();
+
+			return restrictedCategories;
+		}
 	}
 }

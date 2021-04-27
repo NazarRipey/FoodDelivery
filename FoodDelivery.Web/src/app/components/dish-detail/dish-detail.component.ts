@@ -1,5 +1,6 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { RateDish } from './../../models/dish/RateDish';
-import { ModalHelper } from './../../helpers/ModalHelper';
+import { ModalHelper } from '../../helpers/ModalHelper';
 import { UserHelper } from '../../helpers/UserHelper';
 import { DishDetail } from '../../models/dish/DishDetail';
 import { Guid } from 'guid-typescript';
