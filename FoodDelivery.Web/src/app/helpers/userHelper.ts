@@ -1,3 +1,5 @@
+import { IFileDetails } from './../models/IFileDetails';
+import { AccountService } from './../services/account.service';
 import { OwnerHelper } from './ownerHelper';
 import { ManagerHelper } from './managerHelper';
 import { CartHelper } from './CartHelper';
@@ -22,7 +24,8 @@ export class UserHelper{
         private ownerRequestService:OwnerRequestService,
         private cartHelper: CartHelper,
         private managerHelper:ManagerHelper,
-        private ownerHelper: OwnerHelper)
+        private ownerHelper: OwnerHelper,
+        private accountService: AccountService)
     {}
 
     private _profile = new BehaviorSubject<UserProfile>(null);
@@ -48,7 +51,7 @@ export class UserHelper{
     }
 
     public getProfile(): Observable<any>{
-        var result = this.authService.getUserProfile().pipe(
+        var result = this.accountService.getUserProfile().pipe(
             concatMap(p => {
                 this._profile.next(p);
                 if(p){
@@ -118,6 +121,22 @@ export class UserHelper{
         });     
         
         return response;
+    }
+
+    public changeImage(image: IFileDetails){
+        this.accountService.changeImage(image, this.profile.id.toString()).subscribe(_ => {
+            this.accountService.getImage(this.profile.id.toString()).subscribe(img => {
+              this.profile.base64Image = img;
+            });
+        });
+    }
+
+    public deleteImage(){
+        this.accountService.deleteImage(this.profile.id.toString()).subscribe(_ => {
+            this.accountService.getImage(this.profile.id.toString()).subscribe(img => {
+                this.profile.base64Image = img;
+              });
+        });
     }
 
     public LogOut(){

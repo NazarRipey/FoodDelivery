@@ -17,7 +17,7 @@ namespace FoodDelivery.Entities.DTO
 		public DateTime Birthday { get; set; }
 
 		public string Address { get; set; }
-
+		public string Base64Image { get; set; }
 		public IEnumerable<string> Roles { get; set; }
 	}
 }

@@ -1,3 +1,7 @@
 .wrapper{
     width: fit-content;
 }
+
+.dropdown-toggle::after { 
+    content: none; 
+}

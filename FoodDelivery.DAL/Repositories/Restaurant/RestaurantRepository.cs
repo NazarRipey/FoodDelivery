@@ -123,14 +123,6 @@ namespace FoodDelivery.DAL.Repositories
 			return topRestaurantsDTOs;
 		}
 
-		public void Remove(Guid restaurantId)
-		{
-			Restaurant restaurant = _db.Restaurant.Find(restaurantId);
-			_db.Restaurant.Remove(restaurant);
-
-			SaveChanges();
-		}
-
 		public void Update(RestaurantUpdateDTO restaurantUpdateDTO)
 		{
 			Restaurant restaurant = _db.Restaurant.Find(restaurantUpdateDTO.Id);

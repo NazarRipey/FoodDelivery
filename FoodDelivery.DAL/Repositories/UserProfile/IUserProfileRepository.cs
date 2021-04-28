@@ -16,5 +16,6 @@ namespace FoodDelivery.DAL.Repositories
 		void UpdateProfile(UpdateProfileDTO updateProfile);
 		UserListResponseDTO RetrieveUsers(UserFilterParams filterParams);
 		UserAccountDTO GetAccountById(Guid id);
+		string GetImageName(Guid id);
 	}
 }

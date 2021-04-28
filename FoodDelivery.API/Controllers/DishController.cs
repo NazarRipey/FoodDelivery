@@ -145,13 +145,6 @@ namespace FoodDelivery.API.Controllers
 			return Ok();
 		}
 
-		[HttpDelete("{id}")]
-		[Authorize(Roles = "owner")]
-		public void Delete(Guid id)
-		{
-			_dishFacade.Remove(id);
-		}
-
 		[HttpPost]
 		[Route("activate")]
 		[Authorize(Roles = "owner")]

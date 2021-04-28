@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using FoodDelivery.DAL.EF.Entities;
 using FoodDelivery.DAL.Repositories;
+using FoodDelivery.Entities;
 using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.DTO.UserProfile;
 using FoodDelivery.Entities.FilterParams;
+using FoodDelivery.Utilities.Helpers;
 using FoodDelivery.Utilities.Managers;
 
 namespace FoodDelivery.BusinessLogic.Facades
@@ -81,6 +83,27 @@ namespace FoodDelivery.BusinessLogic.Facades
 		public UserAccountDTO GetAccountById(Guid id)
 		{
 			return _userProfileRepository.GetAccountById(id);
+		}
+
+		public string GetImage(Guid id)
+		{
+			string imgName = _userProfileRepository.GetImageName(id);
+
+			return FileHelper.GetUserProfileImage(imgName);
+		}
+
+		public void ChangeImage(Guid id, FileData image)
+		{
+			string imgName = _userProfileRepository.GetImageName(id);
+
+			FileHelper.SaveUserProfileImage(image.Data, imgName);
+		}
+
+		public void DeleteImage(Guid id)
+		{
+			string imgName = _userProfileRepository.GetImageName(id);
+
+			FileHelper.DeleteProfileImage(imgName);
 		}
 	}
 }

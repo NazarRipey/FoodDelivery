@@ -221,12 +221,6 @@ namespace FoodDelivery.API.Controllers
 			_restaurantFacade.RemoveAddress(id);
 		}
 
-		[HttpDelete("{id}")]
-		[Authorize(Roles = "owner")]
-		public void Delete(Guid id)
-		{
-			_restaurantFacade.RemoveRestaurant(id);
-		}
 		#endregion
 
 		[HttpPost]

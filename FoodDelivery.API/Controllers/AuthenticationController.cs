@@ -4,7 +4,6 @@ using AutoMapper;
 using FoodDelivery.API.Models;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.DAL.EF.Entities;
-using FoodDelivery.Entities.DTO;
 using FoodDelivery.Entities.Enums.Errors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -34,34 +33,6 @@ namespace FoodDelivery.API.Controllers
 			_userProfileFacade = userProfileFacade;
 			_signInManager = signInManager;
 			_ownerRequestFacade = ownerRequestFacade;
-		}
-
-		[HttpGet]
-		[Route("user")]
-		[Authorize]
-		public async Task<ActionResult<UserProfileDTO>> GetUser()
-		{
-			IdentityUser user = await _userManager.GetUserAsync(User);
-			if (user == null)
-			{
-				return null;
-			}
-
-			UserProfile userProfile = _userProfileFacade.GetByEmail(user.Email);
-
-			UserProfileDTO userProfileDTO = new UserProfileDTO
-			{
-				Id = userProfile.Id,
-				FirstName = userProfile.FirstName,
-				LastName = userProfile.LastName,
-				Birthday = userProfile.Birthday,
-				Email = userProfile.Email,
-				PhoneNumber = userProfile.PhoneNumber,
-				Address = userProfile.Address,
-				Roles = await _userManager.GetRolesAsync(user)
-			};
-
-			return userProfileDTO;
 		}
 
 		//Adding manager here. Should there be another method with [Role(admin)] attribute?

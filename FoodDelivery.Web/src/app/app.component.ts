@@ -19,6 +19,6 @@ export class AppComponent {
       {
         window.scrollTo(0, +scrollpos);
       }
-    },200)
+    }, 200)
   }
 }

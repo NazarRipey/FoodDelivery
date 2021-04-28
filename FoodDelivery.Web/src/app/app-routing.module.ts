@@ -1,3 +1,5 @@
+import { TermsOfUseComponent } from './components/legal/terms-of-use/terms-of-use.component';
+import { PrivacyPolicyComponent } from './components/legal/privacy-policy/privacy-policy.component';
 import { AwaitingOrdersComponent } from './components/owner/manage-restaurant-orders/restaurant-orders/awaiting-orders/awaiting-orders.component';
 import { ManageRestaurantsTabComponent } from './components/owner/manage-restaurants-tab/manage-restaurants-tab.component';
 import { UsersComponent } from './components/admin/users/users.component';
@@ -136,6 +138,8 @@ const routes: Routes = [
     component: MyProfileComponent, 
     canActivate: [AuthGuard],
   },
+  { path: "privacy", component: PrivacyPolicyComponent },
+  { path: "terms", component: TermsOfUseComponent },
   { path: "noaccess", component: NoAccessComponent },
   { path: "notfound", component: NotFoundComponent },
   { path: '**', component: NotFoundComponent }

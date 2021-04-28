@@ -102,12 +102,6 @@ namespace FoodDelivery.BusinessLogic.Facades
 			_restaurantAddressRepository.Remove(restaurantAddressId);
 		}
 
-		public void RemoveRestaurant(Guid restaurantId)
-		{
-			this.DeleteImage(restaurantId);
-			_restaurantRepository.Remove(restaurantId);
-		}
-
 		public void Update(RestaurantUpdateDTO restaurantUpdateDTO)
 		{
 			_restaurantRepository.Update(restaurantUpdateDTO);

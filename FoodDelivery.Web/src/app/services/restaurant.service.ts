@@ -96,11 +96,6 @@ export class RestaurantService {
     return this.http.delete(url, { withCredentials: true });
   }
 
-  public removeRestaurant(restaurantId: Guid){
-    const url = this.restaurantUrl + `${restaurantId}`;
-    return this.http.delete(url, { withCredentials: true });
-  }
-
   public stop(id: Guid){
     const url = this.restaurantUrl + "deactivate";
     return this.http.post(url, JSON.stringify(id), { withCredentials: true, headers: {'Content-Type': 'application/json' } });
