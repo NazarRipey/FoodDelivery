@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FoodDelivery.BusinessLogic.Facades;
 using FoodDelivery.DAL.EF.Context;
 using FoodDelivery.DAL.EF.Helpers;
@@ -50,6 +50,7 @@ namespace FoodDelivery.API
 			//Is this okay?
 			services.ConfigureApplicationCookie(options =>
 			{
+				options.Cookie.SameSite = SameSiteMode.None;
 				options.Events.OnRedirectToLogin = context =>
 				{
 					if (context.Request.Path.Value.StartsWith("/api"))
