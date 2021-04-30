@@ -1,5 +1,5 @@
 import { itemsPerPage } from './../../../../globals';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ModalHelper } from '../../../../helpers/ModalHelper';
 import { Guid } from 'guid-typescript';
